@@ -1,0 +1,15 @@
+server:
+  port: 50002
+logging:
+  level: DEBUG
+security:
+  basic: 
+    enabled: false
+spring:
+  messages:
+    basename: message/resource
+  velocity: 
+    resourceLoaderPath: classpath:/velocity/
+    checkTemplateLocation: true
+    suffix: .vm
+      

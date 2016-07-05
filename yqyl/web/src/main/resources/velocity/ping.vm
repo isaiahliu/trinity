@@ -1,0 +1,8 @@
+<html>
+<p1>YQYL Ping</p1>
+#if(!${response.errors.empty})
+<p>Error: ${response.errors.get(0).message} </p>
+#else
+<p>Response: ${response.data.get(0)}</p>
+#end
+</html>

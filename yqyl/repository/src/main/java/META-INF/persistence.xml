@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="trinity-yqyl-repository">
+		<class>org.trinity.yqyl.repository.business.entity.Accessright</class>
+		<class>org.trinity.yqyl.repository.business.entity.Account</class>
+		<class>org.trinity.yqyl.repository.business.entity.AccountBalance</class>
+		<class>org.trinity.yqyl.repository.business.entity.AccountPosting</class>
+		<class>org.trinity.yqyl.repository.business.entity.AccountTransaction</class>
+		<class>org.trinity.yqyl.repository.business.entity.AllowanceSupplierClient</class>
+		<class>org.trinity.yqyl.repository.business.entity.Announcement</class>
+		<class>org.trinity.yqyl.repository.business.entity.Message</class>
+		<class>org.trinity.yqyl.repository.business.entity.Order</class>
+		<class>org.trinity.yqyl.repository.business.entity.Role</class>
+		<class>org.trinity.yqyl.repository.business.entity.Service</class>
+		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClient</class>
+		<class>org.trinity.yqyl.repository.business.entity.ServiceSupplierClient</class>
+		<class>org.trinity.yqyl.repository.business.entity.User</class>
+		<class>org.trinity.yqyl.repository.business.entity.UserGroup</class>
+		<class>org.trinity.yqyl.repository.usertype.UserTypeRegister</class>
+		<class>org.trinity.yqyl.repository.business.entity.Token</class>
+	</persistence-unit>
+</persistence>

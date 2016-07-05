@@ -1,0 +1,22 @@
+server: 
+  port: 50001
+logging: 
+  level: DEBUG
+spring: 
+  messages: 
+    basename: message/resource
+  datasource: 
+    url: jdbc:mysql://58.58.116.68:8099/yqyl_business
+    username: dev
+    password: "!QAZ2wsx"
+    driverClassName: com.mysql.jdbc.Driver
+  jpa: 
+    database: MYSQL
+    show-sql: true
+    hibernate: 
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties: 
+      hibernate: 
+        dialect: org.hibernate.dialect.MySQL5Dialect
+      
+

@@ -1,0 +1,12 @@
+package org.trinity.rest.security;
+
+public enum TokenStatus {
+	AUTHENTICATED,
+	EXPIRED,
+	UNAUTHENTICATED,
+	LOGGED_BY_OTHERS,
+	DISABLED,
+	PASSWORD_CHANGED,
+	NOT_EXISTS,
+	NOT_SUPPORTED
+}
