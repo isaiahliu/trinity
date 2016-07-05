@@ -8,7 +8,7 @@ spring:
   datasource: 
     url: jdbc:mysql://58.58.116.68:8099/yqyl_business
     username: dev
-    password: "!QAZ2wsx"
+    password: "aaaaaaaa"
     driverClassName: com.mysql.jdbc.Driver
   jpa: 
     database: MYSQL
