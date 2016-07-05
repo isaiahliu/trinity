@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
-import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.AccessRightName;
 
 /**
  * The persistent class for the accessright database table.
@@ -30,7 +30,7 @@ public class Accessright extends AbstractAuditableEntity implements Serializable
 
     private String description;
 
-    private AccessRight name;
+    private AccessRightName name;
 
     private String status;
 
@@ -57,11 +57,11 @@ public class Accessright extends AbstractAuditableEntity implements Serializable
         this.description = description;
     }
 
-    public AccessRight getName() {
+    public AccessRightName getName() {
         return this.name;
     }
 
-    public void setName(AccessRight name) {
+    public void setName(AccessRightName name) {
         this.name = name;
     }
 

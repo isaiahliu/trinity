@@ -8,7 +8,9 @@ public enum ErrorMessage implements IExceptionMessage {
     USER_IS_DISABLED,
     PASSWORD_CHANGED,
     UNABLE_TO_FIND_USER,
-    WRONG_PASSWORD;
+    WRONG_PASSWORD,
+    NOT_ALL_ACCESS_IS_GRANTED,
+    NONE_ACCESS_IS_GRANTED;
 
     @Override
     public String getMessageCode() {

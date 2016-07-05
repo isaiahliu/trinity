@@ -25,7 +25,7 @@ public class EntityCleanUp {
         userTypeMapping.put("User", userTypes);
 
         userTypes = new ArrayList<>();
-        userTypes.add(new Tuple2<String, String>("name", "AccessRight"));
+        userTypes.add(new Tuple2<String, String>("name", "AccessRightName"));
         userTypeMapping.put("Accessright", userTypes);
 
         userTypes = new ArrayList<>();

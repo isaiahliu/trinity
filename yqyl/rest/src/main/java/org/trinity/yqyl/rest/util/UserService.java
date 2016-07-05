@@ -1,4 +1,4 @@
-package org.trinity.yqyl.rest.aspect;
+package org.trinity.yqyl.rest.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ import org.trinity.rest.security.AbstractTokenFilter;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.Accessright;
 import org.trinity.yqyl.repository.business.entity.Role;
+import org.trinity.yqyl.rest.accessright.AccessRight;
 
 @Component
 public class UserService implements UserDetailsService {
@@ -51,7 +52,7 @@ public class UserService implements UserDetailsService {
         });
 
         final List<GrantedAuthority> authorities = accessRights.stream().map(item -> item.getName()).distinct()
-                .map(item -> new SimpleGrantedAuthority(item.getMessageCode())).collect(Collectors.toList());
+                .map(item -> AccessRight.forName(item.getMessageCode())).collect(Collectors.toList());
 
         authorities.add(new SimpleGrantedAuthority(AbstractTokenFilter.ROLE_ANONYMOUS_WITH_TOKEN));
 

@@ -1,4 +1,4 @@
-package org.trinity.yqyl.rest.aspect;
+package org.trinity.yqyl.rest.util;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Component;
