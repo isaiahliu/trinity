@@ -19,31 +19,29 @@ import org.trinity.rest.security.ITokenAwareAuthentication;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private AbstractTokenFilter tokenFilter;
+    @Autowired
+    private AbstractTokenFilter tokenFilter;
 
-	@Override
-	protected void configure(final HttpSecurity http) throws Exception {
-		http.addFilterAfter(tokenFilter, SecurityContextPersistenceFilter.class)
-				.authorizeRequests().antMatchers("/security/token").permitAll()
-				.antMatchers("/security/authenticate").rememberMe().anyRequest()
-				.authenticated();
-	}
+    @Autowired
+    public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(new AuthenticationProvider() {
 
-	@Autowired
-	public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(new AuthenticationProvider() {
+            @Override
+            public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
+                return authentication;
+            }
 
-			@Override
-			public Authentication authenticate(final Authentication authentication)
-					throws AuthenticationException {
-				return authentication;
-			}
+            @Override
+            public boolean supports(final Class<?> authentication) {
+                return ITokenAwareAuthentication.class.isAssignableFrom(authentication);
+            }
+        });
+    }
 
-			@Override
-			public boolean supports(final Class<?> authentication) {
-				return ITokenAwareAuthentication.class.isAssignableFrom(authentication);
-			}
-		});
-	}
+    @Override
+    protected void configure(final HttpSecurity http) throws Exception {
+        http.csrf().disable().addFilterAfter(tokenFilter, SecurityContextPersistenceFilter.class).authorizeRequests()
+                .antMatchers("/security/token").permitAll().antMatchers("/security/authenticate")
+                .hasAuthority(AbstractTokenFilter.ROLE_ANONYMOUS_WITH_TOKEN).anyRequest().authenticated();
+    }
 }

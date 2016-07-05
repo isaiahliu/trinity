@@ -24,79 +24,78 @@ import org.trinity.repository.entity.AbstractAuditableEntity;
 @Table(name = "user_group")
 @NamedQuery(name = "UserGroup.findAll", query = "SELECT u FROM UserGroup u")
 public class UserGroup extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "UserGroup_PK_IdGenerator")
-	@TableGenerator(name = "UserGroup_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "UserGroup_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "UserGroup_PK_IdGenerator")
+    @TableGenerator(name = "UserGroup_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "UserGroup_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	private String description;
+    private String description;
 
-	private String name;
+    private String name;
 
-	private String status;
+    private String status;
 
-	// bi-directional many-to-many association to User
-	@ManyToMany(mappedBy = "userGroups")
-	private List<User> users;
+    // bi-directional many-to-many association to User
+    @ManyToMany(mappedBy = "userGroups")
+    private List<User> users;
 
-	// bi-directional many-to-many association to Role
-	@ManyToMany
-	@JoinTable(name = "user_group_role", joinColumns = {
-			@JoinColumn(name = "user_group_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "role_id") })
-	private List<Role> roles;
+    // bi-directional many-to-many association to Role
+    @ManyToMany
+    @JoinTable(name = "user_group_role", joinColumns = { @JoinColumn(name = "user_group_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "role_id") })
+    private List<Role> roles;
 
-	public UserGroup() {
-	}
+    public UserGroup() {
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getStatus() {
-		return this.status;
-	}
+    public String getStatus() {
+        return this.status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public List<User> getUsers() {
-		return this.users;
-	}
+    public List<User> getUsers() {
+        return this.users;
+    }
 
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
-	public List<Role> getRoles() {
-		return this.roles;
-	}
+    public List<Role> getRoles() {
+        return this.roles;
+    }
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
 }

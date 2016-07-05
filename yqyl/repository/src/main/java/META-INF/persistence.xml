@@ -18,5 +18,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.UserGroup</class>
 		<class>org.trinity.yqyl.repository.usertype.UserTypeRegister</class>
 		<class>org.trinity.yqyl.repository.business.entity.Token</class>
+		<class>org.trinity.yqyl.repository.business.entity.SystemAttribute</class>
 	</persistence-unit>
 </persistence>

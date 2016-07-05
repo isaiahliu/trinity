@@ -4,7 +4,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.trinity.rest.IRestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.trinity.rest.security.ITokenAwareAuthentication;
+import org.trinity.rest.security.Token;
 
 public abstract class AbstractRestController implements IRestController {
     private HttpHeaders httpHeaders;
@@ -34,4 +37,12 @@ public abstract class AbstractRestController implements IRestController {
         return new ResponseEntity<T>(body, getHttpHeaders(mediaType), status);
     }
 
+    protected String getToken() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication instanceof ITokenAwareAuthentication) {
+            final Token token = ((ITokenAwareAuthentication) authentication).getToken();
+            return token.getToken();
+        }
+        return null;
+    }
 }

@@ -21,66 +21,66 @@ import org.trinity.repository.entity.AbstractAuditableEntity;
 @Entity
 @NamedQuery(name = "Announcement.findAll", query = "SELECT a FROM Announcement a")
 public class Announcement extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Announcement_PK_IdGenerator")
-	@TableGenerator(name = "Announcement_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Announcement_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Announcement_PK_IdGenerator")
+    @TableGenerator(name = "Announcement_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Announcement_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	@Column(name = "client_id")
-	private BigInteger clientId;
+    @Column(name = "client_id")
+    private BigInteger clientId;
 
-	@Column(name = "client_type")
-	private String clientType;
+    @Column(name = "client_type")
+    private String clientType;
 
-	private String status;
+    private String status;
 
-	// bi-directional many-to-one association to Message
-	@ManyToOne
-	private Message message;
+    // bi-directional many-to-one association to Message
+    @ManyToOne
+    private Message message;
 
-	public Announcement() {
-	}
+    public Announcement() {
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public BigInteger getClientId() {
-		return this.clientId;
-	}
+    public BigInteger getClientId() {
+        return this.clientId;
+    }
 
-	public void setClientId(BigInteger clientId) {
-		this.clientId = clientId;
-	}
+    public void setClientId(BigInteger clientId) {
+        this.clientId = clientId;
+    }
 
-	public String getClientType() {
-		return this.clientType;
-	}
+    public String getClientType() {
+        return this.clientType;
+    }
 
-	public void setClientType(String clientType) {
-		this.clientType = clientType;
-	}
+    public void setClientType(String clientType) {
+        this.clientType = clientType;
+    }
 
-	public String getStatus() {
-		return this.status;
-	}
+    public String getStatus() {
+        return this.status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public Message getMessage() {
-		return this.message;
-	}
+    public Message getMessage() {
+        return this.message;
+    }
 
-	public void setMessage(Message message) {
-		this.message = message;
-	}
+    public void setMessage(Message message) {
+        this.message = message;
+    }
 
 }
