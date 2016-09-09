@@ -1,13 +1,16 @@
 package org.trinity.common.dto.object;
 
-public class MetaDto {
-    private Object paging;
+/**
+ * @author Isaiah Liu
+ */
+public class MetaDto implements IDto {
+    private PagingDto paging;
 
-    public Object getPaging() {
+    public PagingDto getPaging() {
         return paging;
     }
 
-    public void setPaging(final Object paging) {
+    public void setPaging(final PagingDto paging) {
         this.paging = paging;
     }
 }

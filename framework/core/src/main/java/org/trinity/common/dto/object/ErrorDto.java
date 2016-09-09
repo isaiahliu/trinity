@@ -1,6 +1,9 @@
 package org.trinity.common.dto.object;
 
-public class ErrorDto {
+/**
+ * @author Isaiah Liu
+ */
+public class ErrorDto implements IDto {
     private String code;
     private String[] parameters;
     private String message;

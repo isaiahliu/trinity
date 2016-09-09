@@ -1,10 +1,8 @@
 package org.trinity.yqyl.common.message.lookup;
 
-import org.trinity.message.IMessage;
-import org.trinity.message.IMessageType;
-import org.trinity.yqyl.common.message.LookupType;
+import org.trinity.message.ILookupMessage;
 
-public enum ValueType implements IMessage {
+public enum ValueType implements ILookupMessage<LookupType> {
     STRING("S"),
     DATE("D"),
     TIME("T"),
@@ -23,7 +21,7 @@ public enum ValueType implements IMessage {
     }
 
     @Override
-    public IMessageType getMessageType() {
+    public LookupType getMessageType() {
         return LookupType.VALUE_TYPE;
     }
 

@@ -11,8 +11,8 @@
 	<name>trinity-yqyl-batch</name>
 	<dependencies>
 		<dependency>
-			<groupId>org.trinity.framework.springboot</groupId>
-			<artifactId>batch</artifactId>
+			<groupId>org.trinity.yqyl</groupId>
+			<artifactId>common</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.trinity.yqyl</groupId>
@@ -20,11 +20,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.trinity.yqyl</groupId>
-			<artifactId>common</artifactId>
+			<artifactId>configuration</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.trinity.yqyl</groupId>
-			<artifactId>configuration</artifactId>
+			<groupId>org.trinity.framework.springboot</groupId>
+			<artifactId>batch</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
@@ -35,4 +35,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>4.2.7.RELEASE</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

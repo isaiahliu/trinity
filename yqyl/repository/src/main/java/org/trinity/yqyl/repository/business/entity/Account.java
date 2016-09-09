@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.AccountStatus;
 
 /**
  * The persistent class for the account database table.
@@ -28,7 +29,7 @@ public class Account extends AbstractAuditableEntity implements Serializable {
     @TableGenerator(name = "Account_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Account_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    private String status;
+    private AccountStatus status;
 
     // bi-directional many-to-one association to User
     @ManyToOne
@@ -49,11 +50,11 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         this.id = id;
     }
 
-    public String getStatus() {
+    public AccountStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AccountStatus status) {
         this.status = status;
     }
 

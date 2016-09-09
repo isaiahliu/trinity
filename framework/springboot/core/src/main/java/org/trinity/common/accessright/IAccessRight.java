@@ -1,8 +1,9 @@
 package org.trinity.common.accessright;
 
-import org.trinity.message.GeneralMessageType;
+import org.springframework.security.core.GrantedAuthority;
+import org.trinity.message.ILookupMessage;
+import org.trinity.message.ILookupType;
 import org.trinity.message.IMessage;
-import org.trinity.message.IMessageType;
 
 /**
  * @author Isaiah Liu
@@ -11,9 +12,12 @@ import org.trinity.message.IMessageType;
  *
  * @see IMessage
  */
-public interface IAccessRight extends IMessage {
+public interface IAccessRight<TType extends ILookupType> extends GrantedAuthority, ILookupMessage<TType> {
+
     @Override
-    default IMessageType getMessageType() {
-        return GeneralMessageType.ACCESSRIGHT;
+    default String getAuthority() {
+        return getMessageCode();
     }
+
+    IAccessRight<TType> getParentAccessRight();
 }

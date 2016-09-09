@@ -37,6 +37,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     private String username;
 
+    private String cellphone;
+
+    private String email;
+
     // bi-directional many-to-one association to Account
     @OneToMany(mappedBy = "user")
     private List<Account> accounts;
@@ -44,6 +48,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
     // bi-directional many-to-one association to AllowanceSupplierClient
     @OneToMany(mappedBy = "user")
     private List<AllowanceSupplierClient> allowanceSupplierClients;
+
+    // bi-directional many-to-one association to OperatorClient
+    @OneToMany(mappedBy = "user")
+    private List<OperatorClient> operatorClients;
 
     // bi-directional many-to-one association to ServiceReceiverClient
     @OneToMany(mappedBy = "user")
@@ -80,6 +88,13 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return allowanceSupplierClient;
     }
 
+    public OperatorClient addOperatorClient(final OperatorClient operatorClient) {
+        getOperatorClients().add(operatorClient);
+        operatorClient.setUser(this);
+
+        return operatorClient;
+    }
+
     public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
         getServiceReceiverClients().add(serviceReceiverClient);
         serviceReceiverClient.setUser(this);
@@ -109,8 +124,20 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.allowanceSupplierClients;
     }
 
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public Long getId() {
         return this.id;
+    }
+
+    public List<OperatorClient> getOperatorClients() {
+        return this.operatorClients;
     }
 
     public String getPassword() {
@@ -148,12 +175,18 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return account;
     }
 
-    public AllowanceSupplierClient removeAllowanceSupplierClient(
-            final AllowanceSupplierClient allowanceSupplierClient) {
+    public AllowanceSupplierClient removeAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
         getAllowanceSupplierClients().remove(allowanceSupplierClient);
         allowanceSupplierClient.setUser(null);
 
         return allowanceSupplierClient;
+    }
+
+    public OperatorClient removeOperatorClient(final OperatorClient operatorClient) {
+        getOperatorClients().remove(operatorClient);
+        operatorClient.setUser(null);
+
+        return operatorClient;
     }
 
     public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
@@ -185,8 +218,20 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.allowanceSupplierClients = allowanceSupplierClients;
     }
 
+    public void setCellphone(final String cellphone) {
+        this.cellphone = cellphone;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setOperatorClients(final List<OperatorClient> operatorClients) {
+        this.operatorClients = operatorClients;
     }
 
     public void setPassword(final String password) {

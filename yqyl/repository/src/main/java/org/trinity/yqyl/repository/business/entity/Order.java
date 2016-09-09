@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.OrderStatus;
 
 /**
  * The persistent class for the order database table.
@@ -33,13 +34,7 @@ public class Order extends AbstractAuditableEntity implements Serializable {
 
     private BigDecimal price;
 
-    private String status;
-
-    // bi-directional many-to-many association to Service
-    @ManyToMany
-    @JoinTable(name = "order_service", joinColumns = { @JoinColumn(name = "order_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "service_id") })
-    private List<Service> services;
+    private OrderStatus status;
 
     // bi-directional many-to-one association to ServiceReceiverClient
     @ManyToOne
@@ -50,6 +45,12 @@ public class Order extends AbstractAuditableEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "service_supplier_client_id")
     private ServiceSupplierClient serviceSupplierClient;
+
+    // bi-directional many-to-many association to Service
+    @ManyToMany
+    @JoinTable(name = "order_service", joinColumns = { @JoinColumn(name = "order_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "service_id") })
+    private List<Service> services;
 
     public Order() {
     }
@@ -70,20 +71,12 @@ public class Order extends AbstractAuditableEntity implements Serializable {
         this.price = price;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
-    }
-
-    public List<Service> getServices() {
-        return this.services;
-    }
-
-    public void setServices(List<Service> services) {
-        this.services = services;
     }
 
     public ServiceReceiverClient getServiceReceiverClient() {
@@ -100,6 +93,14 @@ public class Order extends AbstractAuditableEntity implements Serializable {
 
     public void setServiceSupplierClient(ServiceSupplierClient serviceSupplierClient) {
         this.serviceSupplierClient = serviceSupplierClient;
+    }
+
+    public List<Service> getServices() {
+        return this.services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 
 }

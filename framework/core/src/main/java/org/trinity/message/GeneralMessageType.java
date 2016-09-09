@@ -1,9 +1,9 @@
 package org.trinity.message;
 
 /**
- * @author Isaiah Liu
+ * Default message type
  *
- *         Default message type
+ * @author Isaiah Liu
  */
 public enum GeneralMessageType implements IMessageType {
     CAPTION(RootMessageType.getInstance()),
@@ -19,22 +19,6 @@ public enum GeneralMessageType implements IMessageType {
 
     LOG(RootMessageType.getInstance()),
     LOGLEVEL(LOG);
-
-    private IMessageType parentType;
-
-    @Override
-    public IMessageType getParentType() {
-        return parentType;
-    }
-
-    private GeneralMessageType(final IMessageType parentType) {
-        this.parentType = parentType;
-    }
-
-    @Override
-    public String getMessageTypeName() {
-        return name();
-    }
 
     private static class RootMessageType implements IMessageType {
         /**
@@ -59,11 +43,6 @@ public enum GeneralMessageType implements IMessageType {
         }
 
         @Override
-        public IMessageType getParentType() {
-            return null;
-        }
-
-        @Override
         public String getMessageTypeName() {
             return "";
         }
@@ -72,5 +51,26 @@ public enum GeneralMessageType implements IMessageType {
         public String getMessageTypePrefix() {
             return "";
         }
+
+        @Override
+        public IMessageType getParentType() {
+            return null;
+        }
+    }
+
+    private IMessageType parentType;
+
+    private GeneralMessageType(final IMessageType parentType) {
+        this.parentType = parentType;
+    }
+
+    @Override
+    public String getMessageTypeName() {
+        return name();
+    }
+
+    @Override
+    public IMessageType getParentType() {
+        return parentType;
     }
 }

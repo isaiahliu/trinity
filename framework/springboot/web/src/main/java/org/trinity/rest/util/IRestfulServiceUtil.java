@@ -3,10 +3,15 @@ package org.trinity.rest.util;
 import org.trinity.common.url.IHttpUrl;
 
 public interface IRestfulServiceUtil {
-	<T> T callRestService(IRestServer server, final IHttpUrl url, final Object requestBody,
-			final Object requestParamBean, final Class<T> responseType);
+	default <T> T callRestService(final IHttpUrl url, final String subPath, final Object requestBody, final Object requestParamBean,
+			final Class<T> responseType) {
+		return callRestService(getDefaultToken(), url, subPath, requestBody, requestParamBean, responseType);
+	}
 
-	<T> T callRestService(IRestServer server, String token, final IHttpUrl url,
-			final Object requestBody, final Object requestParamBean,
+	<T> T callRestService(String token, final IHttpUrl url, String subPath, final Object requestBody, final Object requestParamBean,
 			final Class<T> responseType);
+
+	String getDefaultToken();
+
+	IRestServer getRestServer();
 }

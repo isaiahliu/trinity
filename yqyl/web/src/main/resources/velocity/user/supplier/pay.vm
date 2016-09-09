@@ -1,0 +1,11 @@
+#set($currentPage="SUPPLIER") #parse("/velocity/user/navigation.vm")
+#title("SUPPLIER")
+
+<link rel="stylesheet" href="/static/css/business/user/supplier/pay.css"></link>
+
+<div class="pay" ng-controller="supplierController">
+付款
+</div>
+
+
+<script src="/static/js/business/user/supplier/pay.js"></script>

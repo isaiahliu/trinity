@@ -1,5 +1,9 @@
 package org.trinity.common.dto.response;
 
-public final class DefaultResponse extends AbstractResponse<Object> {
+/**
+ * @author Isaiah Liu
+ *
+ */
+public final class DefaultResponse extends AbstractResponse<String> {
 
 }

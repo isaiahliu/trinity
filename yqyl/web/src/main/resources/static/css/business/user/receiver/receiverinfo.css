@@ -1,0 +1,17 @@
+div.receiverinfo {
+	text-align: center;
+}
+
+div.receiverinfo table {
+	margin: auto
+}
+
+div.receiverinfo table th, div.receiverinfo table td {
+	padding: 10px;
+}
+
+div.receiverinfo table textarea {
+	resize: none;
+	height: 200px;
+	width: 400px;
+}

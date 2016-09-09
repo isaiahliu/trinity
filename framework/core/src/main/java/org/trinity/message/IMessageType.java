@@ -3,9 +3,9 @@ package org.trinity.message;
 import java.io.Serializable;
 
 /**
- * @author Isaiah Liu
+ * Message type interface
  *
- *         Message type interface
+ * @author Isaiah Liu
  */
 public interface IMessageType extends Serializable {
     String SPLITTER = ".";
@@ -37,4 +37,5 @@ public interface IMessageType extends Serializable {
      * @return Parent type
      */
     IMessageType getParentType();
+
 }

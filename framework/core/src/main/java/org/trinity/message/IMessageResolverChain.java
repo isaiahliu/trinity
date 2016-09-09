@@ -3,10 +3,10 @@ package org.trinity.message;
 import java.util.Locale;
 
 /**
+ * A chain for message resolvers. A message key can be resolved by the resolvers one by one until one resolver can get
+ * the description.
+ * 
  * @author Isaiah Liu
- *
- *         A chain for message resolvers. A message key can be resolved by the resolvers one by one until one resolver
- *         can get the description.
  *
  * @see IMessageResolver
  */
@@ -18,7 +18,7 @@ public interface IMessageResolverChain {
      *            Message type of {@link IMessage}.
      * @return Message description.
      */
-    String getMessage(IMessage message);
+    String getMessage(IMessage<?> message);
 
     /**
      * Get the message description.
@@ -29,7 +29,7 @@ public interface IMessageResolverChain {
      *            Specified locale.
      * @return Message description.
      */
-    String getMessage(IMessage message, Locale locale);
+    String getMessage(IMessage<?> message, Locale locale);
 
     /**
      * Get the message description
@@ -42,7 +42,7 @@ public interface IMessageResolverChain {
      *            Message arguments
      * @return Message description.
      */
-    String getMessage(IMessage message, Locale locale, String... args);
+    String getMessage(IMessage<?> message, Locale locale, String... args);
 
     /**
      * Get the message description by the default locale.
@@ -53,7 +53,7 @@ public interface IMessageResolverChain {
      *            Message arguments
      * @return Message description.
      */
-    String getMessage(IMessage message, String... args);
+    String getMessage(IMessage<?> message, String... args);
 
     /**
      * Get the message description by the default locale.
@@ -105,4 +105,6 @@ public interface IMessageResolverChain {
      * @return resolvers
      */
     IMessageResolver[] getMessageResolvers();
+
+    void refresh();
 }

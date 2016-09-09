@@ -24,7 +24,7 @@ public abstract class AbstractMessageType implements UserType, ParameterizedType
 
     @Override
     public Serializable disassemble(final Object value) throws HibernateException {
-        return (IMessage) value;
+        return (IMessage<?>) value;
     }
 
     @Override
@@ -34,8 +34,8 @@ public abstract class AbstractMessageType implements UserType, ParameterizedType
         }
 
         if (x != null && y != null) {
-            final IMessage xObject = (IMessage) x;
-            final IMessage yObject = (IMessage) y;
+            final IMessage<?> xObject = (IMessage<?>) x;
+            final IMessage<?> yObject = (IMessage<?>) y;
 
             return xObject.getMessageCodeWithPrefix().equals(yObject.getMessageCodeWithPrefix());
         }

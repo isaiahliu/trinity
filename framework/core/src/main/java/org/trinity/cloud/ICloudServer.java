@@ -1,5 +1,11 @@
 package org.trinity.cloud;
 
+/**
+ * Cloud service
+ *
+ * @author Isaiah Liu
+ *
+ */
 public interface ICloudServer {
     public static enum Protocol {
         HTTP("http"),

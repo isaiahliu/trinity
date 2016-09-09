@@ -1,7 +1,6 @@
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.AnnouncementStatus;
+import org.trinity.yqyl.common.message.lookup.ClientType;
 
 /**
  * The persistent class for the announcement database table.
@@ -29,12 +30,12 @@ public class Announcement extends AbstractAuditableEntity implements Serializabl
     private Long id;
 
     @Column(name = "client_id")
-    private BigInteger clientId;
+    private Long clientId;
 
     @Column(name = "client_type")
-    private String clientType;
+    private ClientType clientType;
 
-    private String status;
+    private AnnouncementStatus status;
 
     // bi-directional many-to-one association to Message
     @ManyToOne
@@ -51,27 +52,27 @@ public class Announcement extends AbstractAuditableEntity implements Serializabl
         this.id = id;
     }
 
-    public BigInteger getClientId() {
+    public Long getClientId() {
         return this.clientId;
     }
 
-    public void setClientId(BigInteger clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
-    public String getClientType() {
+    public ClientType getClientType() {
         return this.clientType;
     }
 
-    public void setClientType(String clientType) {
+    public void setClientType(ClientType clientType) {
         this.clientType = clientType;
     }
 
-    public String getStatus() {
+    public AnnouncementStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AnnouncementStatus status) {
         this.status = status;
     }
 

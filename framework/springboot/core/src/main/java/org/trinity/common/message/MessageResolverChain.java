@@ -15,7 +15,7 @@ public class MessageResolverChain implements IMessageResolverChain {
     }
 
     @Override
-    public String getMessage(final IMessage message) {
+    public String getMessage(final IMessage<?> message) {
         if (message == null) {
             return "";
         }
@@ -24,7 +24,7 @@ public class MessageResolverChain implements IMessageResolverChain {
     }
 
     @Override
-    public String getMessage(final IMessage message, final Locale locale) {
+    public String getMessage(final IMessage<?> message, final Locale locale) {
         if (message == null) {
             return "";
         }
@@ -33,7 +33,7 @@ public class MessageResolverChain implements IMessageResolverChain {
     }
 
     @Override
-    public String getMessage(final IMessage message, final Locale locale, final String... args) {
+    public String getMessage(final IMessage<?> message, final Locale locale, final String... args) {
         if (message == null) {
             return "";
         }
@@ -42,7 +42,7 @@ public class MessageResolverChain implements IMessageResolverChain {
     }
 
     @Override
-    public String getMessage(final IMessage message, final String... args) {
+    public String getMessage(final IMessage<?> message, final String... args) {
         if (message == null) {
             return "";
         }
@@ -80,5 +80,12 @@ public class MessageResolverChain implements IMessageResolverChain {
     @Override
     public IMessageResolver[] getMessageResolvers() {
         return messageResolvers;
+    }
+
+    @Override
+    public void refresh() {
+        for (final IMessageResolver messageResolver : getMessageResolvers()) {
+            messageResolver.refresh();
+        }
     }
 }

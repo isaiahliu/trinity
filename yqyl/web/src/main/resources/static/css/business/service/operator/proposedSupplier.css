@@ -1,0 +1,15 @@
+div.proposedSupplier {
+	text-align: center;
+}
+
+div.proposedSupplier table {
+	margin: auto;
+}
+
+div.proposedSupplier table th, div.proposedSupplier table td {
+	padding: 5px 15px;
+}
+
+div.proposedSupplier table th {
+	border-bottom: 1px solid gray;
+}

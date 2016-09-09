@@ -1,10 +1,8 @@
 package org.trinity.yqyl.common.message.lookup;
 
-import org.trinity.message.IMessage;
-import org.trinity.message.IMessageType;
-import org.trinity.yqyl.common.message.LookupType;
+import org.trinity.message.ILookupMessage;
 
-public enum UserStatus implements IMessage {
+public enum UserStatus implements ILookupMessage<LookupType> {
     UNREGISTERED("U"),
     ACTIVE("A"),
     DESTROYED("D");
@@ -21,7 +19,7 @@ public enum UserStatus implements IMessage {
     }
 
     @Override
-    public IMessageType getMessageType() {
+    public LookupType getMessageType() {
         return LookupType.USER_STATUS;
     }
 

@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.common.message.lookup.TransactionCategory;
 
 /**
  * The persistent class for the account_transaction database table.
@@ -29,9 +31,9 @@ public class AccountTransaction extends AbstractAuditableEntity implements Seria
     @TableGenerator(name = "AccountTransaction_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "AccountTransaction_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    private String category;
+    private TransactionCategory category;
 
-    private String status;
+    private RecordStatus status;
 
     // bi-directional many-to-one association to AccountPosting
     @OneToMany(mappedBy = "accountTransaction")
@@ -48,19 +50,19 @@ public class AccountTransaction extends AbstractAuditableEntity implements Seria
         this.id = id;
     }
 
-    public String getCategory() {
+    public TransactionCategory getCategory() {
         return this.category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(TransactionCategory category) {
         this.category = category;
     }
 
-    public String getStatus() {
+    public RecordStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RecordStatus status) {
         this.status = status;
     }
 

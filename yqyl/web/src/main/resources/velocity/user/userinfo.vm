@@ -1,0 +1,31 @@
+#set($currentPage="USERINFO") #parse("/velocity/user/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/user/userinfo.css"></link>
+
+<div class="userinfo" ng-controller="userinfoController">
+	<div>
+		<table>
+			<tr>
+				<td>#label("USER_ID")</td>
+				<td><span>{{id}}</span></td>
+			</tr>
+			<tr>
+				<td>#label("USER_NAME")</td>
+				<td><span>{{username}}</span></td>
+			</tr>
+			<tr>
+				<td>#label("EMAIL")</td>
+				<td><input ng-model="email" /></td>
+			</tr>
+			<tr>
+				<td>#label("PHONE")</td>
+				<td><input ng-model="cellphone" /></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<button ng-click="apply()">#button("OK")</button>
+	</div>
+</div>
+
+<script src="/static/js/business/user/userinfo.js"></script>

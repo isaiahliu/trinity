@@ -1,10 +1,9 @@
 package org.trinity.common.dto;
 
 /**
- * @author Isaiah Liu
+ * Interface for all requests.
  *
- *         Interface for all requests.
+ * @author Isaiah Liu
  */
 public interface IRequest {
-
 }

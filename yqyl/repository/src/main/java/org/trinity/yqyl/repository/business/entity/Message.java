@@ -1,5 +1,6 @@
 package org.trinity.yqyl.repository.business.entity;
 
+import java.awt.TrayIcon.MessageType;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.MessageStatus;
 
 /**
  * The persistent class for the message database table.
@@ -29,9 +31,9 @@ public class Message extends AbstractAuditableEntity implements Serializable {
 
     private String content;
 
-    private String status;
+    private MessageStatus status;
 
-    private String type;
+    private MessageType type;
 
     // bi-directional many-to-one association to Announcement
     @OneToMany(mappedBy = "message")
@@ -56,19 +58,19 @@ public class Message extends AbstractAuditableEntity implements Serializable {
         this.content = content;
     }
 
-    public String getStatus() {
+    public MessageStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(MessageStatus status) {
         this.status = status;
     }
 
-    public String getType() {
+    public MessageType getType() {
         return this.type;
     }
 
-    public void setType(String type) {
+    public void setType(MessageType type) {
         this.type = type;
     }
 

@@ -6,23 +6,25 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.trinity.common.accessright.ISecurityUtil;
+import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
-import org.trinity.yqyl.rest.accessright.Authorize;
-import org.trinity.yqyl.rest.util.SecurityUtil;
-import org.trinity.yqyl.rest.util.SecurityUtil.CheckMode;
+import org.trinity.yqyl.common.accessright.Authorize;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 
 @Component
 @Aspect
 public class AuthorizationInterceptor {
     @Autowired
-    private SecurityUtil securityUtil;
+    private ISecurityUtil<AccessRight> securityUtil;
 
-    @Pointcut(value = "@annotation(org.trinity.yqyl.rest.accessright.Authorize)")
+    @Pointcut(value = "@annotation(org.trinity.yqyl.common.accessright.Authorize)")
     public void authorizationPointCut() {
     }
 
     @Before("authorizationPointCut() && @annotation(authorize)")
-    public void dataaccessBefore(final JoinPoint joinPoint, final Authorize authorize) throws IException {
+    public void authorize(final JoinPoint joinPoint, final Authorize authorize) throws IException {
+        securityUtil.checkAuthorizationEnabled(authorize.enabled());
         securityUtil.checkAccessRight(CheckMode.ALL, authorize.requireAll());
         securityUtil.checkAccessRight(CheckMode.ANY, authorize.requireAny());
     }

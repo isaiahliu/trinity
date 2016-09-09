@@ -1,0 +1,17 @@
+<html>
+
+<head>
+<meta http-equiv="cache-control" content="public">
+#parse("/velocity/base/include.vm")
+</head>
+<script src="/static/js/business/base/layout.js"></script>
+<body ng-app="layoutApp">
+	#parse("/velocity/base/header.vm")
+
+	#parse("/velocity/base/advertisement.vm")
+
+	<div class="content">$screen_content</div>
+
+	#parse("/velocity/base/footer.vm")
+</body>
+</html>

@@ -1,0 +1,15 @@
+div.auditReceiver {
+	text-align: center;
+}
+
+div.auditReceiver table {
+	margin: auto;
+}
+
+div.auditReceiver table th, div.auditReceiver table td {
+	padding: 5px 15px;
+}
+
+div.auditReceiver table th {
+	border-bottom: 1px solid gray;
+}

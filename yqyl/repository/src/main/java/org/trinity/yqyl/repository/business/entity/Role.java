@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
 
 /**
  * The persistent class for the role database table.
@@ -33,7 +34,7 @@ public class Role extends AbstractAuditableEntity implements Serializable {
 
     private String name;
 
-    private String status;
+    private RecordStatus status;
 
     // bi-directional many-to-many association to Accessright
     @ManyToMany
@@ -72,11 +73,11 @@ public class Role extends AbstractAuditableEntity implements Serializable {
         this.name = name;
     }
 
-    public String getStatus() {
+    public RecordStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RecordStatus status) {
         this.status = status;
     }
 

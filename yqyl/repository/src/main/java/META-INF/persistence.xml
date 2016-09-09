@@ -19,5 +19,9 @@
 		<class>org.trinity.yqyl.repository.usertype.UserTypeRegister</class>
 		<class>org.trinity.yqyl.repository.business.entity.Token</class>
 		<class>org.trinity.yqyl.repository.business.entity.SystemAttribute</class>
+		<class>org.trinity.yqyl.repository.business.entity.Lookup</class>
+		<class>org.trinity.yqyl.repository.business.entity.OperatorClient</class>
+		<class>org.trinity.yqyl.repository.business.entity.Favorite</class>
+		<class>org.trinity.yqyl.repository.business.entity.Content</class>
 	</persistence-unit>
 </persistence>

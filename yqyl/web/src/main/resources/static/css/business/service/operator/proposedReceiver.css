@@ -1,0 +1,15 @@
+div.proposedReceiver {
+	text-align: center;
+}
+
+div.proposedReceiver table {
+	margin: auto;
+}
+
+div.proposedReceiver table th, div.proposedReceiver table td {
+	padding: 5px 15px;
+}
+
+div.proposedReceiver table th {
+	border-bottom: 1px solid gray;
+}

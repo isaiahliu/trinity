@@ -1,0 +1,4 @@
+#set($currentPage="SERVICE_LIST")
+#parse("/velocity/service/reception/navigation.vm")
+
+<div>reception</div>

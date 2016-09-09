@@ -1,0 +1,22 @@
+<div class="header" ng-controller="headerController">
+	<div class="headerBar">
+		<div class="left">
+			<a href="/home"><img src="/static/images/logo/yqyl.png"
+				alt="YQYL" /></a>
+		</div>
+		<div class="right">
+			#if(${authentication})
+			<div class="userinfo">
+				#if(${authentication.token.authenticated}) <span>#label("WELCOME"),
+					${authentication.token.username}</span> <span><a
+					href="/user/userinfo">#label("USER_CENTER")</a></span> <span><a
+					href="javascript:void(0)" ng-click="logout()">#label("LOGOUT")</a></span>
+				#else <a href="/user/login">#label("LOGIN")</a> #end
+			</div>
+			#end
+		</div>
+	</div>
+</div>
+
+<script src="/static/js/business/base/header.js"></script>
+

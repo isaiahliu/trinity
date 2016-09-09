@@ -1,0 +1,14 @@
+#set($currentPage="SUPPLIER") #parse("/velocity/user/navigation.vm")
+#title("SUPPLIER")
+
+<link rel="stylesheet"
+	href="/static/css/business/user/supplier/announcement1.css"></link>
+
+<div class="announcement1" ng-controller="announcement1Controller">
+	<div>#info("SUPPLIER_ANNOUNCEMENT1")</div>
+	<button ng-click="agree()">#button("AGREE")</button>
+	<button ng-click="disagree()">#button("DISAGREE")</button>
+</div>
+
+
+<script src="/static/js/business/user/supplier/announcement1.js"></script>

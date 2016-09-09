@@ -1,19 +1,19 @@
 package org.trinity.common.exception.factory;
 
 import org.trinity.common.exception.IException;
-import org.trinity.message.exception.IExceptionMessage;
+import org.trinity.message.exception.IErrorMessage;
 
 /**
- * @author Isaiah Liu
+ * The exception factory to generate exceptions
  *
- *         The exception factory to generate exceptions
+ * @author Isaiah Liu
  */
 public interface IExceptionFactory {
-    IException createException(IExceptionMessage exceptionMessage, String... params);
+    IException createException(IErrorMessage exceptionMessage, String... params);
 
     IException createException(String message);
 
-    IException createException(Throwable e, IExceptionMessage exceptionMessage, String... params);
+    IException createException(Throwable e, IErrorMessage exceptionMessage, String... params);
 
     IException createException(Throwable e, String message);
 }

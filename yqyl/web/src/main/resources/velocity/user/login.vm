@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/static/css/business/user/login.css"></link>
+
+<div class="login" ng-controller="loginController">
+	<div>
+		<div>
+			<table>
+				<tr>
+					<td><label>#label("USERNAME")</label></td>
+					<td><input ng-model="username" /></td>
+				</tr>
+				<tr>
+					<td><label>#label("PASSWORD")</label></td>
+					<td><input type="password" ng-model="password"
+						ng-keydown="keydown($event)" /></td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<button ng-click="login()">#button("LOGIN")</button>
+			<button ng-click="register()">#button("REGISTER")</button>
+		</div>
+	</div>
+</div>
+
+<script src="/static/js/business/user/login.js"></script>

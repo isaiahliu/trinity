@@ -1,0 +1,20 @@
+div.auditSupplier {
+	text-align: center;
+}
+
+div.auditSupplier table {
+	margin: auto;
+}
+
+div.auditSupplier table th, div.auditSupplier table td {
+	padding: 5px 15px;
+}
+
+div.auditSupplier table th {
+	border-bottom: 1px solid gray;
+}
+
+div.auditSupplier img {
+	max-height: 100px;
+	max-width: :150px
+}

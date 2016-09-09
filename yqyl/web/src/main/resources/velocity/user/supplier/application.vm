@@ -1,0 +1,86 @@
+#set($currentPage="SUPPLIER") #parse("/velocity/user/navigation.vm")
+#title("SUPPLIER")
+
+<link rel="stylesheet"
+	href="/static/css/business/user/supplier/application.css"></link>
+
+<div class="application" ng-controller="applicationController">
+	#if($error)
+	<div>
+		<div>
+			<p>$error</p>
+		</div>
+		<div>
+			<button ng-click="back()">#button("RETURN")</button>
+		</div>
+	</div>
+	#else
+	<script type="text/javascript">
+		layoutApp
+				.value(
+						'supplierData',
+						{
+							"name" : "#if(${data.name})${data.name}#end",
+							"email" : "#if(${data.email})${data.email}#end",
+							"identity" : "#if(${data.identity})${data.identity}#end",
+							"licenseCopy" : #if(${data.licenseCopy})'${data.licenseCopy}'#end,
+							"identityCopy" : #if(${data.identityCopy})'${data.identityCopy}'#end
+						});
+	</script>
+	<div>
+		<div>
+			<table>
+				<tr>
+					<div>入网申请表</div>
+				</tr>
+				<tr>
+					<td><label>#label("NAME")</label></td>
+					<td><input ng-model="supplierData.name" /></td>
+				</tr>
+				<tr>
+					<td><label>#label("IDENTITY")</label></td>
+					<td><input ng-model="supplierData.identity" /></td>
+				</tr>
+				<tr>
+					<td><label>#label("EMAIL")</label></td>
+					<td><input ng-model="supplierData.email" /></td>
+				</tr>
+				<tr>
+					<td><label>#label("LICENSE_COPY")</label></td>
+
+					<td>
+						<div>
+							<a ng-href="{{licenseCopyUrl}}">
+								<img ng-src="{{licenseCopyUrl}}" />
+							</a>
+						</div>
+						<div>
+							<input type="file" custom-on-change="selectLicenseCopy" />
+							<button ng-click="uploadLicenseCopy()">#button("UPLOAD")</button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><label>#label("IDENTITY_COPY")</label></td>
+					<td>
+						<div>
+							<a ng-href="{{identityCopyUrl}}"> <img
+								ng-src="{{identityCopyUrl}}" />
+							</a>
+						</div>
+						<div>
+							<input type="file" custom-on-change="selectIdentityCopy" />
+							<button ng-click="uploadIdentityCopy()">#button("UPLOAD")</button>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<button ng-click="apply()">#button("OK")</button>
+		</div>
+	</div>
+	#end
+</div>
+
+<script src="/static/js/business/user/supplier/application.js"></script>

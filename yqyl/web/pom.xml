@@ -16,10 +16,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.trinity.yqyl</groupId>
-			<artifactId>process</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.trinity.yqyl</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
 		<dependency>

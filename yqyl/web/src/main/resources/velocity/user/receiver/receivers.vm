@@ -1,0 +1,36 @@
+#set($currentPage="RECEIVER") #parse("/velocity/user/navigation.vm")
+#title("RECEIVER")
+
+<link rel="stylesheet"
+	href="/static/css/business/user/receiver/receivers.css"></link>
+
+<div class="receivers" ng-controller="receiversController">
+	<table>
+		<thead>
+			<tr>
+				<th>#label("NAME")</th>
+				<th>#label("DOB")</th>
+				<th>#label("GENDER")</th>
+				<th>#label("PHONE")</th>
+				<th>#label("ADDRESS")</th>
+				<th>#label("STATUS")</th>
+			</tr>
+		</thead>
+		<tbody>
+			#foreach($receiver in $receivers)
+			<tr>
+				<td><a href="/user/receiver/info/${receiver.id}">${receiver.name}</a></td>
+				<td>#if(${receiver.dob})${receiver.dob}#end</td>
+				<td>#if(${receiver.gender.message})${receiver.gender.message}#end</td>
+				<td>#if(${receiver.cellphoneNo})${receiver.cellphoneNo}#end</td>
+				<td>#if(${receiver.address})${receiver.address}#end</td>
+				<td>#if(${receiver.status.message})${receiver.status.message}#end</td>
+			</tr>
+			#end
+		</tbody>
+	</table>
+	<button ng-click="add()">#button("ADD")</button>
+</div>
+
+
+<script src="/static/js/business/user/receiver/receivers.js"></script>

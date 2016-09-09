@@ -2,6 +2,7 @@ package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,10 +16,12 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.AccountBalanceCategory;
+import org.trinity.yqyl.common.message.lookup.AccountBalanceStatus;
 
 /**
  * The persistent class for the account_balance database table.
- * 
+ *
  */
 @Entity
 @Table(name = "account_balance")
@@ -33,9 +36,11 @@ public class AccountBalance extends AbstractAuditableEntity implements Serializa
 
     private BigDecimal amount;
 
-    private String category;
+    private AccountBalanceCategory category;
 
-    private String status;
+    private Currency currency;
+
+    private AccountBalanceStatus status;
 
     // bi-directional many-to-one association to Account
     @ManyToOne
@@ -48,66 +53,74 @@ public class AccountBalance extends AbstractAuditableEntity implements Serializa
     public AccountBalance() {
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getAmount() {
-        return this.amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getCategory() {
-        return this.category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Account getAccount() {
-        return this.account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public List<AccountPosting> getAccountPostings() {
-        return this.accountPostings;
-    }
-
-    public void setAccountPostings(List<AccountPosting> accountPostings) {
-        this.accountPostings = accountPostings;
-    }
-
-    public AccountPosting addAccountPosting(AccountPosting accountPosting) {
+    public AccountPosting addAccountPosting(final AccountPosting accountPosting) {
         getAccountPostings().add(accountPosting);
         accountPosting.setAccountBalance(this);
 
         return accountPosting;
     }
 
-    public AccountPosting removeAccountPosting(AccountPosting accountPosting) {
+    public Account getAccount() {
+        return this.account;
+    }
+
+    public List<AccountPosting> getAccountPostings() {
+        return this.accountPostings;
+    }
+
+    public BigDecimal getAmount() {
+        return this.amount;
+    }
+
+    public AccountBalanceCategory getCategory() {
+        return this.category;
+    }
+
+    public Currency getCurrency() {
+        return this.currency;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public AccountBalanceStatus getStatus() {
+        return this.status;
+    }
+
+    public AccountPosting removeAccountPosting(final AccountPosting accountPosting) {
         getAccountPostings().remove(accountPosting);
         accountPosting.setAccountBalance(null);
 
         return accountPosting;
+    }
+
+    public void setAccount(final Account account) {
+        this.account = account;
+    }
+
+    public void setAccountPostings(final List<AccountPosting> accountPostings) {
+        this.accountPostings = accountPostings;
+    }
+
+    public void setAmount(final BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public void setCategory(final AccountBalanceCategory category) {
+        this.category = category;
+    }
+
+    public void setCurrency(final Currency currency) {
+        this.currency = currency;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setStatus(final AccountBalanceStatus status) {
+        this.status = status;
     }
 
 }

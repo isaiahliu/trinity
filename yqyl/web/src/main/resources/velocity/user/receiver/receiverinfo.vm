@@ -1,0 +1,107 @@
+#set($currentPage="RECEIVER") #parse("/velocity/user/navigation.vm")
+#title("RECEIVER")
+
+<link rel="stylesheet"
+	href="/static/css/business/user/receiver/receiverinfo.css"></link>
+
+<script>
+	layoutApp
+			.value(
+					'receiver',
+					{
+#if(${receiver.id})
+						'id' : '${receiver.id}',
+						'name' : '#if(${receiver.name})${receiver.name}#end',
+						'status' : {
+							'code' : '#if(${receiver.status.code})${receiver.status.code}#end',
+							'message' : '#if(${receiver.status.message})${receiver.status.message}#end'
+						},
+						'gender' : {
+							'code' : '#if(${receiver.gender.code})${receiver.gender.code}#end',
+							'message' : '#if(${receiver.gender.message})${receiver.gender.message}#end'
+						},
+						'dob' : '#if(${receiver.dob})${receiver.dob}#end',
+						'cellphone' : '#if(${receiver.cellphoneNo})${receiver.cellphoneNo}#end',
+						'homephone' : '#if(${receiver.homephoneNo})${receiver.homephoneNo}#end',
+						'identityCard' : '#if(${receiver.identityCard})${receiver.identityCard}#end',
+						'email' : '#if(${receiver.email})${receiver.email}#end',
+						'address' : '#if(${receiver.address})${receiver.address}#end',
+						'yijinCode' : '#if(${receiver.yijinCode})${receiver.yijinCode}#end'
+#end
+					});
+					
+</script>
+<div class="receiverinfo" ng-controller="receiverinfoController">
+	<div>
+		<div>
+			<table>
+				<tr>
+					<td><label>#label("NAME")</label></td>
+					<td>#if(${receiver.status.code}=="A")<span>{{receiver.name}}</span>
+						#else <input ng-model="receiver.name" /> #end
+					</td>
+				</tr>
+				<tr>
+					<td><label>#label("YIJINCODE")</label></td>
+					<td>#if(${receiver.status.code}=="A")<span>{{receiver.yijinCode}}</span>
+						#else <input ng-model="receiver.yijinCode" /> #end
+					</td>
+				</tr>
+				#if(${receiver.id})
+				<tr>
+					<td><label>#label("STATUS")</label></td>
+					<td><span>{{receiver.status.message}}</span></td>
+				</tr>
+				#end
+				<tr>
+					<td><label>#label("GENDER")</label></td>
+					<td>#if(${receiver.status.code}=="A")<span>{{receiver.gender.message}}</span>
+						#else <select ng-model="receiver.gender.code">
+							#foreach($gender in $genders)
+							<option value="$gender.code">$gender.message</option> #end
+					</select> #end
+					</td>
+				</tr>
+				<tr>
+					<td><label>#label("DOB")</label></td>
+					<td>#if(${receiver.status.code}== "A")<span>{{receiver.dob}}</span>
+						#else <input type="text" ui-date="dateOptions"
+						ng-model="receiver.dob" /> #end
+					</td>
+				</tr>
+				<tr>
+					<td><label>#label("IDENTITY")</label></td>
+					<td>#if(${receiver.status.code}=="A")<span>{{receiver.identityCard}}</span>
+						#else <input ng-model="receiver.identityCard" /> #end
+					</td>
+				</tr>
+				<tr>
+					<td><label>#label("PHONE")</label></td>
+					<td><input ng-model="receiver.cellphone" /></td>
+				</tr>
+				<tr>
+					<td><label>#label("HOMEPHONE")</label></td>
+					<td><input ng-model="receiver.homephone" /></td>
+				</tr>
+				<tr>
+					<td><label>#label("EMAIL")</label></td>
+					<td><input ng-model="receiver.email" /></td>
+				</tr>
+				<tr>
+					<td><label>#label("ADDRESS")</label></td>
+					<td><textarea ng-model="receiver.address"></textarea></td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<button ng-click="apply()">#button("OK")</button>
+			#if(${receiver.status.code}=="P")
+			<button ng-click="cancel()">#button("DELETE")</button>
+			#end
+			<button ng-click="back()">#button("BACK")</button>
+		</div>
+	</div>
+</div>
+
+
+<script src="/static/js/business/user/receiver/receiverinfo.js"></script>

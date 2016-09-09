@@ -3,9 +3,9 @@ package org.trinity.message;
 import java.util.Locale;
 
 /**
- * @author Isaiah Liu
+ * Resolver for the messages.
  *
- *         Resolver for the messages.
+ * @author Isaiah Liu
  */
 public interface IMessageResolver {
     /**

@@ -1,0 +1,9 @@
+<div class="navBar">
+	<ul>
+		<li><div class="navBarItem #if($currentPage=='USERINFO')selected #end"><a href="/user/userinfo">#button("USER_INFO")</a></div></li>
+		<li><div class="navBarItem #if($currentPage=='ACCOUNT')selected #end"><a href="/user/account">#button("USER_ACCOUNT")</a></div></li>
+		<li><div class="navBarItem #if($currentPage=='SUPPLIER')selected #end"><a href="/user/supplier">#button("USER_SUPPLIER")</a></div></li>
+		<li><div class="navBarItem #if($currentPage=='RECEIVER')selected #end"><a href="/user/receiver">#button("USER_RECEIVER")</a></div></li>
+		<li><div class="navBarItem #if($currentPage=='PASSWORD')selected #end"><a href="/user/password">#button("USER_PASSWORD_CHANGE")</a></div></li>
+	</ul>
+</div>

@@ -1,27 +1,30 @@
 package org.trinity.common.url;
 
-public interface IUrl
-{
-	default String getSplitter()
-	{
-		return "/";
-	}
+/**
+ * @author Isaiah Liu
+ */
+public interface IUrl {
+    default String getFullPath() {
+        String path = getPath();
 
-	IUrl getParent();
+        if (path != null && path.length() > 0) {
+            path = getSplitter() + path;
+        }
 
-	String getPath();
+        final IUrl parent = getParent();
 
-	default String getFullPath()
-	{
-		String path = getPath();
+        if (parent != null) {
+            path = getParent().getFullPath() + path;
+        }
 
-		final IUrl parent = getParent();
+        return path;
+    }
 
-		if (parent != null)
-		{
-			path = getParent().getFullPath() + getSplitter() + path;
-		}
+    IUrl getParent();
 
-		return path;
-	}
+    String getPath();
+
+    default String getSplitter() {
+        return "/";
+    }
 }

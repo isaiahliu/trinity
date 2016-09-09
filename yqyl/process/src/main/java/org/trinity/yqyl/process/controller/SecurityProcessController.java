@@ -1,41 +1,38 @@
 package org.trinity.yqyl.process.controller;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.trinity.common.exception.IException;
 import org.trinity.common.exception.factory.IExceptionFactory;
-import org.trinity.message.IMessageResolverChain;
-import org.trinity.yqyl.common.message.dto.domain.LookupDto;
-import org.trinity.yqyl.common.message.dto.domain.TokenDto;
-import org.trinity.yqyl.common.message.dto.domain.UserDto;
+import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.SecurityDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
+import org.trinity.yqyl.common.message.lookup.UserStatus;
+import org.trinity.yqyl.process.controller.base.ISecurityProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.ITokenRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.Token;
 import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
-@Transactional
 public class SecurityProcessController implements ISecurityProcessController {
     @Autowired
     private ITokenRepository tokenRepository;
     @Autowired
     private IUserRepository userRepository;
     @Autowired
-    private IMessageResolverChain messageResolver;
-    @Autowired
     private IExceptionFactory exceptionFactory;
+    @Autowired
+    private IObjectConverter<User, SecurityDto> userConverter;
 
     @Override
-    public UserDto authenticate(final String tokenName, final String username, final String password)
-            throws IException {
+    @Transactional
+    public SecurityDto authenticate(final String tokenName, final String username, final String password) throws IException {
         final User user = userRepository.findOneByUsername(username);
         if (user == null) {
             throw exceptionFactory.createException(ErrorMessage.UNABLE_TO_FIND_USER);
@@ -45,8 +42,8 @@ public class SecurityProcessController implements ISecurityProcessController {
             throw exceptionFactory.createException(ErrorMessage.WRONG_PASSWORD);
         }
 
-        final UserDto userDto = new UserDto();
-        userDto.setUsername(user.getUsername());
+        final SecurityDto userDto = userConverter.convert(user);
+        userDto.setPassword("");
 
         final Token token = tokenRepository.findOneByToken(tokenName);
         final Date now = new Date();
@@ -56,47 +53,26 @@ public class SecurityProcessController implements ISecurityProcessController {
         token.setStatus(TokenStatus.AUTHENTICATED);
         tokenRepository.save(token);
 
-        user.getTokens().forEach(item -> {
-            if (!item.getToken().equals(tokenName) && item.getStatus() == TokenStatus.AUTHENTICATED) {
-                item.setStatus(TokenStatus.LOGGED_BY_OTHERS);
-                tokenRepository.save(item);
-            }
-        });
+        // user.getTokens().forEach(item -> {
+        // if (!item.getToken().equals(tokenName) && item.getStatus() == TokenStatus.AUTHENTICATED) {
+        // item.setStatus(TokenStatus.LOGGED_BY_OTHERS);
+        // tokenRepository.save(item);
+        // }
+        // });
 
         return userDto;
     }
 
     @Override
-    public TokenDto getToken(String identity) {
-        if (StringUtils.isEmpty(identity)) {
-            identity = UUID.randomUUID().toString();
+    @Transactional
+    public SecurityDto logout(final String tokenName) throws IException {
+        final SecurityDto result = new SecurityDto();
+        final Token tokenItem = tokenRepository.findOneByToken(tokenName);
+
+        final User user = tokenItem.getUser();
+        if (user != null) {
+            result.setUsername(user.getUsername());
         }
-
-        Token token = tokenRepository.findOneByDeviceIdentity(identity);
-
-        if (token == null) {
-            token = new Token();
-            token.setDeviceIdentity(identity);
-            token.setToken(UUID.randomUUID().toString());
-            token.setStatus(TokenStatus.UNAUTHENTICATED);
-
-            tokenRepository.save(token);
-        }
-
-        final TokenDto tokenDto = new TokenDto();
-        tokenDto.setToken(token.getToken());
-        tokenDto.setStatus(new LookupDto(token.getStatus().getMessageCode(),
-                messageResolver.getMessage(token.getStatus().getMessageCode())));
-        if (token.getUser() != null) {
-            tokenDto.setUsername(token.getUser().getUsername());
-        }
-
-        return tokenDto;
-    }
-
-    @Override
-    public void logout(final String token) {
-        final Token tokenItem = tokenRepository.findOneByToken(token);
 
         tokenItem.setUser(null);
         tokenItem.setStatus(TokenStatus.UNAUTHENTICATED);
@@ -104,5 +80,24 @@ public class SecurityProcessController implements ISecurityProcessController {
         tokenItem.setLastActiveTimestamp(null);
 
         tokenRepository.save(tokenItem);
+
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public void register(final String username, final String password) throws IException {
+        User user = userRepository.findOneByUsername(username);
+        if (user != null) {
+            throw exceptionFactory.createException(ErrorMessage.USERNAME_IS_REGISTERED);
+        }
+
+        user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+
+        user.setStatus(UserStatus.ACTIVE);
+
+        userRepository.save(user);
     }
 }

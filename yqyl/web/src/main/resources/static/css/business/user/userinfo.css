@@ -1,0 +1,26 @@
+div.userinfo {
+	margin-top: 30px;
+	text-align: center;
+}
+
+div.userinfo tr {
+	height: 40px;
+}
+
+div.userinfo td {
+	padding: 0px 10px;
+}
+
+div.userinfo button {
+	margin-top: 20px;
+	border: none;
+	background: #0381AA;
+	color: white;
+	width: 80px;
+	height: 35px;
+	border: none;
+}
+
+div.userinfo table {
+	margin: auto;
+}

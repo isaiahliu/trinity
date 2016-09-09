@@ -1,5 +1,12 @@
 package org.trinity.common.util;
 
+/**
+ * @author Isaiah Liu
+ *
+ * @param <T1>
+ * @param <T2>
+ * @param <T3>
+ */
 public class Tuple3<T1, T2, T3> {
     private final T1 item1;
     private final T2 item2;

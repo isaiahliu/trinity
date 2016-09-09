@@ -2,6 +2,7 @@ package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Currency;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +15,11 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.AccountPostingStatus;
 
 /**
  * The persistent class for the account_posting database table.
- * 
+ *
  */
 @Entity
 @Table(name = "account_posting")
@@ -32,7 +34,9 @@ public class AccountPosting extends AbstractAuditableEntity implements Serializa
 
     private BigDecimal amount;
 
-    private String status;
+    private Currency currency;
+
+    private AccountPostingStatus status;
 
     // bi-directional many-to-one association to AccountBalance
     @ManyToOne
@@ -47,44 +51,52 @@ public class AccountPosting extends AbstractAuditableEntity implements Serializa
     public AccountPosting() {
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getAmount() {
-        return this.amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public AccountBalance getAccountBalance() {
         return this.accountBalance;
-    }
-
-    public void setAccountBalance(AccountBalance accountBalance) {
-        this.accountBalance = accountBalance;
     }
 
     public AccountTransaction getAccountTransaction() {
         return this.accountTransaction;
     }
 
-    public void setAccountTransaction(AccountTransaction accountTransaction) {
+    public BigDecimal getAmount() {
+        return this.amount;
+    }
+
+    public Currency getCurrency() {
+        return this.currency;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public AccountPostingStatus getStatus() {
+        return this.status;
+    }
+
+    public void setAccountBalance(final AccountBalance accountBalance) {
+        this.accountBalance = accountBalance;
+    }
+
+    public void setAccountTransaction(final AccountTransaction accountTransaction) {
         this.accountTransaction = accountTransaction;
+    }
+
+    public void setAmount(final BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public void setCurrency(final Currency currency) {
+        this.currency = currency;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setStatus(final AccountPostingStatus status) {
+        this.status = status;
     }
 
 }

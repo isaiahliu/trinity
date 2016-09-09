@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.ClientStatus;
+import org.trinity.yqyl.common.message.lookup.PersonalType;
 
 /**
  * The persistent class for the allowance_supplier_client database table.
@@ -28,9 +30,9 @@ public class AllowanceSupplierClient extends AbstractAuditableEntity implements 
     @TableGenerator(name = "AllowanceSupplierClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "AllowanceSupplierClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    private String status;
+    private ClientStatus status;
 
-    private String type;
+    private PersonalType type;
 
     // bi-directional many-to-one association to User
     @ManyToOne
@@ -47,19 +49,19 @@ public class AllowanceSupplierClient extends AbstractAuditableEntity implements 
         this.id = id;
     }
 
-    public String getStatus() {
+    public ClientStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ClientStatus status) {
         this.status = status;
     }
 
-    public String getType() {
+    public PersonalType getType() {
         return this.type;
     }
 
-    public void setType(String type) {
+    public void setType(PersonalType type) {
         this.type = type;
     }
 

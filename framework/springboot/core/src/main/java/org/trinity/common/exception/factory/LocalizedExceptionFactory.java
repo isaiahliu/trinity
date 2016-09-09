@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.trinity.common.exception.IException;
 import org.trinity.common.exception.factory.IExceptionFactory;
 import org.trinity.message.IMessageResolverChain;
-import org.trinity.message.exception.IExceptionMessage;
+import org.trinity.message.exception.IErrorMessage;
 
 public class LocalizedExceptionFactory implements IExceptionFactory, ApplicationContextAware {
 
@@ -20,7 +20,7 @@ public class LocalizedExceptionFactory implements IExceptionFactory, Application
     }
 
     @Override
-    public IException createException(final IExceptionMessage exceptionMessage, final String... params) {
+    public IException createException(final IErrorMessage exceptionMessage, final String... params) {
         return applicationContext.getBean(IException.class, messageResolver, exceptionMessage, params);
     }
 
@@ -30,7 +30,7 @@ public class LocalizedExceptionFactory implements IExceptionFactory, Application
     }
 
     @Override
-    public IException createException(final Throwable e, final IExceptionMessage exceptionMessage,
+    public IException createException(final Throwable e, final IErrorMessage exceptionMessage,
             final String... params) {
         return applicationContext.getBean(IException.class, messageResolver, e, exceptionMessage, params);
     }

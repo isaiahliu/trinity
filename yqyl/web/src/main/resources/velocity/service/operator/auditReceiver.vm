@@ -1,0 +1,93 @@
+#set($currentPage="AUDIT_RECEIVER")
+#parse("/velocity/service/operator/navigation.vm")
+
+<link rel="stylesheet"
+	href="/static/css/business/service/operator/auditReceiver.css"></link>
+
+<div class="auditReceiver" ng-controller="auditReceiverController">
+	#if($error)
+	<div>
+		<div>
+			<p>$error</p>
+		</div>
+		<div>
+			<button ng-click="back()">#button("RETURN")</button>
+		</div>
+	</div>
+	#else
+	<script type="text/javascript">
+		layoutApp
+				.value(
+						'receiverData',
+						{
+							"id" : "#if(${receiver.id})${receiver.id}#end",
+							"yijinCode" : "#if(${receiver.yijinCode})${receiver.yijinCode}#end",
+							"name" : "#if(${receiver.name})${receiver.name}#end",
+							"status" : "#if(${receiver.status})${receiver.status.message}#end",
+							"gender" : "#if(${receiver.gender})${receiver.gender.message}#end",
+							"dob" : "#if(${receiver.dob})${receiver.dob}#end",
+							"identity" : "#if(${receiver.identityCard})${receiver.identityCard}#end",
+							"email" : "#if(${receiver.email})${receiver.email}#end",
+							"cellphone" : "#if(${receiver.cellphoneNo})${receiver.cellphoneNo}#end",
+							"homephone" : "#if(${receiver.homephoneNo})${receiver.homephoneNo}#end",
+							"address" : "#if(${receiver.address})${receiver.address}#end"
+						});
+	</script>
+	<div>
+		<div>
+			<table>
+				<tr>
+					<td><label>#label("ID")</label></td>
+					<td><span>{{receiverData.id}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("YIJINCODE")</label></td>
+					<td><span>{{receiverData.yijinCode}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("NAME")</label></td>
+					<td><span>{{receiverData.name}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("STATUS")</label></td>
+					<td><span>{{receiverData.status}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("GENDER")</label></td>
+					<td><span>{{receiverData.gender}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("DOB")</label></td>
+					<td><span>{{receiverData.dob}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("IDENTITY")</label></td>
+					<td><span>{{receiverData.identity}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("EMAIL")</label></td>
+					<td><span>{{receiverData.email}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("PHONE")</label></td>
+					<td><span>{{receiverData.cellphone}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("HOMEPHONE")</label></td>
+					<td><span>{{receiverData.homephone}}</span></td>
+				</tr>
+				<tr>
+					<td><label>#label("ADDRESS")</label></td>
+					<td><span>{{receiverData.address}}</span></td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<button ng-click="audit()">#button("AUDIT")</button>
+			<button ng-click="back()">#button("BACK")</button>
+		</div>
+	</div>
+	#end
+</div>
+
+<script src="/static/js/business/service/operator/auditReceiver.js"></script>

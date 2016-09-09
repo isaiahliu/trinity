@@ -9,4 +9,10 @@
 	</parent>
 	<name>trinity-yqyl-configuration</name>
 	<artifactId>configuration</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>org.trinity.yqyl</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+	</dependencies>
 </project>

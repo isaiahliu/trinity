@@ -1,9 +1,9 @@
 package org.trinity.common.dto;
 
 /**
- * @author Isaiah Liu
+ * Interface for all responses.
  *
- *         Interface for all responses.
+ * @author Isaiah Liu
  */
 public interface IResponse {
 

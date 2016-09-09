@@ -1,13 +1,13 @@
 package org.trinity.message;
 
 /**
+ * This type of message can have specified message code.
+ * 
  * @author Isaiah Liu
  *
- *         This type of message can have specified message code.
- * 
  * @see IMessage
  */
-public abstract class AbstractFreeTextMessage implements IMessage {
+public abstract class AbstractFreeTextMessage<TType extends IMessageType> implements IMessage<TType> {
     /**
      *
      */
@@ -16,12 +16,12 @@ public abstract class AbstractFreeTextMessage implements IMessage {
     private String messageCode;
 
     @Override
-    public void setMessageCode(final String messageCode) {
-        this.messageCode = messageCode;
+    public String getMessageCode() {
+        return messageCode;
     }
 
     @Override
-    public String getMessageCode() {
-        return messageCode;
+    public void setMessageCode(final String messageCode) {
+        this.messageCode = messageCode;
     }
 }

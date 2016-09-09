@@ -1,12 +1,12 @@
 package org.trinity.common.exception;
 
 import org.trinity.message.IMessageResolverChain;
-import org.trinity.message.exception.IExceptionMessage;
+import org.trinity.message.exception.IErrorMessage;
 
 /**
+ * A message class which supports multi locale.
+ * 
  * @author Isaiah Liu
- *
- *         A message class which supports multi locale.
  *
  * @see IException
  */
@@ -21,8 +21,7 @@ public class LocalizedException extends IException {
         this.messageResolver = messageResolver;
     }
 
-    public LocalizedException(final IMessageResolverChain messageResolver, final IExceptionMessage exceptionMessage,
-            final String... params) {
+    public LocalizedException(final IMessageResolverChain messageResolver, final IErrorMessage exceptionMessage, final String... params) {
         super(exceptionMessage, params);
 
         this.messageResolver = messageResolver;
@@ -34,8 +33,8 @@ public class LocalizedException extends IException {
         this.messageResolver = messageResolver;
     }
 
-    public LocalizedException(final IMessageResolverChain messageResolver, final Throwable e,
-            final IExceptionMessage exceptionMessage, final String... params) {
+    public LocalizedException(final IMessageResolverChain messageResolver, final Throwable e, final IErrorMessage exceptionMessage,
+            final String... params) {
         super(e, exceptionMessage, params);
 
         this.messageResolver = messageResolver;

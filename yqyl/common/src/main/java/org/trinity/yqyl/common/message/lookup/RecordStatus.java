@@ -1,10 +1,8 @@
 package org.trinity.yqyl.common.message.lookup;
 
-import org.trinity.message.IMessage;
-import org.trinity.message.IMessageType;
-import org.trinity.yqyl.common.message.LookupType;
+import org.trinity.message.ILookupMessage;
 
-public enum RecordStatus implements IMessage {
+public enum RecordStatus implements ILookupMessage<LookupType> {
     ACTIVE("A"),
     DISABLED("D");
 
@@ -20,7 +18,7 @@ public enum RecordStatus implements IMessage {
     }
 
     @Override
-    public IMessageType getMessageType() {
+    public LookupType getMessageType() {
         return LookupType.RECORD_STATUS;
     }
 

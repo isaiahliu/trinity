@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/static/css/business/home.css"></link>
+#title("HOME")
+
+<div class="navBar">
+	<ul>
+		<li><div class="navBarItem">
+				<a href="/service/reception">#button("I_NEED_SERVICE")</a>
+			</div></li>
+		<li><div class="navBarItem">
+				<a href="/service/supplyment">#button("I_CAN_SERVICE")</a>
+			</div></li>
+		<li hidden="true"><div class="navBarItem">
+				<a href="/service/allowance">#button("I_HAVE_ALLOWANCE")</a>
+			</div></li>#if($security.hasAccessRightByName("CT_O"))
+		<li><div class="navBarItem">
+				<a href="/service/operator">#button("I_AM_OPERATOR")</a>
+			</div></li> #end #if($security.hasAccessRightByName("ADMIN"))
+		<li><div class="navBarItem">
+				<a href="/service/admin">#button("I_AM_ADMIN")</a>
+			</div></li>
+			#end
+	</ul>
+</div>
+
