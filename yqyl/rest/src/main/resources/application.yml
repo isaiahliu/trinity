@@ -9,7 +9,7 @@ spring:
     basename: message/resource
     cache-seconds: ${args.messages.cache-seconds:5}
   datasource:
-    url: ${args.datasource.url:jdbc:mysql://58.58.116.68:8099/yqyl_business}
+    url: ${args.datasource.url:jdbc:mysql://localhost:8099/yqyl_business}
     username: ${args.datasource.username:dev}
     password: ${args.datasource.password:!QAZ2wsx}
     driverClassName: com.mysql.jdbc.Driver
