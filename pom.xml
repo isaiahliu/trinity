@@ -221,6 +221,18 @@
 	</modules>
 	<profiles>
 		<profile>
+			<id>dev-home</id>
+			<properties>
+				<profileActive>dev-home</profileActive>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev-work</id>
+			<properties>
+				<profileActive>dev-work</profileActive>
+			</properties>
+		</profile>
+		<profile>
 			<id>dev</id>
 			<properties>
 				<profileActive>dev</profileActive>

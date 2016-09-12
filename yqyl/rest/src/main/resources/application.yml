@@ -32,3 +32,10 @@ args:
     cache-seconds: -1
   datasource: 
     url: jdbc:mysql://localhost:8099/yqyl_business
+    
+---
+spring: 
+  profiles: dev-home
+args:
+  datasource: 
+    url: jdbc:mysql://localhost:3306/yqyl_business
