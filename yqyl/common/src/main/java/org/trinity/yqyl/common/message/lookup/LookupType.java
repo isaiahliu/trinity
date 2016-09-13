@@ -20,6 +20,7 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     SYSTEM_ATTRIBUTE_KEY("SYSKEY"),
     VALUE_TYPE("VALTYP"),
     RECORD_STATUS("RCSTAT"),
+    ROLE_NAME("RLNAME"),
     TRANSACTION_CATEOGY("TXCATE"),
     PERSONAL_TYPE("PSTYPE"),
     CLIENT_STATUS("CLSTAT"),

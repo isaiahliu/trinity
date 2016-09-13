@@ -23,78 +23,78 @@ import org.trinity.yqyl.common.message.lookup.RecordStatus;
 @Entity
 @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
 public class Role extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Role_PK_IdGenerator")
-    @TableGenerator(name = "Role_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Role_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Role_PK_IdGenerator")
+	@TableGenerator(name = "Role_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Role_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private String description;
+	private String description;
 
-    private String name;
+	private String name;
 
-    private RecordStatus status;
+	private RecordStatus status;
 
-    // bi-directional many-to-many association to Accessright
-    @ManyToMany
-    @JoinTable(name = "role_accessright", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "access_right_id") })
-    private List<Accessright> accessrights;
+	// bi-directional many-to-many association to Accessright
+	@ManyToMany
+	@JoinTable(name = "role_accessright", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "access_right_id") })
+	private List<Accessright> accessrights;
 
-    // bi-directional many-to-many association to UserGroup
-    @ManyToMany(mappedBy = "roles")
-    private List<UserGroup> userGroups;
+	// bi-directional many-to-many association to UserGroup
+	@ManyToMany(mappedBy = "roles")
+	private List<User> users;
 
-    public Role() {
-    }
+	public Role() {
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public List<Accessright> getAccessrights() {
+		return this.accessrights;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    public String getDescription() {
-        return this.description;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public RecordStatus getStatus() {
+		return this.status;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public List<User> getUsers() {
+		return this.users;
+	}
 
-    public RecordStatus getStatus() {
-        return this.status;
-    }
+	public void setAccessrights(final List<Accessright> accessrights) {
+		this.accessrights = accessrights;
+	}
 
-    public void setStatus(RecordStatus status) {
-        this.status = status;
-    }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public List<Accessright> getAccessrights() {
-        return this.accessrights;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public void setAccessrights(List<Accessright> accessrights) {
-        this.accessrights = accessrights;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public List<UserGroup> getUserGroups() {
-        return this.userGroups;
-    }
+	public void setStatus(final RecordStatus status) {
+		this.status = status;
+	}
 
-    public void setUserGroups(List<UserGroup> userGroups) {
-        this.userGroups = userGroups;
-    }
+	public void setUsers(final List<User> users) {
+		this.users = users;
+	}
 
 }

@@ -24,242 +24,241 @@ import org.trinity.yqyl.common.message.lookup.UserStatus;
 @Entity
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "User_PK_IdGenerator")
-    @TableGenerator(name = "User_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "User_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "User_PK_IdGenerator")
+	@TableGenerator(name = "User_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "User_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private String password;
+	private String password;
 
-    private UserStatus status;
+	private UserStatus status;
 
-    private String username;
+	private String username;
 
-    private String cellphone;
+	private String cellphone;
 
-    private String email;
+	private String email;
 
-    // bi-directional many-to-one association to Account
-    @OneToMany(mappedBy = "user")
-    private List<Account> accounts;
+	// bi-directional many-to-one association to Account
+	@OneToMany(mappedBy = "user")
+	private List<Account> accounts;
 
-    // bi-directional many-to-one association to AllowanceSupplierClient
-    @OneToMany(mappedBy = "user")
-    private List<AllowanceSupplierClient> allowanceSupplierClients;
+	// bi-directional many-to-one association to AllowanceSupplierClient
+	@OneToMany(mappedBy = "user")
+	private List<AllowanceSupplierClient> allowanceSupplierClients;
 
-    // bi-directional many-to-one association to OperatorClient
-    @OneToMany(mappedBy = "user")
-    private List<OperatorClient> operatorClients;
+	// bi-directional many-to-one association to OperatorClient
+	@OneToMany(mappedBy = "user")
+	private List<OperatorClient> operatorClients;
 
-    // bi-directional many-to-one association to ServiceReceiverClient
-    @OneToMany(mappedBy = "user")
-    private List<ServiceReceiverClient> serviceReceiverClients;
+	// bi-directional many-to-one association to ServiceReceiverClient
+	@OneToMany(mappedBy = "user")
+	private List<ServiceReceiverClient> serviceReceiverClients;
 
-    // bi-directional many-to-one association to ServiceSupplierClient
-    @OneToMany(mappedBy = "user")
-    private List<ServiceSupplierClient> serviceSupplierClients;
+	// bi-directional many-to-one association to ServiceSupplierClient
+	@OneToMany(mappedBy = "user")
+	private List<ServiceSupplierClient> serviceSupplierClients;
 
-    // bi-directional many-to-one association to Token
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+	// bi-directional many-to-one association to Token
+	@OneToMany(mappedBy = "user")
+	private List<Token> tokens;
 
-    // bi-directional many-to-many association to UserGroup
-    @ManyToMany
-    @JoinTable(name = "user_user_group", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "user_group_id") })
-    private List<UserGroup> userGroups;
+	// bi-directional many-to-many association to UserGroup
+	@ManyToMany
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	private List<Role> roles;
 
-    public User() {
-    }
+	public User() {
+	}
 
-    public Account addAccount(final Account account) {
-        getAccounts().add(account);
-        account.setUser(this);
+	public Account addAccount(final Account account) {
+		getAccounts().add(account);
+		account.setUser(this);
 
-        return account;
-    }
+		return account;
+	}
 
-    public AllowanceSupplierClient addAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
-        getAllowanceSupplierClients().add(allowanceSupplierClient);
-        allowanceSupplierClient.setUser(this);
+	public AllowanceSupplierClient addAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
+		getAllowanceSupplierClients().add(allowanceSupplierClient);
+		allowanceSupplierClient.setUser(this);
 
-        return allowanceSupplierClient;
-    }
+		return allowanceSupplierClient;
+	}
 
-    public OperatorClient addOperatorClient(final OperatorClient operatorClient) {
-        getOperatorClients().add(operatorClient);
-        operatorClient.setUser(this);
+	public OperatorClient addOperatorClient(final OperatorClient operatorClient) {
+		getOperatorClients().add(operatorClient);
+		operatorClient.setUser(this);
 
-        return operatorClient;
-    }
+		return operatorClient;
+	}
 
-    public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
-        getServiceReceiverClients().add(serviceReceiverClient);
-        serviceReceiverClient.setUser(this);
+	public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
+		getServiceReceiverClients().add(serviceReceiverClient);
+		serviceReceiverClient.setUser(this);
 
-        return serviceReceiverClient;
-    }
+		return serviceReceiverClient;
+	}
 
-    public ServiceSupplierClient addServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-        getServiceSupplierClients().add(serviceSupplierClient);
-        serviceSupplierClient.setUser(this);
+	public ServiceSupplierClient addServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+		getServiceSupplierClients().add(serviceSupplierClient);
+		serviceSupplierClient.setUser(this);
 
-        return serviceSupplierClient;
-    }
+		return serviceSupplierClient;
+	}
 
-    public Token addToken(final Token token) {
-        getTokens().add(token);
-        token.setUser(this);
+	public Token addToken(final Token token) {
+		getTokens().add(token);
+		token.setUser(this);
 
-        return token;
-    }
+		return token;
+	}
 
-    public List<Account> getAccounts() {
-        return this.accounts;
-    }
+	public List<Account> getAccounts() {
+		return this.accounts;
+	}
 
-    public List<AllowanceSupplierClient> getAllowanceSupplierClients() {
-        return this.allowanceSupplierClients;
-    }
+	public List<AllowanceSupplierClient> getAllowanceSupplierClients() {
+		return this.allowanceSupplierClients;
+	}
 
-    public String getCellphone() {
-        return cellphone;
-    }
+	public String getCellphone() {
+		return cellphone;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public List<OperatorClient> getOperatorClients() {
-        return this.operatorClients;
-    }
+	public List<OperatorClient> getOperatorClients() {
+		return this.operatorClients;
+	}
 
-    public String getPassword() {
-        return this.password;
-    }
+	public String getPassword() {
+		return this.password;
+	}
 
-    public List<ServiceReceiverClient> getServiceReceiverClients() {
-        return this.serviceReceiverClients;
-    }
+	public List<Role> getRoles() {
+		return this.roles;
+	}
 
-    public List<ServiceSupplierClient> getServiceSupplierClients() {
-        return this.serviceSupplierClients;
-    }
+	public List<ServiceReceiverClient> getServiceReceiverClients() {
+		return this.serviceReceiverClients;
+	}
 
-    public UserStatus getStatus() {
-        return this.status;
-    }
+	public List<ServiceSupplierClient> getServiceSupplierClients() {
+		return this.serviceSupplierClients;
+	}
 
-    public List<Token> getTokens() {
-        return this.tokens;
-    }
+	public UserStatus getStatus() {
+		return this.status;
+	}
 
-    public List<UserGroup> getUserGroups() {
-        return this.userGroups;
-    }
+	public List<Token> getTokens() {
+		return this.tokens;
+	}
 
-    public String getUsername() {
-        return this.username;
-    }
+	public String getUsername() {
+		return this.username;
+	}
 
-    public Account removeAccount(final Account account) {
-        getAccounts().remove(account);
-        account.setUser(null);
+	public Account removeAccount(final Account account) {
+		getAccounts().remove(account);
+		account.setUser(null);
 
-        return account;
-    }
+		return account;
+	}
 
-    public AllowanceSupplierClient removeAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
-        getAllowanceSupplierClients().remove(allowanceSupplierClient);
-        allowanceSupplierClient.setUser(null);
+	public AllowanceSupplierClient removeAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
+		getAllowanceSupplierClients().remove(allowanceSupplierClient);
+		allowanceSupplierClient.setUser(null);
 
-        return allowanceSupplierClient;
-    }
+		return allowanceSupplierClient;
+	}
 
-    public OperatorClient removeOperatorClient(final OperatorClient operatorClient) {
-        getOperatorClients().remove(operatorClient);
-        operatorClient.setUser(null);
+	public OperatorClient removeOperatorClient(final OperatorClient operatorClient) {
+		getOperatorClients().remove(operatorClient);
+		operatorClient.setUser(null);
 
-        return operatorClient;
-    }
+		return operatorClient;
+	}
 
-    public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
-        getServiceReceiverClients().remove(serviceReceiverClient);
-        serviceReceiverClient.setUser(null);
+	public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
+		getServiceReceiverClients().remove(serviceReceiverClient);
+		serviceReceiverClient.setUser(null);
 
-        return serviceReceiverClient;
-    }
+		return serviceReceiverClient;
+	}
 
-    public ServiceSupplierClient removeServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-        getServiceSupplierClients().remove(serviceSupplierClient);
-        serviceSupplierClient.setUser(null);
+	public ServiceSupplierClient removeServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+		getServiceSupplierClients().remove(serviceSupplierClient);
+		serviceSupplierClient.setUser(null);
 
-        return serviceSupplierClient;
-    }
+		return serviceSupplierClient;
+	}
 
-    public Token removeToken(final Token token) {
-        getTokens().remove(token);
-        token.setUser(null);
+	public Token removeToken(final Token token) {
+		getTokens().remove(token);
+		token.setUser(null);
 
-        return token;
-    }
+		return token;
+	}
 
-    public void setAccounts(final List<Account> accounts) {
-        this.accounts = accounts;
-    }
+	public void setAccounts(final List<Account> accounts) {
+		this.accounts = accounts;
+	}
 
-    public void setAllowanceSupplierClients(final List<AllowanceSupplierClient> allowanceSupplierClients) {
-        this.allowanceSupplierClients = allowanceSupplierClients;
-    }
+	public void setAllowanceSupplierClients(final List<AllowanceSupplierClient> allowanceSupplierClients) {
+		this.allowanceSupplierClients = allowanceSupplierClients;
+	}
 
-    public void setCellphone(final String cellphone) {
-        this.cellphone = cellphone;
-    }
+	public void setCellphone(final String cellphone) {
+		this.cellphone = cellphone;
+	}
 
-    public void setEmail(final String email) {
-        this.email = email;
-    }
+	public void setEmail(final String email) {
+		this.email = email;
+	}
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public void setOperatorClients(final List<OperatorClient> operatorClients) {
-        this.operatorClients = operatorClients;
-    }
+	public void setOperatorClients(final List<OperatorClient> operatorClients) {
+		this.operatorClients = operatorClients;
+	}
 
-    public void setPassword(final String password) {
-        this.password = password;
-    }
+	public void setPassword(final String password) {
+		this.password = password;
+	}
 
-    public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {
-        this.serviceReceiverClients = serviceReceiverClients;
-    }
+	public void setRoles(final List<Role> roles) {
+		this.roles = roles;
+	}
 
-    public void setServiceSupplierClients(final List<ServiceSupplierClient> serviceSupplierClients) {
-        this.serviceSupplierClients = serviceSupplierClients;
-    }
+	public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {
+		this.serviceReceiverClients = serviceReceiverClients;
+	}
 
-    public void setStatus(final UserStatus status) {
-        this.status = status;
-    }
+	public void setServiceSupplierClients(final List<ServiceSupplierClient> serviceSupplierClients) {
+		this.serviceSupplierClients = serviceSupplierClients;
+	}
 
-    public void setTokens(final List<Token> tokens) {
-        this.tokens = tokens;
-    }
+	public void setStatus(final UserStatus status) {
+		this.status = status;
+	}
 
-    public void setUserGroups(final List<UserGroup> userGroups) {
-        this.userGroups = userGroups;
-    }
+	public void setTokens(final List<Token> tokens) {
+		this.tokens = tokens;
+	}
 
-    public void setUsername(final String username) {
-        this.username = username;
-    }
+	public void setUsername(final String username) {
+		this.username = username;
+	}
 
 }
