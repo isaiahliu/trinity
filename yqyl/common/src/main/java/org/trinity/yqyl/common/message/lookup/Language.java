@@ -5,8 +5,8 @@ import java.util.Locale;
 import org.trinity.message.ILookupMessage;
 
 public enum Language implements ILookupMessage<LookupType> {
-    ZH_CN(Locale.SIMPLIFIED_CHINESE),
-    EN_US(Locale.US);
+    ZH_CN(Locale.SIMPLIFIED_CHINESE);
+    // EN_US(Locale.US);
 
     private Locale locale;
     private final String messageCode;
