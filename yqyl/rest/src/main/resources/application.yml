@@ -39,3 +39,11 @@ spring:
 args:
   datasource: 
     url: jdbc:mysql://localhost:3306/yqyl_business
+     
+---
+spring: 
+  profiles: dev-work
+args:
+  datasource: 
+    url: jdbc:mysql://172.16.128.191:3307/yqyl_business
+    username: qa 
