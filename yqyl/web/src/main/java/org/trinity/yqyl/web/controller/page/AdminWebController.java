@@ -9,8 +9,8 @@ import org.trinity.common.exception.IException;
 @RestController
 @RequestMapping("/service/admin")
 public class AdminWebController extends AbstractResourceWebController {
-	@RequestMapping(value = { "/userManagement", "" }, method = RequestMethod.GET)
-	public ModelAndView userManagementPage() throws IException {
-		return createModelAndView("service/admin/userManagement");
+	@RequestMapping(value = { "/operator", "" }, method = RequestMethod.GET)
+	public ModelAndView operatorManagementPage() throws IException {
+		return createModelAndView("service/admin/operatorManagement");
 	}
 }

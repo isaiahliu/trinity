@@ -2,6 +2,7 @@ package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,44 +23,65 @@ import org.trinity.yqyl.common.message.lookup.ClientStatus;
 @Table(name = "operator_client")
 @NamedQuery(name = "OperatorClient.findAll", query = "SELECT o FROM OperatorClient o")
 public class OperatorClient extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "OperatorClient_PK_IdGenerator")
-    @TableGenerator(name = "OperatorClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "OperatorClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "OperatorClient_PK_IdGenerator")
+	@TableGenerator(name = "OperatorClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "OperatorClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private ClientStatus status;
+	private ClientStatus status;
 
-    // bi-directional many-to-one association to User
-    @ManyToOne
-    private User user;
+	@Column(name = "staff_no")
+	private String staffNo;
 
-    public OperatorClient() {
-    }
+	private String name;
 
-    public Long getId() {
-        return this.id;
-    }
+	// bi-directional many-to-one association to User
+	@ManyToOne
+	private User user;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public OperatorClient() {
+	}
 
-    public ClientStatus getStatus() {
-        return this.status;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setStatus(ClientStatus status) {
-        this.status = status;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public User getUser() {
-        return this.user;
-    }
+	public String getStaffNo() {
+		return staffNo;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public ClientStatus getStatus() {
+		return this.status;
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setId(final Long id) {
+		this.id = id;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public void setStaffNo(final String staffNo) {
+		this.staffNo = staffNo;
+	}
+
+	public void setStatus(final ClientStatus status) {
+		this.status = status;
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
+	}
 
 }

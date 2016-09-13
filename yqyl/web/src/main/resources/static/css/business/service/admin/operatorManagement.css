@@ -1,0 +1,15 @@
+div.operatorManagement {
+	text-align: center;
+}
+
+div.operatorManagement table {
+	margin: auto;
+}
+
+div.operatorManagement table th, div.operatorManagement table td {
+	padding: 5px 15px;
+}
+
+div.operatorManagement table th {
+	border-bottom: 1px solid gray;
+}
