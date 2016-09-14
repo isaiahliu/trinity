@@ -50,12 +50,12 @@ public class ContentRestController extends
     }
 
     @Override
-    protected void validateAddAll() throws IException {
+    protected void validateAdd() throws IException {
         securityUtil.deny();
     }
 
     @Override
-    protected void validateDeleteAll() throws IException {
+    protected void validateDelete() throws IException {
         securityUtil.deny();
     }
 
@@ -70,7 +70,7 @@ public class ContentRestController extends
     }
 
     @Override
-    protected void validateUpdateAll() throws IException {
+    protected void validateUpdate() throws IException {
         securityUtil.deny();
     }
 }

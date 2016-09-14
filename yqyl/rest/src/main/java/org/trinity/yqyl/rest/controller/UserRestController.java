@@ -40,15 +40,15 @@ public class UserRestController
     }
 
     @Override
-    protected void validateAddAll() throws IException {
-        super.validateAddAll();
+    protected void validateAdd() throws IException {
+        super.validateAdd();
 
         securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR);
     }
 
     @Override
-    protected void validateDeleteAll() throws IException {
-        super.validateDeleteAll();
+    protected void validateDelete() throws IException {
+        super.validateDelete();
         securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR);
     }
 }

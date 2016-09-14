@@ -50,14 +50,14 @@ public class AccessrightRestController extends
 
     @Override
     @Authorize(enabled = false)
-    protected void validateAddAll() throws IException {
-        super.validateAddAll();
+    protected void validateAdd() throws IException {
+        super.validateAdd();
     }
 
     @Override
     @Authorize(enabled = false)
-    protected void validateDeleteAll() throws IException {
-        super.validateDeleteAll();
+    protected void validateDelete() throws IException {
+        super.validateDelete();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AccessrightRestController extends
 
     @Override
     @Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
-    protected void validateUpdateAll() throws IException {
-        super.validateUpdateAll();
+    protected void validateUpdate() throws IException {
+        super.validateUpdate();
     }
 }
