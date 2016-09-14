@@ -16,7 +16,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="operator in operators">
-				<td><a href="/service/operator/audit/receiver/{{receiver.id}}">{{operator.username}}</a></td>
+				<td><a href="/service/admin/operator/{{operator.id}}">{{operator.username}}</a></td>
 				<td>{{operator.staffNo}}</td>
 				<td>{{operator.name}}</td>
 				<td>{{operator.status.message}}</td>

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
-import org.trinity.yqyl.common.message.lookup.ClientStatus;
+import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
 
 /**
  * The persistent class for the operator_client database table.
@@ -30,7 +30,7 @@ public class OperatorClient extends AbstractAuditableEntity implements Serializa
 	@TableGenerator(name = "OperatorClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "OperatorClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
 	private Long id;
 
-	private ClientStatus status;
+	private OperatorClientStatus status;
 
 	@Column(name = "staff_no")
 	private String staffNo;
@@ -56,7 +56,7 @@ public class OperatorClient extends AbstractAuditableEntity implements Serializa
 		return staffNo;
 	}
 
-	public ClientStatus getStatus() {
+	public OperatorClientStatus getStatus() {
 		return this.status;
 	}
 
@@ -76,7 +76,7 @@ public class OperatorClient extends AbstractAuditableEntity implements Serializa
 		this.staffNo = staffNo;
 	}
 
-	public void setStatus(final ClientStatus status) {
+	public void setStatus(final OperatorClientStatus status) {
 		this.status = status;
 	}
 

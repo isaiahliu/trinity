@@ -23,7 +23,7 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     ROLE_NAME("RLNAME"),
     TRANSACTION_CATEOGY("TXCATE"),
     PERSONAL_TYPE("PSTYPE"),
-    CLIENT_STATUS("CLSTAT"),
+    OPERATOR_CLIENT_STATUS("OPCSTAT"),
     ANNOUNCEMENT_STATUS("ANSTAT"),
     CLIENT_TYPE("CLTYPE"),
     LANGUAGE("LANGUAGE"),

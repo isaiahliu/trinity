@@ -11,11 +11,14 @@ import org.trinity.common.exception.factory.IExceptionFactory;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.SecurityDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.process.controller.base.ISecurityProcessController;
+import org.trinity.yqyl.repository.business.dataaccess.IOperatorClientRepository;
 import org.trinity.yqyl.repository.business.dataaccess.ITokenRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.OperatorClient;
 import org.trinity.yqyl.repository.business.entity.Token;
 import org.trinity.yqyl.repository.business.entity.User;
 
@@ -29,6 +32,9 @@ public class SecurityProcessController implements ISecurityProcessController {
     private IExceptionFactory exceptionFactory;
     @Autowired
     private IObjectConverter<User, SecurityDto> userConverter;
+
+    @Autowired
+    private IOperatorClientRepository operatorClientRepository;
 
     @Override
     @Transactional
@@ -99,5 +105,13 @@ public class SecurityProcessController implements ISecurityProcessController {
         user.setStatus(UserStatus.ACTIVE);
 
         userRepository.save(user);
+
+        final OperatorClient operatorClient = new OperatorClient();
+        operatorClient.setName("");
+        operatorClient.setStaffNo("");
+        operatorClient.setStatus(OperatorClientStatus.INACTIVE);
+        operatorClient.setUser(user);
+
+        operatorClientRepository.save(operatorClient);
     }
 }
