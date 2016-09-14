@@ -4,22 +4,22 @@
 <link rel="stylesheet"
 	href="/static/css/business/service/admin/operatorManagement.css"></link>
 
-<div class="operatorManagement" ng-controller="operatorManagementaController">
+<div class="operatorManagement" ng-controller="operatorManagementController">
 	<table>
 		<thead>
 			<tr>
 				<th>#label("USERNAME")</th>
-				<th>#label("STATUS")</th>
 				<th>#label("STAFF_NO")</th>
 				<th>#label("NAME")</th>
+				<th>#label("STATUS")</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="operator in operators">
-				<td><a href="/service/operator/audit/receiver/{{receiver.id}}">{{receiver.id}}</a></td>
-				<td>{{receiver.yijinCode}}</td>
-				<td>{{receiver.name}}</td>
-				<td>{{receiver.identityCard}}</td>
+				<td><a href="/service/operator/audit/receiver/{{receiver.id}}">{{operator.username}}</a></td>
+				<td>{{operator.staffNo}}</td>
+				<td>{{operator.name}}</td>
+				<td>{{operator.status.message}}</td>
 			</tr>
 		</tbody>
 	</table>

@@ -31,6 +31,8 @@ public enum Url implements IHttpUrl {
     RECEIVER_CANCEL_PROPOSAL(HttpMethod.DELETE, Path.RECEIVER, "cancel"),
     RECEIVER_ADD(HttpMethod.POST, Path.RECEIVER),
 
+    OPERATOR(HttpMethod.GET, Path.OPERATOR),
+
     CONTENT_UPLOAD(HttpMethod.PUT, Path.CONTENT, "upload"),
     CONTENT_DOWNLOAD(HttpMethod.GET, Path.CONTENT, "download"),
 
@@ -47,6 +49,7 @@ public enum Url implements IHttpUrl {
         CLIENT("client"),
         SUPPLIER(CLIENT, "supplier"),
         RECEIVER(CLIENT, "receiver"),
+        OPERATOR(CLIENT, "operator"),
 
         CONTENT("content"),
 

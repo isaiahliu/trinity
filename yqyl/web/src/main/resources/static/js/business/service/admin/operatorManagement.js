@@ -5,9 +5,9 @@ layoutApp.controller('operatorManagementController', function($scope, $http,
 		pageSize : 10
 	};
 
-	$scope.getproposalReceivers = function(id, yijincode, name, identity,
+	$scope.getOperators = function(id, staffNo, name, status,
 			paging) {
-		var ajaxUrl = "/ajax/service/operator/proposalReceiver";
+		var ajaxUrl = "/ajax/service/admin/operator";
 		var prefix = "?";
 
 		if (id != null && id != "") {
@@ -15,8 +15,8 @@ layoutApp.controller('operatorManagementController', function($scope, $http,
 			prefix = "&";
 		}
 
-		if (yijincode != null && yijincode != "") {
-			ajaxUrl += prefix + "yijincode=" + yijincode;
+		if (staffNo != null && staffNo != "") {
+			ajaxUrl += prefix + "staffNo=" + staffNo;
 			prefix = "&";
 		}
 
@@ -25,8 +25,8 @@ layoutApp.controller('operatorManagementController', function($scope, $http,
 			prefix = "&";
 		}
 
-		if (identity != null && identity != "") {
-			ajaxUrl += prefix + "identity=" + identity;
+		if (status != null && status != "") {
+			ajaxUrl += prefix + "status=" + status;
 			prefix = "&";
 		}
 
@@ -38,7 +38,7 @@ layoutApp.controller('operatorManagementController', function($scope, $http,
 			method : "GET",
 			url : ajaxUrl
 		}).success(function(response) {
-			$scope.receivers = response.data;
+			$scope.operators = response.data;
 			response.meta.paging.pageIndex++;
 			$scope.paging = response.meta.paging;
 		}).error(function(response) {
@@ -46,8 +46,8 @@ layoutApp.controller('operatorManagementController', function($scope, $http,
 	};
 
 	$scope.pageChanged = function() {
-		$scope.getproposalReceivers(null, null, null, null, $scope.paging);
+		$scope.getOperators(null, null, null, null, $scope.paging);
 	}
 
-	$scope.getproposalReceivers(null, null, null, null, $scope.paging);
+	$scope.getOperators(null, null, null, null, $scope.paging);
 });

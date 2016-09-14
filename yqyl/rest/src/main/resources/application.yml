@@ -6,7 +6,7 @@ spring:
   profiles: 
     active: '@profileActive@'
   messages:
-    basename: message/resource
+    basename: message/resource,message/lookup
     cache-seconds: ${args.messages.cache-seconds:5}
   datasource:
     url: ${args.datasource.url:jdbc:mysql://localhost:8099/yqyl_business}
