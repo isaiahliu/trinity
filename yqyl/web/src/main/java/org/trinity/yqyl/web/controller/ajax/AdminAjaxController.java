@@ -11,7 +11,7 @@ import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
 import org.trinity.yqyl.common.message.dto.domain.OperatorClientSearchingDto;
-import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
+import org.trinity.yqyl.common.message.dto.response.OperatorClientResponse;
 import org.trinity.yqyl.web.util.Url;
 
 @RestController
@@ -26,7 +26,7 @@ public class AdminAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "/operator", method = RequestMethod.GET)
-    public @ResponseBody ServiceReceiverClientResponse ajaxOperator(final OperatorClientSearchingDto dto) throws IException {
-        return restfulServiceUtil.callRestService(Url.RECEIVER, null, null, dto, ServiceReceiverClientResponse.class);
+    public @ResponseBody OperatorClientResponse ajaxOperator(final OperatorClientSearchingDto dto) throws IException {
+        return restfulServiceUtil.callRestService(Url.OPERATOR, null, null, dto, OperatorClientResponse.class);
     }
 }
