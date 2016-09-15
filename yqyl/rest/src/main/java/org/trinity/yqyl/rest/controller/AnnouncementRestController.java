@@ -8,13 +8,17 @@ import org.trinity.yqyl.common.message.dto.request.AnnouncementRequest;
 import org.trinity.yqyl.common.message.dto.response.AnnouncementResponse;
 import org.trinity.yqyl.process.controller.base.IAnnouncementProcessController;
 
+/**
+ * @author Isaiah Liu
+ *
+ */
 @RestController
 @RequestMapping("/message/announcement")
 public class AnnouncementRestController extends
-        AbstractApplicationAwareCrudRestController<AnnouncementDto, AnnouncementSearchingDto, IAnnouncementProcessController, AnnouncementRequest, AnnouncementResponse> {
+		AbstractApplicationAwareCrudRestController<AnnouncementDto, AnnouncementSearchingDto, IAnnouncementProcessController, AnnouncementRequest, AnnouncementResponse> {
 
-    @Override
-    protected AnnouncementResponse createResponseInstance() {
-        return new AnnouncementResponse();
-    }
+	@Override
+	protected AnnouncementResponse createResponseInstance() {
+		return new AnnouncementResponse();
+	}
 }

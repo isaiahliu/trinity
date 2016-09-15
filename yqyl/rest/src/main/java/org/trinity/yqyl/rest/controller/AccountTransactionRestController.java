@@ -8,13 +8,17 @@ import org.trinity.yqyl.common.message.dto.request.AccountTransactionRequest;
 import org.trinity.yqyl.common.message.dto.response.AccountTransactionResponse;
 import org.trinity.yqyl.process.controller.base.IAccountTransactionProcessController;
 
+/**
+ * @author Isaiah Liu
+ *
+ */
 @RestController
 @RequestMapping("/account/transaction")
 public class AccountTransactionRestController extends
-        AbstractApplicationAwareCrudRestController<AccountTransactionDto, AccountTransactionSearchingDto, IAccountTransactionProcessController, AccountTransactionRequest, AccountTransactionResponse> {
+		AbstractApplicationAwareCrudRestController<AccountTransactionDto, AccountTransactionSearchingDto, IAccountTransactionProcessController, AccountTransactionRequest, AccountTransactionResponse> {
 
-    @Override
-    protected AccountTransactionResponse createResponseInstance() {
-        return new AccountTransactionResponse();
-    }
+	@Override
+	protected AccountTransactionResponse createResponseInstance() {
+		return new AccountTransactionResponse();
+	}
 }

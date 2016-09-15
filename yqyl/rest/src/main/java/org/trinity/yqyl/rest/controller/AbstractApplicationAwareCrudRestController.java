@@ -8,14 +8,23 @@ import org.trinity.common.dto.response.AbstractResponse;
 import org.trinity.process.controller.ICrudProcessController;
 import org.trinity.rest.controller.AbstractCrudRestController;
 
+/**
+ * @author isaia
+ *
+ * @param <TDto>
+ * @param <TSearchingDto>
+ * @param <TProcessController>
+ * @param <TRequest>
+ * @param <TResponse>
+ */
 public abstract class AbstractApplicationAwareCrudRestController<TDto extends AbstractBusinessDto, TSearchingDto extends IDto, TProcessController extends ICrudProcessController<TDto, TSearchingDto>, TRequest extends AbstractDataRequest<TDto>, TResponse extends AbstractResponse<TDto>>
-        extends AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse> {
-    @Autowired
-    private TProcessController domainProcessController;
+		extends AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse> {
+	@Autowired
+	private TProcessController domainProcessController;
 
-    @Override
-    protected TProcessController getDomainProcessController() {
-        return domainProcessController;
-    }
+	@Override
+	protected TProcessController getDomainProcessController() {
+		return domainProcessController;
+	}
 
 }
