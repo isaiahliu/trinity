@@ -23,112 +23,112 @@ import org.trinity.common.util.SelfAware;
 import org.trinity.process.controller.ICrudProcessController;
 
 public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDto, TSearchingDto extends IDto, TProcessController extends ICrudProcessController<TDto, TSearchingDto>, TRequest extends AbstractDataRequest<TDto>, TResponse extends AbstractResponse<TDto>>
-        extends AbstractRestController
-        implements SelfAware<AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse>> {
+		extends AbstractRestController
+		implements SelfAware<AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse>> {
 
-    private AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse> selfProxy = this;
+	private AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse> selfProxy = this;
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<TResponse> addAll(@RequestBody @OnValid(AddData.class) final TRequest request) throws IException {
-        selfProxy.validateAddAll();
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<TResponse> addAll(@RequestBody @OnValid(AddData.class) final TRequest request) throws IException {
+		selfProxy.validateAdd();
 
-        final TResponse response = createResponseInstance();
+		final TResponse response = createResponseInstance();
 
-        final List<TDto> data = getDomainProcessController().addAll(request.getData());
+		final List<TDto> data = getDomainProcessController().addAll(request.getData());
 
-        response.addData(data);
+		response.addData(data);
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody ResponseEntity<DefaultResponse> deleteAll(@PathVariable("id") final Long id) throws IException {
-        selfProxy.validateDeleteAll();
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody ResponseEntity<DefaultResponse> deleteAll(@PathVariable("id") final Long id) throws IException {
+		selfProxy.validateDelete();
 
-        final DefaultResponse response = new DefaultResponse();
+		final DefaultResponse response = new DefaultResponse();
 
-        getDomainProcessController().delete(id);
+		getDomainProcessController().delete(id);
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<TResponse> getAll(final TSearchingDto request) throws IException {
-        selfProxy.validateGetAll();
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<TResponse> getAll(final TSearchingDto request) throws IException {
+		selfProxy.validateGetAll();
 
-        final TResponse response = createResponseInstance();
+		final TResponse response = createResponseInstance();
 
-        final Page<TDto> data = getDomainProcessController().getAll(request);
+		final Page<TDto> data = getDomainProcessController().getAll(request);
 
-        final PagingDto responsePaging = new PagingDto();
-        responsePaging.setPageIndex(data.getNumber());
-        responsePaging.setPageSize(data.getSize());
-        responsePaging.setPageCount(data.getTotalPages());
-        responsePaging.setItemCount(data.getTotalElements());
+		final PagingDto responsePaging = new PagingDto();
+		responsePaging.setPageIndex(data.getNumber());
+		responsePaging.setPageSize(data.getSize());
+		responsePaging.setPageCount(data.getTotalPages());
+		responsePaging.setItemCount(data.getTotalElements());
 
-        response.addData(data.getContent());
-        response.getMeta().setPaging(responsePaging);
+		response.addData(data.getContent());
+		response.getMeta().setPaging(responsePaging);
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    @RequestMapping(value = "/me", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<TResponse> getMe() throws IException {
-        final TResponse response = createResponseInstance();
+	@RequestMapping(value = "/me", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<TResponse> getMe() throws IException {
+		final TResponse response = createResponseInstance();
 
-        final List<TDto> data = getDomainProcessController().getMe();
+		final List<TDto> data = getDomainProcessController().getMe();
 
-        response.addData(data);
+		response.addData(data);
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<TResponse> getOne(@PathVariable("id") final Long id) throws IException {
-        selfProxy.validateGetOne();
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<TResponse> getOne(@PathVariable("id") final Long id) throws IException {
+		selfProxy.validateGetOne();
 
-        final TResponse response = createResponseInstance();
+		final TResponse response = createResponseInstance();
 
-        final TDto data = getDomainProcessController().getOne(id);
+		final TDto data = getDomainProcessController().getOne(id);
 
-        response.addData(data);
+		response.addData(data);
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    @Override
-    public void setSelf(final AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse> selfProxy) {
-        this.selfProxy = selfProxy;
-    }
+	@Override
+	public void setSelf(final AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse> selfProxy) {
+		this.selfProxy = selfProxy;
+	}
 
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    public @ResponseBody ResponseEntity<DefaultResponse> updateAll(@RequestBody @OnValid(UpdateData.class) final TRequest request)
-            throws IException {
-        selfProxy.validateUpdateAll();
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<DefaultResponse> updateAll(@RequestBody @OnValid(UpdateData.class) final TRequest request)
+			throws IException {
+		selfProxy.validateUpdate();
 
-        final DefaultResponse response = new DefaultResponse();
+		final DefaultResponse response = new DefaultResponse();
 
-        getDomainProcessController().updateAll(request.getData());
+		getDomainProcessController().updateAll(request.getData());
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    protected abstract TResponse createResponseInstance();
+	protected abstract TResponse createResponseInstance();
 
-    protected abstract TProcessController getDomainProcessController();
+	protected abstract TProcessController getDomainProcessController();
 
-    protected void validateAddAll() throws IException {
-    }
+	protected void validateAdd() throws IException {
+	}
 
-    protected void validateDeleteAll() throws IException {
-    }
+	protected void validateDelete() throws IException {
+	}
 
-    protected void validateGetAll() throws IException {
-    }
+	protected void validateGetAll() throws IException {
+	}
 
-    protected void validateGetOne() throws IException {
-    }
+	protected void validateGetOne() throws IException {
+	}
 
-    protected void validateUpdateAll() throws IException {
-    }
+	protected void validateUpdate() throws IException {
+	}
 }
