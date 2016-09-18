@@ -106,6 +106,10 @@ public class EntityCleanUp {
 		userTypeMapping.put("Favorite", userTypes);
 
 		userTypes = new ArrayList<>();
+		userTypes.add(new Tuple2<String, String>("status", "RecordStatus"));
+		userTypeMapping.put("ServiceCategory", userTypes);
+
+		userTypes = new ArrayList<>();
 		userTypes.add(new Tuple2<String, String>("key", "SystemAttributeKey"));
 		userTypes.add(new Tuple2<String, String>("type", "ValueType"));
 		userTypes.add(new Tuple2<String, String>("status", "RecordStatus"));

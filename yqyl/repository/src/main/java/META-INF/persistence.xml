@@ -22,5 +22,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.OperatorClient</class>
 		<class>org.trinity.yqyl.repository.business.entity.Favorite</class>
 		<class>org.trinity.yqyl.repository.business.entity.Content</class>
+		<class>org.trinity.yqyl.repository.business.entity.ServiceCategory</class>
 	</persistence-unit>
 </persistence>

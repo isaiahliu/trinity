@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
@@ -39,6 +41,11 @@ public class Service extends AbstractAuditableEntity implements Serializable {
 	private Double price;
 
 	private ServiceStatus status;
+
+	// bi-directional many-to-one association to ServiceCategory
+	@ManyToOne
+	@JoinColumn(name = "service_category_id")
+	private ServiceCategory serviceCategory;
 
 	// bi-directional many-to-one association to Favorite
 	@OneToMany(mappedBy = "service")
@@ -89,6 +96,10 @@ public class Service extends AbstractAuditableEntity implements Serializable {
 		return revisedVersion;
 	}
 
+	public ServiceCategory getServiceCategory() {
+		return serviceCategory;
+	}
+
 	public ServiceStatus getStatus() {
 		return this.status;
 	}
@@ -130,6 +141,10 @@ public class Service extends AbstractAuditableEntity implements Serializable {
 
 	public void setRevisedVersion(final Integer revisedVersion) {
 		this.revisedVersion = revisedVersion;
+	}
+
+	public void setServiceCategory(final ServiceCategory serviceCategory) {
+		this.serviceCategory = serviceCategory;
 	}
 
 	public void setStatus(final ServiceStatus status) {
