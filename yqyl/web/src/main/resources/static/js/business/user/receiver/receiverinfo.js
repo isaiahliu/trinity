@@ -1,6 +1,19 @@
 layoutApp.controller('receiverinfoController', function($scope, $http, $window,
-		$filter, receiver) {
-	$scope.receiver = receiver;
+		$filter, receiverId) {
+
+	if (receiverId > 0) {
+		$http({
+			method : "GET",
+			url : "/ajax/user/receiver/" + receiverId
+		}).success(function(response) {
+			$scope.receiver = response.data[0];
+		}).error(function(response) {
+		});
+	} else {
+		$scope.receiver = {
+			id : null
+		};
+	}
 
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
@@ -20,14 +33,15 @@ layoutApp.controller('receiverinfoController', function($scope, $http, $window,
 					name : $scope.receiver.name,
 					gender : {
 						code : $scope.receiver.gender.code
-					}, 
+					},
 					dob : $filter('date')($scope.receiver.dob, 'yyyy/MM/dd'),
 					identityCard : $scope.receiver.identityCard,
-					cellphoneNo : $scope.receiver.cellphone,
-					homephoneNo : $scope.receiver.homephone,
+					cellphoneNo : $scope.receiver.cellphoneNo,
+					homephoneNo : $scope.receiver.homephoneNo,
 					email : $scope.receiver.email,
 					address : $scope.receiver.address,
-					yijinCode : $scope.receiver.yijinCode
+					yijinCode : $scope.receiver.yijinCode,
+					healthStatus : $scope.receiver.healthStatus
 				} ]
 			}
 		}).success(function(response) {

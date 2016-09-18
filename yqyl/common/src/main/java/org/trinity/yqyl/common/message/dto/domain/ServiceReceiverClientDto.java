@@ -18,6 +18,8 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private String identityCard;
 
+    private String healthStatus;
+
     private String name;
 
     private String yijinCode;
@@ -42,6 +44,10 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public LookupDto getGender() {
         return gender;
+    }
+
+    public String getHealthStatus() {
+        return healthStatus;
     }
 
     public String getHomephoneNo() {
@@ -82,6 +88,10 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public void setGender(final LookupDto gender) {
         this.gender = gender;
+    }
+
+    public void setHealthStatus(final String healthStatus) {
+        this.healthStatus = healthStatus;
     }
 
     public void setHomephoneNo(final String homephoneNo) {

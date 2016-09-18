@@ -5,32 +5,9 @@
 	href="/static/css/business/user/receiver/receiverinfo.css"></link>
 
 <script>
-	layoutApp
-			.value(
-					'receiver',
-					{
-#if(${receiver.id})
-						'id' : '${receiver.id}',
-						'name' : '#if(${receiver.name})${receiver.name}#end',
-						'status' : {
-							'code' : '#if(${receiver.status.code})${receiver.status.code}#end',
-							'message' : '#if(${receiver.status.message})${receiver.status.message}#end'
-						},
-						'gender' : {
-							'code' : '#if(${receiver.gender.code})${receiver.gender.code}#end',
-							'message' : '#if(${receiver.gender.message})${receiver.gender.message}#end'
-						},
-						'dob' : '#if(${receiver.dob})${receiver.dob}#end',
-						'cellphone' : '#if(${receiver.cellphoneNo})${receiver.cellphoneNo}#end',
-						'homephone' : '#if(${receiver.homephoneNo})${receiver.homephoneNo}#end',
-						'identityCard' : '#if(${receiver.identityCard})${receiver.identityCard}#end',
-						'email' : '#if(${receiver.email})${receiver.email}#end',
-						'address' : '#if(${receiver.address})${receiver.address}#end',
-						'yijinCode' : '#if(${receiver.yijinCode})${receiver.yijinCode}#end'
-#end
-					});
-					
+	layoutApp.value('receiverId', #if($id) $id #else 0 #end);
 </script>
+
 <div class="receiverinfo" ng-controller="receiverinfoController">
 	<div>
 		<div>
@@ -76,12 +53,16 @@
 					</td>
 				</tr>
 				<tr>
+					<td><label>#label("HEALTH_STATUS")</label></td>
+					<td><textarea ng-model="receiver.healthStatus"></textarea></td>
+				</tr>
+				<tr>
 					<td><label>#label("PHONE")</label></td>
-					<td><input ng-model="receiver.cellphone" /></td>
+					<td><input ng-model="receiver.cellphoneNo" /></td>
 				</tr>
 				<tr>
 					<td><label>#label("HOMEPHONE")</label></td>
-					<td><input ng-model="receiver.homephone" /></td>
+					<td><input ng-model="receiver.homephoneNo" /></td>
 				</tr>
 				<tr>
 					<td><label>#label("EMAIL")</label></td>

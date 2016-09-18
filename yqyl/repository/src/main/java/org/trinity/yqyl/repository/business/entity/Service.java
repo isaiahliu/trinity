@@ -1,16 +1,14 @@
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
@@ -25,139 +23,121 @@ import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 @Entity
 @NamedQuery(name = "Service.findAll", query = "SELECT s FROM Service s")
 public class Service extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Service_PK_IdGenerator")
-    @TableGenerator(name = "Service_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Service_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Service_PK_IdGenerator")
+	@TableGenerator(name = "Service_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Service_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private String description;
+	private String uuid;
 
-    private String name;
+	private String description;
 
-    private BigDecimal price;
+	private String name;
 
-    private ServiceStatus status;
+	private Double price;
 
-    // bi-directional many-to-one association to Favorite
-    @OneToMany(mappedBy = "service")
-    private List<Favorite> favorites;
+	private ServiceStatus status;
 
-    // bi-directional many-to-many association to Order
-    @ManyToMany(mappedBy = "services")
-    private List<Order> orders;
+	// bi-directional many-to-one association to Favorite
+	@OneToMany(mappedBy = "service")
+	private List<Favorite> favorites;
 
-    // bi-directional many-to-one association to Service
-    @ManyToOne
-    @JoinColumn(name = "revised_service_id")
-    private Service service;
+	// bi-directional many-to-many association to Order
+	@ManyToMany(mappedBy = "services")
+	private List<Order> orders;
 
-    // bi-directional many-to-one association to Service
-    @OneToMany(mappedBy = "service")
-    private List<Service> services;
+	@Column(name = "revised_version")
+	private Integer revisedVersion;
 
-    public Service() {
-    }
+	public Service() {
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public Favorite addFavorite(final Favorite favorite) {
+		getFavorites().add(favorite);
+		favorite.setService(this);
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+		return favorite;
+	}
 
-    public String getDescription() {
-        return this.description;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public List<Favorite> getFavorites() {
+		return this.favorites;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public BigDecimal getPrice() {
-        return this.price;
-    }
+	public List<Order> getOrders() {
+		return this.orders;
+	}
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+	public Double getPrice() {
+		return this.price;
+	}
 
-    public ServiceStatus getStatus() {
-        return this.status;
-    }
+	public Integer getRevisedVersion() {
+		return revisedVersion;
+	}
 
-    public void setStatus(ServiceStatus status) {
-        this.status = status;
-    }
+	public ServiceStatus getStatus() {
+		return this.status;
+	}
 
-    public List<Favorite> getFavorites() {
-        return this.favorites;
-    }
+	public String getUuid() {
+		return uuid;
+	}
 
-    public void setFavorites(List<Favorite> favorites) {
-        this.favorites = favorites;
-    }
+	public Favorite removeFavorite(final Favorite favorite) {
+		getFavorites().remove(favorite);
+		favorite.setService(null);
 
-    public Favorite addFavorite(Favorite favorite) {
-        getFavorites().add(favorite);
-        favorite.setService(this);
+		return favorite;
+	}
 
-        return favorite;
-    }
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
-    public Favorite removeFavorite(Favorite favorite) {
-        getFavorites().remove(favorite);
-        favorite.setService(null);
+	public void setFavorites(final List<Favorite> favorites) {
+		this.favorites = favorites;
+	}
 
-        return favorite;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public List<Order> getOrders() {
-        return this.orders;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
+	public void setOrders(final List<Order> orders) {
+		this.orders = orders;
+	}
 
-    public Service getService() {
-        return this.service;
-    }
+	public void setPrice(final Double price) {
+		this.price = price;
+	}
 
-    public void setService(Service service) {
-        this.service = service;
-    }
+	public void setRevisedVersion(final Integer revisedVersion) {
+		this.revisedVersion = revisedVersion;
+	}
 
-    public List<Service> getServices() {
-        return this.services;
-    }
+	public void setStatus(final ServiceStatus status) {
+		this.status = status;
+	}
 
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
-
-    public Service addService(Service service) {
-        getServices().add(service);
-        service.setService(this);
-
-        return service;
-    }
-
-    public Service removeService(Service service) {
-        getServices().remove(service);
-        service.setService(null);
-
-        return service;
-    }
+	public void setUuid(final String uuid) {
+		this.uuid = uuid;
+	}
 
 }

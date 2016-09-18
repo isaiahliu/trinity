@@ -29,191 +29,202 @@ import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 @Table(name = "service_receiver_client")
 @NamedQuery(name = "ServiceReceiverClient.findAll", query = "SELECT s FROM ServiceReceiverClient s")
 public class ServiceReceiverClient extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceReceiverClient_PK_IdGenerator")
-    @TableGenerator(name = "ServiceReceiverClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceReceiverClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceReceiverClient_PK_IdGenerator")
+	@TableGenerator(name = "ServiceReceiverClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceReceiverClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private String address;
+	private String address;
 
-    @Column(name = "cellphone_no")
-    private String cellphoneNo;
+	@Column(name = "health_status")
+	private String healthStatus;
 
-    @Temporal(TemporalType.DATE)
-    private Date dob;
+	@Column(name = "cellphone_no")
+	private String cellphoneNo;
 
-    private String email;
+	@Temporal(TemporalType.DATE)
+	private Date dob;
 
-    private Gender gender;
+	private String email;
 
-    @Column(name = "homephone_no")
-    private String homephoneNo;
+	private Gender gender;
 
-    @Column(name = "identity_card")
-    private String identityCard;
+	@Column(name = "homephone_no")
+	private String homephoneNo;
 
-    private String name;
+	@Column(name = "identity_card")
+	private String identityCard;
 
-    @Column(name = "yijin_code")
-    private String yijinCode;
+	private String name;
 
-    private ServiceReceiverClientStatus status;
+	@Column(name = "yijin_code")
+	private String yijinCode;
 
-    // bi-directional many-to-one association to Favorite
-    @OneToMany(mappedBy = "serviceReceiverClient")
-    private List<Favorite> favorites;
+	private ServiceReceiverClientStatus status;
 
-    // bi-directional many-to-one association to Order
-    @OneToMany(mappedBy = "serviceReceiverClient")
-    private List<Order> orders;
+	// bi-directional many-to-one association to Favorite
+	@OneToMany(mappedBy = "serviceReceiverClient")
+	private List<Favorite> favorites;
 
-    // bi-directional many-to-one association to User
-    @ManyToOne
-    private User user;
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "serviceReceiverClient")
+	private List<Order> orders;
 
-    public ServiceReceiverClient() {
-    }
+	// bi-directional many-to-one association to User
+	@ManyToOne
+	private User user;
 
-    public Favorite addFavorite(final Favorite favorite) {
-        getFavorites().add(favorite);
-        favorite.setServiceReceiverClient(this);
+	public ServiceReceiverClient() {
+	}
 
-        return favorite;
-    }
+	public Favorite addFavorite(final Favorite favorite) {
+		getFavorites().add(favorite);
+		favorite.setServiceReceiverClient(this);
 
-    public Order addOrder(final Order order) {
-        getOrders().add(order);
-        order.setServiceReceiverClient(this);
+		return favorite;
+	}
 
-        return order;
-    }
+	public Order addOrder(final Order order) {
+		getOrders().add(order);
+		order.setServiceReceiverClient(this);
 
-    public String getAddress() {
-        return address;
-    }
+		return order;
+	}
 
-    public String getCellphoneNo() {
-        return cellphoneNo;
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public Date getDob() {
-        return dob;
-    }
+	public String getCellphoneNo() {
+		return cellphoneNo;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Date getDob() {
+		return dob;
+	}
 
-    public List<Favorite> getFavorites() {
-        return this.favorites;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public Gender getGender() {
-        return gender;
-    }
+	public List<Favorite> getFavorites() {
+		return this.favorites;
+	}
 
-    public String getHomephoneNo() {
-        return homephoneNo;
-    }
+	public Gender getGender() {
+		return gender;
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public String getHealthStatus() {
+		return healthStatus;
+	}
 
-    public String getIdentityCard() {
-        return identityCard;
-    }
+	public String getHomephoneNo() {
+		return homephoneNo;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public List<Order> getOrders() {
-        return this.orders;
-    }
+	public String getIdentityCard() {
+		return identityCard;
+	}
 
-    public ServiceReceiverClientStatus getStatus() {
-        return this.status;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public User getUser() {
-        return this.user;
-    }
+	public List<Order> getOrders() {
+		return this.orders;
+	}
 
-    public String getYijinCode() {
-        return yijinCode;
-    }
+	public ServiceReceiverClientStatus getStatus() {
+		return this.status;
+	}
 
-    public Favorite removeFavorite(final Favorite favorite) {
-        getFavorites().remove(favorite);
-        favorite.setServiceReceiverClient(null);
+	public User getUser() {
+		return this.user;
+	}
 
-        return favorite;
-    }
+	public String getYijinCode() {
+		return yijinCode;
+	}
 
-    public Order removeOrder(final Order order) {
-        getOrders().remove(order);
-        order.setServiceReceiverClient(null);
+	public Favorite removeFavorite(final Favorite favorite) {
+		getFavorites().remove(favorite);
+		favorite.setServiceReceiverClient(null);
 
-        return order;
-    }
+		return favorite;
+	}
 
-    public void setAddress(final String address) {
-        this.address = address;
-    }
+	public Order removeOrder(final Order order) {
+		getOrders().remove(order);
+		order.setServiceReceiverClient(null);
 
-    public void setCellphoneNo(final String cellphoneNo) {
-        this.cellphoneNo = cellphoneNo;
-    }
+		return order;
+	}
 
-    public void setDob(final Date dob) {
-        this.dob = dob;
-    }
+	public void setAddress(final String address) {
+		this.address = address;
+	}
 
-    public void setEmail(final String email) {
-        this.email = email;
-    }
+	public void setCellphoneNo(final String cellphoneNo) {
+		this.cellphoneNo = cellphoneNo;
+	}
 
-    public void setFavorites(final List<Favorite> favorites) {
-        this.favorites = favorites;
-    }
+	public void setDob(final Date dob) {
+		this.dob = dob;
+	}
 
-    public void setGender(final Gender gender) {
-        this.gender = gender;
-    }
+	public void setEmail(final String email) {
+		this.email = email;
+	}
 
-    public void setHomephoneNo(final String homephoneNo) {
-        this.homephoneNo = homephoneNo;
-    }
+	public void setFavorites(final List<Favorite> favorites) {
+		this.favorites = favorites;
+	}
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	public void setGender(final Gender gender) {
+		this.gender = gender;
+	}
 
-    public void setIdentityCard(final String identityCard) {
-        this.identityCard = identityCard;
-    }
+	public void setHealthStatus(final String healthStatus) {
+		this.healthStatus = healthStatus;
+	}
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+	public void setHomephoneNo(final String homephoneNo) {
+		this.homephoneNo = homephoneNo;
+	}
 
-    public void setOrders(final List<Order> orders) {
-        this.orders = orders;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public void setStatus(final ServiceReceiverClientStatus status) {
-        this.status = status;
-    }
+	public void setIdentityCard(final String identityCard) {
+		this.identityCard = identityCard;
+	}
 
-    public void setUser(final User user) {
-        this.user = user;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setYijinCode(final String yijinCode) {
-        this.yijinCode = yijinCode;
-    }
+	public void setOrders(final List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public void setStatus(final ServiceReceiverClientStatus status) {
+		this.status = status;
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
+	}
+
+	public void setYijinCode(final String yijinCode) {
+		this.yijinCode = yijinCode;
+	}
 
 }
