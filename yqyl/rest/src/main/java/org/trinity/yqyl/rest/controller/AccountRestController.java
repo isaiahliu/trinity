@@ -8,13 +8,17 @@ import org.trinity.yqyl.common.message.dto.request.AccountRequest;
 import org.trinity.yqyl.common.message.dto.response.AccountResponse;
 import org.trinity.yqyl.process.controller.base.IAccountProcessController;
 
+/**
+ * @author Isaiah Liu
+ *
+ */
 @RestController
 @RequestMapping("/account/account")
 public class AccountRestController extends
-        AbstractApplicationAwareCrudRestController<AccountDto, AccountSearchingDto, IAccountProcessController, AccountRequest, AccountResponse> {
+		AbstractApplicationAwareCrudRestController<AccountDto, AccountSearchingDto, IAccountProcessController, AccountRequest, AccountResponse> {
 
-    @Override
-    protected AccountResponse createResponseInstance() {
-        return new AccountResponse();
-    }
+	@Override
+	protected AccountResponse createResponseInstance() {
+		return new AccountResponse();
+	}
 }
