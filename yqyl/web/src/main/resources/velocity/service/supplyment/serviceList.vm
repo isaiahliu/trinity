@@ -1,4 +1,34 @@
 #set($currentPage="SERVICE_LIST")
 #parse("/velocity/service/supplyment/navigation.vm")
 
-<div>supplyment</div>
+<link rel="stylesheet"
+	href="/static/css/business/service/supplyment/serviceList.css"></link>
+
+<div class="supplymentServices" ng-controller="supplymentServicesController">
+	<table>
+		<thead>
+			<tr>
+				<th>#label("ID")</th>
+				<th>#label("CATEGORY")</th>
+				<th>#label("SERVICE_NAME")</th>
+				<th>#label("PRICE")</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="receiver in receivers">
+				<td><a href="/service/operator/audit/receiver/{{receiver.id}}">{{receiver.id}}</a></td>
+				<td>{{receiver.name}}</td>
+				<td>{{receiver.name}}</td>
+				<td>{{receiver.identityCard}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination total-items="paging.itemCount" ng-model="paging.pageIndex"
+		max-size="10" items-per-page="paging.pageSize" class="pagination-sm"
+		boundary-links="true" ng-change="pageChanged()"
+		first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+		previous-text='#label("PREVIOUS_PAGE")'
+		next-text='#label("NEXT_PAGE")'></pagination>
+</div>
+
+<script src="/static/js/business/service/supplyment/serviceList.js"></script>

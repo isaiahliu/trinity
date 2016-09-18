@@ -1,0 +1,15 @@
+div.supplymentServices {
+	text-align: center;
+}
+
+div.supplymentServices table {
+	margin: auto;
+}
+
+div.supplymentServices table th, div.supplymentServices table td {
+	padding: 5px 15px;
+}
+
+div.supplymentServices table th {
+	border-bottom: 1px solid gray;
+}
