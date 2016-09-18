@@ -10,11 +10,8 @@ import org.trinity.common.exception.IException;
 import org.trinity.message.MessageUtils;
 import org.trinity.rest.util.IRestfulServiceUtil;
 import org.trinity.yqyl.common.accessright.Authorize;
-import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
-import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
-import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.web.util.Url;
 
@@ -33,23 +30,7 @@ public class OperatingWebController extends AbstractResourceWebController {
 	@RequestMapping(value = { "/audit/receiver/{id}" }, method = RequestMethod.GET)
 	@Authorize(requireAny = AccessRight.OPERATOR)
 	public ModelAndView auditReceiverPage(@PathVariable("id") final Long id) throws IException {
-		final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER, String.valueOf(id), null, null,
-				ServiceReceiverClientResponse.class);
-
-		final ModelAndView modelAndView = createModelAndView("service/operator/auditReceiver");
-		if (!response.getData().isEmpty()) {
-			if (MessageUtils.in(response.getData().get(0).getStatus().getCode(), ServiceReceiverClientStatus.PROPOSAL)) {
-				final ServiceReceiverClientDto receiver = response.getData().get(0);
-				if (receiver.getAddress() != null) {
-					receiver.setAddress(receiver.getAddress().replace("\\", "\\\\").replace("\n", "\\n").replace("'", "\\'"));
-				}
-				modelAndView.addObject("receiver", receiver);
-			} else {
-				modelAndView.addObject("error", "Error");
-			}
-		}
-
-		return modelAndView;
+		return createModelAndView("service/operator/auditReceiver").addObject("id", id);
 	}
 
 	@RequestMapping(value = { "/audit/supplier/{id}" }, method = RequestMethod.GET)

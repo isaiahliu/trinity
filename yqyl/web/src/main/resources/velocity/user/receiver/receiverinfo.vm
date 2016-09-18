@@ -14,17 +14,15 @@
 			<table>
 				<tr>
 					<td><label>#label("NAME")</label></td>
-					<td>#if(${receiver.status.code}=="A")<span>{{receiver.name}}</span>
-						#else <input ng-model="receiver.name" /> #end
-					</td>
+					<td><span ng-hide="editable">{{receiver.name}}</span> <input
+						ng-show="editable" ng-model="receiver.name" /></td>
 				</tr>
 				<tr>
 					<td><label>#label("YIJINCODE")</label></td>
-					<td>#if(${receiver.status.code}=="A")<span>{{receiver.yijinCode}}</span>
-						#else <input ng-model="receiver.yijinCode" /> #end
-					</td>
+					<td><span ng-hide="editable">{{receiver.yijinCode}}</span> <input
+						ng-show="editable" ng-model="receiver.yijinCode" /></td>
 				</tr>
-				#if(${receiver.id})
+				#if($id)
 				<tr>
 					<td><label>#label("STATUS")</label></td>
 					<td><span>{{receiver.status.message}}</span></td>
@@ -32,25 +30,22 @@
 				#end
 				<tr>
 					<td><label>#label("GENDER")</label></td>
-					<td>#if(${receiver.status.code}=="A")<span>{{receiver.gender.message}}</span>
-						#else <select ng-model="receiver.gender.code">
+					<td><span ng-hide="editable">{{receiver.gender.message}}</span>
+						<select ng-show="editable" ng-model="receiver.gender.code">
 							#foreach($gender in $genders)
 							<option value="$gender.code">$gender.message</option> #end
-					</select> #end
-					</td>
+					</select></td>
 				</tr>
 				<tr>
 					<td><label>#label("DOB")</label></td>
-					<td>#if(${receiver.status.code}== "A")<span>{{receiver.dob}}</span>
-						#else <input type="text" ui-date="dateOptions"
-						ng-model="receiver.dob" /> #end
-					</td>
+					<td><span ng-hide="editable">{{receiver.dob}}</span> <input
+						ng-show="editable" type="text" ui-date="dateOptions"
+						ng-model="receiver.dob" /></td>
 				</tr>
 				<tr>
 					<td><label>#label("IDENTITY")</label></td>
-					<td>#if(${receiver.status.code}=="A")<span>{{receiver.identityCard}}</span>
-						#else <input ng-model="receiver.identityCard" /> #end
-					</td>
+					<td><span ng-hide="editable">{{receiver.identityCard}}</span>
+						<input ng-show="editable" ng-model="receiver.identityCard" /></td>
 				</tr>
 				<tr>
 					<td><label>#label("HEALTH_STATUS")</label></td>
@@ -76,8 +71,8 @@
 		</div>
 		<div>
 			<button ng-click="apply()">#button("OK")</button>
-			#if(${receiver.status.code}=="P")
-			<button ng-click="cancel()">#button("DELETE")</button>
+			#if($id)
+			<button ng-show="editable" ng-click="cancel()">#button("DELETE")</button>
 			#end
 			<button ng-click="back()">#button("BACK")</button>
 		</div>

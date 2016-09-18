@@ -16,22 +16,7 @@
 	</div>
 	#else
 	<script type="text/javascript">
-		layoutApp
-				.value(
-						'receiverData',
-						{
-							"id" : "#if(${receiver.id})${receiver.id}#end",
-							"yijinCode" : "#if(${receiver.yijinCode})${receiver.yijinCode}#end",
-							"name" : "#if(${receiver.name})${receiver.name}#end",
-							"status" : "#if(${receiver.status})${receiver.status.message}#end",
-							"gender" : "#if(${receiver.gender})${receiver.gender.message}#end",
-							"dob" : "#if(${receiver.dob})${receiver.dob}#end",
-							"identity" : "#if(${receiver.identityCard})${receiver.identityCard}#end",
-							"email" : "#if(${receiver.email})${receiver.email}#end",
-							"cellphone" : "#if(${receiver.cellphoneNo})${receiver.cellphoneNo}#end",
-							"homephone" : "#if(${receiver.homephoneNo})${receiver.homephoneNo}#end",
-							"address" : "#if(${receiver.address})${receiver.address}#end"
-						});
+		layoutApp.value('receiverId', #if($id) $id #else 0 #end);
 	</script>
 	<div>
 		<div>
@@ -50,11 +35,11 @@
 				</tr>
 				<tr>
 					<td><label>#label("STATUS")</label></td>
-					<td><span>{{receiverData.status}}</span></td>
+					<td><span>{{receiverData.status.message}}</span></td>
 				</tr>
 				<tr>
 					<td><label>#label("GENDER")</label></td>
-					<td><span>{{receiverData.gender}}</span></td>
+					<td><span>{{receiverData.gender.message}}</span></td>
 				</tr>
 				<tr>
 					<td><label>#label("DOB")</label></td>
@@ -62,19 +47,23 @@
 				</tr>
 				<tr>
 					<td><label>#label("IDENTITY")</label></td>
-					<td><span>{{receiverData.identity}}</span></td>
+					<td><span>{{receiverData.identityCard}}</span></td>
 				</tr>
 				<tr>
 					<td><label>#label("EMAIL")</label></td>
 					<td><span>{{receiverData.email}}</span></td>
 				</tr>
 				<tr>
+					<td><label>#label("HEALTH_STATUS")</label></td>
+					<td><span>{{receiverData.healthStatus}}</span></td>
+				</tr>
+				<tr>
 					<td><label>#label("PHONE")</label></td>
-					<td><span>{{receiverData.cellphone}}</span></td>
+					<td><span>{{receiverData.cellphoneNo}}</span></td>
 				</tr>
 				<tr>
 					<td><label>#label("HOMEPHONE")</label></td>
-					<td><span>{{receiverData.homephone}}</span></td>
+					<td><span>{{receiverData.homephoneNo}}</span></td>
 				</tr>
 				<tr>
 					<td><label>#label("ADDRESS")</label></td>

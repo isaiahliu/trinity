@@ -1,15 +1,21 @@
 layoutApp.controller('receiverinfoController', function($scope, $http, $window,
 		$filter, receiverId) {
-
+	$scope.editable = false;
 	if (receiverId > 0) {
 		$http({
 			method : "GET",
 			url : "/ajax/user/receiver/" + receiverId
 		}).success(function(response) {
 			$scope.receiver = response.data[0];
+
+			$scope.editable = $scope.receiver.status.code != 'A';
 		}).error(function(response) {
+			$scope.receiver = {
+				id : null
+			};
 		});
 	} else {
+		$scope.editable = true;
 		$scope.receiver = {
 			id : null
 		};
