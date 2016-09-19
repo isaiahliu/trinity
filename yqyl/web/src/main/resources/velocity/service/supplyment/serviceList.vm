@@ -4,7 +4,8 @@
 <link rel="stylesheet"
 	href="/static/css/business/service/supplyment/serviceList.css"></link>
 
-<div class="supplymentServices" ng-controller="supplymentServicesController">
+<div class="supplymentServices"
+	ng-controller="supplymentServicesController">
 	<table>
 		<thead>
 			<tr>

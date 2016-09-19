@@ -1,21 +1,3 @@
 div.register {
 	margin-top: 50px;
-	text-align: center;
-}
-
-div.register label, div.register button, div.register input {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-div.register button {
-	border: none;
-	background: #0381AA;
-	color: white;
-	width: 80px;
-	height: 35px;
-}
-
-div.register table {
-	margin: auto;
 }

@@ -82,3 +82,29 @@ button {
 	height: 35px;
 	border: none;
 }
+
+div.content {
+	text-align: center;
+}
+
+div.content table {
+	margin: auto;
+}
+
+div.content table th, div.content table td {
+	padding: 5px 15px;
+}
+div.content table th {
+	border-bottom: 1px solid gray;
+}
+
+div.content img {
+	max-height: 100px;
+	max-width: :150px
+}
+
+div.content textarea {
+	resize: none;
+	height: 200px;
+	width: 400px;
+}

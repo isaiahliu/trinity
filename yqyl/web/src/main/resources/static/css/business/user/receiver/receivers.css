@@ -1,15 +1,3 @@
 div.receivers {
-	text-align: center;
 }
 
-div.receivers table {
-	margin: auto;
-}
-
-div.receivers table th, div.receivers table td {
-	padding: 5px 15px;
-}
-
-div.receivers table th {
-	border-bottom: 1px solid gray;
-}

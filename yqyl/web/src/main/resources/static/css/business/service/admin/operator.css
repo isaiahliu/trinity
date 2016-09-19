@@ -1,15 +1,5 @@
 div.operator {
-	text-align: center;
 }
 
-div.operator table {
-	margin: auto;
-}
 
-div.operator table th, div.operator table td {
-	padding: 5px 15px;
-}
 
-div.operator table th {
-	border-bottom: 1px solid gray;
-}

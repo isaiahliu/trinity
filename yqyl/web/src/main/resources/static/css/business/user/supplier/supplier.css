@@ -1,17 +1,2 @@
 div.supplier {
-	text-align: center;
-}
-
-div.supplier table {
-	margin: auto;
-}
-
-div.supplier label, div.supplier button, div.supplier input, div.supplier img
-	{
-	margin: 10px;
-}
-
-div.supplier img {
-	max-height: 100px;
-	max-width: :150px
 }
