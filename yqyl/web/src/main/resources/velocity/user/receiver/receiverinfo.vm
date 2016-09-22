@@ -48,10 +48,6 @@
 						<input ng-show="editable" ng-model="receiver.identityCard" /></td>
 				</tr>
 				<tr>
-					<td><label>#label("HEALTH_STATUS")</label></td>
-					<td><textarea ng-model="receiver.healthStatus"></textarea></td>
-				</tr>
-				<tr>
 					<td><label>#label("PHONE")</label></td>
 					<td><input ng-model="receiver.cellphoneNo" /></td>
 				</tr>

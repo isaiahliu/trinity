@@ -54,10 +54,6 @@
 					<td><span>{{receiverData.email}}</span></td>
 				</tr>
 				<tr>
-					<td><label>#label("HEALTH_STATUS")</label></td>
-					<td><span>{{receiverData.healthStatus}}</span></td>
-				</tr>
-				<tr>
 					<td><label>#label("PHONE")</label></td>
 					<td><span>{{receiverData.cellphoneNo}}</span></td>
 				</tr>

@@ -46,8 +46,7 @@ layoutApp.controller('receiverinfoController', function($scope, $http, $window,
 					homephoneNo : $scope.receiver.homephoneNo,
 					email : $scope.receiver.email,
 					address : $scope.receiver.address,
-					yijinCode : $scope.receiver.yijinCode,
-					healthStatus : $scope.receiver.healthStatus
+					yijinCode : $scope.receiver.yijinCode
 				} ]
 			}
 		}).success(function(response) {

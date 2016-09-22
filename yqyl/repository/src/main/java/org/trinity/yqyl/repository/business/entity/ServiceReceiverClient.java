@@ -10,9 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -20,11 +22,12 @@ import javax.persistence.TemporalType;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
 import org.trinity.yqyl.common.message.lookup.Gender;
+import org.trinity.yqyl.common.message.lookup.PersonalType;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 
 /**
  * The persistent class for the service_receiver_client database table.
- *
+ * 
  */
 @Entity
 @Table(name = "service_receiver_client")
@@ -39,11 +42,14 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
 	private String address;
 
-	@Column(name = "health_status")
-	private String healthStatus;
+	private String category;
 
 	@Column(name = "cellphone_no")
 	private String cellphoneNo;
+
+	private String comment;
+
+	private String community;
 
 	@Temporal(TemporalType.DATE)
 	private Date dob;
@@ -58,12 +64,46 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 	@Column(name = "identity_card")
 	private String identityCard;
 
+	@Column(name = "medical_insurance_status")
+	private String medicalInsuranceStatus;
+
 	private String name;
+
+	private ServiceReceiverClientStatus status;
+
+	private PersonalType type;
+
+	@Column(name = "video_id")
+	private String videoId;
+
+	@Column(name = "videophone_no")
+	private String videophoneNo;
 
 	@Column(name = "yijin_code")
 	private String yijinCode;
 
-	private ServiceReceiverClientStatus status;
+	// uni-directional many-to-one association to ServiceReceiverClient
+	@ManyToOne
+	@JoinColumn(name = "spouse_client_id")
+	private ServiceReceiverClient spouse;
+
+	// bi-directional one-to-one association to
+	// ServiceReceiverClientHealthIndicator
+	@OneToOne(mappedBy = "serviceReceiverClient")
+	private ServiceReceiverClientHealthIndicator healthIndicator;
+
+	// bi-directional one-to-one association to
+	// ServiceReceiverClientHealthInformation
+	@OneToOne(mappedBy = "serviceReceiverClient")
+	private ServiceReceiverClientHealthInformation healthInformation;
+
+	// bi-directional one-to-one association to ServiceReceiverClientInterest
+	@OneToOne(mappedBy = "serviceReceiverClient")
+	private ServiceReceiverClientInterest interest;
+
+	// bi-directional one-to-one association to ServiceReceiverClientOther
+	@OneToOne(mappedBy = "serviceReceiverClient")
+	private ServiceReceiverClientOther other;
 
 	// bi-directional many-to-one association to Favorite
 	@OneToMany(mappedBy = "serviceReceiverClient")
@@ -95,19 +135,31 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 	}
 
 	public String getAddress() {
-		return address;
+		return this.address;
+	}
+
+	public String getCategory() {
+		return this.category;
 	}
 
 	public String getCellphoneNo() {
-		return cellphoneNo;
+		return this.cellphoneNo;
+	}
+
+	public String getComment() {
+		return this.comment;
+	}
+
+	public String getCommunity() {
+		return this.community;
 	}
 
 	public Date getDob() {
-		return dob;
+		return this.dob;
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public List<Favorite> getFavorites() {
@@ -115,15 +167,19 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 	}
 
 	public Gender getGender() {
-		return gender;
+		return this.gender;
 	}
 
-	public String getHealthStatus() {
-		return healthStatus;
+	public ServiceReceiverClientHealthIndicator getHealthIndicator() {
+		return this.healthIndicator;
+	}
+
+	public ServiceReceiverClientHealthInformation getHealthInformation() {
+		return this.healthInformation;
 	}
 
 	public String getHomephoneNo() {
-		return homephoneNo;
+		return this.homephoneNo;
 	}
 
 	public Long getId() {
@@ -131,27 +187,55 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 	}
 
 	public String getIdentityCard() {
-		return identityCard;
+		return this.identityCard;
+	}
+
+	public ServiceReceiverClientInterest getInterest() {
+		return this.interest;
+	}
+
+	public String getMedicalInsuranceStatus() {
+		return this.medicalInsuranceStatus;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public List<Order> getOrders() {
 		return this.orders;
 	}
 
+	public ServiceReceiverClientOther getOther() {
+		return this.other;
+	}
+
+	public ServiceReceiverClient getSpouse() {
+		return this.spouse;
+	}
+
 	public ServiceReceiverClientStatus getStatus() {
 		return this.status;
+	}
+
+	public PersonalType getType() {
+		return this.type;
 	}
 
 	public User getUser() {
 		return this.user;
 	}
 
+	public String getVideoId() {
+		return this.videoId;
+	}
+
+	public String getVideophoneNo() {
+		return this.videophoneNo;
+	}
+
 	public String getYijinCode() {
-		return yijinCode;
+		return this.yijinCode;
 	}
 
 	public Favorite removeFavorite(final Favorite favorite) {
@@ -172,8 +256,20 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 		this.address = address;
 	}
 
+	public void setCategory(final String category) {
+		this.category = category;
+	}
+
 	public void setCellphoneNo(final String cellphoneNo) {
 		this.cellphoneNo = cellphoneNo;
+	}
+
+	public void setComment(final String comment) {
+		this.comment = comment;
+	}
+
+	public void setCommunity(final String community) {
+		this.community = community;
 	}
 
 	public void setDob(final Date dob) {
@@ -192,8 +288,12 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 		this.gender = gender;
 	}
 
-	public void setHealthStatus(final String healthStatus) {
-		this.healthStatus = healthStatus;
+	public void setHealthIndicator(final ServiceReceiverClientHealthIndicator healthIndicator) {
+		this.healthIndicator = healthIndicator;
+	}
+
+	public void setHealthInformation(final ServiceReceiverClientHealthInformation healthInformation) {
+		this.healthInformation = healthInformation;
 	}
 
 	public void setHomephoneNo(final String homephoneNo) {
@@ -208,6 +308,14 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 		this.identityCard = identityCard;
 	}
 
+	public void setInterest(final ServiceReceiverClientInterest interest) {
+		this.interest = interest;
+	}
+
+	public void setMedicalInsuranceStatus(final String medicalInsuranceStatus) {
+		this.medicalInsuranceStatus = medicalInsuranceStatus;
+	}
+
 	public void setName(final String name) {
 		this.name = name;
 	}
@@ -216,12 +324,32 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 		this.orders = orders;
 	}
 
+	public void setOther(final ServiceReceiverClientOther other) {
+		this.other = other;
+	}
+
+	public void setSpouse(final ServiceReceiverClient spouse) {
+		this.spouse = spouse;
+	}
+
 	public void setStatus(final ServiceReceiverClientStatus status) {
 		this.status = status;
 	}
 
+	public void setType(final PersonalType type) {
+		this.type = type;
+	}
+
 	public void setUser(final User user) {
 		this.user = user;
+	}
+
+	public void setVideoId(final String videoId) {
+		this.videoId = videoId;
+	}
+
+	public void setVideophoneNo(final String videophoneNo) {
+		this.videophoneNo = videophoneNo;
 	}
 
 	public void setYijinCode(final String yijinCode) {
