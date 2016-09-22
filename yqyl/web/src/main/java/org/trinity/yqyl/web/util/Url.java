@@ -22,14 +22,14 @@ public enum Url implements IHttpUrl {
 	SUPPLIER_ME(HttpMethod.GET, Path.SUPPLIER, "me"),
 	SUPPLIER_PROPOSAL(HttpMethod.PUT, Path.SUPPLIER, "proposal"),
 
-	RECEIVER_AUDIT(HttpMethod.PUT, Path.RECEIVER, "audit"),
-	RECEIVER_ME(HttpMethod.GET, Path.RECEIVER, "me"),
-	RECEIVER(HttpMethod.GET, Path.RECEIVER),
-	RECEIVER_PROPOSAL(HttpMethod.PUT, Path.RECEIVER, "proposal"),
-	RECEIVER_UPDATE(HttpMethod.PUT, Path.RECEIVER),
-	RECEIVER_DELETE(HttpMethod.DELETE, Path.RECEIVER),
-	RECEIVER_CANCEL_PROPOSAL(HttpMethod.DELETE, Path.RECEIVER, "cancel"),
-	RECEIVER_ADD(HttpMethod.POST, Path.RECEIVER),
+	RECEIVER_AUDIT(HttpMethod.PUT, Path.RECEIVER_INFO, "audit"),
+	RECEIVER_ME(HttpMethod.GET, Path.RECEIVER_INFO, "me"),
+	RECEIVER(HttpMethod.GET, Path.RECEIVER_INFO),
+	RECEIVER_PROPOSAL(HttpMethod.PUT, Path.RECEIVER_INFO, "proposal"),
+	RECEIVER_UPDATE(HttpMethod.PUT, Path.RECEIVER_INFO),
+	RECEIVER_DELETE(HttpMethod.DELETE, Path.RECEIVER_INFO),
+	RECEIVER_CANCEL_PROPOSAL(HttpMethod.DELETE, Path.RECEIVER_INFO, "cancel"),
+	RECEIVER_ADD(HttpMethod.POST, Path.RECEIVER_INFO),
 
 	OPERATOR(HttpMethod.GET, Path.OPERATOR),
 	OPERATOR_UPDATE(HttpMethod.PUT, Path.OPERATOR),
@@ -51,6 +51,8 @@ public enum Url implements IHttpUrl {
 		SUPPLIER(CLIENT, "supplier"),
 		RECEIVER(CLIENT, "receiver"),
 		OPERATOR(CLIENT, "operator"),
+
+		RECEIVER_INFO(RECEIVER, "info"),
 
 		CONTENT("content"),
 

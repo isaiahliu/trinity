@@ -9,13 +9,12 @@ import org.trinity.yqyl.common.message.dto.response.ServiceCategoryResponse;
 import org.trinity.yqyl.process.controller.base.IServiceCategoryProcessController;
 
 @RestController
-@RequestMapping("/*")
+@RequestMapping("/common/servicecategory")
 public class ServiceCategoryRestController extends
-      AbstractApplicationAwareCrudRestController<ServiceCategoryDto, ServiceCategorySearchingDto, IServiceCategoryProcessController, ServiceCategoryRequest, ServiceCategoryResponse> {
+		AbstractApplicationAwareCrudRestController<ServiceCategoryDto, ServiceCategorySearchingDto, IServiceCategoryProcessController, ServiceCategoryRequest, ServiceCategoryResponse> {
 
-  @Override
-  protected ServiceCategoryResponse createResponseInstance() {
-      return new ServiceCategoryResponse();
-  }
+	@Override
+	protected ServiceCategoryResponse createResponseInstance() {
+		return new ServiceCategoryResponse();
+	}
 }
-
