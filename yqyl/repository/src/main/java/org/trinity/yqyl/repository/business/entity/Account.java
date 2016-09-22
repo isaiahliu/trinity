@@ -1,3 +1,4 @@
+//Cleaned
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
@@ -22,70 +23,70 @@ import org.trinity.yqyl.common.message.lookup.AccountStatus;
 @Entity
 @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
 public class Account extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Account_PK_IdGenerator")
-    @TableGenerator(name = "Account_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Account_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Account_PK_IdGenerator")
+	@TableGenerator(name = "Account_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Account_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private AccountStatus status;
+	private AccountStatus status;
 
-    // bi-directional many-to-one association to User
-    @ManyToOne
-    private User user;
+	// bi-directional many-to-one association to User
+	@ManyToOne
+	private User user;
 
-    // bi-directional many-to-one association to AccountBalance
-    @OneToMany(mappedBy = "account")
-    private List<AccountBalance> accountBalances;
+	// bi-directional many-to-one association to AccountBalance
+	@OneToMany(mappedBy = "account")
+	private List<AccountBalance> accountBalances;
 
-    public Account() {
-    }
+	public Account() {
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public AccountBalance addAccountBalance(final AccountBalance accountBalance) {
+		getAccountBalances().add(accountBalance);
+		accountBalance.setAccount(this);
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+		return accountBalance;
+	}
 
-    public AccountStatus getStatus() {
-        return this.status;
-    }
+	public List<AccountBalance> getAccountBalances() {
+		return this.accountBalances;
+	}
 
-    public void setStatus(AccountStatus status) {
-        this.status = status;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public User getUser() {
-        return this.user;
-    }
+	public AccountStatus getStatus() {
+		return this.status;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public User getUser() {
+		return this.user;
+	}
 
-    public List<AccountBalance> getAccountBalances() {
-        return this.accountBalances;
-    }
+	public AccountBalance removeAccountBalance(final AccountBalance accountBalance) {
+		getAccountBalances().remove(accountBalance);
+		accountBalance.setAccount(null);
 
-    public void setAccountBalances(List<AccountBalance> accountBalances) {
-        this.accountBalances = accountBalances;
-    }
+		return accountBalance;
+	}
 
-    public AccountBalance addAccountBalance(AccountBalance accountBalance) {
-        getAccountBalances().add(accountBalance);
-        accountBalance.setAccount(this);
+	public void setAccountBalances(final List<AccountBalance> accountBalances) {
+		this.accountBalances = accountBalances;
+	}
 
-        return accountBalance;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public AccountBalance removeAccountBalance(AccountBalance accountBalance) {
-        getAccountBalances().remove(accountBalance);
-        accountBalance.setAccount(null);
+	public void setStatus(final AccountStatus status) {
+		this.status = status;
+	}
 
-        return accountBalance;
-    }
+	public void setUser(final User user) {
+		this.user = user;
+	}
 
 }

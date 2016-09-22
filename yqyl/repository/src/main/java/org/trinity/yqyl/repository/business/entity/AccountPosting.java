@@ -1,3 +1,4 @@
+//Cleaned
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
@@ -25,78 +26,78 @@ import org.trinity.yqyl.common.message.lookup.AccountPostingStatus;
 @Table(name = "account_posting")
 @NamedQuery(name = "AccountPosting.findAll", query = "SELECT a FROM AccountPosting a")
 public class AccountPosting extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "AccountPosting_PK_IdGenerator")
-    @TableGenerator(name = "AccountPosting_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "AccountPosting_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "AccountPosting_PK_IdGenerator")
+	@TableGenerator(name = "AccountPosting_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "AccountPosting_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private BigDecimal amount;
+	private BigDecimal amount;
 
-    private Currency currency;
+	private Currency currency;
 
-    private AccountPostingStatus status;
+	private AccountPostingStatus status;
 
-    // bi-directional many-to-one association to AccountBalance
-    @ManyToOne
-    @JoinColumn(name = "account_balance_id")
-    private AccountBalance accountBalance;
+	// bi-directional many-to-one association to AccountBalance
+	@ManyToOne
+	@JoinColumn(name = "account_balance_id")
+	private AccountBalance accountBalance;
 
-    // bi-directional many-to-one association to AccountTransaction
-    @ManyToOne
-    @JoinColumn(name = "account_transaction_id")
-    private AccountTransaction accountTransaction;
+	// bi-directional many-to-one association to AccountTransaction
+	@ManyToOne
+	@JoinColumn(name = "account_transaction_id")
+	private AccountTransaction accountTransaction;
 
-    public AccountPosting() {
-    }
+	public AccountPosting() {
+	}
 
-    public AccountBalance getAccountBalance() {
-        return this.accountBalance;
-    }
+	public AccountBalance getAccountBalance() {
+		return this.accountBalance;
+	}
 
-    public AccountTransaction getAccountTransaction() {
-        return this.accountTransaction;
-    }
+	public AccountTransaction getAccountTransaction() {
+		return this.accountTransaction;
+	}
 
-    public BigDecimal getAmount() {
-        return this.amount;
-    }
+	public BigDecimal getAmount() {
+		return this.amount;
+	}
 
-    public Currency getCurrency() {
-        return this.currency;
-    }
+	public Currency getCurrency() {
+		return this.currency;
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public AccountPostingStatus getStatus() {
-        return this.status;
-    }
+	public AccountPostingStatus getStatus() {
+		return this.status;
+	}
 
-    public void setAccountBalance(final AccountBalance accountBalance) {
-        this.accountBalance = accountBalance;
-    }
+	public void setAccountBalance(final AccountBalance accountBalance) {
+		this.accountBalance = accountBalance;
+	}
 
-    public void setAccountTransaction(final AccountTransaction accountTransaction) {
-        this.accountTransaction = accountTransaction;
-    }
+	public void setAccountTransaction(final AccountTransaction accountTransaction) {
+		this.accountTransaction = accountTransaction;
+	}
 
-    public void setAmount(final BigDecimal amount) {
-        this.amount = amount;
-    }
+	public void setAmount(final BigDecimal amount) {
+		this.amount = amount;
+	}
 
-    public void setCurrency(final Currency currency) {
-        this.currency = currency;
-    }
+	public void setCurrency(final Currency currency) {
+		this.currency = currency;
+	}
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public void setStatus(final AccountPostingStatus status) {
-        this.status = status;
-    }
+	public void setStatus(final AccountPostingStatus status) {
+		this.status = status;
+	}
 
 }

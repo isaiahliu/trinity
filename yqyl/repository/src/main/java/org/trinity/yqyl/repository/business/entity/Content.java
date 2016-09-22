@@ -1,3 +1,4 @@
+//Cleaned
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
@@ -20,53 +21,53 @@ import org.trinity.yqyl.common.message.lookup.RecordStatus;
 @Entity
 @NamedQuery(name = "Content.findAll", query = "SELECT c FROM Content c")
 public class Content extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Content_PK_IdGenerator")
-    @TableGenerator(name = "Content_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Content_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Content_PK_IdGenerator")
+	@TableGenerator(name = "Content_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Content_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    @Lob
-    private byte[] content;
+	@Lob
+	private byte[] content;
 
-    private RecordStatus status;
+	private RecordStatus status;
 
-    private String uuid;
+	private String uuid;
 
-    public Content() {
-    }
+	public Content() {
+	}
 
-    public byte[] getContent() {
-        return this.content;
-    }
+	public byte[] getContent() {
+		return this.content;
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public RecordStatus getStatus() {
-        return this.status;
-    }
+	public RecordStatus getStatus() {
+		return this.status;
+	}
 
-    public String getUuid() {
-        return this.uuid;
-    }
+	public String getUuid() {
+		return this.uuid;
+	}
 
-    public void setContent(final byte[] content) {
-        this.content = content;
-    }
+	public void setContent(final byte[] content) {
+		this.content = content;
+	}
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public void setStatus(final RecordStatus status) {
-        this.status = status;
-    }
+	public void setStatus(final RecordStatus status) {
+		this.status = status;
+	}
 
-    public void setUuid(final String uuid) {
-        this.uuid = uuid;
-    }
+	public void setUuid(final String uuid) {
+		this.uuid = uuid;
+	}
 
 }

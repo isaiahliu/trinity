@@ -80,10 +80,14 @@ public final class EntityCleanupUtil {
 
 			result.add(className);
 
-			final StringBuilder contentBuilder = new StringBuilder();
+			final StringBuilder contentBuilder = new StringBuilder("//Cleaned\r\n");
 			try (final BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 
 				String line = reader.readLine();
+				if (line.startsWith("//Cleaned")) {
+					continue;
+				}
+
 				while (line != null) {
 					contentBuilder.append(line + "\r\n");
 

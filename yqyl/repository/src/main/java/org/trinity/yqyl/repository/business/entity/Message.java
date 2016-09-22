@@ -1,3 +1,4 @@
+//Cleaned
 package org.trinity.yqyl.repository.business.entity;
 
 import java.awt.TrayIcon.MessageType;
@@ -22,78 +23,78 @@ import org.trinity.yqyl.common.message.lookup.MessageStatus;
 @Entity
 @NamedQuery(name = "Message.findAll", query = "SELECT m FROM Message m")
 public class Message extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Message_PK_IdGenerator")
-    @TableGenerator(name = "Message_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Message_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Message_PK_IdGenerator")
+	@TableGenerator(name = "Message_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Message_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private String content;
+	private String content;
 
-    private MessageStatus status;
+	private MessageStatus status;
 
-    private MessageType type;
+	private MessageType type;
 
-    // bi-directional many-to-one association to Announcement
-    @OneToMany(mappedBy = "message")
-    private List<Announcement> announcements;
+	// bi-directional many-to-one association to Announcement
+	@OneToMany(mappedBy = "message")
+	private List<Announcement> announcements;
 
-    public Message() {
-    }
+	public Message() {
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public Announcement addAnnouncement(final Announcement announcement) {
+		getAnnouncements().add(announcement);
+		announcement.setMessage(this);
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+		return announcement;
+	}
 
-    public String getContent() {
-        return this.content;
-    }
+	public List<Announcement> getAnnouncements() {
+		return this.announcements;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public String getContent() {
+		return this.content;
+	}
 
-    public MessageStatus getStatus() {
-        return this.status;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setStatus(MessageStatus status) {
-        this.status = status;
-    }
+	public MessageStatus getStatus() {
+		return this.status;
+	}
 
-    public MessageType getType() {
-        return this.type;
-    }
+	public MessageType getType() {
+		return this.type;
+	}
 
-    public void setType(MessageType type) {
-        this.type = type;
-    }
+	public Announcement removeAnnouncement(final Announcement announcement) {
+		getAnnouncements().remove(announcement);
+		announcement.setMessage(null);
 
-    public List<Announcement> getAnnouncements() {
-        return this.announcements;
-    }
+		return announcement;
+	}
 
-    public void setAnnouncements(List<Announcement> announcements) {
-        this.announcements = announcements;
-    }
+	public void setAnnouncements(final List<Announcement> announcements) {
+		this.announcements = announcements;
+	}
 
-    public Announcement addAnnouncement(Announcement announcement) {
-        getAnnouncements().add(announcement);
-        announcement.setMessage(this);
+	public void setContent(final String content) {
+		this.content = content;
+	}
 
-        return announcement;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public Announcement removeAnnouncement(Announcement announcement) {
-        getAnnouncements().remove(announcement);
-        announcement.setMessage(null);
+	public void setStatus(final MessageStatus status) {
+		this.status = status;
+	}
 
-        return announcement;
-    }
+	public void setType(final MessageType type) {
+		this.type = type;
+	}
 
 }

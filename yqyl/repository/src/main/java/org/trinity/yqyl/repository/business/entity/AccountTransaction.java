@@ -1,3 +1,4 @@
+//Cleaned
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
@@ -24,68 +25,68 @@ import org.trinity.yqyl.common.message.lookup.TransactionCategory;
 @Table(name = "account_transaction")
 @NamedQuery(name = "AccountTransaction.findAll", query = "SELECT a FROM AccountTransaction a")
 public class AccountTransaction extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "AccountTransaction_PK_IdGenerator")
-    @TableGenerator(name = "AccountTransaction_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "AccountTransaction_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "AccountTransaction_PK_IdGenerator")
+	@TableGenerator(name = "AccountTransaction_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "AccountTransaction_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private TransactionCategory category;
+	private TransactionCategory category;
 
-    private RecordStatus status;
+	private RecordStatus status;
 
-    // bi-directional many-to-one association to AccountPosting
-    @OneToMany(mappedBy = "accountTransaction")
-    private List<AccountPosting> accountPostings;
+	// bi-directional many-to-one association to AccountPosting
+	@OneToMany(mappedBy = "accountTransaction")
+	private List<AccountPosting> accountPostings;
 
-    public AccountTransaction() {
-    }
+	public AccountTransaction() {
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public AccountPosting addAccountPosting(final AccountPosting accountPosting) {
+		getAccountPostings().add(accountPosting);
+		accountPosting.setAccountTransaction(this);
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+		return accountPosting;
+	}
 
-    public TransactionCategory getCategory() {
-        return this.category;
-    }
+	public List<AccountPosting> getAccountPostings() {
+		return this.accountPostings;
+	}
 
-    public void setCategory(TransactionCategory category) {
-        this.category = category;
-    }
+	public TransactionCategory getCategory() {
+		return this.category;
+	}
 
-    public RecordStatus getStatus() {
-        return this.status;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setStatus(RecordStatus status) {
-        this.status = status;
-    }
+	public RecordStatus getStatus() {
+		return this.status;
+	}
 
-    public List<AccountPosting> getAccountPostings() {
-        return this.accountPostings;
-    }
+	public AccountPosting removeAccountPosting(final AccountPosting accountPosting) {
+		getAccountPostings().remove(accountPosting);
+		accountPosting.setAccountTransaction(null);
 
-    public void setAccountPostings(List<AccountPosting> accountPostings) {
-        this.accountPostings = accountPostings;
-    }
+		return accountPosting;
+	}
 
-    public AccountPosting addAccountPosting(AccountPosting accountPosting) {
-        getAccountPostings().add(accountPosting);
-        accountPosting.setAccountTransaction(this);
+	public void setAccountPostings(final List<AccountPosting> accountPostings) {
+		this.accountPostings = accountPostings;
+	}
 
-        return accountPosting;
-    }
+	public void setCategory(final TransactionCategory category) {
+		this.category = category;
+	}
 
-    public AccountPosting removeAccountPosting(AccountPosting accountPosting) {
-        getAccountPostings().remove(accountPosting);
-        accountPosting.setAccountTransaction(null);
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-        return accountPosting;
-    }
+	public void setStatus(final RecordStatus status) {
+		this.status = status;
+	}
 
 }
