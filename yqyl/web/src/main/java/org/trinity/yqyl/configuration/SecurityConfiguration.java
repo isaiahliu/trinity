@@ -11,7 +11,7 @@ import org.trinity.yqyl.web.util.SessionFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SessionFilter sessionFilter;
@@ -19,6 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().and().addFilterAfter(sessionFilter, SecurityContextPersistenceFilter.class)
-				.authorizeRequests().anyRequest().permitAll();
+				.authorizeRequests().antMatchers("/static/**").permitAll().and().formLogin().loginPage("/user/login")
+				.defaultSuccessUrl("/home", true);
 	}
 }
