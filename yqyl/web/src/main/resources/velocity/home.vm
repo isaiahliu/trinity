@@ -1,13 +1,5 @@
 <link rel="stylesheet" href="/static/css/business/home.css"></link>
 #title("HOME")
 
-<span>123</span>
-<br/>
-<span>123</span>
-<br/>
-<span>123</span>
-<br/>
-<span>456</span>
-<br/>
 
 <script src="/static/js/business/home.js"></script>

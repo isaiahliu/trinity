@@ -64,6 +64,8 @@ div.header div.right {
 div.navBar {
 	text-align: center;
 	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 30px;
 }
 
 div.navBar a {
@@ -133,7 +135,6 @@ div.footer div.navBar img.QRCode {
 }
 
 button {
-	margin-top: 20px;
 	border: none;
 	background: #0381AA;
 	color: white;

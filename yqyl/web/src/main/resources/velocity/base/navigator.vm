@@ -3,29 +3,29 @@
 		<li class="navBarItem"><a href="/home"><div>
 					<span>#button("HOME")</span>
 				</div></a></li>
-		<li class="navBarItem"><a href="javascript:void()"><div>
+		<li class="navBarItem"><a href="javascript:void(0)"><div>
 					<span>#button("NEWS")</span>
 				</div></a></li>
-		<li class="navBarItem"><a href="javascript:void()"><div>
+		<li class="navBarItem"><a href="javascript:void(0)"><div>
 					<span>#button("COMMONWEAL_ACTIVITY")</span>
 				</div></a></li>
-		<li class="navBarItem"><a href="javascript:void()"><div>
+		<li class="navBarItem"><a href="javascript:void(0)"><div>
 					<span>#button("SENIOR_LIFE")</span>
 				</div></a></li>
-		<li class="navBarItem"><a href="javascript:void()"><div
+		<li class="navBarItem"><a href="javascript:void(0)"><div
 					ng-mouseenter="showHomeEndowment=true"
 					ng-mouseleave="showHomeEndowment=false">
 					<span>#button("HOME_ENDOWMENT")</span>
 				</div></a></li>
-		<li class="navBarItem"><a href="javascript:void()"><div
+		<li class="navBarItem"><a href="javascript:void(0)"><div
 					ng-mouseenter="showPensionIndustry=true"
 					ng-mouseleave="showPensionIndustry=false">
 					<span>#button("PENSION_INDUSTRY")</span>
 				</div></a></li>
-		<li class="navBarItem"><a href="javascript:void()"><div>
+		<li class="navBarItem"><a href="javascript:void(0)"><div>
 					<span>#button("ONLINE_SERVICE")</span>
 				</div></a></li>
-		<li class="navBarItem"><a href="javascript:void()"><div
+		<li class="navBarItem"><a href="javascript:void(0)"><div
 					ng-mouseenter="showTalentTraining=true"
 					ng-mouseleave="showTalentTraining=false">
 					<span>#button("TALENT_TRAINING")</span>
@@ -35,16 +35,16 @@
 	<ul class="popList homeEndowmentPopList ng-hide"
 		ng-mouseenter="showHomeEndowment=true"
 		ng-mouseleave="showHomeEndowment=false" ng-show="showHomeEndowment">
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("HOUSE_KEEPING")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("LIVING_CARE")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("REHABILITATION_NURSING")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("MEDICAL_CARE")</span>
 				</div></a></li>
 	</ul>
@@ -52,35 +52,35 @@
 		ng-mouseenter="showPensionIndustry=true"
 		ng-mouseleave="showPensionIndustry=false"
 		ng-show="showPensionIndustry">
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("PENSION_REAL_ESTATE")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("NURSING_FACILITY")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("ENDOWMENT_INSURANCE")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("TOURISM_ENDOWMENT")</span>
 				</div></a></li>
 	</ul>
 	<ul class="popList talentTrainingPopList ng-hide"
 		ng-mouseenter="showTalentTraining=true"
 		ng-mouseleave="showTalentTraining=false" ng-show="showTalentTraining">
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("TRAINING_PLAN")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("TRAINING_SEARCH")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("ONLINE_TRAINING")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("TRAINING_PUBLISH")</span>
 				</div></a></li>
-		<li><a href="javascript:void()"><div>
+		<li><a href="javascript:void(0)"><div>
 					<span>#button("MY_TRAINING")</span>
 				</div></a></li>
 	</ul>
