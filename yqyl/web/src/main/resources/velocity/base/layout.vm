@@ -7,8 +7,8 @@
 <script src="/static/js/business/base/layout.js"></script>
 <body ng-app="layoutApp">
 	#parse("/velocity/base/header.vm")
-
-	#parse("/velocity/base/advertisement.vm")
+	
+	#parse("/velocity/base/navigator.vm")
 
 	<div class="content">$screen_content</div>
 

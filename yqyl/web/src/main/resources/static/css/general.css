@@ -8,7 +8,33 @@ body {
 
 div.header, div.footer {
 	background: #f5f5f5;
+}
+
+div.header {
+	height: 40px;
+}
+
+div.header span {
+	line-height: 40px;
+}
+
+div.header span.title {
+	font-style: italic;
+	font-size: large;
+	font-weight: bold;
+}
+
+div.header span.city {
+	
+}
+
+div.header img {
 	height: 30px;
+	margin-top: 5px;
+}
+
+div.header li div {
+	height: 40px;
 }
 
 div.footer {
@@ -16,18 +42,12 @@ div.footer {
 	bottom: 0px;
 	text-align: center;
 	width: 100%;
-	bottom: 0px;
+	height: 100px;
+	padding-left: 100px;
+	height: 100px;
 }
 
-div.advertisement {
-	text-align: center;
-}
-
-div.footer div.bar {
-	
-}
-
-div.header div.headerBar, div.content {
+div.header div.headerBar, div.content, div.navBar {
 	margin: 0 auto;
 	width: 1200px;
 }
@@ -38,15 +58,7 @@ div.header div.left {
 
 div.header div.right {
 	float: right;
-}
-
-div.header div.right div.language, div.header div.right div.userinfo {
-	margin-left: 30px;
-	margin-top: 5px;
-}
-
-div.header div.right div.userinfo span {
-	margin-left: 15px;
+	padding-right: 50px;
 }
 
 div.navBar {
@@ -58,12 +70,49 @@ div.navBar a {
 	text-decoration: none;
 }
 
-div.navBar li {
+div.header li, div.navBar li.navBarItem {
 	list-style-type: none;
 	float: left;
+	margin-left: 20px;
 }
 
-div.navBar div.navBarItem {
+div.navBar ul.popList {
+	position: absolute;
+	padding: 0px;
+}
+
+div.navBar ul.homeEndowmentPopList {
+	left: 630px;
+	top: 30px;
+}
+
+div.navBar ul.pensionIndustryPopList {
+	left: 770px;
+	top: 30px;
+}
+
+div.navBar ul.talentTrainingPopList {
+	left: 1050px;
+	top: 30px;
+}
+
+div.navBar ul.popList li {
+	list-style-type: none;
+	margin-top: 7px;
+}
+
+div.navBar li div {
+	background-color: rgba(121, 121, 121, 1);
+	width: 100px;
+	height: 25px;
+}
+
+div.navBar li span {
+	color: #FFFFFF;
+	line-height: 25px;
+}
+
+div.navBar li.navBarItem {
 	width: auto;
 	height: 27px;
 	padding: 5px 10px;
@@ -71,6 +120,16 @@ div.navBar div.navBarItem {
 
 div.navBar div.selected {
 	border-bottom: 1px blue solid;
+}
+
+div.footer div.navBar span {
+	color: black;
+	line-height: 80px;
+}
+
+div.footer div.navBar img.QRCode {
+	height: 90px;
+	width: 90px;
 }
 
 button {
@@ -85,6 +144,7 @@ button {
 
 div.content {
 	text-align: center;
+	min-height: 600;
 }
 
 div.content table {
@@ -94,6 +154,7 @@ div.content table {
 div.content table th, div.content table td {
 	padding: 5px 15px;
 }
+
 div.content table th {
 	border-bottom: 1px solid gray;
 }
