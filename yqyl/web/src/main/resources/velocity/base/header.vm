@@ -1,19 +1,35 @@
 <div class="header" ng-controller="headerController">
 	<div class="headerBar">
 		<div class="left">
-			<a href="/home"><img src="/static/images/logo/yqyl.png"
-				alt="YQYL" /></a>
+			<ul>
+				<li><div>
+						<img src="/static/images/logo/yqyl.png" alt="YQYL" />
+					</div></li>
+				<li><div>
+						<span class="title">#label("PRODUCT")</span>
+					</div></li>
+				<li><div>
+						<span class="city">泰安市</span>
+					</div></li>
+			</ul>
+
 		</div>
 		<div class="right">
-			#if(${authentication})
-			<div class="userinfo">
-				#if(${authentication.token.authenticated}) <span>#label("WELCOME"),
-					${authentication.token.username}</span> <span><a
-					href="/user/userinfo">#label("USER_CENTER")</a></span> <span><a
-					href="javascript:void(0)" ng-click="logout()">#label("LOGOUT")</a></span>
-				#else <a href="/user/login">#label("LOGIN")</a> #end
-			</div>
-			#end
+			<ul>
+				#if(${authentication}) #if(${authentication.token.authenticated})
+				<li><div>
+						<span>#label("WELCOME"), ${authentication.token.username}</span>
+					</div></li>
+				<li><div>
+						<span><a href="/user/userinfo">#label("USER_CENTER")</a></span>
+					</div></li>
+				<li><div>
+						<span><a href="javascript:void(0)" ng-click="logout()">#label("LOGOUT")</a></span>
+					</div></li> #else
+				<li><div>
+						<a href="/user/login"><span> #label("LOGIN")</span></a>
+					</div></li> #end #end
+			</ul>
 		</div>
 	</div>
 </div>

@@ -8,14 +8,14 @@ import org.trinity.common.exception.IException;
 @RestController
 @RequestMapping
 public class HomeWebController extends AbstractResourceWebController {
-	@RequestMapping("")
-	public ModelAndView defaultPage() throws IException {
-		return createModelAndView("redirect:home");
-	}
+    @RequestMapping("")
+    public ModelAndView defaultPage() throws IException {
+        return createModelAndView("redirect:home");
+    }
 
-	@RequestMapping("/home")
-	public ModelAndView home() throws IException {
-		return createModelAndView("home");
-	}
+    @RequestMapping("/home")
+    public ModelAndView home() throws IException {
+        return createModelAndView("home");
+    }
 
 }
