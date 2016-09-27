@@ -21,13 +21,13 @@
 						<span>#label("WELCOME"), ${authentication.token.username}</span>
 					</div></li>
 				<li><div>
-						<span><a href="/user/userinfo">#label("USER_CENTER")</a></span>
+						<span><a href="/user">#label("USER_CENTER")</a></span>
 					</div></li>
 				<li><div>
 						<span><a href="javascript:void(0)" ng-click="logout()">#label("LOGOUT")</a></span>
 					</div></li> #else
 				<li><div>
-						<a href="/user/login"><span> #button("LOGIN")</span></a>
+						<a href="/login"><span> #button("LOGIN")</span></a>
 					</div></li> #end #end
 			</ul>
 		</div>

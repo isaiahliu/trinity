@@ -1,6 +1,7 @@
 package org.trinity.yqyl.web.controller.page;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.trinity.common.exception.IException;
@@ -13,9 +14,13 @@ public class HomeWebController extends AbstractResourceWebController {
         return createModelAndView("redirect:home");
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView getLoginPage() throws IException {
+        return createModelAndView("user/login");
+    }
+
     @RequestMapping("/home")
     public ModelAndView home() throws IException {
         return createModelAndView("home");
     }
-
 }
