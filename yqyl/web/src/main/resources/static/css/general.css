@@ -170,3 +170,35 @@ div.content textarea {
 	height: 200px;
 	width: 400px;
 }
+
+div.subNavBar {
+	float: left;
+	position: absolute;
+	left: 100px;
+	width: 180px;
+}
+
+div.subNavBar ul {
+	padding-left: 0px;
+	background-color: rgba(215, 215, 215, 1);
+	width: 180px;
+	padding: 20px 20px 10px 20px;
+	border: solid 1px;
+}
+
+div.subNavBar li {
+	list-style-type: none;
+	margin-bottom: 10px;
+}
+
+div.subNavBar li div.navBarItem {
+	background-color: white;
+	width: 140px;
+	border: solid 1px;
+	height: 35px;
+}
+
+div.subNavBar li div span {
+	line-height: 35px;
+	color: black;
+}

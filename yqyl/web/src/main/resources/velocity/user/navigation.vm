@@ -1,9 +1,36 @@
-<div class="navBar">
+<div class="navBar subNavBar">
 	<ul>
-		<li><div class="navBarItem #if($currentPage=='USERINFO')selected #end"><a href="/user/userinfo">#button("USER_INFO")</a></div></li>
-		<li><div class="navBarItem #if($currentPage=='ACCOUNT')selected #end"><a href="/user/account">#button("USER_ACCOUNT")</a></div></li>
-		<li><div class="navBarItem #if($currentPage=='SUPPLIER')selected #end"><a href="/user/supplier">#button("USER_SUPPLIER")</a></div></li>
-		<li><div class="navBarItem #if($currentPage=='RECEIVER')selected #end"><a href="/user/receiver">#button("USER_RECEIVER")</a></div></li>
-		<li><div class="navBarItem #if($currentPage=='PASSWORD')selected #end"><a href="/user/password">#button("USER_PASSWORD_CHANGE")</a></div></li>
+		<li><a href="/user/order"><div
+					class="navBarItem #if($currentPage=='ORDER')selected #end">
+					<span>#button("MY_ORDER")</span>
+				</div></a></li>
+		<li><a href="/user/userinfo"><div
+					class="navBarItem #if($currentPage=='USERINFO')selected #end">
+					<span>#button("USER_INFO")</span>
+				</div></a></li>
+		<li><a href="/user/family"><div
+					class="navBarItem #if($currentPage=='FAMILY')selected #end">
+					<span>#button("FAMILY_INFO")</span>
+				</div></a></li>
+		<li><a href="/user/health"><div
+					class="navBarItem #if($currentPage=='HEALTH')selected #end">
+					<span>#button("HEALTH_STATUS")</span>
+				</div></a></li>
+		<li><a href="/user/realname"><div
+					class="navBarItem #if($currentPage=='REALNAME')selected #end">
+					<span>#button("REALNAME_VERIFY")</span>
+				</div></a></li>
+		<li><a href="/user/password"><div
+					class="navBarItem #if($currentPage=='PASSWORD')selected #end">
+					<span>#button("USER_PASSWORD_CHANGE")</span>
+				</div></a></li>
+		<li><a href="/user/yiquan"><div
+					class="navBarItem #if($currentPage=='YIQUAN')selected #end">
+					<span>#button("MY_YIQUAN")</span>
+				</div></a></li>
+		<li><a href="/user/volunteer"><div
+					class="navBarItem #if($currentPage=='ALLOWANCE_SUPPLIER_VERIFY')selected #end">
+					<span>#button("ALLOWANCE_SUPPLIER_VERIFY")</span>
+				</div></a></li>
 	</ul>
 </div>
