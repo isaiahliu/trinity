@@ -1,4 +1,19 @@
-#set($currentPage="ACCOUNT")
 #parse("/velocity/user/navigation.vm")
 
-<div>account</div>
+<link rel="stylesheet" href="/static/css/business/user/order.css"></link>
+
+<div class="order" ng-controller="orderController">
+	<table class="tab">
+		<tr>
+			<td align="center"><span>#button("UNPROCESSED_ORDER")</span></td>
+			<td align="center"><span>#button("PROCESSING_ORDER")</span></td>
+			<td align="center"><span>#button("PROCESSED_ORDER")</span></td>
+		</tr>
+	</table>
+	.
+	<ul class="result">
+		<li>1</li>
+	</ul>
+</div>
+
+<script src="/static/js/business/user/order.js"></script>

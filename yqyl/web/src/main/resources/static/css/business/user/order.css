@@ -1,0 +1,24 @@
+div.content {
+	padding-left: 300px;
+}
+
+div.order table {
+	width: 840px;
+}
+
+div.order table.tab td {
+	height: 50px;
+	width: 280px;
+	border: solid 1px;
+	width: 280px;
+}
+
+div.order ul.result {
+	padding-left: 0px;
+}
+
+div.order ul.result li {
+	border: solid 1px;
+	width: 840px;
+	list-style-type: none;
+}

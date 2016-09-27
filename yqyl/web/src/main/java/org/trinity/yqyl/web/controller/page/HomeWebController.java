@@ -16,7 +16,7 @@ public class HomeWebController extends AbstractResourceWebController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView getLoginPage() throws IException {
-        return createModelAndView("user/login");
+        return createModelAndView("login");
     }
 
     @RequestMapping("/home")

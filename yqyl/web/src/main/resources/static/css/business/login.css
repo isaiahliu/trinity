@@ -71,3 +71,7 @@ div.login button.btn-qq, div.login button.btn-wechat, div.login button.btn-psw
 div.login button.btn-qq {
 	margin-left: 28px;
 }
+
+div.content table {
+	margin: auto;
+}

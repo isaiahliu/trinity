@@ -26,6 +26,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests().and().addFilterAfter(sessionFilter, SecurityContextPersistenceFilter.class)
-                .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests().antMatchers("/user/**").authenticated().anyRequest().permitAll();
     }
 }

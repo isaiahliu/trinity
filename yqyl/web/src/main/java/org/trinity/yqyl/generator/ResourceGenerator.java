@@ -18,9 +18,9 @@ public class ResourceGenerator {
         synchronizeFolder(vmFolder, cssFolder, ".css");
     }
 
-    public static void main(final String[] args) throws IOException {
-        generate();
-    }
+    // public static void main(final String[] args) throws IOException {
+    // generate();
+    // }
 
     public static void synchronizeFolder(final File vmFolder, final File targetFolder, final String extension) throws IOException {
         if (!targetFolder.exists()) {

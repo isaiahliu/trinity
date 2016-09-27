@@ -1,4 +1,7 @@
-#set($currentPage="ACCOUNT")
 #parse("/velocity/user/navigation.vm")
 
-<div>account</div>
+<link rel="stylesheet" href="/static/css/business/user/yiquan.css"></link>
+
+<div>yiquan</div>
+
+<script src="/static/js/business/user/yiquan.js"></script>
