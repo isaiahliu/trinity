@@ -46,7 +46,7 @@ layoutApp.controller('loginController', function($scope, $http, $window) {
 			url : "/ajax/user/register",
 			data : $scope.registerData
 		}).success(function(response) {
-			$window.location.href = "/user/login";
+			$window.location.href = "/login";
 		}).error(function(response) {
 		});
 	};

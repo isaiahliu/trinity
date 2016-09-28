@@ -17,6 +17,11 @@ public enum Url implements IHttpUrl {
 	USER_INFO(HttpMethod.PUT, Path.USER),
 	USER_CHANGE_PASSWORD(HttpMethod.PUT, Path.USER, "password"),
 
+	ORDER(HttpMethod.GET, Path.ORDER),
+	ORDER_UNPROCESSED(HttpMethod.GET, Path.ORDER, "unprocessed"),
+	ORDER_PROCESSING(HttpMethod.GET, Path.ORDER, "processing"),
+	ORDER_PROCESSED(HttpMethod.GET, Path.ORDER, "processed"),
+
 	SUPPLIER(HttpMethod.GET, Path.SUPPLIER),
 	SUPPLIER_AUDIT(HttpMethod.PUT, Path.SUPPLIER, "audit"),
 	SUPPLIER_ME(HttpMethod.GET, Path.SUPPLIER, "me"),
@@ -44,8 +49,10 @@ public enum Url implements IHttpUrl {
 	private static enum Path implements IUrl {
 		SECURITY("security"),
 		TOKEN(SECURITY, "token"),
-		USER(SECURITY, "user"),
 		AUTHORITIES(SECURITY, "authorities"),
+
+		USER("user"),
+		ORDER(USER, "order"),
 
 		CLIENT("client"),
 		SUPPLIER(CLIENT, "supplier"),

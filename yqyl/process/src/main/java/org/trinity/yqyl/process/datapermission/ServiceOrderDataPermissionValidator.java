@@ -2,13 +2,13 @@ package org.trinity.yqyl.process.datapermission;
 
 import org.springframework.stereotype.Component;
 import org.trinity.common.exception.IException;
-import org.trinity.yqyl.repository.business.entity.Order;
+import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 
 @Component
-public class OrderDataPermissionValidator extends AbstractDataPermissionValidator<Order> {
+public class ServiceOrderDataPermissionValidator extends AbstractDataPermissionValidator<ServiceOrder> {
 	@Override
-	public Class<Order> getEntityType() {
-		return Order.class;
+	public Class<ServiceOrder> getEntityType() {
+		return ServiceOrder.class;
 	}
 
 	@Override

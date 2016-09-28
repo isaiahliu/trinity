@@ -3,8 +3,10 @@ package org.trinity.yqyl.common.message.lookup;
 import org.trinity.message.ILookupMessage;
 
 public enum OrderStatus implements ILookupMessage<LookupType> {
-    ACTIVE("A"),
-    YIQUAN("Y");
+    UNPROCESSED("U"),
+    IN_PROGRESS("I"),
+    AWAITING_PAYMENT("A"),
+    SETTLED("S");
 
     private final String messageCode;
 

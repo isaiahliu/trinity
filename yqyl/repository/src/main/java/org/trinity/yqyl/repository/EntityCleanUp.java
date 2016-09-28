@@ -72,7 +72,7 @@ public class EntityCleanUp {
 
 		userTypes = new ArrayList<>();
 		userTypes.add(new Tuple2<String, String>("status", "OrderStatus"));
-		userTypeMapping.put("Order", userTypes);
+		userTypeMapping.put("ServiceOrder", userTypes);
 
 		userTypes = new ArrayList<>();
 		userTypes.add(new Tuple2<String, String>("status", "RecordStatus"));

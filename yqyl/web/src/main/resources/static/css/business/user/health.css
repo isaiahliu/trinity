@@ -1,7 +1,7 @@
-div.content {
-	padding-left: 300px;
+div.health {
+	margin-left: 300px;
 }
 
 div.content table {
-	margin-left: 100px;
+	width: 840px;
 }

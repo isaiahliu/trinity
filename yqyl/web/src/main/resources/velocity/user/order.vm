@@ -31,7 +31,7 @@
 			ng-model="unprocessedOrderPaging.pageIndex" max-size="10"
 			items-per-page="unprocessedOrderPaging.pageSize"
 			class="pagination-sm" boundary-links="true"
-			ng-change="unprocessedOrderPageChanged()"
+			ng-change="populateUnprocessedOrders()"
 			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
 			previous-text='#label("PREVIOUS_PAGE")'
 			next-text='#label("NEXT_PAGE")'></pagination>
@@ -43,7 +43,7 @@
 		<pagination total-items="processingOrderPaging.itemCount"
 			ng-model="processingOrderPaging.pageIndex" max-size="10"
 			items-per-page="processingOrderPaging.pageSize" class="pagination-sm"
-			boundary-links="true" ng-change="processingOrderPageChanged()"
+			boundary-links="true" ng-change="populateProcessingOrders()"
 			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
 			previous-text='#label("PREVIOUS_PAGE")'
 			next-text='#label("NEXT_PAGE")'></pagination>
@@ -55,7 +55,7 @@
 		<pagination total-items="processedOrderPaging.itemCount"
 			ng-model="processedOrderPaging.pageIndex" max-size="10"
 			items-per-page="processedOrderPaging.pageSize" class="pagination-sm"
-			boundary-links="true" ng-change="processedOrderPageChanged()"
+			boundary-links="true" ng-change="populateProcessedOrders()"
 			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
 			previous-text='#label("PREVIOUS_PAGE")'
 			next-text='#label("NEXT_PAGE")'></pagination>

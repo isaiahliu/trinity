@@ -20,35 +20,35 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.process.controller.base.IUserProcessController;
 
 @RestController
-@RequestMapping("/security/user")
+@RequestMapping("/user")
 public class UserRestController
-        extends AbstractApplicationAwareCrudRestController<UserDto, UserSearchingDto, IUserProcessController, UserRequest, UserResponse> {
-    @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
+		extends AbstractApplicationAwareCrudRestController<UserDto, UserSearchingDto, IUserProcessController, UserRequest, UserResponse> {
+	@Autowired
+	private ISecurityUtil<AccessRight> securityUtil;
 
-    @RequestMapping(value = "/password", method = RequestMethod.PUT)
-    public @ResponseBody ResponseEntity<DefaultResponse> changePassword(@RequestBody final ChangePasswordRequest request)
-            throws IException {
-        getDomainProcessController().changePassword(request.getId(), request.getOldPassword(), request.getNewPassword());
+	@RequestMapping(value = "/password", method = RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<DefaultResponse> changePassword(@RequestBody final ChangePasswordRequest request)
+			throws IException {
+		getDomainProcessController().changePassword(request.getId(), request.getOldPassword(), request.getNewPassword());
 
-        return createResponseEntity(new DefaultResponse());
-    }
+		return createResponseEntity(new DefaultResponse());
+	}
 
-    @Override
-    protected UserResponse createResponseInstance() {
-        return new UserResponse();
-    }
+	@Override
+	protected UserResponse createResponseInstance() {
+		return new UserResponse();
+	}
 
-    @Override
-    protected void validateAdd() throws IException {
-        super.validateAdd();
+	@Override
+	protected void validateAdd() throws IException {
+		super.validateAdd();
 
-        securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR);
-    }
+		securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR);
+	}
 
-    @Override
-    protected void validateDelete() throws IException {
-        super.validateDelete();
-        securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR);
-    }
+	@Override
+	protected void validateDelete() throws IException {
+		super.validateDelete();
+		securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR);
+	}
 }

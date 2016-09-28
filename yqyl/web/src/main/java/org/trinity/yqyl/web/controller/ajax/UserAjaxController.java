@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.dto.IResponse;
 import org.trinity.common.dto.response.AbstractResponse;
 import org.trinity.common.dto.response.DefaultResponse;
@@ -23,6 +24,7 @@ import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
 import org.trinity.yqyl.common.message.dto.domain.ContentDto;
 import org.trinity.yqyl.common.message.dto.domain.LookupDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.dto.domain.SecurityDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.dto.request.AuthenticateRequest;
@@ -33,11 +35,13 @@ import org.trinity.yqyl.common.message.dto.request.ServiceSupplierClientRequest;
 import org.trinity.yqyl.common.message.dto.request.TokenRequest;
 import org.trinity.yqyl.common.message.dto.request.UserRequest;
 import org.trinity.yqyl.common.message.dto.response.ContentResponse;
+import org.trinity.yqyl.common.message.dto.response.OrderResponse;
 import org.trinity.yqyl.common.message.dto.response.SecurityResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientResponse;
 import org.trinity.yqyl.common.message.dto.response.TokenResponse;
 import org.trinity.yqyl.common.message.dto.response.UserResponse;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.web.util.SessionFilter;
 import org.trinity.yqyl.web.util.Url;
@@ -49,6 +53,9 @@ public class UserAjaxController extends AbstractRestController {
 	private static final String LICENSE_COPY = "license";
 
 	private static final String IDENTITY_COPY = "identity";
+
+	@Autowired
+	private ISecurityUtil<AccessRight> securityUtil;
 
 	@Autowired
 	private IRestfulServiceUtil restfulServiceUtil;
@@ -105,6 +112,33 @@ public class UserAjaxController extends AbstractRestController {
 	public ResponseEntity<DefaultResponse> ajaxDeleteUserinfo(@PathVariable("id") final Long id) throws IException {
 		final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_CANCEL_PROPOSAL, String.valueOf(id), null, null,
 				DefaultResponse.class);
+
+		return createResponseEntity(response);
+	}
+
+	@RequestMapping(value = "/order/processed", method = RequestMethod.GET)
+	public ResponseEntity<OrderResponse> ajaxGetProcessedOrders(final ServiceOrderSearchingDto request) throws IException {
+		request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());
+
+		final OrderResponse response = restfulServiceUtil.callRestService(Url.ORDER_PROCESSED, null, null, request, OrderResponse.class);
+
+		return createResponseEntity(response);
+	}
+
+	@RequestMapping(value = "/order/processing", method = RequestMethod.GET)
+	public ResponseEntity<OrderResponse> ajaxGetProcessingOrders(final ServiceOrderSearchingDto request) throws IException {
+		request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());
+
+		final OrderResponse response = restfulServiceUtil.callRestService(Url.ORDER_PROCESSING, null, null, request, OrderResponse.class);
+
+		return createResponseEntity(response);
+	}
+
+	@RequestMapping(value = "/order/unprocessed", method = RequestMethod.GET)
+	public ResponseEntity<OrderResponse> ajaxGetUnprocessedOrders(final ServiceOrderSearchingDto request) throws IException {
+		request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());
+
+		final OrderResponse response = restfulServiceUtil.callRestService(Url.ORDER_UNPROCESSED, null, null, request, OrderResponse.class);
 
 		return createResponseEntity(response);
 	}
@@ -227,4 +261,5 @@ public class UserAjaxController extends AbstractRestController {
 
 		return createResponseEntity(response);
 	}
+
 }
