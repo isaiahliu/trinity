@@ -21,87 +21,84 @@ import org.trinity.yqyl.common.message.lookup.OrderStatus;
 
 /**
  * The persistent class for the order database table.
- * 
+ *
  */
 @Entity
 @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
 public class Order extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Order_PK_IdGenerator")
-	@TableGenerator(name = "Order_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Order_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Order_PK_IdGenerator")
+    @TableGenerator(name = "Order_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Order_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	private BigDecimal price;
+    private BigDecimal price;
 
-	private OrderStatus status;
+    private OrderStatus status;
+    // bi-directional many-to-one association to Service
+    @ManyToOne
+    private Service service;
 
-	// bi-directional many-to-one association to ServiceReceiverClient
-	@ManyToOne
-	@JoinColumn(name = "service_receiver_client_id")
-	private ServiceReceiverClient serviceReceiverClient;
+    // bi-directional many-to-one association to User
+    @ManyToOne
+    private User user;
 
-	// bi-directional many-to-one association to ServiceSupplierClient
-	@ManyToOne
-	@JoinColumn(name = "service_supplier_client_id")
-	private ServiceSupplierClient serviceSupplierClient;
+    // bi-directional many-to-many association to Service
+    @ManyToMany
+    @JoinTable(name = "order_service", joinColumns = { @JoinColumn(name = "order_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "service_id") })
+    private List<Service> services;
 
-	// bi-directional many-to-many association to Service
-	@ManyToMany
-	@JoinTable(name = "order_service", joinColumns = { @JoinColumn(name = "order_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "service_id") })
-	private List<Service> services;
+    public Order() {
+    }
 
-	public Order() {
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public BigDecimal getPrice() {
+        return this.price;
+    }
 
-	public BigDecimal getPrice() {
-		return this.price;
-	}
+    public Service getService() {
+        return this.service;
+    }
 
-	public ServiceReceiverClient getServiceReceiverClient() {
-		return this.serviceReceiverClient;
-	}
+    public List<Service> getServices() {
+        return this.services;
+    }
 
-	public List<Service> getServices() {
-		return this.services;
-	}
+    public OrderStatus getStatus() {
+        return this.status;
+    }
 
-	public ServiceSupplierClient getServiceSupplierClient() {
-		return this.serviceSupplierClient;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public OrderStatus getStatus() {
-		return this.status;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public void setPrice(final BigDecimal price) {
+        this.price = price;
+    }
 
-	public void setPrice(final BigDecimal price) {
-		this.price = price;
-	}
+    public void setService(final Service service) {
+        this.service = service;
+    }
 
-	public void setServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
-		this.serviceReceiverClient = serviceReceiverClient;
-	}
+    public void setServices(final List<Service> services) {
+        this.services = services;
+    }
 
-	public void setServices(final List<Service> services) {
-		this.services = services;
-	}
+    public void setStatus(final OrderStatus status) {
+        this.status = status;
+    }
 
-	public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-		this.serviceSupplierClient = serviceSupplierClient;
-	}
-
-	public void setStatus(final OrderStatus status) {
-		this.status = status;
-	}
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
 }

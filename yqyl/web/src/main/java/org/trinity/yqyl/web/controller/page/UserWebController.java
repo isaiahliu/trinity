@@ -20,7 +20,7 @@ public class UserWebController extends AbstractResourceWebController {
         return createModelAndView("user/health");
     }
 
-    @RequestMapping(value = "/order", method = RequestMethod.GET)
+    @RequestMapping(value = { "", "/order" }, method = RequestMethod.GET)
     public ModelAndView orderPage() throws IException {
         return createModelAndView("user/order");
     }
@@ -35,7 +35,7 @@ public class UserWebController extends AbstractResourceWebController {
         return createModelAndView("user/realname");
     }
 
-    @RequestMapping(value = { "", "/userinfo" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
     public ModelAndView userinfoPage() throws IException {
         return createModelAndView("user/userinfo");
     }

@@ -27,333 +27,307 @@ import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 
 /**
  * The persistent class for the service_receiver_client database table.
- * 
+ *
  */
 @Entity
 @Table(name = "service_receiver_client")
 @NamedQuery(name = "ServiceReceiverClient.findAll", query = "SELECT s FROM ServiceReceiverClient s")
 public class ServiceReceiverClient extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceReceiverClient_PK_IdGenerator")
-	@TableGenerator(name = "ServiceReceiverClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceReceiverClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceReceiverClient_PK_IdGenerator")
+    @TableGenerator(name = "ServiceReceiverClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceReceiverClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	private String address;
+    private String address;
 
-	private String category;
+    private String category;
 
-	@Column(name = "cellphone_no")
-	private String cellphoneNo;
+    @Column(name = "cellphone_no")
+    private String cellphoneNo;
 
-	private String comment;
+    private String comment;
 
-	private String community;
+    private String community;
 
-	@Temporal(TemporalType.DATE)
-	private Date dob;
+    @Temporal(TemporalType.DATE)
+    private Date dob;
 
-	private String email;
+    private String email;
 
-	private Gender gender;
+    private Gender gender;
 
-	@Column(name = "homephone_no")
-	private String homephoneNo;
+    @Column(name = "homephone_no")
+    private String homephoneNo;
 
-	@Column(name = "identity_card")
-	private String identityCard;
+    @Column(name = "identity_card")
+    private String identityCard;
 
-	@Column(name = "medical_insurance_status")
-	private String medicalInsuranceStatus;
+    @Column(name = "medical_insurance_status")
+    private String medicalInsuranceStatus;
 
-	private String name;
+    private String name;
 
-	private ServiceReceiverClientStatus status;
+    private ServiceReceiverClientStatus status;
 
-	private PersonalType type;
+    private PersonalType type;
 
-	@Column(name = "video_id")
-	private String videoId;
+    @Column(name = "video_id")
+    private String videoId;
 
-	@Column(name = "videophone_no")
-	private String videophoneNo;
+    @Column(name = "videophone_no")
+    private String videophoneNo;
 
-	@Column(name = "yijin_code")
-	private String yijinCode;
+    @Column(name = "yijin_code")
+    private String yijinCode;
 
-	// uni-directional many-to-one association to ServiceReceiverClient
-	@ManyToOne
-	@JoinColumn(name = "spouse_client_id")
-	private ServiceReceiverClient spouse;
+    // uni-directional many-to-one association to ServiceReceiverClient
+    @ManyToOne
+    @JoinColumn(name = "spouse_client_id")
+    private ServiceReceiverClient spouse;
 
-	// bi-directional one-to-one association to
-	// ServiceReceiverClientHealthIndicator
-	@OneToOne(mappedBy = "serviceReceiverClient")
-	private ServiceReceiverClientHealthIndicator healthIndicator;
+    // bi-directional one-to-one association to
+    // ServiceReceiverClientHealthIndicator
+    @OneToOne(mappedBy = "serviceReceiverClient")
+    private ServiceReceiverClientHealthIndicator healthIndicator;
 
-	// bi-directional one-to-one association to
-	// ServiceReceiverClientHealthInformation
-	@OneToOne(mappedBy = "serviceReceiverClient")
-	private ServiceReceiverClientHealthInformation healthInformation;
+    // bi-directional one-to-one association to
+    // ServiceReceiverClientHealthInformation
+    @OneToOne(mappedBy = "serviceReceiverClient")
+    private ServiceReceiverClientHealthInformation healthInformation;
 
-	// bi-directional one-to-one association to ServiceReceiverClientInterest
-	@OneToOne(mappedBy = "serviceReceiverClient")
-	private ServiceReceiverClientInterest interest;
+    // bi-directional one-to-one association to ServiceReceiverClientInterest
+    @OneToOne(mappedBy = "serviceReceiverClient")
+    private ServiceReceiverClientInterest interest;
 
-	// bi-directional one-to-one association to ServiceReceiverClientOther
-	@OneToOne(mappedBy = "serviceReceiverClient")
-	private ServiceReceiverClientOther other;
+    // bi-directional one-to-one association to ServiceReceiverClientOther
+    @OneToOne(mappedBy = "serviceReceiverClient")
+    private ServiceReceiverClientOther other;
 
-	// bi-directional many-to-one association to Favorite
-	@OneToMany(mappedBy = "serviceReceiverClient")
-	private List<Favorite> favorites;
+    // bi-directional many-to-one association to Favorite
+    @OneToMany(mappedBy = "serviceReceiverClient")
+    private List<Favorite> favorites;
 
-	// bi-directional many-to-one association to Order
-	@OneToMany(mappedBy = "serviceReceiverClient")
-	private List<Order> orders;
+    // bi-directional many-to-one association to User
+    @ManyToOne
+    private User user;
 
-	// bi-directional many-to-one association to User
-	@ManyToOne
-	private User user;
+    public ServiceReceiverClient() {
+    }
 
-	public ServiceReceiverClient() {
-	}
+    public Favorite addFavorite(final Favorite favorite) {
+        getFavorites().add(favorite);
+        favorite.setServiceReceiverClient(this);
 
-	public Favorite addFavorite(final Favorite favorite) {
-		getFavorites().add(favorite);
-		favorite.setServiceReceiverClient(this);
+        return favorite;
+    }
 
-		return favorite;
-	}
+    public String getAddress() {
+        return this.address;
+    }
 
-	public Order addOrder(final Order order) {
-		getOrders().add(order);
-		order.setServiceReceiverClient(this);
+    public String getCategory() {
+        return this.category;
+    }
 
-		return order;
-	}
+    public String getCellphoneNo() {
+        return this.cellphoneNo;
+    }
 
-	public String getAddress() {
-		return this.address;
-	}
+    public String getComment() {
+        return this.comment;
+    }
 
-	public String getCategory() {
-		return this.category;
-	}
+    public String getCommunity() {
+        return this.community;
+    }
 
-	public String getCellphoneNo() {
-		return this.cellphoneNo;
-	}
+    public Date getDob() {
+        return this.dob;
+    }
 
-	public String getComment() {
-		return this.comment;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
-	public String getCommunity() {
-		return this.community;
-	}
+    public List<Favorite> getFavorites() {
+        return this.favorites;
+    }
 
-	public Date getDob() {
-		return this.dob;
-	}
+    public Gender getGender() {
+        return this.gender;
+    }
 
-	public String getEmail() {
-		return this.email;
-	}
+    public ServiceReceiverClientHealthIndicator getHealthIndicator() {
+        return this.healthIndicator;
+    }
 
-	public List<Favorite> getFavorites() {
-		return this.favorites;
-	}
+    public ServiceReceiverClientHealthInformation getHealthInformation() {
+        return this.healthInformation;
+    }
 
-	public Gender getGender() {
-		return this.gender;
-	}
+    public String getHomephoneNo() {
+        return this.homephoneNo;
+    }
 
-	public ServiceReceiverClientHealthIndicator getHealthIndicator() {
-		return this.healthIndicator;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public ServiceReceiverClientHealthInformation getHealthInformation() {
-		return this.healthInformation;
-	}
+    public String getIdentityCard() {
+        return this.identityCard;
+    }
 
-	public String getHomephoneNo() {
-		return this.homephoneNo;
-	}
+    public ServiceReceiverClientInterest getInterest() {
+        return this.interest;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public String getMedicalInsuranceStatus() {
+        return this.medicalInsuranceStatus;
+    }
 
-	public String getIdentityCard() {
-		return this.identityCard;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public ServiceReceiverClientInterest getInterest() {
-		return this.interest;
-	}
+    public ServiceReceiverClientOther getOther() {
+        return this.other;
+    }
 
-	public String getMedicalInsuranceStatus() {
-		return this.medicalInsuranceStatus;
-	}
+    public ServiceReceiverClient getSpouse() {
+        return this.spouse;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public ServiceReceiverClientStatus getStatus() {
+        return this.status;
+    }
 
-	public List<Order> getOrders() {
-		return this.orders;
-	}
+    public PersonalType getType() {
+        return this.type;
+    }
 
-	public ServiceReceiverClientOther getOther() {
-		return this.other;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public ServiceReceiverClient getSpouse() {
-		return this.spouse;
-	}
+    public String getVideoId() {
+        return this.videoId;
+    }
 
-	public ServiceReceiverClientStatus getStatus() {
-		return this.status;
-	}
+    public String getVideophoneNo() {
+        return this.videophoneNo;
+    }
 
-	public PersonalType getType() {
-		return this.type;
-	}
+    public String getYijinCode() {
+        return this.yijinCode;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public Favorite removeFavorite(final Favorite favorite) {
+        getFavorites().remove(favorite);
+        favorite.setServiceReceiverClient(null);
 
-	public String getVideoId() {
-		return this.videoId;
-	}
+        return favorite;
+    }
 
-	public String getVideophoneNo() {
-		return this.videophoneNo;
-	}
+    public void setAddress(final String address) {
+        this.address = address;
+    }
 
-	public String getYijinCode() {
-		return this.yijinCode;
-	}
+    public void setCategory(final String category) {
+        this.category = category;
+    }
 
-	public Favorite removeFavorite(final Favorite favorite) {
-		getFavorites().remove(favorite);
-		favorite.setServiceReceiverClient(null);
+    public void setCellphoneNo(final String cellphoneNo) {
+        this.cellphoneNo = cellphoneNo;
+    }
 
-		return favorite;
-	}
+    public void setComment(final String comment) {
+        this.comment = comment;
+    }
 
-	public Order removeOrder(final Order order) {
-		getOrders().remove(order);
-		order.setServiceReceiverClient(null);
+    public void setCommunity(final String community) {
+        this.community = community;
+    }
 
-		return order;
-	}
+    public void setDob(final Date dob) {
+        this.dob = dob;
+    }
 
-	public void setAddress(final String address) {
-		this.address = address;
-	}
+    public void setEmail(final String email) {
+        this.email = email;
+    }
 
-	public void setCategory(final String category) {
-		this.category = category;
-	}
+    public void setFavorites(final List<Favorite> favorites) {
+        this.favorites = favorites;
+    }
 
-	public void setCellphoneNo(final String cellphoneNo) {
-		this.cellphoneNo = cellphoneNo;
-	}
+    public void setGender(final Gender gender) {
+        this.gender = gender;
+    }
 
-	public void setComment(final String comment) {
-		this.comment = comment;
-	}
+    public void setHealthIndicator(final ServiceReceiverClientHealthIndicator healthIndicator) {
+        this.healthIndicator = healthIndicator;
+    }
 
-	public void setCommunity(final String community) {
-		this.community = community;
-	}
+    public void setHealthInformation(final ServiceReceiverClientHealthInformation healthInformation) {
+        this.healthInformation = healthInformation;
+    }
 
-	public void setDob(final Date dob) {
-		this.dob = dob;
-	}
+    public void setHomephoneNo(final String homephoneNo) {
+        this.homephoneNo = homephoneNo;
+    }
 
-	public void setEmail(final String email) {
-		this.email = email;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void setFavorites(final List<Favorite> favorites) {
-		this.favorites = favorites;
-	}
+    public void setIdentityCard(final String identityCard) {
+        this.identityCard = identityCard;
+    }
 
-	public void setGender(final Gender gender) {
-		this.gender = gender;
-	}
+    public void setInterest(final ServiceReceiverClientInterest interest) {
+        this.interest = interest;
+    }
 
-	public void setHealthIndicator(final ServiceReceiverClientHealthIndicator healthIndicator) {
-		this.healthIndicator = healthIndicator;
-	}
+    public void setMedicalInsuranceStatus(final String medicalInsuranceStatus) {
+        this.medicalInsuranceStatus = medicalInsuranceStatus;
+    }
 
-	public void setHealthInformation(final ServiceReceiverClientHealthInformation healthInformation) {
-		this.healthInformation = healthInformation;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public void setHomephoneNo(final String homephoneNo) {
-		this.homephoneNo = homephoneNo;
-	}
+    public void setOther(final ServiceReceiverClientOther other) {
+        this.other = other;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public void setSpouse(final ServiceReceiverClient spouse) {
+        this.spouse = spouse;
+    }
 
-	public void setIdentityCard(final String identityCard) {
-		this.identityCard = identityCard;
-	}
+    public void setStatus(final ServiceReceiverClientStatus status) {
+        this.status = status;
+    }
 
-	public void setInterest(final ServiceReceiverClientInterest interest) {
-		this.interest = interest;
-	}
+    public void setType(final PersonalType type) {
+        this.type = type;
+    }
 
-	public void setMedicalInsuranceStatus(final String medicalInsuranceStatus) {
-		this.medicalInsuranceStatus = medicalInsuranceStatus;
-	}
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setVideoId(final String videoId) {
+        this.videoId = videoId;
+    }
 
-	public void setOrders(final List<Order> orders) {
-		this.orders = orders;
-	}
+    public void setVideophoneNo(final String videophoneNo) {
+        this.videophoneNo = videophoneNo;
+    }
 
-	public void setOther(final ServiceReceiverClientOther other) {
-		this.other = other;
-	}
-
-	public void setSpouse(final ServiceReceiverClient spouse) {
-		this.spouse = spouse;
-	}
-
-	public void setStatus(final ServiceReceiverClientStatus status) {
-		this.status = status;
-	}
-
-	public void setType(final PersonalType type) {
-		this.type = type;
-	}
-
-	public void setUser(final User user) {
-		this.user = user;
-	}
-
-	public void setVideoId(final String videoId) {
-		this.videoId = videoId;
-	}
-
-	public void setVideophoneNo(final String videophoneNo) {
-		this.videophoneNo = videophoneNo;
-	}
-
-	public void setYijinCode(final String yijinCode) {
-		this.yijinCode = yijinCode;
-	}
+    public void setYijinCode(final String yijinCode) {
+        this.yijinCode = yijinCode;
+    }
 
 }
