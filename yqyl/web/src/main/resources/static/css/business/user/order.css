@@ -10,14 +10,24 @@ div.order table.tab td {
 	height: 50px;
 	width: 280px;
 	border: solid 1px;
-	width: 280px;
+	padding: 0px;
 }
 
-div.order ul.result {
+div.order table.tab td a {
+	text-decoration: none;
+}
+
+div.order table.tab td div {
+	height: 50px;
+	width: 280px;
+	line-height: 50px;
+}
+
+div.order div.result ul {
 	padding-left: 0px;
 }
 
-div.order ul.result li {
+div.order div.result li {
 	border: solid 1px;
 	width: 840px;
 	list-style-type: none;

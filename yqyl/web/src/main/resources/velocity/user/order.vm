@@ -5,15 +5,39 @@
 <div class="order" ng-controller="orderController">
 	<table class="tab">
 		<tr>
-			<td align="center"><span>#button("UNPROCESSED_ORDER")</span></td>
-			<td align="center"><span>#button("PROCESSING_ORDER")</span></td>
-			<td align="center"><span>#button("PROCESSED_ORDER")</span></td>
+			<td align="center"><a href="javascript:void(0)"
+				ng-click="status='unprocessedOrder'"><div
+						ng-class="{true: 'tabSelected', false: 'tabUnselected'}[status=='unprocessedOrder']">
+						<span>#button("UNPROCESSED_ORDER")</span>
+					</div></a></td>
+			<td align="center"><a href="javascript:void(0)"
+				ng-click="status='processingOrder'"><div
+						ng-class="{true: 'tabSelected', false: 'tabUnselected'}[status=='processingOrder']">
+						<span>#button("PROCESSING_ORDER")</span>
+					</div></a></td>
+			<td align="center"><a href="javascript:void(0)"
+				ng-click="status='processedOrder'"><div
+						ng-class="{true: 'tabSelected', false: 'tabUnselected'}[status=='processedOrder']">
+						<span>#button("PROCESSED_ORDER")</span>
+					</div></a></td>
 		</tr>
 	</table>
 	.
-	<ul class="result">
-		<li>1</li>
-	</ul>
+	<div class="result" ng-show="status=='unprocessedOrder'">
+		<ul>
+			<li>1</li>
+		</ul>
+	</div>
+	<div class="result ng-hide" ng-show="status=='processingOrder'">
+		<ul>
+			<li>2</li>
+		</ul>
+	</div>
+	<div class="result ng-hide" ng-show="status=='processedOrder'">
+		<ul>
+			<li>3</li>
+		</ul>
+	</div>
 </div>
 
 <script src="/static/js/business/user/order.js"></script>
