@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
@@ -19,7 +20,8 @@ import org.trinity.yqyl.common.message.lookup.OrderStatus;
  * The persistent class for the order database table.
  *
  */
-@Entity(name = "service_order")
+@Entity
+@Table(name = "service_order")
 @NamedQuery(name = "ServiceOrder.findAll", query = "SELECT o FROM ServiceOrder o")
 public class ServiceOrder extends AbstractAuditableEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
