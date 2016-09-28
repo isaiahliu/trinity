@@ -24,19 +24,41 @@
 	</table>
 	.
 	<div class="result" ng-show="status=='unprocessedOrder'">
-		<ul>
-			<li>1</li>
+		<ul class="data">
+			<li>{{unprocessedOrderPopulated}}</li>
 		</ul>
+		<pagination total-items="unprocessedOrderPaging.itemCount"
+			ng-model="unprocessedOrderPaging.pageIndex" max-size="10"
+			items-per-page="unprocessedOrderPaging.pageSize"
+			class="pagination-sm" boundary-links="true"
+			ng-change="unprocessedOrderPageChanged()"
+			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+			previous-text='#label("PREVIOUS_PAGE")'
+			next-text='#label("NEXT_PAGE")'></pagination>
 	</div>
 	<div class="result ng-hide" ng-show="status=='processingOrder'">
-		<ul>
-			<li>2</li>
+		<ul class="data">
+			<li>{{processingOrderPopulated}}</li>
 		</ul>
+		<pagination total-items="processingOrderPaging.itemCount"
+			ng-model="processingOrderPaging.pageIndex" max-size="10"
+			items-per-page="processingOrderPaging.pageSize" class="pagination-sm"
+			boundary-links="true" ng-change="processingOrderPageChanged()"
+			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+			previous-text='#label("PREVIOUS_PAGE")'
+			next-text='#label("NEXT_PAGE")'></pagination>
 	</div>
 	<div class="result ng-hide" ng-show="status=='processedOrder'">
-		<ul>
-			<li>3</li>
+		<ul class="data">
+			<li>{{processedOrderPopulated}}</li>
 		</ul>
+		<pagination total-items="processedOrderPaging.itemCount"
+			ng-model="processedOrderPaging.pageIndex" max-size="10"
+			items-per-page="processedOrderPaging.pageSize" class="pagination-sm"
+			boundary-links="true" ng-change="processedOrderPageChanged()"
+			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+			previous-text='#label("PREVIOUS_PAGE")'
+			next-text='#label("NEXT_PAGE")'></pagination>
 	</div>
 </div>
 

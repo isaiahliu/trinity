@@ -27,8 +27,13 @@ div.order div.result ul {
 	padding-left: 0px;
 }
 
-div.order div.result li {
+div.order div.result ul.data li {
 	border: solid 1px;
 	width: 840px;
 	list-style-type: none;
+}
+
+div.order div.tabSelected {
+	background-color: rgba(121, 121, 121, 1);
+	color: white;
 }
