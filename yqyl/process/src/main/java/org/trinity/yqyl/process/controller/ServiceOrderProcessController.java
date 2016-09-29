@@ -19,6 +19,7 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
@@ -29,6 +30,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
@@ -43,6 +45,9 @@ public class ServiceOrderProcessController
 
     @Autowired
     private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
+
+    @Autowired
+    private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
 
     public ServiceOrderProcessController() {
         super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
@@ -74,13 +79,17 @@ public class ServiceOrderProcessController
         return findAll.map(item -> {
             final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
 
-            final ServiceInfo service = item.getService();
-            final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(service);
+            final ServiceInfo serviceInfo = item.getService();
+            final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
 
-            final ServiceCategory serviceCategory = service.getServiceCategory();
+            final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
             final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
 
+            final ServiceSupplierClient serviceSupplierClient = serviceInfo.getUser().getServiceSupplierClient();
+            final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
+
             serviceInfoDto.setCategory(serviceCategoryDto);
+            serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
             serviceOrderDto.setService(serviceInfoDto);
 
             return serviceOrderDto;

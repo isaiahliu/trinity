@@ -8,6 +8,7 @@ public class ServiceInfoDto extends AbstractBusinessDto {
     private Double price;
     private LookupDto status;
     private ServiceCategoryDto category;
+    private ServiceSupplierClientDto serviceSupplierClient;
 
     public ServiceCategoryDto getCategory() {
         return category;
@@ -47,5 +48,13 @@ public class ServiceInfoDto extends AbstractBusinessDto {
 
     public void setStatus(final LookupDto status) {
         this.status = status;
+    }
+
+    public ServiceSupplierClientDto getServiceSupplierClient() {
+        return serviceSupplierClient;
+    }
+
+    public void setServiceSupplierClient(ServiceSupplierClientDto serviceSupplierClient) {
+        this.serviceSupplierClient = serviceSupplierClient;
     }
 }

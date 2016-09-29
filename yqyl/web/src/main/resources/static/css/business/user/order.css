@@ -38,16 +38,25 @@ div.order div.tabSelected {
 	color: white;
 }
 
+div.order ul.data li {
+	margin: 7px 0px;
+}
+
 div.order div.orderItem {
-	height: 140px;
+	height: 110px;
 }
 
 div.order div.orderItem div.orderPic {
 	float: left;
-	width: 130px;
-	height: 130px;
+	width: 100px;
+	height: 100px;
 	margin: 5px;
+}
+
+div.order div.orderItem div.orderPic img {
 	border: solid 1px;
+	width: 100px;
+	height: 100px;
 }
 
 div.order div.orderItem div.orderInfo {
@@ -67,10 +76,14 @@ div.order div.orderItem div.orderInfo span.value {
 
 div.order div.orderItem div.orderInfo div.orderCompany {
 	padding-top: 10px;
-	height: 70px;
+	height: 40px;
 }
 
 div.order div.orderItem div.orderInfo button {
 	float: right;
 	margin-right: 5px;
+}
+
+div.order div.orderPaging {
+	text-align: center;
 }

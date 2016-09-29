@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
@@ -58,9 +59,9 @@ public class User extends AbstractAuditableEntity implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<ServiceReceiverClient> serviceReceiverClients;
 
-    // bi-directional many-to-one association to ServiceSupplierClient
-    @OneToMany(mappedBy = "user")
-    private List<ServiceSupplierClient> serviceSupplierClients;
+    // bi-directional one-to-one association to ServiceSupplierClient
+    @OneToOne(mappedBy = "user")
+    private ServiceSupplierClient serviceSupplierClient;
 
     // bi-directional many-to-one association to Token
     @OneToMany(mappedBy = "user")
@@ -124,13 +125,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return serviceReceiverClient;
     }
 
-    public ServiceSupplierClient addServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-        getServiceSupplierClients().add(serviceSupplierClient);
-        serviceSupplierClient.setUser(this);
-
-        return serviceSupplierClient;
-    }
-
     public Token addToken(final Token token) {
         getTokens().add(token);
         token.setUser(this);
@@ -182,8 +176,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.services;
     }
 
-    public List<ServiceSupplierClient> getServiceSupplierClients() {
-        return this.serviceSupplierClients;
+    public ServiceSupplierClient getServiceSupplierClient() {
+        return this.serviceSupplierClient;
     }
 
     public UserStatus getStatus() {
@@ -240,13 +234,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return serviceReceiverClient;
     }
 
-    public ServiceSupplierClient removeServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-        getServiceSupplierClients().remove(serviceSupplierClient);
-        serviceSupplierClient.setUser(null);
-
-        return serviceSupplierClient;
-    }
-
     public Token removeToken(final Token token) {
         getTokens().remove(token);
         token.setUser(null);
@@ -298,8 +285,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.services = services;
     }
 
-    public void setServiceSupplierClients(final List<ServiceSupplierClient> serviceSupplierClients) {
-        this.serviceSupplierClients = serviceSupplierClients;
+    public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+        this.serviceSupplierClient = serviceSupplierClient;
     }
 
     public void setStatus(final UserStatus status) {

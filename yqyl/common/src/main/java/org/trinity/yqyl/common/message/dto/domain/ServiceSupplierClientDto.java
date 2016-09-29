@@ -10,6 +10,11 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private String name;
     private String licenseCopy;
     private String identityCopy;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
 
     public String getEmail() {
         return email;
@@ -37,6 +42,10 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
 
     public LookupDto getType() {
         return type;
+    }
+
+    public void setAddress(final String address) {
+        this.address = address;
     }
 
     public void setEmail(final String email) {

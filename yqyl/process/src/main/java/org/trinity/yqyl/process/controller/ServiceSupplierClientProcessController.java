@@ -73,10 +73,10 @@ public class ServiceSupplierClientProcessController extends
         final Pageable pagable = pagingConverter.convert(dto);
 
         final Specification<ServiceSupplierClient> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<Predicate>();
+            final List<Predicate> predicates = new ArrayList<>();
 
             if (!StringUtils.isEmpty(dto.getId())) {
-                predicates.add(cb.equal(root.get(ServiceSupplierClient_.id), dto.getId()));
+                predicates.add(cb.equal(root.get(ServiceSupplierClient_.userId), dto.getId()));
             }
 
             if (!StringUtils.isEmpty(dto.getName())) {
@@ -109,16 +109,16 @@ public class ServiceSupplierClientProcessController extends
     public List<ServiceSupplierClientDto> getMe() throws IException {
         final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
 
-        if (user.getServiceSupplierClients().isEmpty()) {
+        final List<ServiceSupplierClientDto> result = new ArrayList<>();
+        if (user.getServiceSupplierClient() == null) {
             final ServiceSupplierClient createOne = createOne(user);
-            final List<ServiceSupplierClientDto> result = new ArrayList<>();
 
             result.add(getDomainObjectConverter().convert(createOne));
 
-            return result;
         } else {
-            return getDomainObjectConverter().convert(user.getServiceSupplierClients());
+            result.add(getDomainObjectConverter().convert(user.getServiceSupplierClient()));
         }
+        return result;
     }
 
     @Override
@@ -127,10 +127,10 @@ public class ServiceSupplierClientProcessController extends
         final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
 
         ServiceSupplierClient serviceSupplierClient;
-        if (user.getServiceSupplierClients().isEmpty()) {
+        if (user.getServiceSupplierClient() == null) {
             serviceSupplierClient = createOne(user);
         } else {
-            serviceSupplierClient = user.getServiceSupplierClients().get(0);
+            serviceSupplierClient = user.getServiceSupplierClient();
 
             if (!MessageUtils.in(serviceSupplierClient.getStatus(), ServiceSupplierClientStatus.INACTIVE,
                     ServiceSupplierClientStatus.PROPOSAL)) {
