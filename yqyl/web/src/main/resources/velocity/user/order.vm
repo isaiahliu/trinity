@@ -23,7 +23,7 @@
 		</tr>
 	</table>
 	.
-	<div class="result" ng-show="status=='unprocessedOrder'">
+	<div class="result ng-hide" ng-show="status=='unprocessedOrder'">
 		<ul class="data">
 			<li ng-repeat="unprocessedOrder in unprocessedOrders">
 				<div class="orderItem">
@@ -113,7 +113,7 @@
 							<span class="key">{{processedOrder.service.serviceSupplierClient.name}}</span><span
 								class="value">{{unprocessedOrder.service.serviceSupplierClient.address}}</span>
 						</div>
-						<button>#button("ORDER_CANCEL")</button>
+						<button>#button("ORDER_APPRAISE")</button>
 					</div>
 				</div>
 			</li>
