@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.Gender;
 import org.trinity.yqyl.common.message.lookup.PersonalType;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
@@ -53,6 +54,9 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     @Temporal(TemporalType.DATE)
     private Date dob;
+
+    @Column(name = "family_relationship")
+    private FamilyRelationship familyRelationship;
 
     private String email;
 
@@ -149,6 +153,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public String getEmail() {
         return this.email;
+    }
+
+    public FamilyRelationship getFamilyRelationship() {
+        return familyRelationship;
     }
 
     public List<Favorite> getFavorites() {
@@ -256,6 +264,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    public void setFamilyRelationship(final FamilyRelationship familyRelationship) {
+        this.familyRelationship = familyRelationship;
     }
 
     public void setFavorites(final List<Favorite> favorites) {

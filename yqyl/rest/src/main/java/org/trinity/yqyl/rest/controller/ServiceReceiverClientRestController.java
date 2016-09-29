@@ -16,23 +16,23 @@ import org.trinity.yqyl.process.controller.base.IServiceReceiverClientProcessCon
 @RestController
 @RequestMapping("/client/receiver/info")
 public class ServiceReceiverClientRestController extends
-		AbstractApplicationAwareCrudRestController<ServiceReceiverClientDto, ServiceReceiverClientSearchingDto, IServiceReceiverClientProcessController, ServiceReceiverClientRequest, ServiceReceiverClientResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceReceiverClientDto, ServiceReceiverClientSearchingDto, IServiceReceiverClientProcessController, ServiceReceiverClientRequest, ServiceReceiverClientResponse> {
 
-	@RequestMapping(value = "/audit/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<DefaultResponse> auditReceiver(@PathVariable("id") final Long id) throws IException {
+    @RequestMapping(value = "/audit/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<DefaultResponse> auditReceiver(@PathVariable("id") final Long id) throws IException {
 
-		getDomainProcessController().audit(id);
-		return createResponseEntity(new DefaultResponse());
-	}
+        getDomainProcessController().audit(id);
+        return createResponseEntity(new DefaultResponse());
+    }
 
-	@RequestMapping(value = "/cancel/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<DefaultResponse> cancelReceiver(@PathVariable("id") final Long id) throws IException {
-		getDomainProcessController().cancel(id);
-		return createResponseEntity(new DefaultResponse());
-	}
+    @RequestMapping(value = "/cancel/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<DefaultResponse> cancelReceiver(@PathVariable("id") final Long id) throws IException {
+        getDomainProcessController().cancel(id);
+        return createResponseEntity(new DefaultResponse());
+    }
 
-	@Override
-	protected ServiceReceiverClientResponse createResponseInstance() {
-		return new ServiceReceiverClientResponse();
-	}
+    @Override
+    protected ServiceReceiverClientResponse createResponseInstance() {
+        return new ServiceReceiverClientResponse();
+    }
 }

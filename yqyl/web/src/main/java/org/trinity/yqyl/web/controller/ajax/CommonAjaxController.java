@@ -1,6 +1,7 @@
 package org.trinity.yqyl.web.controller.ajax;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,6 +11,7 @@ import org.trinity.common.exception.IException;
 import org.trinity.message.IMessageResolverChain;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
+import org.trinity.yqyl.common.message.dto.response.LookupResponse;
 import org.trinity.yqyl.web.util.Url;
 
 @RestController
@@ -20,6 +22,11 @@ public class CommonAjaxController extends AbstractRestController {
 
     @Autowired
     protected IMessageResolverChain messageResolver;
+
+    @RequestMapping(value = "/lookup/{lookupType}", method = RequestMethod.GET)
+    public @ResponseBody LookupResponse ajaxGetLookups(@PathVariable("lookupType") final String lookupType) throws IException {
+        return restfulServiceUtil.callRestService(Url.LOOKUP_TYPE, lookupType, null, null, LookupResponse.class);
+    }
 
     @RequestMapping(value = "/resource", method = RequestMethod.PUT)
     public @ResponseBody DefaultResponse ajaxRefreshResource() throws IException {

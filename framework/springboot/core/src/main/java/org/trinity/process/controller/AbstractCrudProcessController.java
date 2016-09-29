@@ -94,14 +94,20 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
         for (final TDto dto : data) {
             final Long id = dto.getId();
 
-            final TEntity entity = getDomainEntityRepository().findOne(id);
-            if (entity == null) {
-                throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
-            }
-
             selfProxy.validateDataPermission(dto);
 
-            selfProxy.updateRelationship(entity, dto);
+            TEntity entity = null;
+
+            if (id != null) {
+                entity = getDomainEntityRepository().findOne(id);
+                if (entity == null) {
+                    throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
+                }
+                selfProxy.updateRelationship(entity, dto);
+            } else {
+                entity = getDomainObjectConverter().convertBack(dto);
+                selfProxy.addRelationship(entity, dto);
+            }
 
             entities.add(getDomainObjectConverter().convertBack(dto, entity, CopyPolicy.SOURCE_IS_NOT_NULL));
         }

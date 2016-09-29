@@ -24,6 +24,8 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private LookupDto status;
 
+    private LookupDto familyRelationship;
+
     public String getAddress() {
         return address;
     }
@@ -38,6 +40,10 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public String getEmail() {
         return email;
+    }
+
+    public LookupDto getFamilyRelationship() {
+        return familyRelationship;
     }
 
     public LookupDto getGender() {
@@ -78,6 +84,10 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    public void setFamilyRelationship(final LookupDto familyRelationship) {
+        this.familyRelationship = familyRelationship;
     }
 
     public void setGender(final LookupDto gender) {

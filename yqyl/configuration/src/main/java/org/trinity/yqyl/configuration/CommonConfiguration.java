@@ -28,6 +28,7 @@ import org.trinity.yqyl.common.message.lookup.AccountStatus;
 import org.trinity.yqyl.common.message.lookup.AnnouncementStatus;
 import org.trinity.yqyl.common.message.lookup.ClientType;
 import org.trinity.yqyl.common.message.lookup.Currency;
+import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.FavoriteCategory;
 import org.trinity.yqyl.common.message.lookup.Gender;
 import org.trinity.yqyl.common.message.lookup.Language;
@@ -50,77 +51,77 @@ import org.trinity.yqyl.common.message.lookup.ValueType;
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class CommonConfiguration {
-	static {
-		LookupParser.addEnumLookups(RecordStatus.class, Gender.class, AccountBalanceCategory.class, AccountBalanceStatus.class,
-				AccountPostingStatus.class, AccountStatus.class, AnnouncementStatus.class, OperatorClientStatus.class, ClientType.class,
-				Currency.class, Language.class, MessageStatus.class, OrderStatus.class, PersonalType.class, ServiceStatus.class,
-				ServiceSupplierClientStatus.class, ServiceReceiverClientStatus.class, TransactionCategory.class, LookupType.class,
-				SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class, FavoriteCategory.class, AccessRight.class,
-				RoleName.class);
-	}
+    static {
+        LookupParser.addEnumLookups(RecordStatus.class, Gender.class, AccountBalanceCategory.class, AccountBalanceStatus.class,
+                AccountPostingStatus.class, AccountStatus.class, AnnouncementStatus.class, OperatorClientStatus.class, ClientType.class,
+                Currency.class, Language.class, MessageStatus.class, OrderStatus.class, PersonalType.class, ServiceStatus.class,
+                ServiceSupplierClientStatus.class, ServiceReceiverClientStatus.class, TransactionCategory.class, LookupType.class,
+                SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class, FavoriteCategory.class, AccessRight.class,
+                RoleName.class, FamilyRelationship.class);
+    }
 
-	@Bean
-	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public IException getException(final IMessageResolverChain messageResolver) {
-		return new LocalizedException(messageResolver);
-	}
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public IException getException(final IMessageResolverChain messageResolver) {
+        return new LocalizedException(messageResolver);
+    }
 
-	@Bean
-	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public IException getException(final IMessageResolverChain messageResolver, final IErrorMessage exceptionMessage,
-			final String... params) {
-		return new LocalizedException(messageResolver, exceptionMessage, params);
-	}
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public IException getException(final IMessageResolverChain messageResolver, final IErrorMessage exceptionMessage,
+            final String... params) {
+        return new LocalizedException(messageResolver, exceptionMessage, params);
+    }
 
-	@Bean
-	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public IException getException(final IMessageResolverChain messageResolver, final String message) {
-		return new LocalizedException(messageResolver, message);
-	}
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public IException getException(final IMessageResolverChain messageResolver, final String message) {
+        return new LocalizedException(messageResolver, message);
+    }
 
-	@Bean
-	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public IException getException(final IMessageResolverChain messageResolver, final Throwable e, final IErrorMessage exceptionMessage,
-			final String... params) {
-		return new LocalizedException(messageResolver, e, exceptionMessage, params);
-	}
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public IException getException(final IMessageResolverChain messageResolver, final Throwable e, final IErrorMessage exceptionMessage,
+            final String... params) {
+        return new LocalizedException(messageResolver, e, exceptionMessage, params);
+    }
 
-	@Bean
-	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public IException getException(final IMessageResolverChain messageResolver, final Throwable e, final String message) {
-		return new LocalizedException(messageResolver, e, message);
-	}
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public IException getException(final IMessageResolverChain messageResolver, final Throwable e, final String message) {
+        return new LocalizedException(messageResolver, e, message);
+    }
 
-	@Bean
-	public IExceptionFactory getExceptionFactory(final IMessageResolverChain messageResolver) {
-		return new LocalizedExceptionFactory(messageResolver);
-	}
+    @Bean
+    public IExceptionFactory getExceptionFactory(final IMessageResolverChain messageResolver) {
+        return new LocalizedExceptionFactory(messageResolver);
+    }
 
-	@Bean
-	public IMessageResolver getMessageResolver(final MessageSource messageResolver) {
-		return new ResourceMessageResolver(messageResolver);
-	}
+    @Bean
+    public IMessageResolver getMessageResolver(final MessageSource messageResolver) {
+        return new ResourceMessageResolver(messageResolver);
+    }
 
-	@Bean
-	public IMessageResolverChain getMessageResolverChain(final IMessageResolver... messageResolvers) {
-		return new MessageResolverChain(messageResolvers);
-	}
+    @Bean
+    public IMessageResolverChain getMessageResolverChain(final IMessageResolver... messageResolvers) {
+        return new MessageResolverChain(messageResolvers);
+    }
 
-	@Bean
-	public ISecurityUtil<AccessRight> getSecurityUtil(final IMessageResolverChain messageResolver,
-			final IExceptionFactory exceptionFactory) {
-		return new SecurityUtil(messageResolver, exceptionFactory, AccessRight.SUPER_USER);
-	}
+    @Bean
+    public ISecurityUtil<AccessRight> getSecurityUtil(final IMessageResolverChain messageResolver,
+            final IExceptionFactory exceptionFactory) {
+        return new SecurityUtil(messageResolver, exceptionFactory, AccessRight.SUPER_USER);
+    }
 
-	@Bean
-	public SelfAwareProcessor getSelfAwareProcessor() {
-		return new SelfAwareProcessor();
-	}
+    @Bean
+    public SelfAwareProcessor getSelfAwareProcessor() {
+        return new SelfAwareProcessor();
+    }
 
-	@Bean
-	public LocalValidatorFactoryBean getValidator(final MessageSource messageSource) {
-		final LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
-		localValidatorFactoryBean.setValidationMessageSource(messageSource);
-		return localValidatorFactoryBean;
-	}
+    @Bean
+    public LocalValidatorFactoryBean getValidator(final MessageSource messageSource) {
+        final LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
+        localValidatorFactoryBean.setValidationMessageSource(messageSource);
+        return localValidatorFactoryBean;
+    }
 }

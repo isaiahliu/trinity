@@ -5,3 +5,25 @@ div.family {
 div.content table {
 	width: 840px;
 }
+
+div.content table td {
+	border: solid 1px;
+}
+
+div.content table thead td {
+	width: 280px;
+	background: rgba(215, 215, 215, 1);
+}
+
+div.content div.apply {
+	width: 840px;
+	margin-top: 20px;
+}
+
+div.content table tbody td.add {
+	background: rgba(121, 121, 121, 1);
+}
+
+div.content table tbody td.add div {
+	color: white;
+}
