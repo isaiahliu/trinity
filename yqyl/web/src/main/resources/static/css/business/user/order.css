@@ -37,3 +37,40 @@ div.order div.tabSelected {
 	background-color: rgba(121, 121, 121, 1);
 	color: white;
 }
+
+div.order div.orderItem {
+	height: 140px;
+}
+
+div.order div.orderItem div.orderPic {
+	float: left;
+	width: 130px;
+	height: 130px;
+	margin: 5px;
+	border: solid 1px;
+}
+
+div.order div.orderItem div.orderInfo {
+	padding: 5px;
+}
+
+div.order div.orderItem div.orderInfo span.key {
+	display: inline-block;
+	width: 70px;
+	font-weight: bold;
+}
+
+div.order div.orderItem div.orderInfo span.value {
+	display: inline-block;
+	width: 140px;
+}
+
+div.order div.orderItem div.orderInfo div.orderCompany {
+	padding-top: 10px;
+	height: 70px;
+}
+
+div.order div.orderItem div.orderInfo button {
+	float: right;
+	margin-right: 5px;
+}

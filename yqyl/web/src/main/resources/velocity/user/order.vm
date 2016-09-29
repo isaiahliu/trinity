@@ -25,7 +25,24 @@
 	.
 	<div class="result" ng-show="status=='unprocessedOrder'">
 		<ul class="data">
-			<li>{{unprocessedOrderPopulated}}</li>
+			<li ng-repeat="unprocessedOrder in unprocessedOrders">
+				<div class="orderItem">
+					<div class="orderPic">
+						<img alt="service pic" />
+					</div>
+					<div class="orderInfo">
+						<div>
+							<span class="key">#label("ORDER_ID")</span><span class="value">{{unprocessedOrder.id}}</span> <span
+								class="key">#label("SERVICE_CATEGORY")</span><span class="value">{{unprocessedOrder.service.category.name}}</span> <span
+								class="key">#label("SERVICE_TIME")</span><span class="value">{{unprocessedOrder.serviceTime | date:'yyyy-MM-dd HH-mm:ss'}}</span>
+						</div>
+						<div class="orderCompany">
+							<span class="key">家政公司</span><span class="value">Address</span>
+						</div>
+						<button>#button("ORDER_CANCEL")</button>
+					</div>
+				</div>
+			</li>
 		</ul>
 		<pagination total-items="unprocessedOrderPaging.itemCount"
 			ng-model="unprocessedOrderPaging.pageIndex" max-size="10"
@@ -38,7 +55,9 @@
 	</div>
 	<div class="result ng-hide" ng-show="status=='processingOrder'">
 		<ul class="data">
-			<li>{{processingOrderPopulated}}</li>
+			<li ng-repeat="processingOrder in processingOrders">
+				<div>{{processingOrder.price}}</div>
+			</li>
 		</ul>
 		<pagination total-items="processingOrderPaging.itemCount"
 			ng-model="processingOrderPaging.pageIndex" max-size="10"
@@ -50,7 +69,9 @@
 	</div>
 	<div class="result ng-hide" ng-show="status=='processedOrder'">
 		<ul class="data">
-			<li>{{processedOrderPopulated}}</li>
+			<li ng-repeat="processedOrder in processedOrders">
+				<div>{{processedOrder.price}}</div>
+			</li>
 		</ul>
 		<pagination total-items="processedOrderPaging.itemCount"
 			ng-model="processedOrderPaging.pageIndex" max-size="10"

@@ -2,8 +2,9 @@
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
@@ -24,65 +27,77 @@ import org.trinity.yqyl.common.message.lookup.OrderStatus;
 @Table(name = "service_order")
 @NamedQuery(name = "ServiceOrder.findAll", query = "SELECT o FROM ServiceOrder o")
 public class ServiceOrder extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
-	@TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
+    @TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	private BigDecimal price;
+    private Double price;
 
-	private OrderStatus status;
-	// bi-directional many-to-one association to Service
-	@ManyToOne
-	private Service service;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "service_time")
+    private Date serviceTime;
 
-	// bi-directional many-to-one association to User
-	@ManyToOne
-	private User user;
+    private OrderStatus status;
+    // bi-directional many-to-one association to Service
+    @ManyToOne
+    private ServiceInfo service;
 
-	public ServiceOrder() {
-	}
+    // bi-directional many-to-one association to User
+    @ManyToOne
+    private User user;
 
-	public Long getId() {
-		return this.id;
-	}
+    public ServiceOrder() {
+    }
 
-	public BigDecimal getPrice() {
-		return this.price;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public Service getService() {
-		return this.service;
-	}
+    public Double getPrice() {
+        return this.price;
+    }
 
-	public OrderStatus getStatus() {
-		return this.status;
-	}
+    public ServiceInfo getService() {
+        return this.service;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public Date getServiceTime() {
+        return serviceTime;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public OrderStatus getStatus() {
+        return this.status;
+    }
 
-	public void setPrice(final BigDecimal price) {
-		this.price = price;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public void setService(final Service service) {
-		this.service = service;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void setStatus(final OrderStatus status) {
-		this.status = status;
-	}
+    public void setPrice(final Double price) {
+        this.price = price;
+    }
 
-	public void setUser(final User user) {
-		this.user = user;
-	}
+    public void setService(final ServiceInfo service) {
+        this.service = service;
+    }
+
+    public void setServiceTime(final Date serviceTime) {
+        this.serviceTime = serviceTime;
+    }
+
+    public void setStatus(final OrderStatus status) {
+        this.status = status;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
 }
