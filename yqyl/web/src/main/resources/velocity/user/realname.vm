@@ -2,6 +2,6 @@
 
 <link rel="stylesheet" href="/static/css/business/user/realname.css"></link>
 
-<div>realname</div>
+<div class="realname" ng-controller="realnameController">realname</div>
 
 <script src="/static/js/business/user/realname.js"></script>

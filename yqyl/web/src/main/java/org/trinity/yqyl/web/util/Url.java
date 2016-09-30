@@ -5,120 +5,124 @@ import org.trinity.common.url.IHttpUrl;
 import org.trinity.common.url.IUrl;
 
 public enum Url implements IHttpUrl {
-	AUTHENTICATE(HttpMethod.PUT, Path.SECURITY, "authenticate"),
-	LOGOUT(HttpMethod.PUT, Path.SECURITY, "logout"),
-	REGISTER(HttpMethod.POST, Path.SECURITY, "register"),
-	AUTHORITIES(HttpMethod.GET, Path.AUTHORITIES, ""),
+    AUTHENTICATE(HttpMethod.PUT, Path.SECURITY, "authenticate"),
+    LOGOUT(HttpMethod.PUT, Path.SECURITY, "logout"),
+    REGISTER(HttpMethod.POST, Path.SECURITY, "register"),
+    AUTHORITIES(HttpMethod.GET, Path.AUTHORITIES, ""),
 
-	TOKEN_VERIFY(HttpMethod.GET, Path.TOKEN, "verify"),
-	TOKEN_NEW(HttpMethod.POST, Path.TOKEN),
+    TOKEN_VERIFY(HttpMethod.GET, Path.TOKEN, "verify"),
+    TOKEN_NEW(HttpMethod.POST, Path.TOKEN),
 
-	USER_ME(HttpMethod.GET, Path.USER, "me"),
-	USER_INFO(HttpMethod.PUT, Path.USER),
-	USER_CHANGE_PASSWORD(HttpMethod.PUT, Path.USER, "password"),
+    USER_ME(HttpMethod.GET, Path.USER, "me"),
+    USER_INFO(HttpMethod.PUT, Path.USER),
+    USER_CHANGE_PASSWORD(HttpMethod.PUT, Path.USER, "password"),
 
-	ORDER(HttpMethod.GET, Path.ORDER),
-	ORDER_UNPROCESSED(HttpMethod.GET, Path.ORDER, "unprocessed"),
-	ORDER_PROCESSING(HttpMethod.GET, Path.ORDER, "processing"),
-	ORDER_PROCESSED(HttpMethod.GET, Path.ORDER, "processed"),
+    ORDER(HttpMethod.GET, Path.ORDER),
+    ORDER_UNPROCESSED(HttpMethod.GET, Path.ORDER, "unprocessed"),
+    ORDER_PROCESSING(HttpMethod.GET, Path.ORDER, "processing"),
+    ORDER_PROCESSED(HttpMethod.GET, Path.ORDER, "processed"),
 
-	SUPPLIER(HttpMethod.GET, Path.SUPPLIER),
-	SUPPLIER_AUDIT(HttpMethod.PUT, Path.SUPPLIER, "audit"),
-	SUPPLIER_ME(HttpMethod.GET, Path.SUPPLIER, "me"),
-	SUPPLIER_PROPOSAL(HttpMethod.PUT, Path.SUPPLIER, "proposal"),
+    SUPPLIER(HttpMethod.GET, Path.SUPPLIER),
+    SUPPLIER_AUDIT(HttpMethod.PUT, Path.SUPPLIER, "audit"),
+    SUPPLIER_ME(HttpMethod.GET, Path.SUPPLIER, "me"),
+    SUPPLIER_PROPOSAL(HttpMethod.PUT, Path.SUPPLIER, "proposal"),
 
-	RECEIVER_AUDIT(HttpMethod.PUT, Path.RECEIVER_INFO, "audit"),
-	RECEIVER_ME(HttpMethod.GET, Path.RECEIVER_INFO, "me"),
-	RECEIVER(HttpMethod.GET, Path.RECEIVER_INFO),
-	RECEIVER_PROPOSAL(HttpMethod.PUT, Path.RECEIVER_INFO, "proposal"),
-	RECEIVER_UPDATE(HttpMethod.PUT, Path.RECEIVER_INFO),
-	RECEIVER_DELETE(HttpMethod.DELETE, Path.RECEIVER_INFO),
-	RECEIVER_CANCEL_PROPOSAL(HttpMethod.DELETE, Path.RECEIVER_INFO, "cancel"),
-	RECEIVER_ADD(HttpMethod.POST, Path.RECEIVER_INFO),
+    RECEIVER_AUDIT(HttpMethod.PUT, Path.RECEIVER_INFO, "audit"),
+    RECEIVER_ME(HttpMethod.GET, Path.RECEIVER_INFO, "me"),
+    RECEIVER(HttpMethod.GET, Path.RECEIVER_INFO),
+    RECEIVER_PROPOSAL(HttpMethod.PUT, Path.RECEIVER_INFO, "proposal"),
+    RECEIVER_UPDATE(HttpMethod.PUT, Path.RECEIVER_INFO),
+    RECEIVER_DELETE(HttpMethod.DELETE, Path.RECEIVER_INFO),
+    RECEIVER_CANCEL_PROPOSAL(HttpMethod.DELETE, Path.RECEIVER_INFO, "cancel"),
+    RECEIVER_ADD(HttpMethod.POST, Path.RECEIVER_INFO),
 
-	OPERATOR(HttpMethod.GET, Path.OPERATOR),
-	OPERATOR_UPDATE(HttpMethod.PUT, Path.OPERATOR),
+    HEALTH_INDICATOR(HttpMethod.GET, Path.HEALTH_INDICATOR),
 
-	CONTENT_UPLOAD(HttpMethod.PUT, Path.CONTENT, "upload"),
-	CONTENT_DOWNLOAD(HttpMethod.GET, Path.CONTENT, "download"),
+    OPERATOR(HttpMethod.GET, Path.OPERATOR),
+    OPERATOR_UPDATE(HttpMethod.PUT, Path.OPERATOR),
 
-	LOOKUP_TYPE(HttpMethod.GET, Path.LOOKUP),
-	RESOURCE_REFRESH(HttpMethod.PUT, Path.RESOURCE),
+    CONTENT_UPLOAD(HttpMethod.PUT, Path.CONTENT, "upload"),
+    CONTENT_DOWNLOAD(HttpMethod.GET, Path.CONTENT, "download"),
 
-	PING(HttpMethod.GET, Path.COMMON, "ping");
-	private static enum Path implements IUrl {
-		SECURITY("security"),
-		TOKEN(SECURITY, "token"),
-		AUTHORITIES(SECURITY, "authorities"),
+    LOOKUP_TYPE(HttpMethod.GET, Path.LOOKUP),
+    RESOURCE_REFRESH(HttpMethod.PUT, Path.RESOURCE),
 
-		USER("user"),
-		ORDER(USER, "order"),
+    PING(HttpMethod.GET, Path.COMMON, "ping");
+    private static enum Path implements IUrl {
+        SECURITY("security"),
+        TOKEN(SECURITY, "token"),
+        AUTHORITIES(SECURITY, "authorities"),
 
-		CLIENT("client"),
-		SUPPLIER(CLIENT, "supplier"),
-		RECEIVER(CLIENT, "receiver"),
-		OPERATOR(CLIENT, "operator"),
+        USER("user"),
+        ORDER(USER, "order"),
 
-		RECEIVER_INFO(RECEIVER, "info"),
+        CLIENT("client"),
+        SUPPLIER(CLIENT, "supplier"),
+        RECEIVER(CLIENT, "receiver"),
+        OPERATOR(CLIENT, "operator"),
 
-		CONTENT("content"),
+        RECEIVER_INFO(RECEIVER, "info"),
 
-		COMMON("common"),
-		LOOKUP(COMMON, "lookup"),
-		RESOURCE(COMMON, "resource");
+        HEALTH_INDICATOR(RECEIVER, "healthindicator"),
 
-		private IUrl parent;
+        CONTENT("content"),
 
-		private String path;
+        COMMON("common"),
+        LOOKUP(COMMON, "lookup"),
+        RESOURCE(COMMON, "resource");
 
-		private Path(final IUrl parent, final String path) {
-			this.parent = parent;
-			this.path = path;
-		}
+        private IUrl parent;
 
-		private Path(final String path) {
-			this(null, path);
-		}
+        private String path;
 
-		@Override
-		public IUrl getParent() {
-			return parent;
-		}
+        private Path(final IUrl parent, final String path) {
+            this.parent = parent;
+            this.path = path;
+        }
 
-		@Override
-		public String getPath() {
-			return path;
-		}
-	}
+        private Path(final String path) {
+            this(null, path);
+        }
 
-	private IUrl parent;
+        @Override
+        public IUrl getParent() {
+            return parent;
+        }
 
-	private String path;
-	private HttpMethod httpMethod;
+        @Override
+        public String getPath() {
+            return path;
+        }
+    }
 
-	private Url(final HttpMethod httpMethod, final Path parent) {
-		this(httpMethod, parent, "");
-	}
+    private IUrl parent;
 
-	private Url(final HttpMethod httpMethod, final Path parent, final String path) {
-		this.httpMethod = httpMethod;
-		this.parent = parent;
-		this.path = path;
-	}
+    private String path;
+    private HttpMethod httpMethod;
 
-	@Override
-	public HttpMethod getHttpMethod() {
-		return httpMethod;
-	}
+    private Url(final HttpMethod httpMethod, final Path parent) {
+        this(httpMethod, parent, "");
+    }
 
-	@Override
-	public IUrl getParent() {
-		return parent;
-	}
+    private Url(final HttpMethod httpMethod, final Path parent, final String path) {
+        this.httpMethod = httpMethod;
+        this.parent = parent;
+        this.path = path;
+    }
 
-	@Override
-	public String getPath() {
-		return path;
-	}
+    @Override
+    public HttpMethod getHttpMethod() {
+        return httpMethod;
+    }
+
+    @Override
+    public IUrl getParent() {
+        return parent;
+    }
+
+    @Override
+    public String getPath() {
+        return path;
+    }
 
 }

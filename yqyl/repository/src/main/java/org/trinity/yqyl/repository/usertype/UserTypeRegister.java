@@ -16,6 +16,8 @@ import org.trinity.yqyl.common.message.lookup.ClientType;
 import org.trinity.yqyl.common.message.lookup.Currency;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.FavoriteCategory;
+import org.trinity.yqyl.common.message.lookup.FlagStatus;
+import org.trinity.yqyl.common.message.lookup.FrequencyStatus;
 import org.trinity.yqyl.common.message.lookup.Gender;
 import org.trinity.yqyl.common.message.lookup.Language;
 import org.trinity.yqyl.common.message.lookup.LookupType;
@@ -28,6 +30,7 @@ import org.trinity.yqyl.common.message.lookup.RoleName;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
+import org.trinity.yqyl.common.message.lookup.SmokerAge;
 import org.trinity.yqyl.common.message.lookup.SystemAttributeKey;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
 import org.trinity.yqyl.common.message.lookup.TransactionCategory;
@@ -35,6 +38,9 @@ import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.common.message.lookup.ValueType;
 
 @TypeDefs({
+        @TypeDef(name = "FlagStatus", defaultForType = FlagStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.FlagStatus")),
+        @TypeDef(name = "FrequencyStatus", defaultForType = FrequencyStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.FrequencyStatus")),
+        @TypeDef(name = "SmokerAge", defaultForType = SmokerAge.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.SmokerAge")),
         @TypeDef(name = "RecordStatus", defaultForType = RecordStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.RecordStatus")),
         @TypeDef(name = "Gender", defaultForType = Gender.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.Gender")),
         @TypeDef(name = "AccountBalanceCategory", defaultForType = AccountBalanceCategory.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.AccountBalanceCategory")),

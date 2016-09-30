@@ -35,6 +35,7 @@ import org.trinity.yqyl.common.message.dto.request.UserRequest;
 import org.trinity.yqyl.common.message.dto.response.ContentResponse;
 import org.trinity.yqyl.common.message.dto.response.OrderResponse;
 import org.trinity.yqyl.common.message.dto.response.SecurityResponse;
+import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientHealthIndicatorResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientResponse;
 import org.trinity.yqyl.common.message.dto.response.TokenResponse;
@@ -154,6 +155,15 @@ public class UserAjaxController extends AbstractRestController {
     public ResponseEntity<ServiceReceiverClientResponse> ajaxGetServiceReceiverClientForMe() throws IException {
         final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_ME, null, null, null,
                 ServiceReceiverClientResponse.class);
+
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/receiver/healthindicator/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ServiceReceiverClientHealthIndicatorResponse> ajaxGetServiceReceiverClientHealthIndicator(
+            @PathVariable("id") final Long id) throws IException {
+        final ServiceReceiverClientHealthIndicatorResponse response = restfulServiceUtil.callRestService(Url.HEALTH_INDICATOR,
+                String.valueOf(id), null, null, ServiceReceiverClientHealthIndicatorResponse.class);
 
         return createResponseEntity(response);
     }

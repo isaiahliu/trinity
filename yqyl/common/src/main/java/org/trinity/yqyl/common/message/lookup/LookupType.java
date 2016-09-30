@@ -33,7 +33,10 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     SERVICE_SUPPLIER_CLIENT_STATUS("SSCSTAT"),
     GENDER("GENDER"),
     SERVICE_RECEIVER_CLIENT_STATUS("SRCSTAT"),
-    FAMILY_RELATIONSHIP("FARELTN");
+    FAMILY_RELATIONSHIP("FARELTN"),
+    FLAG_STATUS("FLSTAT"),
+    SMOKER_AGE("SMKAGE"),
+    FREQUENCY_STATUS("FRQSTAT");
 
     private String typeName;
 
