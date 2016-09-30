@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class CrudRestGenerator {
+public final class CrudGeneratorUtil {
 	private static abstract class AbstractGenerator implements IGenerator {
 		private final File projectFolder;
 		private final List<String> entities;

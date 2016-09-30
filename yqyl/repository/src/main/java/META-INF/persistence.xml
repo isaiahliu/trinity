@@ -27,5 +27,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthInformation</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClientInterest</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClientOther</class>
+		<class>org.trinity.yqyl.repository.business.entity.UserRealname</class>
 	</persistence-unit>
 </persistence>
