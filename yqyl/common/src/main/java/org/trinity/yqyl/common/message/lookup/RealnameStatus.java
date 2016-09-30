@@ -5,7 +5,8 @@ import org.trinity.message.ILookupMessage;
 public enum RealnameStatus implements ILookupMessage<LookupType> {
     VERIFIED("V"),
     DENIED("D"),
-    INPROCESS("I");
+    NOT_READY("N"),
+    INPROGRESS("I");
 
     private final String messageCode;
 

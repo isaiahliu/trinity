@@ -2,6 +2,7 @@ package org.trinity.yqyl.process.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -14,10 +15,14 @@ import org.trinity.yqyl.common.message.dto.domain.UserRealnameSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.CredentialType;
+import org.trinity.yqyl.common.message.lookup.RealnameStatus;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IUserRealnameProcessController;
+import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRealnameRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.User;
 import org.trinity.yqyl.repository.business.entity.UserRealname;
 
@@ -30,6 +35,9 @@ public class UserRealnameProcessController
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private IContentRepository contentRepository;
 
     public UserRealnameProcessController() {
         super(UserRealname.class, ErrorMessage.UNABLE_TO_FIND_USER_REALNAME);
@@ -44,12 +52,23 @@ public class UserRealnameProcessController
         UserRealname userRealname = getDomainEntityRepository().findOne(user.getId());
 
         if (userRealname == null) {
+            final Content credentialCopy = new Content();
+            credentialCopy.setUuid(UUID.randomUUID().toString());
+            credentialCopy.setContent(new byte[0]);
+            credentialCopy.setStatus(RecordStatus.ACTIVE);
+
+            contentRepository.save(credentialCopy);
+
             userRealname = new UserRealname();
             userRealname.setUser(user);
             userRealname.setUserId(user.getId());
             userRealname.setCredentialType(CredentialType.IDENTITY_CARD);
             userRealname.setCredentialNo("");
-            // userRealname.set
+            userRealname.setCredentialCopy(credentialCopy.getUuid());
+            userRealname.setName("");
+            userRealname.setStatus(RealnameStatus.NOT_READY);
+
+            getDomainEntityRepository().save(userRealname);
         }
 
         final UserRealnameDto userRealnameDto = getDomainObjectConverter().convert(userRealname);

@@ -5,3 +5,31 @@ div.realname {
 div.content table {
 	width: 840px;
 }
+
+div.realname table td {
+	border: solid 1px black;
+}
+
+div.realname img {
+	min-height: 100px;
+	min-width: 100px;
+	max-height: 150px;
+	max-width: 200px;
+}
+
+div.realname table td.key {
+	width: 150px;
+	background: rgba(121, 121, 121, 1);
+	color: white;
+}
+
+div.realname div.buttons {
+	width: 840px;
+	margin-top: 30px;
+	text-align: center;
+	margin-top: 30px;
+}
+
+div.realname table td.value input, div.realname table td.value select {
+	width: 500px;
+}

@@ -22,6 +22,9 @@ public enum Url implements IHttpUrl {
     ORDER_PROCESSING(HttpMethod.GET, Path.ORDER, "processing"),
     ORDER_PROCESSED(HttpMethod.GET, Path.ORDER, "processed"),
 
+    REALNAME_ME(HttpMethod.GET, Path.REALNAME, "me"),
+    REALNAME_UPDATE(HttpMethod.PUT, Path.REALNAME),
+
     SUPPLIER(HttpMethod.GET, Path.SUPPLIER),
     SUPPLIER_AUDIT(HttpMethod.PUT, Path.SUPPLIER, "audit"),
     SUPPLIER_ME(HttpMethod.GET, Path.SUPPLIER, "me"),
@@ -55,6 +58,7 @@ public enum Url implements IHttpUrl {
 
         USER("user"),
         ORDER(USER, "order"),
+        REALNAME(USER, "realname"),
 
         CLIENT("client"),
         SUPPLIER(CLIENT, "supplier"),

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -43,6 +44,7 @@ public class UserRealname extends AbstractAuditableEntity implements Serializabl
 
     // bi-directional one-to-one association to User
     @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public UserRealname() {

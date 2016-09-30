@@ -9,13 +9,12 @@ import org.trinity.yqyl.common.message.dto.response.UserRealnameResponse;
 import org.trinity.yqyl.process.controller.base.IUserRealnameProcessController;
 
 @RestController
-@RequestMapping("/*")
+@RequestMapping("/user/realname")
 public class UserRealnameRestController extends
-      AbstractApplicationAwareCrudRestController<UserRealnameDto, UserRealnameSearchingDto, IUserRealnameProcessController, UserRealnameRequest, UserRealnameResponse> {
+        AbstractApplicationAwareCrudRestController<UserRealnameDto, UserRealnameSearchingDto, IUserRealnameProcessController, UserRealnameRequest, UserRealnameResponse> {
 
-  @Override
-  protected UserRealnameResponse createResponseInstance() {
-      return new UserRealnameResponse();
-  }
+    @Override
+    protected UserRealnameResponse createResponseInstance() {
+        return new UserRealnameResponse();
+    }
 }
-

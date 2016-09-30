@@ -31,16 +31,18 @@ import org.trinity.yqyl.common.message.dto.request.ContentRequest;
 import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientRequest;
 import org.trinity.yqyl.common.message.dto.request.ServiceSupplierClientRequest;
 import org.trinity.yqyl.common.message.dto.request.TokenRequest;
+import org.trinity.yqyl.common.message.dto.request.UserRealnameRequest;
 import org.trinity.yqyl.common.message.dto.request.UserRequest;
 import org.trinity.yqyl.common.message.dto.response.ContentResponse;
 import org.trinity.yqyl.common.message.dto.response.OrderResponse;
 import org.trinity.yqyl.common.message.dto.response.SecurityResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientHealthIndicatorResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
-import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientResponse;
 import org.trinity.yqyl.common.message.dto.response.TokenResponse;
+import org.trinity.yqyl.common.message.dto.response.UserRealnameResponse;
 import org.trinity.yqyl.common.message.dto.response.UserResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.RealnameStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.web.util.SessionFilter;
 import org.trinity.yqyl.web.util.Url;
@@ -48,11 +50,6 @@ import org.trinity.yqyl.web.util.Url;
 @RestController
 @RequestMapping("/ajax/user")
 public class UserAjaxController extends AbstractRestController {
-
-    private static final String LICENSE_COPY = "license";
-
-    private static final String IDENTITY_COPY = "identity";
-
     @Autowired
     private ISecurityUtil<AccessRight> securityUtil;
 
@@ -85,30 +82,20 @@ public class UserAjaxController extends AbstractRestController {
         return createResponseEntity(response);
     }
 
-    @RequestMapping(value = "/supplier/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/realname/upload", method = RequestMethod.POST)
     public ResponseEntity<DefaultResponse> ajaxChangePassword(final MultipartHttpServletRequest request) throws IException {
 
         final DefaultResponse response = new DefaultResponse();
         if (request.getFileNames().hasNext()) {
             try {
-                final ServiceSupplierClientResponse serviceSupplierClientResponse = restfulServiceUtil.callRestService(Url.SUPPLIER_ME,
-                        null, null, null, ServiceSupplierClientResponse.class);
+                final UserRealnameResponse serviceSupplierClientResponse = restfulServiceUtil.callRestService(Url.REALNAME_ME, null, null,
+                        null, UserRealnameResponse.class);
 
-                final String name = request.getFileNames().next();
-                String uuid;
-                switch (name) {
-                case LICENSE_COPY:
-                    uuid = serviceSupplierClientResponse.getData().get(0).getLicenseCopy();
-                    break;
-                case IDENTITY_COPY:
-                    uuid = serviceSupplierClientResponse.getData().get(0).getIdentityCopy();
-                    break;
-                default:
-                    return createResponseEntity(response);
-                }
+                final String uuid = serviceSupplierClientResponse.getData().get(0).getCredentialCopy();
+
                 final ContentRequest contentRequest = new ContentRequest();
 
-                final InputStream stream = request.getFile(name).getInputStream();
+                final InputStream stream = request.getFile("CREDENTIAL_COPY").getInputStream();
                 final byte[] bytes = new byte[stream.available()];
                 stream.read(bytes);
 
@@ -192,6 +179,14 @@ public class UserAjaxController extends AbstractRestController {
         return createResponseEntity(response);
     }
 
+    @RequestMapping(value = "/realname/me", method = RequestMethod.GET)
+    public ResponseEntity<UserRealnameResponse> ajaxGetUserRealnameForMe() throws IException {
+        final UserRealnameResponse response = restfulServiceUtil.callRestService(Url.REALNAME_ME, null, null, null,
+                UserRealnameResponse.class);
+
+        return createResponseEntity(response);
+    }
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.PUT)
     public ResponseEntity<AbstractResponse<?>> ajaxLogin(@RequestBody final SecurityDto dto, final HttpServletResponse httpResponse) {
         final AuthenticateRequest authenticateRequest = new AuthenticateRequest();
@@ -255,6 +250,22 @@ public class UserAjaxController extends AbstractRestController {
     public ResponseEntity<DefaultResponse> ajaxUpdateUserinfo(@RequestBody final UserRequest request) throws IException {
         final DefaultResponse response = restfulServiceUtil.callRestService(Url.USER_INFO, null, request, null, DefaultResponse.class);
 
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/realname", method = RequestMethod.PUT)
+    public ResponseEntity<IResponse> ajaxUpdateUserRealname(@RequestBody final UserRealnameRequest request) throws IException {
+        if (request.getData().isEmpty()) {
+            return createResponseEntity(new DefaultResponse());
+        }
+
+        request.getData().forEach(item -> {
+            item.setStatus(new LookupDto(RealnameStatus.INPROGRESS.getMessageCode(), ""));
+            item.setCredentialCopy(null);
+        });
+
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.REALNAME_UPDATE, null, request, null,
+                DefaultResponse.class);
         return createResponseEntity(response);
     }
 

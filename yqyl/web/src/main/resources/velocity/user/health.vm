@@ -17,13 +17,13 @@
 			</tr>
 			<tr>
 				<td align="center" class="key"><span>#label("WEIGHT")</span></td>
-				<td align="center" class="value"><span>{{healthData.weight}}
-						<span ng-show="healthData.height">kg</span></td>
+				<td align="center" class="value"><span>{{healthData.weight}}</span>
+					<span ng-show="healthData.height">kg</span></td>
 			</tr>
 			<tr>
 				<td align="center" class="key"><span>#label("BLOOD_PRESSURE")</span></td>
-				<td align="center" class="value"><span>{{healthData.systolicPressure}}<span
-						ng-show="healthData.height">/</span>{{healthData.diastolicPressure}}
+				<td align="center" class="value"><span>{{healthData.systolicPressure}}</span><span
+					ng-show="healthData.height">/</span><span>{{healthData.diastolicPressure}}
 						<span ng-show="healthData.height">mmHg</span></td>
 			</tr>
 			<tr>
