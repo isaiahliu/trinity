@@ -1,4 +1,0 @@
-#set($currentPage="ORDERS")
-#parse("/velocity/service/reception/navigation.vm")
-
-<div>reception</div>

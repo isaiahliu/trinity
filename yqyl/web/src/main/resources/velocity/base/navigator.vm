@@ -22,7 +22,7 @@
 					ng-mouseleave="showPensionIndustry=false">
 					<span>#button("PENSION_INDUSTRY")</span>
 				</div></a></li>
-		<li class="navBarItem"><a href="javascript:void(0)"><div>
+		<li class="navBarItem"><a href="/service"><div>
 					<span>#button("ONLINE_SERVICE")</span>
 				</div></a></li>
 		<li class="navBarItem"><a href="javascript:void(0)"><div
@@ -35,7 +35,7 @@
 	<ul class="popList homeEndowmentPopList ng-hide"
 		ng-mouseenter="showHomeEndowment=true"
 		ng-mouseleave="showHomeEndowment=false" ng-show="showHomeEndowment">
-		<li><a href="javascript:void(0)"><div>
+		<li><a href="/service"><div>
 					<span>#button("HOUSE_KEEPING")</span>
 				</div></a></li>
 		<li><a href="javascript:void(0)"><div>

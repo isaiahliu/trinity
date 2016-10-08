@@ -14,7 +14,7 @@ public class UserConverter extends AbstractLookupSupportObjectConverter<User, Us
         copyObject(source::getPassword, target::getPassword, target::setPassword, copyPolicy);
         copyObject(source::getCellphone, target::getCellphone, target::setCellphone, copyPolicy);
         copyObject(source::getEmail, target::getEmail, target::setEmail, copyPolicy);
-        copyObject(source::getYiquan, target::getYiquan, target::setYiquan, copyPolicy);
+        copyObject(source::getYiquanCode, target::getYiquanCode, target::setYiquanCode, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, UserStatus.class, copyPolicy);
     }
 
@@ -24,8 +24,8 @@ public class UserConverter extends AbstractLookupSupportObjectConverter<User, Us
         copyObject(source::getUsername, target::getUsername, target::setUsername, copyPolicy);
         copyObject(source::getPassword, target::getPassword, target::setPassword, copyPolicy);
         copyObject(source::getCellphone, target::getCellphone, target::setCellphone, copyPolicy);
-        copyObject(source::getYiquan, target::getYiquan, target::setYiquan, copyPolicy);
         copyObject(source::getEmail, target::getEmail, target::setEmail, copyPolicy);
+        copyObject(source::getYiquanCode, target::getYiquanCode, target::setYiquanCode, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
     }
 

@@ -2,6 +2,26 @@
 
 <link rel="stylesheet" href="/static/css/business/user/yiquan/topup.css"></link>
 
-<div class="topup" ng-controller="contentController">topup</div>
+<div class="topup" ng-controller="contentController">
+	<table>
+		<tr>
+			<td>#label("YIQUAN_NO")</td>
+			<td><input /></td>
+		</tr>
+		<tr>
+			<td>#label("TOPUP_AMOUNT")</td>
+			<td><input /></td>
+		</tr>
+		<tr>
+			<td>#label("PAYMENT_METHOD")</td>
+			<td><input type="radio" name="paymentMethod" /><span>#label("BANK")</span>
+				<input type="radio" name="paymentMethod" /><span>#label("ALIPAY")</span>
+				<input type="radio" name="paymentMethod" /><span>#label("WECHAT")</span></td>
+		</tr>
+		<tr>
+			<td align="center" colspan="2"><button ng-click="apply()">#button("TOPUP")</button></td>
+		</tr>
+	</table>
+</div>
 
 <script src="/static/js/business/user/yiquan/topup.js"></script>

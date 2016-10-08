@@ -22,7 +22,7 @@ public class UserDto extends AbstractBusinessDto {
 
     private String email;
 
-    private String yiquan;
+    private String yiquanCode;
 
     @Null(groups = { AddData.class, UpdateData.class })
     private LookupDto status;
@@ -56,8 +56,8 @@ public class UserDto extends AbstractBusinessDto {
         return username;
     }
 
-    public String getYiquan() {
-        return yiquan;
+    public String getYiquanCode() {
+        return yiquanCode;
     }
 
     public void setAccessRights(final List<LookupDto> accessRights) {
@@ -84,7 +84,7 @@ public class UserDto extends AbstractBusinessDto {
         this.username = username;
     }
 
-    public void setYiquan(final String yiquan) {
-        this.yiquan = yiquan;
+    public void setYiquanCode(final String yiquanCode) {
+        this.yiquanCode = yiquanCode;
     }
 }

@@ -1,8 +1,0 @@
-<div class="navBar">
-	<ul>
-		<li><div
-				class="navBarItem #if($currentPage=='OPERATOR_MANAGEMENT')selected #end">
-				<a href="/service/admin/operator">#button("SERVICE_ADMIN_OPERATOR_MANAGEMENT")</a>
-			</div></li>
-	</ul>
-</div>

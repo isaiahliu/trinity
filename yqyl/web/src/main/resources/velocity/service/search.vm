@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="/static/css/business/service/search.css"></link>
+
+<div class="search" ng-controller="contentController">
+	<div class="city">
+		<select>
+			<option value="370900">泰安</option>
+		</select> <input placeholder='#info("INPUT_YOUR_CITY")' />
+		<button>#button("SEARCH_CITY")</button>
+	</div>
+	<div class="category">
+		<ul>
+			<li><a href="javascript:void(0)"><div>
+						<span>医疗保健</span>
+					</div></a></li>
+			<li><a href="javascript:void(0)"><div>
+						<span>家政服务</span>
+					</div></a></li>
+			<li><a href="javascript:void(0)"><div>
+						<span>生活照料</span>
+					</div></a></li>
+			<li><a href="javascript:void(0)"><div>
+						<span>康复护理</span>
+					</div></a></li>
+		</ul>
+		<ul>
+			<li><input type="checkbox" /><span>按摩</span></li>
+			<li><input type="checkbox" /><span>保健</span></li>
+			<li><input type="checkbox" /><span>足浴</span></li>
+			<li><input type="checkbox" /><span>开背</span></li>
+			<li><input type="checkbox" /><span>SPA</span></li>
+		</ul>
+
+		<button>#button("SEARCH")</button>
+		<button>#button("PUBLISH_SERVICE")</button>
+	</div>
+	<div class="info">
+		泰安<span>#info("SERVICE_FOUND_1")"家政服务"
+			3#info("SERVICE_FOUND_2")</span>
+	</div>
+	<div class="services">
+		<ul>
+			<li>
+				<div>
+					<div class="serviceImg">
+						<img />
+					</div>
+					<div class="serviceInfo">
+						<div>
+							<span>金牌爱心家政公司</span>
+						</div>
+						<div>
+							<span>#label("SERVICE_CATEGORIES")</span><span>保洁,做饭阿姨</span>
+						</div>
+						<div>
+							<span>#label("EXPECTED_PRICE")</span> <span>88/小时</span>
+						</div>
+						<div>
+							<span>#label("APPRAISE")</span> <span>OOOOO</span>
+						</div>
+					</div>
+					<div class="serviceBooking"><button>#button("SERVICE_BOOKING")</button></div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<script src="/static/js/business/service/search.js"></script>

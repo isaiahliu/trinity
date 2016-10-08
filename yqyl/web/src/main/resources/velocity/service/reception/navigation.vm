@@ -1,6 +1,0 @@
-<div class="navBar">
-	<ul>
-		<li><div class="navBarItem #if($currentPage=='SERVICE_LIST')selected #end"><a href="/service/reception">#button("SERVICE_RECEPTION_SERVICES")</a></div></li>
-		<li><div class="navBarItem #if($currentPage=='ORDERS')selected #end"><a href="/service/reception/orders">#button("SERVICE_RECEPTION_ORDERS")</a></div></li>
-	</ul>
-</div>

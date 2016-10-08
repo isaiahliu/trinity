@@ -4,6 +4,7 @@ package org.trinity.yqyl.repository.business.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -42,8 +44,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
     private String cellphone;
 
     private String email;
-
-    private String yiquan;
 
     // bi-directional many-to-one association to Account
     @OneToMany(mappedBy = "user")
@@ -85,6 +85,14 @@ public class User extends AbstractAuditableEntity implements Serializable {
     // bi-directional one-to-one association to UserRealname
     @OneToOne(mappedBy = "user")
     private UserRealname realname;
+
+    // bi-directional many-to-one association to Yiquan
+    @ManyToOne
+    @JoinColumn(name = "yiquan_code", referencedColumnName = "code")
+    private Yiquan yiquan;
+
+    @Column(name = "yiquan_code", insertable = false, updatable = false)
+    private String yiquanCode;
 
     public User() {
     }
@@ -202,8 +210,12 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.username;
     }
 
-    public String getYiquan() {
-        return yiquan;
+    public Yiquan getYiquan() {
+        return this.yiquan;
+    }
+
+    public String getYiquanCode() {
+        return yiquanCode;
     }
 
     public Account removeAccount(final Account account) {
@@ -319,8 +331,12 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.username = username;
     }
 
-    public void setYiquan(final String yiquan) {
+    public void setYiquan(final Yiquan yiquan) {
         this.yiquan = yiquan;
+    }
+
+    public void setYiquanCode(final String yiquanCode) {
+        this.yiquanCode = yiquanCode;
     }
 
 }

@@ -1,21 +1,19 @@
 layoutApp.controller('contentController', function($scope, $http, $window) {
 	$http({
 		method : "GET",
-		url : "/ajax/user/userinfo"
+		url : "/ajax/user/yiquan"
 	}).success(function(response) {
-		$scope.id = response.data[0].id;
-		$scope.yiquan = response.data[0].yiquan;
+		$scope.yiquan = response.data[0].code;
 	}).error(function(response) {
 	});
 
 	$scope.apply = function() {
 		$http({
 			method : "PUT",
-			url : "/ajax/user/userinfo",
+			url : "/ajax/user/yiquan/bind",
 			data : {
 				data : [ {
-					id : $scope.id,
-					yiquan : $scope.yiquan
+					code : $scope.yiquan
 				} ]
 			}
 		}).success(function(response) {
