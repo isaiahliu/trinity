@@ -20,8 +20,6 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private String name;
 
-    private String yijinCode;
-
     private LookupDto status;
 
     private LookupDto familyRelationship;
@@ -66,10 +64,6 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         return status;
     }
 
-    public String getYijinCode() {
-        return yijinCode;
-    }
-
     public void setAddress(final String address) {
         this.address = address;
     }
@@ -108,9 +102,5 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public void setStatus(final LookupDto status) {
         this.status = status;
-    }
-
-    public void setYijinCode(final String yijinCode) {
-        this.yijinCode = yijinCode;
     }
 }

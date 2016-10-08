@@ -1,0 +1,24 @@
+<div class="navBar subNavBar">
+	<ul>
+		<li><a href="/user/yiquan/bind"><div
+					class="navBarItem #if($currentPage=='BIND')selected #end">
+					<span>#button("YIQUAN_BIND")</span>
+				</div></a></li>
+		<li><a href="/user/yiquan/topup"><div
+					class="navBarItem #if($currentPage=='TOPUP')selected #end">
+					<span>#button("YIQUAN_TOPUP")</span>
+				</div></a></li>
+		<li><a href="/user/yiquan/search"><div
+					class="navBarItem #if($currentPage=='SEARCH')selected #end">
+					<span>#button("YIQUAN_SEARCH")</span>
+				</div></a></li>
+		<li><a href="/user/yiquan/branch"><div
+					class="navBarItem #if($currentPage=='BRANCH')selected #end">
+					<span>#button("YIQUAN_BRANCH")</span>
+				</div></a></li>
+		<li><a href="/user/yiquan/point"><div
+					class="navBarItem #if($currentPage=='POINT')selected #end">
+					<span>#button("YIQUAN_POINT")</span>
+				</div></a></li>
+	</ul>
+</div>

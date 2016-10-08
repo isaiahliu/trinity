@@ -1,4 +1,4 @@
-layoutApp.controller('familyController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window) {
 	$scope.modeUpdate = false;
 
 	$http({

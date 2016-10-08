@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/user/health.css"></link>
 
-<div class="health" ng-controller="healthController">
+<div class="health" ng-controller="contentController">
 	<div class="members">
 		<span>家庭成员</span> <select ng-model="selectedMember">
 			<option ng-repeat="member in members" value="{{member.id}}">{{member.name}}</option>

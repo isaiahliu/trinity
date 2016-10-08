@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/user/realname.css"></link>
 
-<div class="realname" ng-controller="realnameController">
+<div class="realname" ng-controller="contentController">
 	<table>
 		<tbody>
 			<tr>

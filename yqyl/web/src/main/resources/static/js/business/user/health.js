@@ -1,4 +1,4 @@
-layoutApp.controller('healthController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window) {
 	$scope.viewMore = false;
 
 	$scope.healthDataMap = {};

@@ -43,6 +43,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     private String email;
 
+    private String yiquan;
+
     // bi-directional many-to-one association to Account
     @OneToMany(mappedBy = "user")
     private List<Account> accounts;
@@ -200,6 +202,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.username;
     }
 
+    public String getYiquan() {
+        return yiquan;
+    }
+
     public Account removeAccount(final Account account) {
         getAccounts().remove(account);
         account.setUser(null);
@@ -311,6 +317,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    public void setYiquan(final String yiquan) {
+        this.yiquan = yiquan;
     }
 
 }

@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/user/family.css"></link>
 
-<div class="family" ng-controller="familyController">
+<div class="family" ng-controller="contentController">
 	<table>
 		<thead>
 			<tr>

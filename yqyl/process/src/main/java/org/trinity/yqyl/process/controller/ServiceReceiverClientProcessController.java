@@ -77,7 +77,7 @@ public class ServiceReceiverClientProcessController extends
         final Pageable pagable = pagingConverter.convert(dto);
 
         final Specification<ServiceReceiverClient> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<Predicate>();
+            final List<Predicate> predicates = new ArrayList<>();
 
             if (!StringUtils.isEmpty(dto.getId())) {
                 predicates.add(cb.equal(root.get(ServiceReceiverClient_.id), dto.getId()));
@@ -89,10 +89,6 @@ public class ServiceReceiverClientProcessController extends
 
             if (!StringUtils.isEmpty(dto.getIdentity())) {
                 predicates.add(cb.like(root.get(ServiceReceiverClient_.identityCard), "%" + dto.getIdentity() + "%"));
-            }
-
-            if (!StringUtils.isEmpty(dto.getYijincode())) {
-                predicates.add(cb.like(root.get(ServiceReceiverClient_.yijinCode), "%" + dto.getYijincode() + "%"));
             }
 
             final ServiceReceiverClientStatus statusEnum = LookupParser.parse(ServiceReceiverClientStatus.class, dto.getStatus());

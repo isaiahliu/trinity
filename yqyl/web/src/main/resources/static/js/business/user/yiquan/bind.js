@@ -4,9 +4,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		url : "/ajax/user/userinfo"
 	}).success(function(response) {
 		$scope.id = response.data[0].id;
-		$scope.username = response.data[0].username;
-		$scope.email = response.data[0].email;
-		$scope.cellphone = response.data[0].cellphone;
+		$scope.yiquan = response.data[0].yiquan;
 	}).error(function(response) {
 	});
 
@@ -17,8 +15,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			data : {
 				data : [ {
 					id : $scope.id,
-					email : $scope.email,
-					cellphone : $scope.cellphone
+					yiquan : $scope.yiquan
 				} ]
 			}
 		}).success(function(response) {

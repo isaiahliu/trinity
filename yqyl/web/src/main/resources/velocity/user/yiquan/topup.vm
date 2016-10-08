@@ -1,0 +1,7 @@
+#parse("/velocity/user/yiquan/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/user/yiquan/topup.css"></link>
+
+<div class="topup" ng-controller="contentController">topup</div>
+
+<script src="/static/js/business/user/yiquan/topup.js"></script>

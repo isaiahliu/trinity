@@ -8,7 +8,7 @@ layoutApp.directive('customOnChange', function() {
 	};
 });
 
-layoutApp.controller('realnameController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window) {
 	$scope.verified = true;
 
 	$http({

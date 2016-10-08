@@ -1,6 +1,6 @@
 layoutApp
 		.controller(
-				'orderController',
+				'contentController',
 				function($scope, $http, $window) {
 					$scope.unprocessedOrderPopulated = false;
 					$scope.processingOrderPopulated = false;

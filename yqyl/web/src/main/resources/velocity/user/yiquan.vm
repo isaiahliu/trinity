@@ -1,7 +1,0 @@
-#parse("/velocity/user/navigation.vm")
-
-<link rel="stylesheet" href="/static/css/business/user/yiquan.css"></link>
-
-<div class="yiquan" ng-controller="yiquanController">yiquan</div>
-
-<script src="/static/js/business/user/yiquan.js"></script>

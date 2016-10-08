@@ -1,4 +1,4 @@
-layoutApp.controller('passwordController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window) {
 	$http({
 		method : "GET",
 		url : "/ajax/user/userinfo"

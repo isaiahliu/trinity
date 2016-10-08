@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/static/css/business/login.css"></link>
 
-<div class="tableView login" ng-controller="loginController">
+<div class="tableView login" ng-controller="contentController">
 	<div>
 		<div>
 			<table>

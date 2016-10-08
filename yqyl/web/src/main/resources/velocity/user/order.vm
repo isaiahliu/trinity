@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/user/order.css"></link>
 
-<div class="order" ng-controller="orderController">
+<div class="order" ng-controller="contentController">
 	<table class="tab">
 		<tr>
 			<td align="center"><a href="javascript:void(0)"

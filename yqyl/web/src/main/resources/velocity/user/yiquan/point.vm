@@ -1,0 +1,7 @@
+#parse("/velocity/user/yiquan/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/user/yiquan/point.css"></link>
+
+<div class="point" ng-controller="contentController">point</div>
+
+<script src="/static/js/business/user/yiquan/point.js"></script>

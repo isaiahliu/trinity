@@ -1,0 +1,17 @@
+#parse("/velocity/user/yiquan/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/user/yiquan/bind.css"></link>
+
+<div class="bind" ng-controller="contentController">
+	<table>
+		<tr>
+			<td>#label("YIQUAN_NO")</td>
+			<td><input ng-model="yiquan" /></td>
+		</tr>
+		<tr>
+			<td align="center" colspan="2"><button ng-click="apply()">#button("OK")</button></td>
+		</tr>
+	</table>
+</div>
+
+<script src="/static/js/business/user/yiquan/bind.js"></script>

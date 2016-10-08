@@ -26,7 +26,6 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
         copyObject(source::getHomephoneNo, target::getHomephoneNo, target::setHomephoneNo, copyPolicy);
         copyObject(source::getIdentityCard, target::getIdentityCard, target::setIdentityCard, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
-        copyObject(source::getYijinCode, target::getYijinCode, target::setYijinCode, copyPolicy);
     }
 
     @Override
@@ -42,7 +41,6 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
         copyObject(source::getHomephoneNo, target::getHomephoneNo, target::setHomephoneNo, copyPolicy);
         copyObject(source::getIdentityCard, target::getIdentityCard, target::setIdentityCard, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
-        copyObject(source::getYijinCode, target::getYijinCode, target::setYijinCode, copyPolicy);
     }
 
     @Override

@@ -1,0 +1,7 @@
+#parse("/velocity/user/yiquan/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/user/yiquan/branch.css"></link>
+
+<div class="branch" ng-controller="contentController">branch</div>
+
+<script src="/static/js/business/user/yiquan/branch.js"></script>

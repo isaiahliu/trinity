@@ -83,9 +83,6 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     @Column(name = "videophone_no")
     private String videophoneNo;
 
-    @Column(name = "yijin_code")
-    private String yijinCode;
-
     // uni-directional many-to-one association to ServiceReceiverClient
     @ManyToOne
     @JoinColumn(name = "spouse_client_id")
@@ -227,10 +224,6 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return this.videophoneNo;
     }
 
-    public String getYijinCode() {
-        return this.yijinCode;
-    }
-
     public Favorite removeFavorite(final Favorite favorite) {
         getFavorites().remove(favorite);
         favorite.setServiceReceiverClient(null);
@@ -337,9 +330,4 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     public void setVideophoneNo(final String videophoneNo) {
         this.videophoneNo = videophoneNo;
     }
-
-    public void setYijinCode(final String yijinCode) {
-        this.yijinCode = yijinCode;
-    }
-
 }

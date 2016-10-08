@@ -1,0 +1,7 @@
+#parse("/velocity/user/yiquan/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/user/yiquan/search.css"></link>
+
+<div class="search" ng-controller="contentController">search</div>
+
+<script src="/static/js/business/user/yiquan/search.js"></script>
