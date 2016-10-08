@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,79 +28,104 @@ import org.trinity.yqyl.common.message.lookup.RecordStatus;
 @Table(name = "service_category")
 @NamedQuery(name = "ServiceCategory.findAll", query = "SELECT s FROM ServiceCategory s")
 public class ServiceCategory extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceCategory_PK_IdGenerator")
-    @TableGenerator(name = "ServiceCategory_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceCategory_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceCategory_PK_IdGenerator")
+	@TableGenerator(name = "ServiceCategory_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceCategory_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    @Lob
-    private String description;
+	@Lob
+	private String description;
 
-    private String name;
+	private String name;
 
-    private RecordStatus status;
+	private RecordStatus status;
 
-    // bi-directional many-to-one association to Service
-    @OneToMany(mappedBy = "serviceCategory")
-    private List<ServiceInfo> services;
+	// bi-directional many-to-one association to ServiceCategory
+	@ManyToOne
+	@JoinColumn(name = "parent_service_category_id")
+	private ServiceCategory parent;
 
-    public ServiceCategory() {
-    }
+	// bi-directional many-to-one association to ServiceCategory
+	@OneToMany(mappedBy = "parent")
+	private List<ServiceCategory> children;
 
-    public ServiceInfo addService(final ServiceInfo service) {
-        getServices().add(service);
-        service.setServiceCategory(this);
+	// bi-directional many-to-many association to ServiceInfo
+	@ManyToMany(mappedBy = "serviceCategories")
+	private List<ServiceInfo> serviceInfos;
 
-        return service;
-    }
+	public ServiceCategory() {
+	}
 
-    public String getDescription() {
-        return this.description;
-    }
+	public ServiceCategory addChildren(final ServiceCategory children) {
+		getChildren().add(children);
+		children.setParent(this);
 
-    public Long getId() {
-        return this.id;
-    }
+		return children;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public List<ServiceCategory> getChildren() {
+		return this.children;
+	}
 
-    public List<ServiceInfo> getServices() {
-        return this.services;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    public RecordStatus getStatus() {
-        return this.status;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public ServiceInfo removeService(final ServiceInfo service) {
-        getServices().remove(service);
-        service.setServiceCategory(null);
+	public String getName() {
+		return this.name;
+	}
 
-        return service;
-    }
+	public ServiceCategory getParent() {
+		return this.parent;
+	}
 
-    public void setDescription(final String description) {
-        this.description = description;
-    }
+	public List<ServiceInfo> getServiceInfos() {
+		return this.serviceInfos;
+	}
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	public RecordStatus getStatus() {
+		return this.status;
+	}
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+	public ServiceCategory removeChildren(final ServiceCategory children) {
+		getChildren().remove(children);
+		children.setParent(null);
 
-    public void setServices(final List<ServiceInfo> services) {
-        this.services = services;
-    }
+		return children;
+	}
 
-    public void setStatus(final RecordStatus status) {
-        this.status = status;
-    }
+	public void setChildren(final List<ServiceCategory> children) {
+		this.children = children;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+
+	public void setId(final Long id) {
+		this.id = id;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public void setParent(final ServiceCategory parent) {
+		this.parent = parent;
+	}
+
+	public void setServiceInfos(final List<ServiceInfo> serviceInfos) {
+		this.serviceInfos = serviceInfos;
+	}
+
+	public void setStatus(final RecordStatus status) {
+		this.status = status;
+	}
 
 }

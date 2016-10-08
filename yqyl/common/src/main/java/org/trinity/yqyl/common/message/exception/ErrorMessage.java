@@ -45,7 +45,8 @@ public enum ErrorMessage implements IErrorMessage {
     UNABLE_TO_FIND_SERVICE_ORDER,
     UNABLE_TO_FIND_SERVICE_INFO,
     UNABLE_TO_FIND_USER_REALNAME,
-    UNABLE_TO_FIND_YIQUAN;
+    UNABLE_TO_FIND_YIQUAN,
+    UNABLE_TO_FIND_PARENT_CATEGORY;
 
     @Override
     public String getMessageCode() {

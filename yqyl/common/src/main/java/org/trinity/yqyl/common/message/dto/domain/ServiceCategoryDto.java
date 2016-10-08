@@ -5,7 +5,7 @@ import org.trinity.common.dto.domain.AbstractBusinessDto;
 public class ServiceCategoryDto extends AbstractBusinessDto {
     private String name;
     private String description;
-    private LookupDto status;;
+    private LookupDto status;
 
     public String getDescription() {
         return description;

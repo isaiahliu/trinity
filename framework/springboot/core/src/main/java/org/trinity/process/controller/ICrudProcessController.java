@@ -6,15 +6,15 @@ import org.springframework.data.domain.Page;
 import org.trinity.common.exception.IException;
 
 public interface ICrudProcessController<TDto, TSearchingDto> extends IProcessController {
-    List<TDto> addAll(List<TDto> data) throws IException;
+	List<TDto> addAll(List<TDto> dtos) throws IException;
 
-    void delete(Long id) throws IException;
+	void delete(Long id) throws IException;
 
-    Page<TDto> getAll(TSearchingDto data) throws IException;
+	Page<TDto> getAll(TSearchingDto searchingData) throws IException;
 
-    List<TDto> getMe() throws IException;
+	List<TDto> getMe() throws IException;
 
-    TDto getOne(Long id) throws IException;
+	TDto getOne(Long id) throws IException;
 
-    void updateAll(List<TDto> data) throws IException;
+	void updateAll(List<TDto> dtos) throws IException;
 }

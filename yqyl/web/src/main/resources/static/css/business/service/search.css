@@ -39,7 +39,7 @@ div.filter div.subCategory {
 	padding-left: 40px;
 }
 
-div.filter div.submit {
+div.filter div.submit, div.paging {
 	text-align: center;
 	margin-top: 10px;
 }

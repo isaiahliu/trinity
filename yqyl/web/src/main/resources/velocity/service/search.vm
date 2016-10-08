@@ -10,42 +10,32 @@
 	<div class="filter">
 		<div class="block category">
 			<ul>
-				<li class="categoryItem"><a href="javascript:void(0)"><div>
-							<span>医疗保健</span>
-						</div></a></li>
-				<li class="categoryItem"><a href="javascript:void(0)"><div>
-							<span>家政服务</span>
-						</div></a></li>
-				<li class="categoryItem"><a href="javascript:void(0)"><div>
-							<span>生活照料</span>
-						</div></a></li>
-				<li class="categoryItem"><a href="javascript:void(0)"><div>
-							<span>康复护理</span>
+				<li class="categoryItem ng-hide" ng-show="categories"
+					ng-repeat="category in categories"><a
+					href="javascript:void(0)" ng-click='selectCategory(category)'><div>
+							<span>{{category.name}}</span>
 						</div></a></li>
 			</ul>
 		</div>
 		<div class="block subCategory">
 			<ul>
-				<li class="subCategoryItem"><input type="checkbox" /><span>按摩</span></li>
-				<li class="subCategoryItem"><input type="checkbox" /><span>保健</span></li>
-				<li class="subCategoryItem"><input type="checkbox" /><span>足浴</span></li>
-				<li class="subCategoryItem"><input type="checkbox" /><span>开背</span></li>
-				<li class="subCategoryItem"><input type="checkbox" /><span>SPA</span></li>
+				<li ng-repeat="subCategory in selectedCategory.children"
+					class="subCategoryItem ng-hide" ng-show="selectedCategory.children"><input
+					type="checkbox" ng-model="subCategory.checked" /><span>{{subCategory.name}}</span></li>
 			</ul>
 		</div>
 		<div class="block submit">
-
-			<button>#button("SEARCH")</button>
-			<button>#button("PUBLISH_SERVICE")</button>
+			<button ng-click="searchServices(true)">#button("SEARCH")</button>
+			<button ng-click="publish()">#button("PUBLISH_SERVICE")</button>
 		</div>
 	</div>
-	<div class="info">
+	<div class="info ng-hide" ng-show="pagingData">
 		泰安<span>#info("SERVICE_FOUND_1")"家政服务"
-			3#info("SERVICE_FOUND_2")</span>
+			{{pagingData.itemCount}}#info("SERVICE_FOUND_2")</span>
 	</div>
 	<div class="services">
 		<ul>
-			<li class="serviceItem">
+			<li ng-repeat="result in results" class="serviceItem ng-hide" ng-show="results">
 				<div>
 					<div class="serviceImg">
 						<img />
@@ -55,7 +45,7 @@
 					</div>
 					<div class="serviceInfo">
 						<div class="serviceInfoTitle">
-							<span>金牌爱心家政公司</span>
+							<span>{{result.name}}</span>
 						</div>
 						<div class="serviceInfoDetail">
 							<span class="key">#label("SERVICE_CATEGORIES")</span><span
@@ -63,33 +53,7 @@
 						</div>
 						<div class="serviceInfoDetail">
 							<span class="key">#label("EXPECTED_PRICE")</span><span
-								class="value">88/小时</span>
-						</div>
-						<div class="serviceInfoDetail">
-							<span class="key">#label("APPRAISE")</span><span class="value">★★★★★</span>
-						</div>
-					</div>
-				</div>
-			</li>
-			<li class="serviceItem">
-				<div>
-					<div class="serviceImg">
-						<img />
-					</div>
-					<div class="serviceBooking">
-						<button>#button("SERVICE_BOOKING")</button>
-					</div>
-					<div class="serviceInfo">
-						<div class="serviceInfoTitle">
-							<span>金牌爱心家政公司</span>
-						</div>
-						<div class="serviceInfoDetail">
-							<span class="key">#label("SERVICE_CATEGORIES")</span><span
-								class="value">保洁,做饭阿姨</span>
-						</div>
-						<div class="serviceInfoDetail">
-							<span class="key">#label("EXPECTED_PRICE")</span><span
-								class="value">88/小时</span>
+								class="value">{{result.price}}/小时</span>
 						</div>
 						<div class="serviceInfoDetail">
 							<span class="key">#label("APPRAISE")</span><span class="value">★★★★★</span>
@@ -98,6 +62,15 @@
 				</div>
 			</li>
 		</ul>
+	</div>
+	<div class="paging ng-hide" ng-show="pagingData">
+		<pagination total-items="pagingData.itemCount"
+			ng-model="pagingData.pageIndex" max-size="10"
+			items-per-page="pagingData.pageSize" class="pagination-sm"
+			boundary-links="true" ng-change="searchServices(false)"
+			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+			previous-text='#label("PREVIOUS_PAGE")'
+			next-text='#label("NEXT_PAGE")'></pagination>
 	</div>
 </div>
 

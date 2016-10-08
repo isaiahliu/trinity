@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.trinity.common.accessright.AuthToken;
 import org.trinity.common.accessright.ITokenAwareAuthentication;
 import org.trinity.common.url.IHttpUrl;
+import org.trinity.common.util.Tuple2;
 
 public class RestfulServiceUtil implements IRestfulServiceUtil {
 
@@ -70,11 +71,13 @@ public class RestfulServiceUtil implements IRestfulServiceUtil {
 			restTemplate = new RestTemplate();
 		}
 
-		final Map<String, Object> varibles = new HashMap<String, Object>();
+		final Map<String, Object> values = new HashMap<String, Object>();
+		final List<Tuple2<String, String>> keys = new ArrayList<>();
 
 		if (requestParamBean != null) {
 			if (requestParamBean instanceof Map) {
-				varibles.putAll((Map) requestParamBean);
+				values.putAll((Map) requestParamBean);
+				values.forEach((key, value) -> keys.add(new Tuple2<>(key, key)));
 			} else {
 				for (final Method method : requestParamBean.getClass().getMethods()) {
 					String prefix = null;
@@ -94,7 +97,16 @@ public class RestfulServiceUtil implements IRestfulServiceUtil {
 
 						fieldName = fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1);
 
-						varibles.put(fieldName, value != null ? value : "");
+						if (value instanceof List) {
+							for (int index = 0; index < ((List) value).size(); index++) {
+								final Object listValue = ((List) value).get(index);
+								keys.add(new Tuple2<>(fieldName, fieldName + "_" + index));
+								values.put(fieldName + "_" + index, listValue != null ? listValue : "");
+							}
+						} else {
+							keys.add(new Tuple2<>(fieldName, fieldName));
+							values.put(fieldName, value != null ? value : "");
+						}
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					}
 				}
@@ -107,16 +119,16 @@ public class RestfulServiceUtil implements IRestfulServiceUtil {
 			restUrl = restUrl.concat("/").concat(subPath);
 		}
 
-		if (!varibles.isEmpty()) {
-			restUrl = restUrl.concat("?").concat(
-					String.join("&", varibles.keySet().stream().map(item -> String.format("%1$s={%1$s}", item)).toArray(String[]::new)));
+		if (!values.isEmpty()) {
+			restUrl = restUrl.concat("?").concat(String.join("&",
+					keys.stream().map(item -> String.format("%s={%s}", item.getItem1(), item.getItem2())).toArray(String[]::new)));
 		}
 
 		HttpEntity<?> requestBodyEntity = null;
 		if (requestBody != null) {
 			requestBodyEntity = new HttpEntity(requestBody);
 		}
-		return restTemplate.exchange(restUrl, httpMethod, requestBodyEntity, responseType, varibles).getBody();
+		return restTemplate.exchange(restUrl, httpMethod, requestBodyEntity, responseType, values).getBody();
 	}
 
 }
