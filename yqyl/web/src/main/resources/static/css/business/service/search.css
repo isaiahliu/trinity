@@ -13,14 +13,15 @@ div.city select {
 	height: 32px;
 }
 
-div.filter {
+div.filter, div.services {
 	background-color: rgba(174, 174, 174, 1);
 	margin-top: 30px;
 	padding: 10px 0px;
 }
 
-div.filter ul {
+div.filter ul, div.services ul {
 	list-style: none;
+	padding: 0px;
 }
 
 div.filter li {
@@ -29,11 +30,13 @@ div.filter li {
 
 div.filter div.category {
 	height: 70px;
+	padding-left: 40px;
 }
 
 div.filter div.subCategory {
 	height: 40px;
 	line-height: 40px;
+	padding-left: 40px;
 }
 
 div.filter div.submit {
@@ -66,4 +69,48 @@ div.subCategory li.subCategoryItem {
 
 div.subCategory li.subCategoryItem input {
 	margin-right: 2px;
+}
+
+div.services li.serviceItem {
+	background: white;
+	width: 1080px;
+	margin: 0px 0px 10px 10px;
+	padding: 10px;
+	height: 140px;
+}
+
+div.services li.serviceItem div.serviceImg {
+	float: left;
+}
+
+div.services li.serviceItem div.serviceBooking {
+	float: right;
+}
+
+div.services li.serviceItem div.serviceImg img {
+	width: 120px;
+	height: 120px;
+	max-height: 120px;
+	max-width: 120px;
+	margin-right: 10px;
+}
+
+div.services li.serviceItem div.serviceInfoTitle {
+	font-size: large;
+	font-weight: bold;
+}
+
+div.services li.serviceItem div.serviceInfoDetail {
+	margin-top: 5px;
+}
+
+div.services li.serviceItem div.serviceInfoDetail span.key {
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+div.services li.serviceItem div.serviceBooking button {
+	margin: 35px 40px 0px 0px;
+	width: 200px;
+	height: 50px;
 }

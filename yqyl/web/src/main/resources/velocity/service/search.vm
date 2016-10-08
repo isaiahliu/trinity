@@ -45,27 +45,55 @@
 	</div>
 	<div class="services">
 		<ul>
-			<li>
+			<li class="serviceItem">
 				<div>
 					<div class="serviceImg">
 						<img />
 					</div>
+					<div class="serviceBooking">
+						<button>#button("SERVICE_BOOKING")</button>
+					</div>
 					<div class="serviceInfo">
-						<div>
+						<div class="serviceInfoTitle">
 							<span>金牌爱心家政公司</span>
 						</div>
-						<div>
-							<span>#label("SERVICE_CATEGORIES")</span><span>保洁,做饭阿姨</span>
+						<div class="serviceInfoDetail">
+							<span class="key">#label("SERVICE_CATEGORIES")</span><span
+								class="value">保洁,做饭阿姨</span>
 						</div>
-						<div>
-							<span>#label("EXPECTED_PRICE")</span> <span>88/小时</span>
+						<div class="serviceInfoDetail">
+							<span class="key">#label("EXPECTED_PRICE")</span><span
+								class="value">88/小时</span>
 						</div>
-						<div>
-							<span>#label("APPRAISE")</span> <span>OOOOO</span>
+						<div class="serviceInfoDetail">
+							<span class="key">#label("APPRAISE")</span><span class="value">★★★★★</span>
 						</div>
+					</div>
+				</div>
+			</li>
+			<li class="serviceItem">
+				<div>
+					<div class="serviceImg">
+						<img />
 					</div>
 					<div class="serviceBooking">
 						<button>#button("SERVICE_BOOKING")</button>
+					</div>
+					<div class="serviceInfo">
+						<div class="serviceInfoTitle">
+							<span>金牌爱心家政公司</span>
+						</div>
+						<div class="serviceInfoDetail">
+							<span class="key">#label("SERVICE_CATEGORIES")</span><span
+								class="value">保洁,做饭阿姨</span>
+						</div>
+						<div class="serviceInfoDetail">
+							<span class="key">#label("EXPECTED_PRICE")</span><span
+								class="value">88/小时</span>
+						</div>
+						<div class="serviceInfoDetail">
+							<span class="key">#label("APPRAISE")</span><span class="value">★★★★★</span>
+						</div>
 					</div>
 				</div>
 			</li>
