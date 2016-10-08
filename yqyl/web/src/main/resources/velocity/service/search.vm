@@ -5,33 +5,39 @@
 		<select>
 			<option value="370900">泰安</option>
 		</select> <input placeholder='#info("INPUT_YOUR_CITY")' />
-		<button>#button("SEARCH_CITY")</button>
+		<button ng-click="searchCity()">#button("SEARCH_CITY")</button>
 	</div>
-	<div class="category">
-		<ul>
-			<li><a href="javascript:void(0)"><div>
-						<span>医疗保健</span>
-					</div></a></li>
-			<li><a href="javascript:void(0)"><div>
-						<span>家政服务</span>
-					</div></a></li>
-			<li><a href="javascript:void(0)"><div>
-						<span>生活照料</span>
-					</div></a></li>
-			<li><a href="javascript:void(0)"><div>
-						<span>康复护理</span>
-					</div></a></li>
-		</ul>
-		<ul>
-			<li><input type="checkbox" /><span>按摩</span></li>
-			<li><input type="checkbox" /><span>保健</span></li>
-			<li><input type="checkbox" /><span>足浴</span></li>
-			<li><input type="checkbox" /><span>开背</span></li>
-			<li><input type="checkbox" /><span>SPA</span></li>
-		</ul>
+	<div class="filter">
+		<div class="block category">
+			<ul>
+				<li class="categoryItem"><a href="javascript:void(0)"><div>
+							<span>医疗保健</span>
+						</div></a></li>
+				<li class="categoryItem"><a href="javascript:void(0)"><div>
+							<span>家政服务</span>
+						</div></a></li>
+				<li class="categoryItem"><a href="javascript:void(0)"><div>
+							<span>生活照料</span>
+						</div></a></li>
+				<li class="categoryItem"><a href="javascript:void(0)"><div>
+							<span>康复护理</span>
+						</div></a></li>
+			</ul>
+		</div>
+		<div class="block subCategory">
+			<ul>
+				<li class="subCategoryItem"><input type="checkbox" /><span>按摩</span></li>
+				<li class="subCategoryItem"><input type="checkbox" /><span>保健</span></li>
+				<li class="subCategoryItem"><input type="checkbox" /><span>足浴</span></li>
+				<li class="subCategoryItem"><input type="checkbox" /><span>开背</span></li>
+				<li class="subCategoryItem"><input type="checkbox" /><span>SPA</span></li>
+			</ul>
+		</div>
+		<div class="block submit">
 
-		<button>#button("SEARCH")</button>
-		<button>#button("PUBLISH_SERVICE")</button>
+			<button>#button("SEARCH")</button>
+			<button>#button("PUBLISH_SERVICE")</button>
+		</div>
 	</div>
 	<div class="info">
 		泰安<span>#info("SERVICE_FOUND_1")"家政服务"
@@ -58,7 +64,9 @@
 							<span>#label("APPRAISE")</span> <span>OOOOO</span>
 						</div>
 					</div>
-					<div class="serviceBooking"><button>#button("SERVICE_BOOKING")</button></div>
+					<div class="serviceBooking">
+						<button>#button("SERVICE_BOOKING")</button>
+					</div>
 				</div>
 			</li>
 		</ul>
