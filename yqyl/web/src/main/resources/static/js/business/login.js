@@ -1,4 +1,4 @@
-layoutApp.controller('loginController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window) {
 	$scope.isReg = false;
 
 	$scope.loginData = {
