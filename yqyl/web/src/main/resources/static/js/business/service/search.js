@@ -56,7 +56,7 @@ layoutApp
 							}
 						}
 
-						var ajaxUrl = "/ajax/service";
+						var ajaxUrl = "/ajax/service/supplier";
 
 						ajaxUrl += "?pageIndex=" + (paging.pageIndex - 1);
 						ajaxUrl += "&pageSize=" + paging.pageSize;

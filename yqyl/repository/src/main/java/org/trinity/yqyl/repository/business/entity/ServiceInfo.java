@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -55,15 +53,15 @@ public class ServiceInfo extends AbstractAuditableEntity implements Serializable
     @OneToMany(mappedBy = "service")
     private List<ServiceOrder> orders;
 
-    // bi-directional many-to-one association to User
+    // bi-directional many-to-one association to ServiceCategory
     @ManyToOne
-    private User user;
+    @JoinColumn(name = "service_category_id")
+    private ServiceCategory serviceCategory;
 
-    // bi-directional many-to-many association to ServiceCategory
-    @ManyToMany
-    @JoinTable(name = "service_info_service_category", joinColumns = { @JoinColumn(name = "service_info_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "service_category_id") })
-    private List<ServiceCategory> serviceCategories;
+    // bi-directional many-to-one association to ServiceSupplierClient
+    @ManyToOne
+    @JoinColumn(name = "service_supplier_client_id")
+    private ServiceSupplierClient serviceSupplierClient;
 
     public ServiceInfo() {
     }
@@ -110,16 +108,16 @@ public class ServiceInfo extends AbstractAuditableEntity implements Serializable
         return this.price;
     }
 
-    public List<ServiceCategory> getServiceCategories() {
-        return this.serviceCategories;
+    public ServiceCategory getServiceCategory() {
+        return this.serviceCategory;
+    }
+
+    public ServiceSupplierClient getServiceSupplierClient() {
+        return this.serviceSupplierClient;
     }
 
     public ServiceStatus getStatus() {
         return this.status;
-    }
-
-    public User getUser() {
-        return this.user;
     }
 
     public Favorite removeFavorite(final Favorite favorite) {
@@ -164,16 +162,16 @@ public class ServiceInfo extends AbstractAuditableEntity implements Serializable
         this.price = price;
     }
 
-    public void setServiceCategories(final List<ServiceCategory> serviceCategories) {
-        this.serviceCategories = serviceCategories;
+    public void setServiceCategory(final ServiceCategory serviceCategory) {
+        this.serviceCategory = serviceCategory;
+    }
+
+    public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+        this.serviceSupplierClient = serviceSupplierClient;
     }
 
     public void setStatus(final ServiceStatus status) {
         this.status = status;
-    }
-
-    public void setUser(final User user) {
-        this.user = user;
     }
 
 }

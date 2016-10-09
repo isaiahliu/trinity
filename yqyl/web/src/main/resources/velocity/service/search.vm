@@ -38,7 +38,7 @@
 				ng-show="results">
 				<div>
 					<div class="serviceImg">
-						<img />
+						<img ng-src="/ajax/content/image/{{result.logo}}" />
 					</div>
 					<div class="serviceBooking">
 						<a ng-href="/service/info/{{result.id}}"><div>
@@ -56,7 +56,7 @@
 						</div>
 						<div class="serviceInfoDetail">
 							<span class="key">#label("EXPECTED_PRICE")</span><span
-								class="value">{{result.price}}/小时</span>
+								class="value">{{result.expectedPrice}}/#label("HOUR")</span>
 						</div>
 						<div class="serviceInfoDetail">
 							<span class="key">#label("APPRAISE")</span><span class="value">★★★★★</span>

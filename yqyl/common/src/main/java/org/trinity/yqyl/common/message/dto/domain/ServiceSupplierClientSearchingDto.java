@@ -1,51 +1,31 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.trinity.common.dto.object.PagingDto;
 
 public class ServiceSupplierClientSearchingDto extends PagingDto {
-    private Long id;
-    private String name;
-    private String identity;
-    private String email;
-    private String status;
+    private Long categoryParent;
+    private List<Long> categoryChildren;
 
-    public String getEmail() {
-        return email;
+    public List<Long> getCategoryChildren() {
+        if (categoryChildren == null) {
+            categoryChildren = new ArrayList<>();
+        }
+        return categoryChildren;
     }
 
-    public Long getId() {
-        return id;
+    public Long getCategoryParent() {
+        return categoryParent;
     }
 
-    public String getIdentity() {
-        return identity;
+    public void setCategoryChildren(final List<Long> categoryChildren) {
+        this.categoryChildren = categoryChildren;
     }
 
-    public String getName() {
-        return name;
+    public void setCategoryParent(final Long categoryParent) {
+        this.categoryParent = categoryParent;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public void setIdentity(final String identity) {
-        this.identity = identity;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public void setStatus(final String status) {
-        this.status = status;
-    }
 }

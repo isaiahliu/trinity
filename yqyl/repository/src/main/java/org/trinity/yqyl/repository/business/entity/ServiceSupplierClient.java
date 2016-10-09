@@ -2,12 +2,14 @@
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -51,10 +53,24 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
     @Column(name = "identity_copy", insertable = true, updatable = true)
     private String identityCopy;
 
+    @Column(name = "logo", insertable = true, updatable = true)
+    private String logo;
+
     @Column(name = "license_copy", insertable = true, updatable = true)
     private String licenseCopy;
 
+    // bi-directional many-to-one association to ServiceInfo
+    @OneToMany(mappedBy = "serviceSupplierClient")
+    private List<ServiceInfo> serviceInfos;
+
     public ServiceSupplierClient() {
+    }
+
+    public ServiceInfo addServiceInfo(final ServiceInfo serviceInfo) {
+        getServiceInfos().add(serviceInfo);
+        serviceInfo.setServiceSupplierClient(this);
+
+        return serviceInfo;
     }
 
     public String getAddress() {
@@ -85,6 +101,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return this.name;
     }
 
+    public List<ServiceInfo> getServiceInfos() {
+        return this.serviceInfos;
+    }
+
     public ServiceSupplierClientStatus getStatus() {
         return this.status;
     }
@@ -99,6 +119,13 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public Long getUserId() {
         return userId;
+    }
+
+    public ServiceInfo removeServiceInfo(final ServiceInfo serviceInfo) {
+        getServiceInfos().remove(serviceInfo);
+        serviceInfo.setServiceSupplierClient(null);
+
+        return serviceInfo;
     }
 
     public void setAddress(final String address) {
@@ -129,6 +156,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         this.name = name;
     }
 
+    public void setServiceInfos(final List<ServiceInfo> serviceInfos) {
+        this.serviceInfos = serviceInfos;
+    }
+
     public void setStatus(final ServiceSupplierClientStatus status) {
         this.status = status;
     }
@@ -143,6 +174,14 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public void setUserId(final Long userId) {
         this.userId = userId;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
 }

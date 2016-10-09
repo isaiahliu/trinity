@@ -1,5 +1,8 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 
 public class ServiceSupplierClientDto extends AbstractBusinessDto {
@@ -12,6 +15,9 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private String identityCopy;
     private String address;
     private String description;
+    private List<ServiceCategoryDto> serviceCategories;
+    private Double expectedPrice;
+    private String logo;
 
     public String getAddress() {
         return address;
@@ -23,6 +29,10 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
 
     public String getEmail() {
         return email;
+    }
+
+    public Double getExpectedPrice() {
+        return expectedPrice;
     }
 
     public String getIdentity() {
@@ -37,8 +47,19 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         return licenseCopy;
     }
 
+    public String getLogo() {
+        return logo;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public List<ServiceCategoryDto> getServiceCategories() {
+        if (serviceCategories == null) {
+            serviceCategories = new ArrayList<>();
+        }
+        return serviceCategories;
     }
 
     public LookupDto getStatus() {
@@ -61,6 +82,10 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         this.email = email;
     }
 
+    public void setExpectedPrice(final Double expectedPrice) {
+        this.expectedPrice = expectedPrice;
+    }
+
     public void setIdentity(final String identity) {
         this.identity = identity;
     }
@@ -73,8 +98,16 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         this.licenseCopy = licenseCopy;
     }
 
+    public void setLogo(final String logo) {
+        this.logo = logo;
+    }
+
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public void setServiceCategories(final List<ServiceCategoryDto> serviceCategories) {
+        this.serviceCategories = serviceCategories;
     }
 
     public void setStatus(final LookupDto status) {

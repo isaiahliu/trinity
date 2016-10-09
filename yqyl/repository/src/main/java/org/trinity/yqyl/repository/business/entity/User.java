@@ -78,10 +78,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<ServiceOrder> orders;
 
-    // bi-directional many-to-one association to Service
-    @OneToMany(mappedBy = "user")
-    private List<ServiceInfo> services;
-
     // bi-directional one-to-one association to UserRealname
     @OneToOne(mappedBy = "user")
     private UserRealname realname;
@@ -123,13 +119,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         order.setUser(this);
 
         return order;
-    }
-
-    public ServiceInfo addService(final ServiceInfo service) {
-        getServices().add(service);
-        service.setUser(this);
-
-        return service;
     }
 
     public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
@@ -190,10 +179,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.serviceReceiverClients;
     }
 
-    public List<ServiceInfo> getServices() {
-        return this.services;
-    }
-
     public ServiceSupplierClient getServiceSupplierClient() {
         return this.serviceSupplierClient;
     }
@@ -244,13 +229,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         order.setUser(null);
 
         return order;
-    }
-
-    public ServiceInfo removeService(final ServiceInfo service) {
-        getServices().remove(service);
-        service.setUser(null);
-
-        return service;
     }
 
     public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
@@ -309,10 +287,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {
         this.serviceReceiverClients = serviceReceiverClients;
-    }
-
-    public void setServices(final List<ServiceInfo> services) {
-        this.services = services;
     }
 
     public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
