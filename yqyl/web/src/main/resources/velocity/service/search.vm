@@ -33,15 +33,18 @@
 		泰安<span>#info("SERVICE_FOUND_1")"家政服务"
 			{{pagingData.itemCount}}#info("SERVICE_FOUND_2")</span>
 	</div>
-	<div class="services">
+	<div class="services ng-hide" ng-show="results">
 		<ul>
-			<li ng-repeat="result in results" class="serviceItem ng-hide" ng-show="results">
+			<li ng-repeat="result in results" class="serviceItem ng-hide"
+				ng-show="results">
 				<div>
 					<div class="serviceImg">
 						<img />
 					</div>
 					<div class="serviceBooking">
-						<button>#button("SERVICE_BOOKING")</button>
+						<a ng-href="/service/info/{{result.id}}"><div>
+								<span>#button("SERVICE_BOOKING")</span>
+							</div> </a>
 					</div>
 					<div class="serviceInfo">
 						<div class="serviceInfoTitle">
@@ -49,7 +52,8 @@
 						</div>
 						<div class="serviceInfoDetail">
 							<span class="key">#label("SERVICE_CATEGORIES")</span><span
-								class="value">保洁,做饭阿姨</span>
+								ng-repeat="cat in result.serviceCategories" class="value">{{cat.name}}
+							</span>
 						</div>
 						<div class="serviceInfoDetail">
 							<span class="key">#label("EXPECTED_PRICE")</span><span

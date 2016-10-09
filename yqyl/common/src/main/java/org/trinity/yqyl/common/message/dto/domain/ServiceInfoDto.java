@@ -11,14 +11,14 @@ public class ServiceInfoDto extends AbstractBusinessDto {
     private Double price;
     private LookupDto status;
     private String image;
-    private List<ServiceCategoryDto> categories;
+    private List<ServiceCategoryDto> serviceCategories;
     private ServiceSupplierClientDto serviceSupplierClient;
 
-    public List<ServiceCategoryDto> getCategories() {
-        if (categories == null) {
-            categories = new ArrayList<>();
+    public List<ServiceCategoryDto> getServiceCategories() {
+        if (serviceCategories == null) {
+            serviceCategories = new ArrayList<>();
         }
-        return categories;
+        return serviceCategories;
     }
 
     public String getDescription() {
@@ -45,8 +45,8 @@ public class ServiceInfoDto extends AbstractBusinessDto {
         return status;
     }
 
-    public void setCategories(final List<ServiceCategoryDto> categories) {
-        this.categories = categories;
+    public void setServiceCategories(final List<ServiceCategoryDto> serviceCategories) {
+        this.serviceCategories = serviceCategories;
     }
 
     public void setDescription(final String description) {

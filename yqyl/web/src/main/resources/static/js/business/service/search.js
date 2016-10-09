@@ -38,7 +38,7 @@ layoutApp
 								pageSize : 10
 							}
 						}
-						
+
 						$scope.searchingCategory = "";
 						$scope.searchingSubCategories = "";
 						if ($scope.selectedCategory != undefined) {
@@ -79,5 +79,9 @@ layoutApp
 							$scope.pagingData = response.meta.paging;
 						}).error(function(response) {
 						});
+					};
+
+					$scope.publish = function() {
+						$window.location.href = "/service/publish"
 					}
 				});

@@ -88,7 +88,7 @@ public class ServiceOrderProcessController
 			final ServiceSupplierClient serviceSupplierClient = serviceInfo.getUser().getServiceSupplierClient();
 			final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
 
-			serviceInfoDto.setCategories(serviceCategoryDto);
+			serviceInfoDto.setServiceCategories(serviceCategoryDto);
 			serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
 			serviceOrderDto.setService(serviceInfoDto);
 

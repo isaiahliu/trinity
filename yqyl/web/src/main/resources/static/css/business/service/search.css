@@ -109,8 +109,16 @@ div.services li.serviceItem div.serviceInfoDetail span.key {
 	margin-right: 10px;
 }
 
-div.services li.serviceItem div.serviceBooking button {
+div.services li.serviceItem div.serviceBooking div {
 	margin: 35px 40px 0px 0px;
 	width: 200px;
 	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	background: rgba(174, 174, 174, 1);
+	color: black;
+}
+
+div.services li.serviceItem div.serviceBooking a {
+	text-decoration: none;
 }
