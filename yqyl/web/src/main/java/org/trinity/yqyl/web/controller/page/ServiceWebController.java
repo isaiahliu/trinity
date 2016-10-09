@@ -11,7 +11,7 @@ import org.trinity.common.exception.IException;
 public class ServiceWebController extends AbstractResourceWebController {
     @RequestMapping("/info/{id}")
     public ModelAndView infoPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("service/info").addObject("id", id);
+        return createModelAndView("service/info").addObject("serviceSupplierClientId", id);
     }
 
     @RequestMapping({ "", "/search" })

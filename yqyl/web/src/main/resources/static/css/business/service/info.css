@@ -2,3 +2,113 @@ div.info {
 	margin-left: 70px;
 	width: 1100px;
 }
+
+div.image {
+	width: 250px;
+	heigth: 250px;
+	float: left;
+	background-color: rgba(215, 215, 215, 1);
+	margin: 0px 20px 0px 40px;
+}
+
+div.image img {
+	background-color: white;
+	margin: 20px;
+	width: 210px;
+	height: 210px;
+	max-height: 210px;
+	max-width: 210px;
+	width: 210px;
+	margin: 20px;
+}
+
+div.card {
+	border: solid 1px;
+	background-color: rgba(215, 215, 215, 1);
+	margin-left: 300px;
+	height: 250px;
+	padding: 20px;
+}
+
+div.card div.title {
+	font-size: large;
+	font-weight: bold;
+}
+
+div.card div.cardItem {
+	margin-top: 15px;
+}
+
+div.card div.cardItem span.key {
+	font-weight: bold;
+	margin-right: 20px;
+}
+
+div.card div.category {
+	height: 50px;
+}
+
+div.card button {
+	margin-top: 15px;
+	width: 200px;
+}
+
+div.detail {
+	margin-left: 40px;
+}
+
+div.tab {
+	height: 60px;
+}
+
+div.detail div.tab ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+
+div.detail div.tab ul li {
+	float: left;
+}
+
+div.detail div.tab ul li a {
+	text-decoration: none;
+}
+
+div.detail div.tab ul li div {
+	text-align: center;
+	heigth: 60px;
+	width: 353px;
+	line-height: 60px;
+	border: solid 1px black;
+	color: black;
+	background-color: rgba(215, 215, 215, 1);
+}
+
+div.detail div.tabPage {
+	border: solid 1px;
+	padding: 20px 10px;
+	min-height: 300px;
+}
+
+div.detail div.tabPage div.title {
+	font-size: large;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+div.detail div.tabPage div.paging {
+	text-align: center;
+}
+
+div.detail div.tabPage table {
+	margin: auto;
+}
+
+div.detail div.tabPage table td {
+	width: 330px;
+	border: solid 1px;
+}
+
+div.detail div.tabPage table thead td {
+	background-color: rgba(215, 215, 215, 1);
+}
