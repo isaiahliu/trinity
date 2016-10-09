@@ -30,8 +30,7 @@
 		</div>
 	</div>
 	<div class="info ng-hide" ng-show="pagingData">
-		泰安<span>#info("SERVICE_FOUND_1")"家政服务"
-			{{pagingData.itemCount}}#info("SERVICE_FOUND_2")</span>
+		泰安<span>#info("SERVICE_FOUND_1")"{{searchingCategory.name}}"{{pagingData.itemCount}}#info("SERVICE_FOUND_2")</span>
 	</div>
 	<div class="services ng-hide" ng-show="results">
 		<ul>

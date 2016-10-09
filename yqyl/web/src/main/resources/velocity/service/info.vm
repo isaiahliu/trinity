@@ -1,0 +1,6 @@
+<link rel="stylesheet" href="/static/css/business/service/info.css"></link>
+
+<div class="info" ng-controller="contentController">
+</div>
+
+<script src="/static/js/business/service/info.js"></script>

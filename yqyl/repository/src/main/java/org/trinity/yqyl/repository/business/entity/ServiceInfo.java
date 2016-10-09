@@ -29,172 +29,151 @@ import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 @Table(name = "service_info")
 @NamedQuery(name = "ServiceInfo.findAll", query = "SELECT s FROM ServiceInfo s")
 public class ServiceInfo extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Service_PK_IdGenerator")
-	@TableGenerator(name = "Service_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Service_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Service_PK_IdGenerator")
+    @TableGenerator(name = "Service_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Service_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	private String uuid;
+    private String description;
 
-	private String description;
+    private String name;
 
-	private String name;
+    private Double price;
 
-	private Double price;
+    @Column(name = "image", insertable = true, updatable = true)
+    private String image;
 
-	@Column(name = "image", insertable = true, updatable = true)
-	private String image;
+    private ServiceStatus status;
 
-	private ServiceStatus status;
+    // bi-directional many-to-one association to Favorite
+    @OneToMany(mappedBy = "service")
+    private List<Favorite> favorites;
 
-	// bi-directional many-to-one association to Favorite
-	@OneToMany(mappedBy = "service")
-	private List<Favorite> favorites;
+    // bi-directional many-to-one association to Order
+    @OneToMany(mappedBy = "service")
+    private List<ServiceOrder> orders;
 
-	// bi-directional many-to-one association to Order
-	@OneToMany(mappedBy = "service")
-	private List<ServiceOrder> orders;
+    // bi-directional many-to-one association to User
+    @ManyToOne
+    private User user;
 
-	// bi-directional many-to-one association to User
-	@ManyToOne
-	private User user;
+    // bi-directional many-to-many association to ServiceCategory
+    @ManyToMany
+    @JoinTable(name = "service_info_service_category", joinColumns = { @JoinColumn(name = "service_info_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "service_category_id") })
+    private List<ServiceCategory> serviceCategories;
 
-	@Column(name = "revised_version")
-	private Integer revisedVersion;
+    public ServiceInfo() {
+    }
 
-	// bi-directional many-to-many association to ServiceCategory
-	@ManyToMany
-	@JoinTable(name = "service_info_service_category", joinColumns = { @JoinColumn(name = "service_info_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "service_category_id") })
-	private List<ServiceCategory> serviceCategories;
+    public Favorite addFavorite(final Favorite favorite) {
+        getFavorites().add(favorite);
+        favorite.setService(this);
 
-	public ServiceInfo() {
-	}
+        return favorite;
+    }
 
-	public Favorite addFavorite(final Favorite favorite) {
-		getFavorites().add(favorite);
-		favorite.setService(this);
+    public ServiceOrder addOrder(final ServiceOrder order) {
+        getOrders().add(order);
+        order.setService(this);
 
-		return favorite;
-	}
+        return order;
+    }
 
-	public ServiceOrder addOrder(final ServiceOrder order) {
-		getOrders().add(order);
-		order.setService(this);
+    public String getDescription() {
+        return this.description;
+    }
 
-		return order;
-	}
+    public List<Favorite> getFavorites() {
+        return this.favorites;
+    }
 
-	public String getDescription() {
-		return this.description;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public List<Favorite> getFavorites() {
-		return this.favorites;
-	}
+    public String getImage() {
+        return image;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public List<ServiceOrder> getOrders() {
+        return this.orders;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public Double getPrice() {
+        return this.price;
+    }
 
-	public List<ServiceOrder> getOrders() {
-		return this.orders;
-	}
+    public List<ServiceCategory> getServiceCategories() {
+        return this.serviceCategories;
+    }
 
-	public Double getPrice() {
-		return this.price;
-	}
+    public ServiceStatus getStatus() {
+        return this.status;
+    }
 
-	public Integer getRevisedVersion() {
-		return revisedVersion;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public List<ServiceCategory> getServiceCategories() {
-		return this.serviceCategories;
-	}
+    public Favorite removeFavorite(final Favorite favorite) {
+        getFavorites().remove(favorite);
+        favorite.setService(null);
 
-	public ServiceStatus getStatus() {
-		return this.status;
-	}
+        return favorite;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public ServiceOrder removeOrder(final ServiceOrder order) {
+        getOrders().remove(order);
+        order.setService(null);
 
-	public String getUuid() {
-		return uuid;
-	}
+        return order;
+    }
 
-	public Favorite removeFavorite(final Favorite favorite) {
-		getFavorites().remove(favorite);
-		favorite.setService(null);
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
-		return favorite;
-	}
+    public void setFavorites(final List<Favorite> favorites) {
+        this.favorites = favorites;
+    }
 
-	public ServiceOrder removeOrder(final ServiceOrder order) {
-		getOrders().remove(order);
-		order.setService(null);
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-		return order;
-	}
+    public void setImage(final String image) {
+        this.image = image;
+    }
 
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public void setFavorites(final List<Favorite> favorites) {
-		this.favorites = favorites;
-	}
+    public void setOrders(final List<ServiceOrder> orders) {
+        this.orders = orders;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public void setPrice(final Double price) {
+        this.price = price;
+    }
 
-	public void setImage(final String image) {
-		this.image = image;
-	}
+    public void setServiceCategories(final List<ServiceCategory> serviceCategories) {
+        this.serviceCategories = serviceCategories;
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setStatus(final ServiceStatus status) {
+        this.status = status;
+    }
 
-	public void setOrders(final List<ServiceOrder> orders) {
-		this.orders = orders;
-	}
-
-	public void setPrice(final Double price) {
-		this.price = price;
-	}
-
-	public void setRevisedVersion(final Integer revisedVersion) {
-		this.revisedVersion = revisedVersion;
-	}
-
-	public void setServiceCategories(final List<ServiceCategory> serviceCategories) {
-		this.serviceCategories = serviceCategories;
-	}
-
-	public void setStatus(final ServiceStatus status) {
-		this.status = status;
-	}
-
-	public void setUser(final User user) {
-		this.user = user;
-	}
-
-	public void setUuid(final String uuid) {
-		this.uuid = uuid;
-	}
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
 }

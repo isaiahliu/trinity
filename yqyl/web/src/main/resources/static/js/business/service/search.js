@@ -39,11 +39,10 @@ layoutApp
 							}
 						}
 
-						$scope.searchingCategory = "";
+						$scope.searchingCategory = undefined;
 						$scope.searchingSubCategories = "";
 						if ($scope.selectedCategory != undefined) {
-							$scope.searchingCategory = "categoryParent="
-									+ $scope.selectedCategory.id;
+							$scope.searchingCategory = $scope.selectedCategory;
 
 							for (var index = 0; index < $scope.selectedCategory.children.length; index++) {
 								if ($scope.selectedCategory.children[index].checked) {
@@ -62,8 +61,9 @@ layoutApp
 						ajaxUrl += "?pageIndex=" + (paging.pageIndex - 1);
 						ajaxUrl += "&pageSize=" + paging.pageSize;
 
-						if ($scope.searchingCategory != "") {
-							ajaxUrl += "&" + $scope.searchingCategory;
+						if ($scope.searchingCategory != undefined) {
+							ajaxUrl += "&categoryParent="
+									+ $scope.searchingCategory.id;
 						}
 
 						if ($scope.searchingSubCategories != "") {

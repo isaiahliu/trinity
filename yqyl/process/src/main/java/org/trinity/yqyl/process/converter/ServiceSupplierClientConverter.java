@@ -19,6 +19,7 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
         copyObject(source::getIdentity, target::getIdentity, target::setIdentity, copyPolicy);
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
+        copyObject(source::getDescription, target::getDescription, target::setDescription, copyPolicy);
     }
 
     @Override
@@ -30,10 +31,9 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
         copyObject(source::getIdentity, target::getIdentity, target::setIdentity, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
-
         copyObject(source::getIdentityCopy, target::getIdentityCopy, target::setIdentityCopy, copyPolicy);
-
         copyObject(source::getLicenseCopy, target::getLicenseCopy, target::setLicenseCopy, copyPolicy);
+        copyObject(source::getDescription, target::getDescription, target::setDescription, copyPolicy);
     }
 
     @Override

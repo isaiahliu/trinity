@@ -41,6 +41,8 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     private PersonalType type;
 
+    private String description;
+
     // bi-directional one-to-one association to User
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -57,6 +59,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public String getAddress() {
         return address;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getEmail() {
@@ -97,6 +103,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public void setAddress(final String address) {
         this.address = address;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public void setEmail(final String email) {
