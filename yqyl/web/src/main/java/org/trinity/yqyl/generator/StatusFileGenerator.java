@@ -3,7 +3,7 @@ package org.trinity.yqyl.generator;
 import java.io.File;
 import java.io.IOException;
 
-public class ResourceGenerator {
+public class StatusFileGenerator {
 
     public static void generate() throws IOException {
         final File resourceFolder = new File("./src/main/resources");
