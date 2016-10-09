@@ -9,9 +9,20 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private LookupDto status;
     private ServiceInfoDto service;
     private Date serviceTime;
+    private Integer score;
+    private String appraise;
+    private String username;
+
+    public String getAppraise() {
+        return appraise;
+    }
 
     public Double getPrice() {
         return price;
+    }
+
+    public Integer getScore() {
+        return score;
     }
 
     public ServiceInfoDto getService() {
@@ -26,8 +37,20 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return status;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setAppraise(final String appraise) {
+        this.appraise = appraise;
+    }
+
     public void setPrice(final Double price) {
         this.price = price;
+    }
+
+    public void setScore(final Integer score) {
+        this.score = score;
     }
 
     public void setService(final ServiceInfoDto service) {
@@ -40,5 +63,9 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setStatus(final LookupDto status) {
         this.status = status;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
     }
 }

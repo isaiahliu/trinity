@@ -8,15 +8,14 @@
 		<img />
 	</div>
 	<div class="card">
-		<div class="title">金牌爱心家政公司</div>
+		<div class="title">{{serviceSupplierClient.name}}</div>
 		<div class="cardItem">
-			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">泰山大街199号建设大厦1026室</span>
+			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceSupplierClient.address}}</span>
 		</div>
 		<div class="cardItem category">
-			<span class="key">#label("SERVICE_CATEGORY")</span><span
-				class="value"><input type="checkbox" />保洁</span> <span
-				class="value"><input type="checkbox" />保洁</span> <span
-				class="value"><input type="checkbox" />保洁</span>
+			<span class="key">#label("SERVICE_CATEGORY")</span> <span
+				ng-repeat="serviceInfo in services" class="value"><input
+				type="checkbox" ng-model="serviceInfo.checked" />{{serviceInfo.name}}</span>
 		</div>
 		<div class="cardItem">
 			#if(${authentication.token.authenticated})
@@ -46,10 +45,10 @@
 		<div class="tabPage">
 			<div ng-show="status=='desc'">
 				<div class="title">
-					<span>金牌爱心家政公司</span>
+					<span>{{serviceSupplierClient.name}}</span>
 				</div>
 				<div class="text">
-					<span>成立于2011年，目前有三家门店，集母婴用品零售，婴幼儿水育，儿童摄影，产后护理，满月发汗，产后催乳，月嫂育儿嫂于一体的综合性母婴服务机构。同时开设妈妈课堂，产后护理，发汗，催乳培训课堂。</span>
+					<span>{{serviceSupplierClient.description}}</span>
 				</div>
 			</div>
 			<div class='ng-hide' ng-show="status=='cate'">
@@ -62,15 +61,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td align="center">保洁</td>
-							<td align="center">100/#label("HOUR")</td>
-							<td align="center">打扫卫生，一尘不染</td>
-						</tr>
-						<tr>
-							<td align="center">做饭阿姨</td>
-							<td align="center">200/#label("HOUR")</td>
-							<td align="center">四菜一汤，五味俱全</td>
+						<tr ng-repeat="serviceInfo in services">
+							<td align="center">{{serviceInfo.name}}</td>
+							<td align="center">{{serviceInfo.price}}/#label("HOUR")</td>
+							<td align="center">{{serviceInfo.description}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -86,15 +80,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td align="center">买家A</td>
-							<td align="center">保洁</td>
-							<td align="center">很棒</td>
-						</tr>
-						<tr>
-							<td align="center">买家B</td>
-							<td align="center">做饭阿姨</td>
-							<td align="center">干净、味美、营养丰富</td>
+						<tr ng-repeat="orderInfo in orders">
+							<td align="center"><span>{{orderInfo.username}}</span></td>
+							<td align="center"><span></span></td>
+							<td align="center"><span>{{orderInfo.appraise}}</span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -102,7 +91,7 @@
 					<pagination total-items="pagingData.itemCount"
 						ng-model="pagingData.pageIndex" max-size="10"
 						items-per-page="pagingData.pageSize" class="pagination-sm"
-						boundary-links="true" ng-change="searchAppraise()"
+						boundary-links="true" ng-change="searchOrders()"
 						first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
 						previous-text='#label("PREVIOUS_PAGE")'
 						next-text='#label("NEXT_PAGE")'></pagination>

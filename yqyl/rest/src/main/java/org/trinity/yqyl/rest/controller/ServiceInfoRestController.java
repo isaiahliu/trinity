@@ -9,7 +9,7 @@ import org.trinity.yqyl.common.message.dto.response.ServiceResponse;
 import org.trinity.yqyl.process.controller.base.IServiceProcessController;
 
 @RestController
-@RequestMapping("/service")
+@RequestMapping("/service/info")
 public class ServiceInfoRestController extends
 		AbstractApplicationAwareCrudRestController<ServiceInfoDto, ServiceInfoSearchingDto, IServiceProcessController, ServiceRequest, ServiceResponse> {
 

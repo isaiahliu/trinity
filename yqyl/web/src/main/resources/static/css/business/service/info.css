@@ -44,6 +44,10 @@ div.card div.cardItem span.key {
 	margin-right: 20px;
 }
 
+div.card div.cardItem span.value {
+	margin-right: 20px;
+}
+
 div.card div.category {
 	height: 50px;
 }

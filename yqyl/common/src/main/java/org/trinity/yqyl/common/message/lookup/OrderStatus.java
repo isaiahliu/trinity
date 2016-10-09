@@ -6,6 +6,7 @@ public enum OrderStatus implements ILookupMessage<LookupType> {
     UNPROCESSED("U"),
     IN_PROGRESS("I"),
     AWAITING_PAYMENT("A"),
+    AWAITING_APPRAISE("P"),
     SETTLED("S");
 
     private final String messageCode;

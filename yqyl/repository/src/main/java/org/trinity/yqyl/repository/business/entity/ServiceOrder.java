@@ -27,77 +27,97 @@ import org.trinity.yqyl.common.message.lookup.OrderStatus;
 @Table(name = "service_order")
 @NamedQuery(name = "ServiceOrder.findAll", query = "SELECT o FROM ServiceOrder o")
 public class ServiceOrder extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
-    @TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
+	@TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private Double price;
+	private Double price;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "service_time")
-    private Date serviceTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "service_time")
+	private Date serviceTime;
 
-    private OrderStatus status;
-    // bi-directional many-to-one association to Service
-    @ManyToOne
-    private ServiceInfo service;
+	private OrderStatus status;
+	// bi-directional many-to-one association to Service
+	@ManyToOne
+	private ServiceInfo service;
 
-    // bi-directional many-to-one association to User
-    @ManyToOne
-    private User user;
+	private Integer score;
 
-    public ServiceOrder() {
-    }
+	private String appraise;
 
-    public Long getId() {
-        return this.id;
-    }
+	// bi-directional many-to-one association to User
+	@ManyToOne
+	private User user;
 
-    public Double getPrice() {
-        return this.price;
-    }
+	public ServiceOrder() {
+	}
 
-    public ServiceInfo getService() {
-        return this.service;
-    }
+	public String getAppraise() {
+		return appraise;
+	}
 
-    public Date getServiceTime() {
-        return serviceTime;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public OrderStatus getStatus() {
-        return this.status;
-    }
+	public Double getPrice() {
+		return this.price;
+	}
 
-    public User getUser() {
-        return this.user;
-    }
+	public Integer getScore() {
+		return score;
+	}
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	public ServiceInfo getService() {
+		return this.service;
+	}
 
-    public void setPrice(final Double price) {
-        this.price = price;
-    }
+	public Date getServiceTime() {
+		return serviceTime;
+	}
 
-    public void setService(final ServiceInfo service) {
-        this.service = service;
-    }
+	public OrderStatus getStatus() {
+		return this.status;
+	}
 
-    public void setServiceTime(final Date serviceTime) {
-        this.serviceTime = serviceTime;
-    }
+	public User getUser() {
+		return this.user;
+	}
 
-    public void setStatus(final OrderStatus status) {
-        this.status = status;
-    }
+	public void setAppraise(final String appraise) {
+		this.appraise = appraise;
+	}
 
-    public void setUser(final User user) {
-        this.user = user;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
+
+	public void setPrice(final Double price) {
+		this.price = price;
+	}
+
+	public void setScore(final Integer score) {
+		this.score = score;
+	}
+
+	public void setService(final ServiceInfo service) {
+		this.service = service;
+	}
+
+	public void setServiceTime(final Date serviceTime) {
+		this.serviceTime = serviceTime;
+	}
+
+	public void setStatus(final OrderStatus status) {
+		this.status = status;
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
+	}
 
 }

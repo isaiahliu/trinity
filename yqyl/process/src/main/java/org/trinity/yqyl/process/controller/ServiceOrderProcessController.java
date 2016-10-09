@@ -28,71 +28,83 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
+import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
 public class ServiceOrderProcessController
-        extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
-        implements IOrderProcessController {
-    @Autowired
-    private IUserRepository userRepository;
+		extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
+		implements IOrderProcessController {
+	@Autowired
+	private IUserRepository userRepository;
 
-    @Autowired
-    private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
+	@Autowired
+	private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
 
-    @Autowired
-    private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
+	@Autowired
+	private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
 
-    @Autowired
-    private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
+	@Autowired
+	private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
 
-    public ServiceOrderProcessController() {
-        super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
-    }
+	public ServiceOrderProcessController() {
+		super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
+	}
 
-    @Override
-    public Page<ServiceOrderDto> getAll(final ServiceOrderSearchingDto dto) throws IException {
-        final Pageable pagable = pagingConverter.convert(dto);
+	@Override
+	public Page<ServiceOrderDto> getAll(final ServiceOrderSearchingDto dto) throws IException {
+		final Pageable pagable = pagingConverter.convert(dto);
 
-        final Specification<ServiceOrder> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
+		final Specification<ServiceOrder> specification = (root, query, cb) -> {
+			final List<Predicate> predicates = new ArrayList<>();
 
-            if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
-                final User user = userRepository.findOneByUsername(dto.getReceiverUserName());
-                predicates.add(cb.equal(root.get(ServiceOrder_.user), user));
-            }
+			if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
+				final User user = userRepository.findOneByUsername(dto.getReceiverUserName());
+				predicates.add(cb.equal(root.get(ServiceOrder_.user), user));
+			}
 
-            if (!dto.getStatus().isEmpty()) {
-                final In<OrderStatus> in = cb.in(root.get(ServiceOrder_.status));
-                dto.getStatus().forEach(item -> in.value(LookupParser.parse(OrderStatus.class, item)));
-                predicates.add(in);
-            }
+			if (!dto.getStatus().isEmpty()) {
+				final In<OrderStatus> in = cb.in(root.get(ServiceOrder_.status));
+				dto.getStatus().forEach(item -> in.value(LookupParser.parse(OrderStatus.class, item)));
+				predicates.add(in);
+			}
 
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
+			if (dto.getServiceSupplierClientId() != null) {
+				predicates.add(cb.equal(
+						root.join(ServiceOrder_.service).join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
+						dto.getServiceSupplierClientId()));
+			}
 
-        final Page<ServiceOrder> findAll = getDomainEntityRepository().findAll(specification, pagable);
+			return cb.and(predicates.toArray(new Predicate[0]));
+		};
 
-        return findAll.map(item -> {
-            final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
+		final Page<ServiceOrder> findAll = getDomainEntityRepository().findAll(specification, pagable);
 
-            final ServiceInfo serviceInfo = item.getService();
-            final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
+		return findAll.map(item -> {
+			final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
 
-            final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
-            final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
+			if (dto.getServiceSupplierClientId() == null) {
+				final ServiceInfo serviceInfo = item.getService();
+				final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
 
-            final ServiceSupplierClient serviceSupplierClient = serviceInfo.getServiceSupplierClient();
-            final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
+				final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
+				final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
 
-            serviceInfoDto.setServiceCategory(serviceCategoryDto);
-            serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
-            serviceOrderDto.setService(serviceInfoDto);
+				final ServiceSupplierClient serviceSupplierClient = serviceInfo.getServiceSupplierClient();
+				final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
 
-            return serviceOrderDto;
-        });
-    }
+				serviceInfoDto.setServiceCategory(serviceCategoryDto);
+				serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
+				serviceOrderDto.setService(serviceInfoDto);
+			} else {
+				serviceOrderDto.setUsername(item.getUser().getUsername());
+			}
+
+			return serviceOrderDto;
+		});
+	}
 }
