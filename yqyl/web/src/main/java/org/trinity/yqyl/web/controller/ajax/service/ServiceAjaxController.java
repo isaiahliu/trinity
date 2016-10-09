@@ -25,6 +25,11 @@ public class ServiceAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.SERVICE_CATEGORY_PARENTS, null, null, null, ServiceCategoryResponse.class);
     }
 
+    @RequestMapping(value = "/supplier/{id}", method = RequestMethod.GET)
+    public @ResponseBody ServiceSupplierClientResponse ajaxGetServiceSupplier(@PathVariable("id") final Long id) throws IException {
+        return restfulServiceUtil.callRestService(Url.SUPPLIER, String.valueOf(id), null, null, ServiceSupplierClientResponse.class);
+    }
+
     @RequestMapping(value = "/category/children/{id}", method = RequestMethod.GET)
     public @ResponseBody ServiceCategoryResponse ajaxGetSubCategories(@PathVariable("id") final Long id) throws IException {
         return restfulServiceUtil.callRestService(Url.SERVICE_CATEGORY_CHILDREN, String.valueOf(id), null, null,
