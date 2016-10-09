@@ -5,17 +5,21 @@ import java.util.List;
 
 import javax.persistence.criteria.Predicate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.trinity.common.exception.IException;
+import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
+import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
@@ -24,6 +28,9 @@ import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 public class ServiceInfoProcessController
 		extends AbstractAutowiredCrudProcessController<ServiceInfo, ServiceInfoDto, ServiceInfoSearchingDto, IServiceInfoRepository>
 		implements IServiceProcessController {
+
+	@Autowired
+	private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
 
 	public ServiceInfoProcessController() {
 		super(ServiceInfo.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_INFO);
@@ -46,7 +53,12 @@ public class ServiceInfoProcessController
 
 		final Page<ServiceInfo> serviceInfos = getDomainEntityRepository().findAll(specification, pagable);
 
-		return serviceInfos.map(item -> getDomainObjectConverter().convert(item));
+		return serviceInfos.map(item -> {
+			final ServiceInfoDto serviceInfoDto = getDomainObjectConverter().convert(item);
+
+			serviceInfoDto.setServiceCategory(serviceCategoryConverter.convert(item.getServiceCategory()));
+			return serviceInfoDto;
+		});
 	}
 
 }

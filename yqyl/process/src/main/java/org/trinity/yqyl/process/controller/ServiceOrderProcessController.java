@@ -2,6 +2,7 @@ package org.trinity.yqyl.process.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
@@ -19,6 +20,7 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSubOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
@@ -31,6 +33,8 @@ import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
+import org.trinity.yqyl.repository.business.entity.ServiceSubOrder;
+import org.trinity.yqyl.repository.business.entity.ServiceSubOrder_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 import org.trinity.yqyl.repository.business.entity.User;
@@ -47,6 +51,9 @@ public class ServiceOrderProcessController
 
 	@Autowired
 	private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
+
+	@Autowired
+	private IObjectConverter<ServiceSubOrder, ServiceSubOrderDto> serviceSubOrderConverter;
 
 	@Autowired
 	private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
@@ -75,8 +82,11 @@ public class ServiceOrderProcessController
 
 			if (dto.getServiceSupplierClientId() != null) {
 				predicates.add(cb.equal(
-						root.join(ServiceOrder_.service).join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
+						root.join(ServiceOrder_.serviceSubOrders).join(ServiceSubOrder_.serviceInfo)
+								.join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
 						dto.getServiceSupplierClientId()));
+
+				query.distinct(true);
 			}
 
 			return cb.and(predicates.toArray(new Predicate[0]));
@@ -87,8 +97,11 @@ public class ServiceOrderProcessController
 		return findAll.map(item -> {
 			final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
 
-			if (dto.getServiceSupplierClientId() == null) {
-				final ServiceInfo serviceInfo = item.getService();
+			final List<ServiceSubOrder> serviceSubOrders = item.getServiceSubOrders();
+			final List<ServiceSubOrderDto> serviceSubOrderDtos = serviceSubOrders.stream().map(serviceSubOrder -> {
+				final ServiceSubOrderDto serviceSubOrderDto = serviceSubOrderConverter.convert(serviceSubOrder);
+
+				final ServiceInfo serviceInfo = serviceSubOrder.getServiceInfo();
 				final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
 
 				final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
@@ -99,8 +112,14 @@ public class ServiceOrderProcessController
 
 				serviceInfoDto.setServiceCategory(serviceCategoryDto);
 				serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
-				serviceOrderDto.setService(serviceInfoDto);
-			} else {
+				serviceSubOrderDto.setService(serviceInfoDto);
+
+				return serviceSubOrderDto;
+			}).collect(Collectors.toList());
+
+			serviceOrderDto.setServiceSubOrders(serviceSubOrderDtos);
+
+			if (dto.getServiceSupplierClientId() != null) {
 				serviceOrderDto.setUsername(item.getUser().getUsername());
 			}
 

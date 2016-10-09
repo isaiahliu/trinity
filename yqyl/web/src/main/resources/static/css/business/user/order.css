@@ -69,6 +69,11 @@ div.order div.orderItem div.orderInfo span.key {
 	font-weight: bold;
 }
 
+div.order div.orderItem div.orderInfo div.orderCompany span.key {
+	font-size: large;
+	width: 200px;
+}
+
 div.order div.orderItem div.orderInfo span.value {
 	display: inline-block;
 	width: 140px;

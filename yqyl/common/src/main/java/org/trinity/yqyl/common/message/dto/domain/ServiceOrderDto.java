@@ -1,13 +1,15 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 
 public class ServiceOrderDto extends AbstractBusinessDto {
     private Double price;
     private LookupDto status;
-    private ServiceInfoDto service;
+    private List<ServiceSubOrderDto> serviceSubOrders;
     private Date serviceTime;
     private Integer score;
     private String appraise;
@@ -25,8 +27,8 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return score;
     }
 
-    public ServiceInfoDto getService() {
-        return service;
+    public List<ServiceSubOrderDto> getServiceSubOrders() {
+        return serviceSubOrders;
     }
 
     public Date getServiceTime() {
@@ -53,8 +55,11 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.score = score;
     }
 
-    public void setService(final ServiceInfoDto service) {
-        this.service = service;
+    public void setServiceSubOrders(List<ServiceSubOrderDto> serviceSubOrders) {
+        if (serviceSubOrders == null) {
+            serviceSubOrders = new ArrayList<>();
+        }
+        this.serviceSubOrders = serviceSubOrders;
     }
 
     public void setServiceTime(final Date serviceTime) {

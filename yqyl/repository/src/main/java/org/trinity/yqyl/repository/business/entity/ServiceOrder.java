@@ -3,6 +3,7 @@ package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -41,10 +43,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 	private Date serviceTime;
 
 	private OrderStatus status;
-	// bi-directional many-to-one association to Service
-	@ManyToOne
-	private ServiceInfo service;
 
+	// bi-directional many-to-one association to ServiceSubOrder
+	@OneToMany(mappedBy = "serviceOrder")
+	private List<ServiceSubOrder> serviceSubOrders;
 	private Integer score;
 
 	private String appraise;
@@ -54,6 +56,13 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 	private User user;
 
 	public ServiceOrder() {
+	}
+
+	public ServiceSubOrder addServiceSubOrder(final ServiceSubOrder serviceSubOrder) {
+		getServiceSubOrders().add(serviceSubOrder);
+		serviceSubOrder.setServiceOrder(this);
+
+		return serviceSubOrder;
 	}
 
 	public String getAppraise() {
@@ -72,8 +81,8 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 		return score;
 	}
 
-	public ServiceInfo getService() {
-		return this.service;
+	public List<ServiceSubOrder> getServiceSubOrders() {
+		return this.serviceSubOrders;
 	}
 
 	public Date getServiceTime() {
@@ -86,6 +95,13 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
 	public User getUser() {
 		return this.user;
+	}
+
+	public ServiceSubOrder removeServiceSubOrder(final ServiceSubOrder serviceSubOrder) {
+		getServiceSubOrders().remove(serviceSubOrder);
+		serviceSubOrder.setServiceOrder(null);
+
+		return serviceSubOrder;
 	}
 
 	public void setAppraise(final String appraise) {
@@ -104,8 +120,8 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 		this.score = score;
 	}
 
-	public void setService(final ServiceInfo service) {
-		this.service = service;
+	public void setServiceSubOrders(final List<ServiceSubOrder> serviceSubOrders) {
+		this.serviceSubOrders = serviceSubOrders;
 	}
 
 	public void setServiceTime(final Date serviceTime) {
