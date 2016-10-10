@@ -18,45 +18,46 @@ import org.trinity.yqyl.process.controller.base.IOrderProcessController;
 @RestController
 @RequestMapping("/user/order")
 public class ServiceOrderRestController extends
-        AbstractApplicationAwareCrudRestController<ServiceOrderDto, ServiceOrderSearchingDto, IOrderProcessController, OrderRequest, ServiceOrderResponse> {
+		AbstractApplicationAwareCrudRestController<ServiceOrderDto, ServiceOrderSearchingDto, IOrderProcessController, OrderRequest, ServiceOrderResponse> {
 
-    @RequestMapping(value = "/processed", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessedOrders(final ServiceOrderSearchingDto request)
-            throws IException {
-        request.getStatus().add(OrderStatus.SETTLED.getMessageCode());
+	@RequestMapping(value = "/processed", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessedOrders(final ServiceOrderSearchingDto request)
+			throws IException {
+		request.getStatus().add(OrderStatus.SETTLED.getMessageCode());
+		request.getStatus().add(OrderStatus.AWAITING_APPRAISE.getMessageCode());
 
-        return getAll(request);
-    }
+		return getAll(request);
+	}
 
-    @RequestMapping(value = "/processing", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessingOrders(final ServiceOrderSearchingDto request)
-            throws IException {
-        request.getStatus().add(OrderStatus.IN_PROGRESS.getMessageCode());
-        request.getStatus().add(OrderStatus.AWAITING_PAYMENT.getMessageCode());
+	@RequestMapping(value = "/processing", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessingOrders(final ServiceOrderSearchingDto request)
+			throws IException {
+		request.getStatus().add(OrderStatus.IN_PROGRESS.getMessageCode());
 
-        return getAll(request);
-    }
+		return getAll(request);
+	}
 
-    @RequestMapping(value = "/unprocessed", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllUnprocessedOrders(final ServiceOrderSearchingDto request)
-            throws IException {
-        request.getStatus().add(OrderStatus.UNPROCESSED.getMessageCode());
+	@RequestMapping(value = "/unprocessed", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllUnprocessedOrders(final ServiceOrderSearchingDto request)
+			throws IException {
+		request.getStatus().add(OrderStatus.AWAITING_PAYMENT.getMessageCode());
+		request.getStatus().add(OrderStatus.UNPROCESSED.getMessageCode());
 
-        return getAll(request);
-    }
+		return getAll(request);
+	}
 
-    @RequestMapping(value = "/proposal", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<ServiceOrderResponse> proposeOrder(@RequestBody final ServiceOrderRequest request)
-            throws IException {
-        final ServiceOrderResponse response = new ServiceOrderResponse();
-        response.addData(getDomainProcessController().proposeOrder(request.getData().get(0)));
+	@RequestMapping(value = "/proposal", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ServiceOrderResponse> proposeOrder(@RequestBody final ServiceOrderRequest request)
+			throws IException {
+		final ServiceOrderResponse response = new ServiceOrderResponse();
+		response.addData(getDomainProcessController().proposeOrder(request.getData().get(0)));
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    @Override
-    protected ServiceOrderResponse createResponseInstance() {
-        return new ServiceOrderResponse();
-    }
+	@Override
+	protected ServiceOrderResponse createResponseInstance() {
+		return new ServiceOrderResponse();
+	}
 
 }

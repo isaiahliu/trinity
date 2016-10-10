@@ -48,135 +48,157 @@ import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
 public class ServiceOrderProcessController
-        extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
-        implements IOrderProcessController {
-    @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
+		extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
+		implements IOrderProcessController {
+	@Autowired
+	private ISecurityUtil<AccessRight> securityUtil;
 
-    @Autowired
-    private IUserRepository userRepository;
+	@Autowired
+	private IUserRepository userRepository;
 
-    @Autowired
-    private IServiceSubOrderRepository serviceSubOrderRepository;
+	@Autowired
+	private IServiceSubOrderRepository serviceSubOrderRepository;
 
-    @Autowired
-    private IServiceInfoRepository serviceInfoRepository;
+	@Autowired
+	private IServiceInfoRepository serviceInfoRepository;
 
-    @Autowired
-    private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
+	@Autowired
+	private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
 
-    @Autowired
-    private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
+	@Autowired
+	private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
 
-    @Autowired
-    private IObjectConverter<ServiceSubOrder, ServiceSubOrderDto> serviceSubOrderConverter;
+	@Autowired
+	private IObjectConverter<ServiceSubOrder, ServiceSubOrderDto> serviceSubOrderConverter;
 
-    @Autowired
-    private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
+	@Autowired
+	private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
 
-    public ServiceOrderProcessController() {
-        super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
-    }
+	public ServiceOrderProcessController() {
+		super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
+	}
 
-    @Override
-    public Page<ServiceOrderDto> getAll(final ServiceOrderSearchingDto dto) throws IException {
-        final Pageable pagable = pagingConverter.convert(dto);
+	@Override
+	public Page<ServiceOrderDto> getAll(final ServiceOrderSearchingDto dto) throws IException {
+		final Pageable pagable = pagingConverter.convert(dto);
 
-        final Specification<ServiceOrder> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
+		final Specification<ServiceOrder> specification = (root, query, cb) -> {
+			final List<Predicate> predicates = new ArrayList<>();
 
-            if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
-                final User user = userRepository.findOneByUsername(dto.getReceiverUserName());
-                predicates.add(cb.equal(root.get(ServiceOrder_.user), user));
-            }
+			if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
+				final User user = userRepository.findOneByUsername(dto.getReceiverUserName());
+				predicates.add(cb.equal(root.get(ServiceOrder_.user), user));
+			}
 
-            if (!dto.getStatus().isEmpty()) {
-                final In<OrderStatus> in = cb.in(root.get(ServiceOrder_.status));
-                dto.getStatus().forEach(item -> in.value(LookupParser.parse(OrderStatus.class, item)));
-                predicates.add(in);
-            }
+			if (!dto.getStatus().isEmpty()) {
+				final In<OrderStatus> in = cb.in(root.get(ServiceOrder_.status));
+				dto.getStatus().forEach(item -> in.value(LookupParser.parse(OrderStatus.class, item)));
+				predicates.add(in);
+			}
 
-            if (dto.getServiceSupplierClientId() != null) {
-                predicates.add(cb.equal(
-                        root.join(ServiceOrder_.serviceSubOrders).join(ServiceSubOrder_.serviceInfo)
-                                .join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
-                        dto.getServiceSupplierClientId()));
+			if (dto.getServiceSupplierClientId() != null) {
+				predicates.add(cb.equal(
+						root.join(ServiceOrder_.serviceSubOrders).join(ServiceSubOrder_.serviceInfo)
+								.join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
+						dto.getServiceSupplierClientId()));
 
-                query.distinct(true);
-            }
+				query.distinct(true);
+			}
 
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
+			return cb.and(predicates.toArray(new Predicate[0]));
+		};
 
-        final Page<ServiceOrder> findAll = getDomainEntityRepository().findAll(specification, pagable);
+		final Page<ServiceOrder> findAll = getDomainEntityRepository().findAll(specification, pagable);
 
-        return findAll.map(item -> {
-            final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
+		return findAll.map(item -> {
+			final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
 
-            final List<ServiceSubOrder> serviceSubOrders = item.getServiceSubOrders();
-            final List<ServiceSubOrderDto> serviceSubOrderDtos = serviceSubOrders.stream().map(serviceSubOrder -> {
-                final ServiceSubOrderDto serviceSubOrderDto = serviceSubOrderConverter.convert(serviceSubOrder);
+			final List<ServiceSubOrder> serviceSubOrders = item.getServiceSubOrders();
+			final List<ServiceSubOrderDto> serviceSubOrderDtos = serviceSubOrders.stream().map(serviceSubOrder -> {
+				final ServiceSubOrderDto serviceSubOrderDto = serviceSubOrderConverter.convert(serviceSubOrder);
 
-                final ServiceInfo serviceInfo = serviceSubOrder.getServiceInfo();
-                final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
+				final ServiceInfo serviceInfo = serviceSubOrder.getServiceInfo();
+				final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
 
-                final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
-                final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
+				final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
+				final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
 
-                final ServiceSupplierClient serviceSupplierClient = serviceInfo.getServiceSupplierClient();
-                final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
+				final ServiceSupplierClient serviceSupplierClient = serviceInfo.getServiceSupplierClient();
+				final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
 
-                serviceInfoDto.setServiceCategory(serviceCategoryDto);
-                serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
-                serviceSubOrderDto.setService(serviceInfoDto);
+				serviceInfoDto.setServiceCategory(serviceCategoryDto);
+				serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
+				serviceSubOrderDto.setService(serviceInfoDto);
 
-                return serviceSubOrderDto;
-            }).collect(Collectors.toList());
+				return serviceSubOrderDto;
+			}).collect(Collectors.toList());
 
-            serviceOrderDto.setServiceSubOrders(serviceSubOrderDtos);
+			serviceOrderDto.setServiceSubOrders(serviceSubOrderDtos);
 
-            if (dto.getServiceSupplierClientId() != null) {
-                serviceOrderDto.setUsername(item.getUser().getUsername());
-            }
+			if (dto.getServiceSupplierClientId() != null) {
+				serviceOrderDto.setUsername(item.getUser().getUsername());
+			}
 
-            return serviceOrderDto;
-        });
-    }
+			return serviceOrderDto;
+		});
+	}
 
-    @Override
-    @Transactional
-    public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
-        final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
+	@Override
+	@Transactional
+	public ServiceOrderDto getOne(final Long id) throws IException {
+		final ServiceOrder entity = getDomainEntityRepository().findOne(id);
+		if (entity == null) {
+			throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
+		}
 
-        final ServiceOrder serviceOrder = new ServiceOrder();
-        serviceOrder.setPrice(0d);
-        serviceOrder.setProposalTime(new Date());
-        serviceOrder.setStatus(OrderStatus.AWAITING_PAYMENT);
-        serviceOrder.setUser(user);
+		final ServiceOrderDto dto = getDomainObjectConverter().convert(entity);
 
-        final List<ServiceSubOrder> serviceSubOrders = serviceOrderDto.getServiceSubOrders().stream().map(item -> {
-            final ServiceSubOrder subOrder = serviceSubOrderConverter.convertBack(item);
+		final List<ServiceSubOrderDto> serviceSubOrders = entity.getServiceSubOrders().stream().map(item -> {
+			final ServiceSubOrderDto serviceSubOrderDto = serviceSubOrderConverter.convert(item);
+			serviceSubOrderDto.setService(serviceInfoConverter.convert(item.getServiceInfo()));
 
-            final ServiceInfo serviceInfo = serviceInfoRepository.findOne(item.getService().getId());
+			return serviceSubOrderDto;
+		}).collect(Collectors.toList());
 
-            subOrder.setId(null);
-            subOrder.setPrice(serviceInfo.getPrice());
-            subOrder.setServiceInfo(serviceInfo);
-            subOrder.setStatus(RecordStatus.ACTIVE);
-            subOrder.setServiceOrder(serviceOrder);
+		dto.setServiceSubOrders(serviceSubOrders);
 
-            serviceOrder.setPrice(serviceOrder.getPrice() + subOrder.getPrice());
+		return dto;
+	}
 
-            return subOrder;
-        }).collect(Collectors.toList());
+	@Override
+	@Transactional
+	public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
+		final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
 
-        if (serviceSubOrders.isEmpty()) {
-            throw getExceptionFactory().createException(ErrorMessage.NO_SUB_ORDERS);
-        }
+		final ServiceOrder serviceOrder = new ServiceOrder();
+		serviceOrder.setPrice(0d);
+		serviceOrder.setProposalTime(new Date());
+		serviceOrder.setStatus(OrderStatus.AWAITING_PAYMENT);
+		serviceOrder.setUser(user);
 
-        getDomainEntityRepository().save(serviceOrder);
-        serviceSubOrderRepository.save(serviceSubOrders);
+		final List<ServiceSubOrder> serviceSubOrders = serviceOrderDto.getServiceSubOrders().stream().map(item -> {
+			final ServiceSubOrder subOrder = serviceSubOrderConverter.convertBack(item);
 
-        return getDomainObjectConverter().convert(serviceOrder);
-    }
+			final ServiceInfo serviceInfo = serviceInfoRepository.findOne(item.getService().getId());
+
+			subOrder.setId(null);
+			subOrder.setPrice(serviceInfo.getPrice());
+			subOrder.setServiceInfo(serviceInfo);
+			subOrder.setStatus(RecordStatus.ACTIVE);
+			subOrder.setServiceOrder(serviceOrder);
+
+			serviceOrder.setPrice(serviceOrder.getPrice() + subOrder.getPrice());
+
+			return subOrder;
+		}).collect(Collectors.toList());
+
+		if (serviceSubOrders.isEmpty()) {
+			throw getExceptionFactory().createException(ErrorMessage.NO_SUB_ORDERS);
+		}
+
+		getDomainEntityRepository().save(serviceOrder);
+		serviceSubOrderRepository.save(serviceSubOrders);
+
+		return getDomainObjectConverter().convert(serviceOrder);
+	}
 }
