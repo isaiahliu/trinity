@@ -49,12 +49,12 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 			}
 
 			var address = serviceInfo.subOrder.customAddress;
-			if (address == "") {
+			if (address == "" || address == null || address == undefined) {
 				address = serviceInfo.subOrder.defaultMember.address;
 			}
 
 			var phone = serviceInfo.subOrder.customPhoneNo;
-			if (phone == "") {
+			if (phone == "" || phone == null || phone == undefined) {
 				phone = serviceInfo.subOrder.defaultMember.cellphoneNo;
 			}
 
@@ -76,7 +76,7 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 				data : [ order ]
 			}
 		}).success(function(response) {
-			alert(response.data[0].id);
+			$window.location.href = "/user/order/" + response.data[0].id;
 		}).error(function(response) {
 		});
 	};
