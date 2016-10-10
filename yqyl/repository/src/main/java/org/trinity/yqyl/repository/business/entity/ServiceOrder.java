@@ -29,111 +29,135 @@ import org.trinity.yqyl.common.message.lookup.OrderStatus;
 @Table(name = "service_order")
 @NamedQuery(name = "ServiceOrder.findAll", query = "SELECT o FROM ServiceOrder o")
 public class ServiceOrder extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
-	@TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
+    @TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	private Double price;
+    private Double price;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "service_time")
-	private Date serviceTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "proposal_time")
+    private Date proposalTime;
 
-	private OrderStatus status;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "approval_time")
+    private Date approvalTime;
 
-	// bi-directional many-to-one association to ServiceSubOrder
-	@OneToMany(mappedBy = "serviceOrder")
-	private List<ServiceSubOrder> serviceSubOrders;
-	private Integer score;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "settled_time")
+    private Date settledTime;
 
-	private String appraise;
+    private OrderStatus status;
 
-	// bi-directional many-to-one association to User
-	@ManyToOne
-	private User user;
+    // bi-directional many-to-one association to ServiceSubOrder
+    @OneToMany(mappedBy = "serviceOrder")
+    private List<ServiceSubOrder> serviceSubOrders;
+    private Integer score;
 
-	public ServiceOrder() {
-	}
+    private String appraise;
 
-	public ServiceSubOrder addServiceSubOrder(final ServiceSubOrder serviceSubOrder) {
-		getServiceSubOrders().add(serviceSubOrder);
-		serviceSubOrder.setServiceOrder(this);
+    // bi-directional many-to-one association to User
+    @ManyToOne
+    private User user;
 
-		return serviceSubOrder;
-	}
+    public ServiceOrder() {
+    }
 
-	public String getAppraise() {
-		return appraise;
-	}
+    public ServiceSubOrder addServiceSubOrder(final ServiceSubOrder serviceSubOrder) {
+        getServiceSubOrders().add(serviceSubOrder);
+        serviceSubOrder.setServiceOrder(this);
 
-	public Long getId() {
-		return this.id;
-	}
+        return serviceSubOrder;
+    }
 
-	public Double getPrice() {
-		return this.price;
-	}
+    public String getAppraise() {
+        return appraise;
+    }
 
-	public Integer getScore() {
-		return score;
-	}
+    public Date getApprovalTime() {
+        return approvalTime;
+    }
 
-	public List<ServiceSubOrder> getServiceSubOrders() {
-		return this.serviceSubOrders;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public Date getServiceTime() {
-		return serviceTime;
-	}
+    public Double getPrice() {
+        return this.price;
+    }
 
-	public OrderStatus getStatus() {
-		return this.status;
-	}
+    public Date getProposalTime() {
+        return proposalTime;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public Integer getScore() {
+        return score;
+    }
 
-	public ServiceSubOrder removeServiceSubOrder(final ServiceSubOrder serviceSubOrder) {
-		getServiceSubOrders().remove(serviceSubOrder);
-		serviceSubOrder.setServiceOrder(null);
+    public List<ServiceSubOrder> getServiceSubOrders() {
+        return this.serviceSubOrders;
+    }
 
-		return serviceSubOrder;
-	}
+    public Date getSettledTime() {
+        return settledTime;
+    }
 
-	public void setAppraise(final String appraise) {
-		this.appraise = appraise;
-	}
+    public OrderStatus getStatus() {
+        return this.status;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public void setPrice(final Double price) {
-		this.price = price;
-	}
+    public ServiceSubOrder removeServiceSubOrder(final ServiceSubOrder serviceSubOrder) {
+        getServiceSubOrders().remove(serviceSubOrder);
+        serviceSubOrder.setServiceOrder(null);
 
-	public void setScore(final Integer score) {
-		this.score = score;
-	}
+        return serviceSubOrder;
+    }
 
-	public void setServiceSubOrders(final List<ServiceSubOrder> serviceSubOrders) {
-		this.serviceSubOrders = serviceSubOrders;
-	}
+    public void setAppraise(final String appraise) {
+        this.appraise = appraise;
+    }
 
-	public void setServiceTime(final Date serviceTime) {
-		this.serviceTime = serviceTime;
-	}
+    public void setApprovalTime(final Date approvalTime) {
+        this.approvalTime = approvalTime;
+    }
 
-	public void setStatus(final OrderStatus status) {
-		this.status = status;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void setUser(final User user) {
-		this.user = user;
-	}
+    public void setPrice(final Double price) {
+        this.price = price;
+    }
+
+    public void setProposalTime(final Date proposalTime) {
+        this.proposalTime = proposalTime;
+    }
+
+    public void setScore(final Integer score) {
+        this.score = score;
+    }
+
+    public void setServiceSubOrders(final List<ServiceSubOrder> serviceSubOrders) {
+        this.serviceSubOrders = serviceSubOrders;
+    }
+
+    public void setSettledTime(final Date settledTime) {
+        this.settledTime = settledTime;
+    }
+
+    public void setStatus(final OrderStatus status) {
+        this.status = status;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
 }

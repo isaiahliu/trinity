@@ -10,17 +10,27 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private Double price;
     private LookupDto status;
     private List<ServiceSubOrderDto> serviceSubOrders;
-    private Date serviceTime;
     private Integer score;
     private String appraise;
     private String username;
+    private Date proposalTime;
+    private Date approvalTime;
+    private Date settledTime;
 
     public String getAppraise() {
         return appraise;
     }
 
+    public Date getApprovalTime() {
+        return approvalTime;
+    }
+
     public Double getPrice() {
         return price;
+    }
+
+    public Date getProposalTime() {
+        return proposalTime;
     }
 
     public Integer getScore() {
@@ -31,8 +41,8 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return serviceSubOrders;
     }
 
-    public Date getServiceTime() {
-        return serviceTime;
+    public Date getSettledTime() {
+        return settledTime;
     }
 
     public LookupDto getStatus() {
@@ -47,8 +57,16 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.appraise = appraise;
     }
 
+    public void setApprovalTime(final Date approvalTime) {
+        this.approvalTime = approvalTime;
+    }
+
     public void setPrice(final Double price) {
         this.price = price;
+    }
+
+    public void setProposalTime(final Date proposalTime) {
+        this.proposalTime = proposalTime;
     }
 
     public void setScore(final Integer score) {
@@ -62,8 +80,8 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.serviceSubOrders = serviceSubOrders;
     }
 
-    public void setServiceTime(final Date serviceTime) {
-        this.serviceTime = serviceTime;
+    public void setSettledTime(final Date settledTime) {
+        this.settledTime = settledTime;
     }
 
     public void setStatus(final LookupDto status) {

@@ -42,4 +42,25 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 	};
 
 	$scope.searchOrders();
+
+	$scope.apply = function() {
+		var url = "/service/proposal/" + serviceSupplierClientId;
+
+		var param = "";
+		for (var index = 0; index < $scope.services.length; index++) {
+			if ($scope.services[index].checked) {
+				if (param != "") {
+					param += "&";
+				}
+
+				param += "selected=" + $scope.services[index].id;
+			}
+		}
+
+		if (param != "") {
+			url += "?" + param;
+		}
+
+		$window.location.href = url;
+	};
 });

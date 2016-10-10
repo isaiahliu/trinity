@@ -1,0 +1,93 @@
+<link rel="stylesheet" href="/static/css/business/service/proposal.css"></link>
+
+<script type="text/javascript">
+	layoutApp.value("selectedServiceInfos", ${selectedServiceInfos});
+	layoutApp.value("serviceSupplierClientId", ${serviceSupplierClientId});
+</script>
+<div class="proposal" ng-controller="contentController">
+	<div class="image">
+		<img />
+	</div>
+	<div class="card">
+		<div class="title">{{serviceSupplierClient.name}}</div>
+		<div class="cardItem">
+			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceSupplierClient.address}}</span>
+		</div>
+	</div>
+	<div class="categorySelect">
+		<span class="key">#label("SELECTED_CATEGORY")</span> <span
+			ng-repeat="serviceInfo in services" class="value"><input
+			type="checkbox" ng-model="serviceInfo.checked" />{{serviceInfo.serviceCategory.name}}</span>
+	</div>
+	<table ng-repeat="serviceInfo in services" class="ng-hide"
+		ng-show="serviceInfo.checked">
+		<thead>
+			<tr>
+				<td class="key" align="center"><span>#label("SERVICE_NAME")</span></td>
+				<td class="value" align="center"><span>{{serviceInfo.serviceCategory.name}}</span></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="key" align="center"><span>#label("SERVICE_TIME")</span></td>
+				<td class="value" align="center"><input type="text"
+					placeholder="YYYY/MM/DD" ui-date="dateOptions"
+					ng-model="serviceInfo.subOrder.serviceDate" /> <select
+					ng-model="serviceInfo.subOrder.serviceHour"><option
+							value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
+						<option value="23">23</option>
+						<option value="24">24</option></select><span>#label("OCLOCK")</span></td>
+			</tr>
+			<tr>
+				<td class="key" align="center"><span>#label("SERVICE_RECEIVER")</span></td>
+				<td class="value" align="center"><select
+					ng-model="serviceInfo.subOrder.defaultMember"
+					ng-options="member as member.name for member in members" /></td>
+			</tr>
+			<tr>
+				<td class="key" align="center"><span>#label("SERVICE_ADDRESS")</span></td>
+				<td class="value" align="center"><textarea class="newInfo"
+						placeholder="{{serviceInfo.subOrder.defaultMember.address}}"
+						ng-model="serviceInfo.subOrder.customAddress"></textarea></td>
+			</tr>
+			<tr>
+				<td class="key" align="center"><span>#label("PHONE_NO")</span></td>
+				<td class="value" align="center"><input class="newInfo"
+					ng-model="serviceInfo.subOrder.customPhoneNo"
+					placeholder="{{serviceInfo.subOrder.defaultMember.cellphoneNo}}" /></td>
+			</tr>
+			<tr>
+				<td align="center"><span>#label("EXPECTED_PRICE")</span></td>
+				<td align="center"><span>{{serviceInfo.price}}/#label("HOUR")</span></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="submit">
+		<button ng-click="apply()">#button("APPLY")</button>
+		<button ng-click="cancel()">#button("CANCEL")</button>
+	</div>
+</div>
+
+<script src="/static/js/business/service/proposal.js"></script>

@@ -19,7 +19,7 @@
 		</div>
 		<div class="cardItem">
 			#if(${authentication.token.authenticated})
-			<button>#button("APPLY")</button>
+			<button ng-click="apply()">#button("APPLY")</button>
 			#else
 			<div>
 				<span>#info("LOGIN_BEFORE_ORDERING")</span>
