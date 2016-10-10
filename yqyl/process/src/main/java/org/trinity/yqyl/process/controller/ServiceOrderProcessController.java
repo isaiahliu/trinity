@@ -155,8 +155,11 @@ public class ServiceOrderProcessController
 
 		final List<ServiceSubOrderDto> serviceSubOrders = entity.getServiceSubOrders().stream().map(item -> {
 			final ServiceSubOrderDto serviceSubOrderDto = serviceSubOrderConverter.convert(item);
-			serviceSubOrderDto.setService(serviceInfoConverter.convert(item.getServiceInfo()));
+			final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(item.getServiceInfo());
+			serviceInfoDto
+					.setServiceSupplierClient(serviceSupplierClientConverter.convert(item.getServiceInfo().getServiceSupplierClient()));
 
+			serviceSubOrderDto.setService(serviceInfoDto);
 			return serviceSubOrderDto;
 		}).collect(Collectors.toList());
 

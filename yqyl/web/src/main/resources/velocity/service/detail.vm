@@ -1,23 +1,17 @@
 <link rel="stylesheet" href="/static/css/business/service/detail.css"></link>
 
 <script type="text/javascript">
-	layoutApp.value("selectedServiceInfos", ${selectedServiceInfos});
-	layoutApp.value("serviceSupplierClientId", ${serviceSupplierClientId});
+	layoutApp.value("serviceOrderId", ${orderId});
 </script>
 <div class="detail" ng-controller="contentController">
 	<div class="image">
 		<img />
 	</div>
 	<div class="card">
-		<div class="title">{{serviceSupplierClient.name}}</div>
+		<div class="title">{{serviceOrder.serviceSubOrders[0].service.serviceSupplierClient.name}}</div>
 		<div class="cardItem">
-			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceSupplierClient.address}}</span>
+			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceOrder.serviceSubOrders[0].service.serviceSupplierClient.address}}</span>
 		</div>
-	</div>
-	<div class="categorySelect">
-		<span class="key">#label("SELECTED_CATEGORY")</span> <span
-			ng-repeat="serviceInfo in services" class="value"><input
-			type="checkbox" ng-model="serviceInfo.checked" />{{serviceInfo.serviceCategory.name}}</span>
 	</div>
 
 	<div class="submit">
