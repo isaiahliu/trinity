@@ -42,44 +42,20 @@ div.card div.cardItem span.key {
 	margin-right: 20px;
 }
 
-div.categorySelect {
-	margin: 20px 0px 0px 40px;
-}
-
-div.categorySelect span.key {
-	font-weight: bold;
-	font-size: large;
-	margin-right: 20px;
-}
-
-div.categorySelect span.value {
-	margin-right: 10px;
-}
-
 div.detail table {
 	margin: 10px 0px 0px 40px;
+	width: 1060px;
 }
 
 div.detail table td {
 	border: solid 1px;
 }
 
-div.detail table td input.newInfo {
-	width: 350px;
-}
-
 div.detail table thead td {
 	background-color: rgba(215, 215, 215, 1)
 }
 
-div.detail table td.key {
-	width: 120px;
-}
-
-div.detail table td.value {
-	width: 400px;
-}
-
 div.submit {
-	margin: 20px 0px 0px 240px;
+	margin: 20px 0px 0px 0px;
+	text-align: center;
 }

@@ -32,8 +32,9 @@
 					</div>
 					<div class="orderInfo">
 						<div>
-							<span class="key">#label("ORDER_ID")</span><span class="value">{{unprocessedOrder.id}}</span>
-							<span class="key">#label("SERVICE_TIME")</span><span
+							<span class="key">#label("ORDER_ID")</span><a
+								href="/user/order/{{unprocessedOrder.id}}"><span
+								class="value">{{unprocessedOrder.id}}</span></a> <span class="key">#label("SERVICE_TIME")</span><span
 								class="value">{{unprocessedOrder.serviceTime |
 								date:'yyyy-MM-dd HH-mm:ss'}}</span> <span class="key">#label("SERVICE_CATEGORY")</span><span
 								ng-repeat="subOrder in unprocessedOrder.serviceSubOrders">{{subOrder.service.serviceCategory.name}}
@@ -68,8 +69,9 @@
 					</div>
 					<div class="orderInfo">
 						<div>
-							<span class="key">#label("ORDER_ID")</span><span class="value">{{processingOrder.id}}</span>
-							<span class="key">#label("SERVICE_TIME")</span><span
+							<span class="key">#label("ORDER_ID")</span><a
+								href="/user/order/{{processingOrder.id}}"><span
+								class="value">{{processingOrder.id}}</span></a> <span class="key">#label("SERVICE_TIME")</span><span
 								class="value">{{processingOrder.serviceTime |
 								date:'yyyy-MM-dd HH-mm:ss'}}</span> <span class="key">#label("SERVICE_CATEGORY")</span><span
 								ng-repeat="subOrder in processingOrder.serviceSubOrders">{{subOrder.service.serviceCategory.name}}
@@ -104,7 +106,8 @@
 					</div>
 					<div class="orderInfo">
 						<div>
-							<span class="key">#label("ORDER_ID")</span><span class="value">{{processedOrder.id}}</span>
+							<span class="key">#label("ORDER_ID")</span><a
+								href="/user/order/{{processedOrder.id}}"><span class="value">{{processedOrder.id}}</span></a>
 							<span class="key">#label("SERVICE_TIME")</span><span
 								class="value">{{processedOrder.serviceTime |
 								date:'yyyy-MM-dd HH-mm:ss'}}</span> <span class="key">#label("SERVICE_CATEGORY")</span><span

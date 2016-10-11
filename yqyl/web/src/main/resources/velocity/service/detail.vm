@@ -13,10 +13,29 @@
 			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceOrder.serviceSubOrders[0].service.serviceSupplierClient.address}}</span>
 		</div>
 	</div>
-
+	<table>
+		<thead>
+			<tr>
+				<td align="center"><span>#label("SERVICE_NAME")</span></td>
+				<td align="center"><span>#label("SERVICE_TIME")</span></td>
+				<td align="center"><span>#label("SERVICE_ADDRESS")</span></td>
+				<td align="center"><span>#label("PHONE_NO")</span></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="serviceSubOrder in serviceOrder.serviceSubOrders">
+				<td align="center"><span>{{serviceSubOrder.service.serviceCategory.name}}</span></td>
+				<td align="center"><span>{{serviceSubOrder.serviceDate|date:'yyyy/MM/dd'}}
+						{{serviceSubOrder.serviceHour}}:00</span></td>
+				<td align="center"><span>{{serviceSubOrder.address}}</span></td>
+				<td align="center"><span>{{serviceSubOrder.phone}}</span></td>
+			</tr>
+		</tbody>
+	</table>
 	<div class="submit">
-		<button ng-click="apply()">#button("APPLY")</button>
-		<button ng-click="cancel()">#button("CANCEL")</button>
+		<button ng-click="edit()">#button("EDIT")</button>
+		<button ng-click="pay()">#button("ONLINE_PAY")</button>
+		<button ng-click="orderMore()">#button("ORDER_MORE")</button>
 	</div>
 </div>
 

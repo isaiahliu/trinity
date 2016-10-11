@@ -7,4 +7,8 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 		$scope.serviceOrder = response.data[0];
 	}).error(function(response) {
 	});
+
+	$scope.orderMore = function() {
+		$window.location.href="/service";
+	};
 });
