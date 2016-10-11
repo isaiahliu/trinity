@@ -1,4 +1,4 @@
-<div class="navBar subNavBar">
+<div class="subNavBar navBar">
 	<ul>
 		<li><a href="/user/order"><div
 					class="navBarItem #if($currentPage=='ORDER')selected #end">

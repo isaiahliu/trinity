@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/static/css/business/base/footer.css"></link>
+
 <div class="footer" ng-controller="footerController">
 	<div class="navBar">
 		<ul>

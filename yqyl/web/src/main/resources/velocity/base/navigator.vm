@@ -1,6 +1,10 @@
+<link rel="stylesheet" href="/static/css/business/base/navigator.css"></link>
+
 <div class="navBar" ng-controller="navigatorController">
 	<ul>
-		<li class="navBarItem"><a href="/home"><div>
+		<li class="navBarItem"><a href="/home"><div
+					ng-mouseenter="showHomePage=true"
+					ng-mouseleave="showHomePage=false">
 					<span>#button("HOME")</span>
 				</div></a></li>
 		<li class="navBarItem"><a href="javascript:void(0)"><div>
@@ -34,13 +38,13 @@
 	<ul class="popList homePagePopList ng-hide"
 		ng-mouseenter="showHomePage=true" ng-mouseleave="showHomePage=false"
 		ng-show="showHomePage">
-		<li><a href="/service"><div>
+		<li><a href="/servicer/home"><div>
 					<span>#button("SERVICE_SUPPLIER_HOME")</span>
 				</div></a></li>
-		<li><a href="javascript:void(0)"><div>
+		<li><a href="/admin/home"><div>
 					<span>#button("ADMIN_HOME")</span>
 				</div></a></li>
-		<li><a href="javascript:void(0)"><div>
+		<li><a href="/operator/home"><div>
 					<span>#button("OPERATOR_HOME")</span>
 				</div></a></li>
 	</ul>
