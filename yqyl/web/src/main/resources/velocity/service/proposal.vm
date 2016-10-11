@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="/static/css/business/service/proposal.css"></link>
 
 <script type="text/javascript">
-	layoutApp.value("selectedServiceInfos", ${selectedServiceInfos});
-	layoutApp.value("serviceSupplierClientId", ${serviceSupplierClientId});
+	layoutApp.value("selectedServiceInfos", #if(${selectedServiceInfos})${selectedServiceInfos}#else{}#end);
+	layoutApp.value("serviceSupplierClientId", #if(${serviceSupplierClientId})${serviceSupplierClientId} #else 0 #end);
+	layoutApp.value("orderId", #if(${orderId})${orderId}#else 0 #end);
 </script>
 <div class="proposal" ng-controller="contentController">
 	<div class="image">
@@ -33,38 +34,14 @@
 				<td class="value" align="center"><input type="text"
 					placeholder="YYYY/MM/DD" ui-date="dateOptions"
 					ng-model="serviceInfo.subOrder.serviceDate" /> <select
-					ng-model="serviceInfo.subOrder.serviceHour"><option
-							value="0">0</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18">18</option>
-						<option value="19">19</option>
-						<option value="20">20</option>
-						<option value="21">21</option>
-						<option value="22">22</option>
-						<option value="23">23</option>
-						<option value="24">24</option></select><span>#label("OCLOCK")</span></td>
+					ng-model="serviceInfo.subOrder.serviceHour"
+					ng-options="hour as hour for hour in hours"></select><span>#label("OCLOCK")</span></td>
 			</tr>
 			<tr>
 				<td class="key" align="center"><span>#label("SERVICE_RECEIVER")</span></td>
 				<td class="value" align="center"><select
 					ng-model="serviceInfo.subOrder.defaultMember"
-					ng-options="member as member.name for member in members" /></td>
+					ng-options="member as member.name for member in members"></select></td>
 			</tr>
 			<tr>
 				<td class="key" align="center"><span>#label("SERVICE_ADDRESS")</span></td>

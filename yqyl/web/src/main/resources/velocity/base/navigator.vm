@@ -31,7 +31,19 @@
 					<span>#button("TALENT_TRAINING")</span>
 				</div></a></li>
 	</ul>
-
+	<ul class="popList homePagePopList ng-hide"
+		ng-mouseenter="showHomePage=true" ng-mouseleave="showHomePage=false"
+		ng-show="showHomePage">
+		<li><a href="/service"><div>
+					<span>#button("SERVICE_SUPPLIER_HOME")</span>
+				</div></a></li>
+		<li><a href="javascript:void(0)"><div>
+					<span>#button("ADMIN_HOME")</span>
+				</div></a></li>
+		<li><a href="javascript:void(0)"><div>
+					<span>#button("OPERATOR_HOME")</span>
+				</div></a></li>
+	</ul>
 	<ul class="popList homeEndowmentPopList ng-hide"
 		ng-mouseenter="showHomeEndowment=true"
 		ng-mouseleave="showHomeEndowment=false" ng-show="showHomeEndowment">

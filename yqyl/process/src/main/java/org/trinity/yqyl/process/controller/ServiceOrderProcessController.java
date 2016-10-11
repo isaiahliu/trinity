@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder.In;
@@ -19,6 +20,7 @@ import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.exception.IException;
 import org.trinity.message.LookupParser;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
@@ -30,7 +32,7 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
-import org.trinity.yqyl.process.controller.base.IOrderProcessController;
+import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSubOrderRepository;
@@ -49,7 +51,7 @@ import org.trinity.yqyl.repository.business.entity.User;
 @Service
 public class ServiceOrderProcessController
         extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
-        implements IOrderProcessController {
+        implements IServiceOrderProcessController {
     @Autowired
     private ISecurityUtil<AccessRight> securityUtil;
 
@@ -76,6 +78,65 @@ public class ServiceOrderProcessController
 
     public ServiceOrderProcessController() {
         super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
+    }
+
+    @Override
+    @Transactional
+    public void editOrder(final ServiceOrderDto serviceOrderDto) throws IException {
+        final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
+        final ServiceOrder serviceOrder = getDomainEntityRepository().findOne(serviceOrderDto.getId());
+        if (serviceOrder == null) {
+            throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
+        }
+
+        if (!serviceOrder.getUser().getId().equals(user.getId())) {
+            throw getExceptionFactory().createException(ErrorMessage.INVALID_ORDER_ID);
+        }
+        if (serviceOrderDto.getServiceSubOrders().isEmpty()) {
+            throw getExceptionFactory().createException(ErrorMessage.NO_SUB_ORDERS);
+        }
+
+        serviceOrder.setPrice(0d);
+        serviceOrder.setProposalTime(new Date());
+        serviceOrder.setUser(user);
+
+        final List<Long> selectedServiceInfoIds = serviceOrderDto.getServiceSubOrders().stream().map(item -> item.getService().getId())
+                .collect(Collectors.toList());
+
+        serviceOrder.getServiceSubOrders().stream().filter(item -> !selectedServiceInfoIds.contains(item.getServiceInfo().getId()))
+                .collect(Collectors.toList()).forEach(item -> serviceSubOrderRepository.delete(item));
+
+        final List<ServiceSubOrder> serviceSubOrders = serviceOrderDto.getServiceSubOrders().stream().map(item -> {
+            final Optional<ServiceSubOrder> findAny = serviceOrder.getServiceSubOrders().stream()
+                    .filter(item2 -> item2.getServiceInfo().getId().equals(item.getService().getId())).findAny();
+
+            ServiceSubOrder subOrder = null;
+            if (findAny.isPresent()) {
+                item.setId(null);
+                item.setPrice(null);
+                item.setStatus(null);
+                subOrder = findAny.get();
+
+                serviceSubOrderConverter.convertBack(item, subOrder, CopyPolicy.SOURCE_IS_NOT_NULL);
+
+                subOrder.setPrice(subOrder.getServiceInfo().getPrice());
+            } else {
+                subOrder = serviceSubOrderConverter.convertBack(item);
+                final ServiceInfo serviceInfo = serviceInfoRepository.findOne(item.getService().getId());
+                subOrder.setId(null);
+                subOrder.setServiceInfo(serviceInfo);
+                subOrder.setPrice(serviceInfo.getPrice());
+                subOrder.setStatus(RecordStatus.ACTIVE);
+                subOrder.setServiceOrder(serviceOrder);
+            }
+
+            serviceOrder.setPrice(serviceOrder.getPrice() + subOrder.getPrice());
+
+            return subOrder;
+        }).collect(Collectors.toList());
+
+        getDomainEntityRepository().save(serviceOrder);
+        serviceSubOrderRepository.save(serviceSubOrders);
     }
 
     @Override

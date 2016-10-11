@@ -9,6 +9,10 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 	});
 
 	$scope.orderMore = function() {
-		$window.location.href="/service";
+		$window.location.href = "/service";
 	};
+
+	$scope.edit = function() {
+		$window.location.href = "/user/order/edit/" + serviceOrderId;
+	}
 });

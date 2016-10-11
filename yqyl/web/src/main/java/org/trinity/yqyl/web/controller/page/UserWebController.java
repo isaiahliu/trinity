@@ -11,68 +11,73 @@ import org.trinity.common.exception.IException;
 @RequestMapping("/user")
 public class UserWebController extends AbstractResourceWebController {
 
-	@RequestMapping(value = "/family", method = RequestMethod.GET)
-	public ModelAndView familyPage() throws IException {
-		return createModelAndView("user/family");
-	}
+    @RequestMapping(value = "/family", method = RequestMethod.GET)
+    public ModelAndView familyPage() throws IException {
+        return createModelAndView("user/family");
+    }
 
-	@RequestMapping(value = "/health", method = RequestMethod.GET)
-	public ModelAndView healthPage() throws IException {
-		return createModelAndView("user/health");
-	}
+    @RequestMapping(value = "/health", method = RequestMethod.GET)
+    public ModelAndView healthPage() throws IException {
+        return createModelAndView("user/health");
+    }
 
-	@RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-	public ModelAndView orderDetailPage(@PathVariable("id") final Long id) throws IException {
-		return createModelAndView("service/detail").addObject("orderId", id);
-	}
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
+    public ModelAndView orderDetailPage(@PathVariable("id") final Long id) throws IException {
+        return createModelAndView("service/detail").addObject("orderId", id);
+    }
 
-	@RequestMapping(value = { "", "/order" }, method = RequestMethod.GET)
-	public ModelAndView orderPage() throws IException {
-		return createModelAndView("user/order");
-	}
+    @RequestMapping(value = "/order/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView orderEditPage(@PathVariable("id") final Long id) throws IException {
+        return createModelAndView("service/proposal").addObject("orderId", id);
+    }
 
-	@RequestMapping(value = "/password", method = RequestMethod.GET)
-	public ModelAndView passwordPage() throws IException {
-		return createModelAndView("user/password");
-	}
+    @RequestMapping(value = { "", "/order" }, method = RequestMethod.GET)
+    public ModelAndView orderPage() throws IException {
+        return createModelAndView("user/order");
+    }
 
-	@RequestMapping(value = "/realname", method = RequestMethod.GET)
-	public ModelAndView realnamePage() throws IException {
-		return createModelAndView("user/realname");
-	}
+    @RequestMapping(value = "/password", method = RequestMethod.GET)
+    public ModelAndView passwordPage() throws IException {
+        return createModelAndView("user/password");
+    }
 
-	@RequestMapping(value = "/userinfo", method = RequestMethod.GET)
-	public ModelAndView userinfoPage() throws IException {
-		return createModelAndView("user/userinfo");
-	}
+    @RequestMapping(value = "/realname", method = RequestMethod.GET)
+    public ModelAndView realnamePage() throws IException {
+        return createModelAndView("user/realname");
+    }
 
-	@RequestMapping(value = "/volunteer", method = RequestMethod.GET)
-	public ModelAndView volunteerPage() throws IException {
-		return createModelAndView("user/volunteer");
-	}
+    @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
+    public ModelAndView userinfoPage() throws IException {
+        return createModelAndView("user/userinfo");
+    }
 
-	@RequestMapping(value = { "/yiquan", "/yiquan/bind" }, method = RequestMethod.GET)
-	public ModelAndView yiquanBindPage() throws IException {
-		return createModelAndView("user/yiquan/bind");
-	}
+    @RequestMapping(value = "/volunteer", method = RequestMethod.GET)
+    public ModelAndView volunteerPage() throws IException {
+        return createModelAndView("user/volunteer");
+    }
 
-	@RequestMapping(value = "/yiquan/branch", method = RequestMethod.GET)
-	public ModelAndView yiquanBranchPage() throws IException {
-		return createModelAndView("user/yiquan/branch");
-	}
+    @RequestMapping(value = { "/yiquan", "/yiquan/bind" }, method = RequestMethod.GET)
+    public ModelAndView yiquanBindPage() throws IException {
+        return createModelAndView("user/yiquan/bind");
+    }
 
-	@RequestMapping(value = "/yiquan/point", method = RequestMethod.GET)
-	public ModelAndView yiquanPointPage() throws IException {
-		return createModelAndView("user/yiquan/point");
-	}
+    @RequestMapping(value = "/yiquan/branch", method = RequestMethod.GET)
+    public ModelAndView yiquanBranchPage() throws IException {
+        return createModelAndView("user/yiquan/branch");
+    }
 
-	@RequestMapping(value = "/yiquan/search", method = RequestMethod.GET)
-	public ModelAndView yiquanSearchPage() throws IException {
-		return createModelAndView("user/yiquan/search");
-	}
+    @RequestMapping(value = "/yiquan/point", method = RequestMethod.GET)
+    public ModelAndView yiquanPointPage() throws IException {
+        return createModelAndView("user/yiquan/point");
+    }
 
-	@RequestMapping(value = "/yiquan/topup", method = RequestMethod.GET)
-	public ModelAndView yiquanTopupPage() throws IException {
-		return createModelAndView("user/yiquan/topup");
-	}
+    @RequestMapping(value = "/yiquan/search", method = RequestMethod.GET)
+    public ModelAndView yiquanSearchPage() throws IException {
+        return createModelAndView("user/yiquan/search");
+    }
+
+    @RequestMapping(value = "/yiquan/topup", method = RequestMethod.GET)
+    public ModelAndView yiquanTopupPage() throws IException {
+        return createModelAndView("user/yiquan/topup");
+    }
 }

@@ -25,6 +25,7 @@ public enum Url implements IHttpUrl {
     ORDER_PROCESSING(HttpMethod.GET, Path.ORDER, "processing"),
     ORDER_PROCESSED(HttpMethod.GET, Path.ORDER, "processed"),
     ORDER_PROPOSAL(HttpMethod.POST, Path.ORDER, "proposal"),
+    ORDER_EDIT(HttpMethod.PUT, Path.ORDER, "edit"),
 
     REALNAME_ME(HttpMethod.GET, Path.REALNAME, "me"),
     REALNAME_UPDATE(HttpMethod.PUT, Path.REALNAME),
