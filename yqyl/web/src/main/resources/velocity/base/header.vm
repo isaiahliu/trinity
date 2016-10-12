@@ -4,15 +4,18 @@
 	<div class="headerBar">
 		<div class="left">
 			<ul>
+				<li><a href="/home"><div>
+							<img src="/static/images/logo/yqyl.png" alt="YQYL" />
+						</div></a></li>
 				<li><div>
-						<img src="/static/images/logo/yqyl.png" alt="YQYL" />
-					</div></li>
-				<li><div>
-						<span class="title">#label("PRODUCT")</span>
-					</div></li>
+						#if($platform=="SERVICER") <span class="title">#label("PRODUCT_SERVICER")</span>
+						#elseif($platform=="ADMIN") <span class="title">#label("PRODUCT_ADMIN")</span>
+						#elseif($platform=="OPERATOR") <span class="title">#label("PRODUCT_OPERATOR")</span>#else<span
+							class="title">#label("PRODUCT")</span> #end
+					</div></li> #if(!$platform)
 				<li><div>
 						<span class="city">泰安市</span>
-					</div></li>
+					</div></li> #end
 			</ul>
 
 		</div>
@@ -21,7 +24,7 @@
 				#if(${authentication}) #if(${authentication.token.authenticated})
 				<li><div>
 						<span>#label("WELCOME"), ${authentication.token.username}</span>
-					</div></li>
+					</div></li> 
 				<li><div>
 						<span><a href="/user">#label("USER_CENTER")</a></span>
 					</div></li>

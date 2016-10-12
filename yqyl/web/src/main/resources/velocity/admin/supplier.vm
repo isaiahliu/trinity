@@ -1,0 +1,7 @@
+#parse("/velocity/admin/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/admin/supplier.css"></link>
+
+<div class="supplier" ng-controller="contentController">supplier</div>
+
+<script src="/static/js/business/admin/supplier.js"></script>

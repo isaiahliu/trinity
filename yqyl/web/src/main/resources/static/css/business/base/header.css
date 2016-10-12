@@ -29,7 +29,7 @@ div.header li div {
 	height: 40px;
 }
 
-div.header div.headerBar, div.content, div.navBar {
+div.header div.headerBar, div.content {
 	margin: 0 auto;
 	width: 1200px;
 }

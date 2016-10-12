@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="/static/css/business/admin/navigation.css"></link>
+
+<div class="subNavBar navBar">
+	<ul>
+		<li><a href="/servicer/info"><div
+					class="navBarItem #if($currentPage=='INFO')selected #end">
+					<span>#button("SERVICER_INFO")</span>
+				</div></a></li>
+		<li><a href="/servicer/service"><div
+					class="navBarItem #if($currentPage=='SERVICE')selected #end">
+					<span>#button("SERVICER_SERVICE")</span>
+				</div></a></li>
+		<li><a href="/servicer/order"><div
+					class="navBarItem #if($currentPage=='ORDER')selected #end">
+					<span>#button("SERVICER_ORDER")</span>
+				</div></a></li>
+		<li><a href="/servicer/staff"><div
+					class="navBarItem #if($currentPage=='STAFF')selected #end">
+					<span>#button("SERVICER_STAFF")</span>
+				</div></a></li>
+		<li><a href="/servicer/transaction"><div
+					class="navBarItem #if($currentPage=='TRANSACTION')selected #end">
+					<span>#button("SERVICER_TRANSACTION")</span>
+				</div></a></li>
+		<li><a href="/servicer/training"><div
+					class="navBarItem #if($currentPage=='TRAINING')selected #end">
+					<span>#button("SERVICER_TRAINING")</span>
+				</div></a></li>
+	</ul>
+</div>

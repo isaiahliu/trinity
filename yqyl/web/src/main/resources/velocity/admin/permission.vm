@@ -1,0 +1,7 @@
+#parse("/velocity/admin/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/admin/permission.css"></link>
+
+<div class="permission" ng-controller="contentController">permission</div>
+
+<script src="/static/js/business/admin/permission.js"></script>

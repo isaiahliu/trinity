@@ -11,7 +11,7 @@ import org.trinity.common.exception.IException;
 public class HomeWebController extends AbstractResourceWebController {
     @RequestMapping("")
     public ModelAndView defaultPage() throws IException {
-        return createModelAndView("redirect:home");
+        return createModelAndView("redirect:/home");
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

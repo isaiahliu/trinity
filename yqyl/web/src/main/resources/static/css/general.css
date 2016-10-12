@@ -37,3 +37,86 @@ div.content textarea {
 	height: 200px;
 	width: 400px;
 }
+
+div.navBar {
+	margin: 0 auto;
+	text-align: center;
+	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	width: 1200px;
+}
+
+div.navBar a {
+	text-decoration: none;
+}
+
+div.navBar li.navBarItem {
+	list-style-type: none;
+	float: left;
+	margin-left: 20px;
+}
+
+div.navBar li div {
+	background-color: rgba(121, 121, 121, 1);
+	width: 100px;
+	height: 25px;
+}
+
+div.navBar li span {
+	color: #FFFFFF;
+	line-height: 25px;
+}
+
+div.navBar li.navBarItem {
+	width: auto;
+	height: 27px;
+	padding: 5px 10px;
+}
+
+div.navBar ul.popList {
+	position: absolute;
+	padding: 0px;
+	z-index: 99;
+}
+
+div.navBar ul.popList li {
+	list-style-type: none;
+	margin-top: 7px;
+}
+
+div.navBar div.selected {
+	border-bottom: 1px blue solid;
+}
+
+div.subNavBar {
+	float: left;
+	margin-left: 70px;
+	width: 180px;
+	margin-top: 0px;
+}
+
+div.subNavBar ul {
+	padding-left: 0px;
+	background-color: rgba(215, 215, 215, 1);
+	width: 180px;
+	padding: 20px 20px 10px 20px;
+	border: solid 1px;
+}
+
+div.subNavBar li {
+	list-style-type: none;
+	margin-bottom: 10px;
+}
+
+div.subNavBar li div.navBarItem {
+	background-color: white;
+	width: 140px;
+	border: solid 1px;
+	height: 35px;
+}
+
+div.subNavBar li div span {
+	line-height: 35px;
+	color: black;
+}

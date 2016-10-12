@@ -38,13 +38,13 @@
 	<ul class="popList homePagePopList ng-hide"
 		ng-mouseenter="showHomePage=true" ng-mouseleave="showHomePage=false"
 		ng-show="showHomePage">
-		<li><a href="/servicer/home"><div>
+		<li><a href="/servicer"><div>
 					<span>#button("SERVICE_SUPPLIER_HOME")</span>
 				</div></a></li>
-		<li><a href="/admin/home"><div>
+		<li><a href="/admin"><div>
 					<span>#button("ADMIN_HOME")</span>
 				</div></a></li>
-		<li><a href="/operator/home"><div>
+		<li><a href="/operator"><div>
 					<span>#button("OPERATOR_HOME")</span>
 				</div></a></li>
 	</ul>

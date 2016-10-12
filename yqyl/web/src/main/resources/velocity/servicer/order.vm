@@ -1,0 +1,7 @@
+#parse("/velocity/servicer/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/servicer/order.css"></link>
+
+<div class="order" ng-controller="contentController">order</div>
+
+<script src="/static/js/business/servicer/order.js"></script>
