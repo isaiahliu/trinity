@@ -1,0 +1,7 @@
+#parse("/velocity/admin/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/admin/service/appraise.css"></link>
+
+<div class="appraise" ng-controller="contentController">appraise</div>
+
+<script src="/static/js/business/admin/service/appraise.js"></script>

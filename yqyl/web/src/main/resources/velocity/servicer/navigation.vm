@@ -1,15 +1,17 @@
-<link rel="stylesheet" href="/static/css/business/admin/navigation.css"></link>
+<link rel="stylesheet"
+	href="/static/css/business/servicer/navigation.css"></link>
 
-<div class="subNavBar navBar">
+<div class="subNavBar navBar" ng-controller="subNavigatorController">
 	<ul>
 		<li><a href="/servicer/info"><div
 					class="navBarItem #if($currentPage=='INFO')selected #end">
 					<span>#button("SERVICER_INFO")</span>
 				</div></a></li>
-		<li><a href="/servicer/service"><div
-					class="navBarItem #if($currentPage=='SERVICE')selected #end">
+		<li><a href="/servicer/service">
+				<div class="navBarItem #if($currentPage=='SERVICE')selected #end">
 					<span>#button("SERVICER_SERVICE")</span>
-				</div></a></li>
+				</div>
+		</a></li>
 		<li><a href="/servicer/order"><div
 					class="navBarItem #if($currentPage=='ORDER')selected #end">
 					<span>#button("SERVICER_ORDER")</span>
@@ -27,4 +29,6 @@
 					<span>#button("SERVICER_TRAINING")</span>
 				</div></a></li>
 	</ul>
+	
 </div>
+

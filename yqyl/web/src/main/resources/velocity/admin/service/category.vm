@@ -1,0 +1,7 @@
+#parse("/velocity/admin/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/admin/service/category.css"></link>
+
+<div class="category" ng-controller="contentController">category</div>
+
+<script src="/static/js/business/admin/service/category.js"></script>
