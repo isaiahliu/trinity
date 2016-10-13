@@ -16,28 +16,37 @@ import org.trinity.yqyl.process.controller.base.IServiceCategoryProcessControlle
 @RestController
 @RequestMapping("/common/servicecategory")
 public class ServiceCategoryRestController extends
-		AbstractApplicationAwareCrudRestController<ServiceCategoryDto, ServiceCategorySearchingDto, IServiceCategoryProcessController, ServiceCategoryRequest, ServiceCategoryResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceCategoryDto, ServiceCategorySearchingDto, IServiceCategoryProcessController, ServiceCategoryRequest, ServiceCategoryResponse> {
 
-	@RequestMapping(value = "/children/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ServiceCategoryResponse> getAllChildren(@PathVariable("id") final Long id) throws IException {
-		final ServiceCategoryResponse response = new ServiceCategoryResponse();
+    @Override
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<ServiceCategoryResponse> getAll(final ServiceCategorySearchingDto request) throws IException {
+        final ServiceCategoryResponse response = new ServiceCategoryResponse();
 
-		response.addData(getDomainProcessController().getSubServiceCategories(id));
+        response.addData(getDomainProcessController().getParentServiceCategoriesWithChildren(request));
+        return createResponseEntity(response);
+    }
 
-		return createResponseEntity(response);
-	}
+    @RequestMapping(value = "/children/{id}", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<ServiceCategoryResponse> getAllChildren(@PathVariable("id") final Long id) throws IException {
+        final ServiceCategoryResponse response = new ServiceCategoryResponse();
 
-	@RequestMapping(value = "/parents", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<ServiceCategoryResponse> getAllParentServiceCategories() throws IException {
-		final ServiceCategoryResponse response = new ServiceCategoryResponse();
+        response.addData(getDomainProcessController().getSubServiceCategories(id));
 
-		response.addData(getDomainProcessController().getParentServiceCategories());
+        return createResponseEntity(response);
+    }
 
-		return createResponseEntity(response);
-	}
+    @RequestMapping(value = "/parents", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<ServiceCategoryResponse> getAllParentServiceCategories() throws IException {
+        final ServiceCategoryResponse response = new ServiceCategoryResponse();
 
-	@Override
-	protected ServiceCategoryResponse createResponseInstance() {
-		return new ServiceCategoryResponse();
-	}
+        response.addData(getDomainProcessController().getAllParentServiceCategories());
+
+        return createResponseEntity(response);
+    }
+
+    @Override
+    protected ServiceCategoryResponse createResponseInstance() {
+        return new ServiceCategoryResponse();
+    }
 }

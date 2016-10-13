@@ -53,6 +53,7 @@ public enum Url implements IHttpUrl {
     LOOKUP_TYPE(HttpMethod.GET, Path.LOOKUP),
     RESOURCE_REFRESH(HttpMethod.PUT, Path.RESOURCE),
 
+    SERVICE_CATEGORY(HttpMethod.GET, Path.SERVICE_CATEGORY),
     SERVICE_CATEGORY_PARENTS(HttpMethod.GET, Path.SERVICE_CATEGORY, "parents"),
     SERVICE_CATEGORY_CHILDREN(HttpMethod.GET, Path.SERVICE_CATEGORY, "children"),
 

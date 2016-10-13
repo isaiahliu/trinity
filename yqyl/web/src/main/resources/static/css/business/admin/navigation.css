@@ -15,10 +15,10 @@ div.navBar ul.servicePopList li {
 
 div.navBar ul.servicePopList li div {
 	background-color: white;
-	color: black;
 	border: solid 1px;
 }
 
 div.navBar ul.servicePopList li div span {
 	line-height: 25px;
+	color: black;
 }

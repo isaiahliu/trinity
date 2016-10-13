@@ -34,6 +34,11 @@ public class AdminWebController extends AbstractResourceWebController {
         return createModelAndView("admin/service/appraise");
     }
 
+    @RequestMapping("/service/category/edit")
+    public ModelAndView serviceCategoryEditPage() throws IException {
+        return createModelAndView("admin/service/categoryEdit");
+    }
+
     @RequestMapping("/service/category")
     public ModelAndView serviceCategoryPage() throws IException {
         return createModelAndView("admin/service/category");

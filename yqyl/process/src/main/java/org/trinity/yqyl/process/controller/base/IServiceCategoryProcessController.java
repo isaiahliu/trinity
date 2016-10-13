@@ -8,7 +8,9 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategorySearchingDto;
 
 public interface IServiceCategoryProcessController extends ICrudProcessController<ServiceCategoryDto, ServiceCategorySearchingDto> {
-	List<ServiceCategoryDto> getParentServiceCategories() throws IException;
+    List<ServiceCategoryDto> getAllParentServiceCategories() throws IException;
 
-	List<ServiceCategoryDto> getSubServiceCategories(long parentServiceCateogryId) throws IException;
+    List<ServiceCategoryDto> getParentServiceCategoriesWithChildren(ServiceCategorySearchingDto data) throws IException;
+
+    List<ServiceCategoryDto> getSubServiceCategories(long parentServiceCateogryId) throws IException;
 }
