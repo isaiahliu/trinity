@@ -3,13 +3,19 @@
 <link rel="stylesheet"
 	href="/static/css/business/admin/service/categoryEdit.css"></link>
 
+<script type="text/javascript">
+	layoutApp.value("categoryId",#if(${categoryId}) ${categoryId} #else 0 #end);
+</script>
+
 <div class="categoryEdit" ng-controller="contentController">
 	<div class="title">#label("SERVICE_CATEGORY")</div>
 	<ul>
 		<li ng-repeat="category in categories">
 			<div>
-				<span class="name" ng-show="!category.editing">{{category.name}}</span>
-				<input class="ng-hide" ng-show="category.editing"
+				<span class="name"
+					ng-class="{'D': 'disabledCategory'}[category.status.code]"
+					ng-show="!category.editing">{{category.name}}</span> <input
+					class="ng-hide" ng-show="category.editing"
 					ng-model="category.newValue" /><a href="javascript:void(0)"
 					class="ng-hide" ng-click="ok(category)" ng-show="category.editing"><span>#button("OK")</span></a><a
 					class="ng-hide" href="javascript:void(0)"
@@ -23,7 +29,7 @@
 					ng-click="disable(category)"
 					ng-show="!category.editing && category.status.code=='A'"><span>#button("DISABLE")</span></a><a
 					class="ng-hide" href="javascript:void(0)"
-					ng-click="delete(category)"
+					ng-click="remove(category)"
 					ng-show="!category.editing && category.id==0"><span>#button("DELETE")</span></a>
 			</div>
 		</li>

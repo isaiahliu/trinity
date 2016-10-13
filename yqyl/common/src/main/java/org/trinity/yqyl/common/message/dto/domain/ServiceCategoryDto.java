@@ -10,6 +10,7 @@ public class ServiceCategoryDto extends AbstractBusinessDto {
     private String description;
     private LookupDto status;
     private List<ServiceCategoryDto> serviceSubCategories;
+    private ServiceCategoryDto parent;
 
     public String getDescription() {
         return description;
@@ -19,8 +20,8 @@ public class ServiceCategoryDto extends AbstractBusinessDto {
         return name;
     }
 
-    public LookupDto getStatus() {
-        return status;
+    public ServiceCategoryDto getParent() {
+        return parent;
     }
 
     public List<ServiceCategoryDto> getServiceSubCategories() {
@@ -28,6 +29,10 @@ public class ServiceCategoryDto extends AbstractBusinessDto {
             serviceSubCategories = new ArrayList<>();
         }
         return serviceSubCategories;
+    }
+
+    public LookupDto getStatus() {
+        return status;
     }
 
     public void setDescription(final String description) {
@@ -38,12 +43,16 @@ public class ServiceCategoryDto extends AbstractBusinessDto {
         this.name = name;
     }
 
-    public void setStatus(final LookupDto status) {
-        this.status = status;
+    public void setParent(final ServiceCategoryDto parent) {
+        this.parent = parent;
     }
 
     public void setServiceSubCategories(final List<ServiceCategoryDto> subServiceCategoryDto) {
         this.serviceSubCategories = subServiceCategoryDto;
+    }
+
+    public void setStatus(final LookupDto status) {
+        this.status = status;
     }
 
 }

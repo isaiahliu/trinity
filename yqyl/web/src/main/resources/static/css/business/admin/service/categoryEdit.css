@@ -17,6 +17,10 @@ div.categoryEdit ul li {
 	margin-top: 5px;
 }
 
+div.categoryEdit ul li span.disabledCategory {
+	text-decoration: line-through;
+}
+
 div.categoryEdit ul li span.name, div.categoryEdit ul li input {
 	display: inline-block;
 }
