@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.PaymentMethod;
+import org.trinity.yqyl.common.message.lookup.PaymentType;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 
 /**
@@ -27,151 +29,172 @@ import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 @Table(name = "service_info")
 @NamedQuery(name = "ServiceInfo.findAll", query = "SELECT s FROM ServiceInfo s")
 public class ServiceInfo extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Service_PK_IdGenerator")
-	@TableGenerator(name = "Service_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Service_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Service_PK_IdGenerator")
+    @TableGenerator(name = "Service_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Service_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	private String description;
+    private String description;
 
-	private String name;
+    private String name;
 
-	private Double price;
+    private Double price;
 
-	@Column(name = "image", insertable = true, updatable = true)
-	private String image;
+    @Column(name = "image", insertable = true, updatable = true)
+    private String image;
 
-	private ServiceStatus status;
+    private ServiceStatus status;
+    @Column(name = "payment_method")
+    private PaymentMethod paymentMethod;
 
-	// bi-directional many-to-one association to Favorite
-	@OneToMany(mappedBy = "service")
-	private List<Favorite> favorites;
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
 
-	// bi-directional many-to-one association to ServiceCategory
-	@ManyToOne
-	@JoinColumn(name = "service_category_id")
-	private ServiceCategory serviceCategory;
+    // bi-directional many-to-one association to Favorite
+    @OneToMany(mappedBy = "service")
+    private List<Favorite> favorites;
 
-	// bi-directional many-to-one association to ServiceSupplierClient
-	@ManyToOne
-	@JoinColumn(name = "service_supplier_client_id")
-	private ServiceSupplierClient serviceSupplierClient;
+    // bi-directional many-to-one association to ServiceCategory
+    @ManyToOne
+    @JoinColumn(name = "service_category_id")
+    private ServiceCategory serviceCategory;
 
-	// bi-directional many-to-one association to ServiceSubOrder
-	@OneToMany(mappedBy = "serviceInfo")
-	private List<ServiceSubOrder> serviceSubOrders;
+    // bi-directional many-to-one association to ServiceSupplierClient
+    @ManyToOne
+    @JoinColumn(name = "service_supplier_client_id")
+    private ServiceSupplierClient serviceSupplierClient;
 
-	public ServiceInfo() {
-	}
+    // bi-directional many-to-one association to ServiceOrder
+    @OneToMany(mappedBy = "serviceInfo")
+    private List<ServiceOrder> serviceOrders;
 
-	public Favorite addFavorite(final Favorite favorite) {
-		getFavorites().add(favorite);
-		favorite.setService(this);
+    public ServiceInfo() {
+    }
 
-		return favorite;
-	}
+    public Favorite addFavorite(final Favorite favorite) {
+        getFavorites().add(favorite);
+        favorite.setService(this);
 
-	public ServiceSubOrder addServiceSubOrder(final ServiceSubOrder serviceSubOrder) {
-		getServiceSubOrders().add(serviceSubOrder);
-		serviceSubOrder.setServiceInfo(this);
+        return favorite;
+    }
 
-		return serviceSubOrder;
-	}
+    public ServiceOrder addServiceOrder(final ServiceOrder serviceOrder) {
+        getServiceOrders().add(serviceOrder);
+        serviceOrder.setServiceInfo(this);
 
-	public String getDescription() {
-		return this.description;
-	}
+        return serviceOrder;
+    }
 
-	public List<Favorite> getFavorites() {
-		return this.favorites;
-	}
+    public String getDescription() {
+        return this.description;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public List<Favorite> getFavorites() {
+        return this.favorites;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getImage() {
+        return image;
+    }
 
-	public Double getPrice() {
-		return this.price;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public ServiceCategory getServiceCategory() {
-		return this.serviceCategory;
-	}
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
 
-	public List<ServiceSubOrder> getServiceSubOrders() {
-		return this.serviceSubOrders;
-	}
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
 
-	public ServiceSupplierClient getServiceSupplierClient() {
-		return this.serviceSupplierClient;
-	}
+    public Double getPrice() {
+        return this.price;
+    }
 
-	public ServiceStatus getStatus() {
-		return this.status;
-	}
+    public ServiceCategory getServiceCategory() {
+        return this.serviceCategory;
+    }
 
-	public Favorite removeFavorite(final Favorite favorite) {
-		getFavorites().remove(favorite);
-		favorite.setService(null);
+    public List<ServiceOrder> getServiceOrders() {
+        return this.serviceOrders;
+    }
 
-		return favorite;
-	}
+    public ServiceSupplierClient getServiceSupplierClient() {
+        return this.serviceSupplierClient;
+    }
 
-	public ServiceSubOrder removeServiceSubOrder(final ServiceSubOrder serviceSubOrder) {
-		getServiceSubOrders().remove(serviceSubOrder);
-		serviceSubOrder.setServiceInfo(null);
+    public ServiceStatus getStatus() {
+        return this.status;
+    }
 
-		return serviceSubOrder;
-	}
+    public Favorite removeFavorite(final Favorite favorite) {
+        getFavorites().remove(favorite);
+        favorite.setService(null);
 
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+        return favorite;
+    }
 
-	public void setFavorites(final List<Favorite> favorites) {
-		this.favorites = favorites;
-	}
+    public ServiceOrder removeServiceOrder(final ServiceOrder serviceOrder) {
+        getServiceOrders().remove(serviceOrder);
+        serviceOrder.setServiceInfo(null);
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+        return serviceOrder;
+    }
 
-	public void setImage(final String image) {
-		this.image = image;
-	}
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setFavorites(final List<Favorite> favorites) {
+        this.favorites = favorites;
+    }
 
-	public void setPrice(final Double price) {
-		this.price = price;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void setServiceCategory(final ServiceCategory serviceCategory) {
-		this.serviceCategory = serviceCategory;
-	}
+    public void setImage(final String image) {
+        this.image = image;
+    }
 
-	public void setServiceSubOrders(final List<ServiceSubOrder> serviceSubOrders) {
-		this.serviceSubOrders = serviceSubOrders;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-		this.serviceSupplierClient = serviceSupplierClient;
-	}
+    public void setPaymentMethod(final PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
-	public void setStatus(final ServiceStatus status) {
-		this.status = status;
-	}
+    public void setPaymentType(final PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public void setPrice(final Double price) {
+        this.price = price;
+    }
+
+    public void setServiceCategory(final ServiceCategory serviceCategory) {
+        this.serviceCategory = serviceCategory;
+    }
+
+    public void setServiceOrders(final List<ServiceOrder> serviceOrders) {
+        this.serviceOrders = serviceOrders;
+    }
+
+    public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+        this.serviceSupplierClient = serviceSupplierClient;
+    }
+
+    public void setStatus(final ServiceStatus status) {
+        this.status = status;
+    }
 
 }

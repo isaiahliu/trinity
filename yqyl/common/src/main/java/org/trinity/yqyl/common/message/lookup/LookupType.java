@@ -38,7 +38,9 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     SMOKER_AGE("SMKAGE"),
     FREQUENCY_STATUS("FRQSTAT"),
     REALNAME_STATUS("RNSTAT"),
-    CREDENTIAL_TYPE("CDTYPE");
+    CREDENTIAL_TYPE("CDTYPE"),
+    PAYMENT_METHOD("PMMTHD"),
+    PAYMENT_TYPE("PMTYPE");
 
     private String typeName;
 

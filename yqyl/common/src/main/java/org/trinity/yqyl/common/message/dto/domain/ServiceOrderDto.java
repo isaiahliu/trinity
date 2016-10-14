@@ -1,21 +1,27 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 
 public class ServiceOrderDto extends AbstractBusinessDto {
     private Double price;
     private LookupDto status;
-    private List<ServiceSubOrderDto> serviceSubOrders;
     private Integer score;
     private String appraise;
     private String username;
     private Date proposalTime;
     private Date approvalTime;
     private Date settledTime;
+    private ServiceInfoDto serviceInfo;
+    private Date serviceDate;
+    private Integer serviceHour;
+    private String phone;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
 
     public String getAppraise() {
         return appraise;
@@ -23,6 +29,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public Date getApprovalTime() {
         return approvalTime;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public Double getPrice() {
@@ -37,8 +47,16 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return score;
     }
 
-    public List<ServiceSubOrderDto> getServiceSubOrders() {
-        return serviceSubOrders;
+    public ServiceInfoDto getServiceInfo() {
+        return serviceInfo;
+    }
+
+    public Date getServiceDate() {
+        return serviceDate;
+    }
+
+    public Integer getServiceHour() {
+        return serviceHour;
     }
 
     public Date getSettledTime() {
@@ -53,12 +71,20 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return username;
     }
 
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
     public void setAppraise(final String appraise) {
         this.appraise = appraise;
     }
 
     public void setApprovalTime(final Date approvalTime) {
         this.approvalTime = approvalTime;
+    }
+
+    public void setPhone(final String phone) {
+        this.phone = phone;
     }
 
     public void setPrice(final Double price) {
@@ -73,11 +99,16 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.score = score;
     }
 
-    public void setServiceSubOrders(List<ServiceSubOrderDto> serviceSubOrders) {
-        if (serviceSubOrders == null) {
-            serviceSubOrders = new ArrayList<>();
-        }
-        this.serviceSubOrders = serviceSubOrders;
+    public void setServiceInfo(final ServiceInfoDto serviceInfo) {
+        this.serviceInfo = serviceInfo;
+    }
+
+    public void setServiceDate(final Date serviceDate) {
+        this.serviceDate = serviceDate;
+    }
+
+    public void setServiceHour(final Integer serviceHour) {
+        this.serviceHour = serviceHour;
     }
 
     public void setSettledTime(final Date settledTime) {

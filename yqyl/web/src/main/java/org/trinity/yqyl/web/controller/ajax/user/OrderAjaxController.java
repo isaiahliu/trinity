@@ -30,7 +30,7 @@ public class OrderAjaxController extends AbstractRestController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.PUT)
     public @ResponseBody DefaultResponse ajaxEditOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
-        return restfulServiceUtil.callRestService(Url.ORDER_EDIT, null, serviceOrderRequest, null, DefaultResponse.class);
+        return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

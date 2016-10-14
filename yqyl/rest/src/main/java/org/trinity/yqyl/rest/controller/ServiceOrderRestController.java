@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
@@ -20,13 +19,6 @@ import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
 @RequestMapping("/user/order")
 public class ServiceOrderRestController extends
         AbstractApplicationAwareCrudRestController<ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderProcessController, OrderRequest, ServiceOrderResponse> {
-
-    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
-    public @ResponseBody ResponseEntity<DefaultResponse> editOrder(@RequestBody final ServiceOrderRequest request) throws IException {
-        getDomainProcessController().editOrder(request.getData().get(0));
-
-        return createResponseEntity(new DefaultResponse());
-    }
 
     @RequestMapping(value = "/processed", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessedOrders(final ServiceOrderSearchingDto request)

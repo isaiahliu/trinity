@@ -25,6 +25,8 @@ import org.trinity.yqyl.common.message.lookup.LookupType;
 import org.trinity.yqyl.common.message.lookup.MessageStatus;
 import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
+import org.trinity.yqyl.common.message.lookup.PaymentMethod;
+import org.trinity.yqyl.common.message.lookup.PaymentType;
 import org.trinity.yqyl.common.message.lookup.PersonalType;
 import org.trinity.yqyl.common.message.lookup.RealnameStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
@@ -71,6 +73,8 @@ import org.trinity.yqyl.common.message.lookup.ValueType;
         @TypeDef(name = "TokenStatus", defaultForType = TokenStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.TokenStatus")),
         @TypeDef(name = "FavoriteCategory", defaultForType = FavoriteCategory.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.FavoriteCategory")),
         @TypeDef(name = "RoleName", defaultForType = RoleName.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.RoleName")),
+        @TypeDef(name = "PaymentType", defaultForType = PaymentType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.PaymentType")),
+        @TypeDef(name = "PaymentMethod", defaultForType = PaymentMethod.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.PaymentMethod")),
         @TypeDef(name = "AccessRight", defaultForType = AccessRight.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.AccessRight")) })
 @MappedSuperclass
 public class UserTypeRegister {
