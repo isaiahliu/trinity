@@ -99,24 +99,7 @@ public class ServiceOrderProcessController
 
         return findAll.map(item -> {
             final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
-
-            final ServiceInfo serviceInfo = item.getServiceInfo();
-            final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
-
-            final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
-            final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
-
-            final ServiceSupplierClient serviceSupplierClient = serviceInfo.getServiceSupplierClient();
-            final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
-
-            serviceInfoDto.setServiceCategory(serviceCategoryDto);
-            serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
-            serviceOrderDto.setServiceInfo(serviceInfoDto);
-
-            if (dto.getServiceSupplierClientId() != null) {
-                serviceOrderDto.setUsername(item.getUser().getUsername());
-            }
-
+            getRelationship(item, dto, serviceOrderDto);
             return serviceOrderDto;
         });
     }
@@ -140,5 +123,23 @@ public class ServiceOrderProcessController
         getDomainEntityRepository().save(serviceOrder);
 
         return getDomainObjectConverter().convert(serviceOrder);
+    }
+
+    @Override
+    protected void getRelationship(final ServiceOrder entity, final ServiceOrderSearchingDto searchingDto,
+            final ServiceOrderDto serviceOrderDto) {
+        final ServiceInfo serviceInfo = entity.getServiceInfo();
+        final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
+
+        final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
+        final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
+
+        final ServiceSupplierClient serviceSupplierClient = serviceInfo.getServiceSupplierClient();
+        final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
+
+        serviceInfoDto.setServiceCategory(serviceCategoryDto);
+        serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
+        serviceOrderDto.setServiceInfo(serviceInfoDto);
+        serviceOrderDto.setUsername(entity.getUser().getUsername());
     }
 }

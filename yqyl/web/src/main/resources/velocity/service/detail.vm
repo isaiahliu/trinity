@@ -8,9 +8,9 @@
 		<img />
 	</div>
 	<div class="card">
-		<div class="title">{{serviceOrder.serviceSubOrders[0].service.serviceSupplierClient.name}}</div>
+		<div class="title">{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</div>
 		<div class="cardItem">
-			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceOrder.serviceSubOrders[0].service.serviceSupplierClient.address}}</span>
+			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceOrder.serviceInfo.serviceSupplierClient.address}}</span>
 		</div>
 	</div>
 	<table>
@@ -23,12 +23,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="serviceSubOrder in serviceOrder.serviceSubOrders">
-				<td align="center"><span>{{serviceSubOrder.service.serviceCategory.name}}</span></td>
-				<td align="center"><span>{{serviceSubOrder.serviceDate|date:'yyyy/MM/dd'}}
-						{{serviceSubOrder.serviceHour}}:00</span></td>
-				<td align="center"><span>{{serviceSubOrder.address}}</span></td>
-				<td align="center"><span>{{serviceSubOrder.phone}}</span></td>
+			<tr>
+				<td align="center"><span>{{serviceOrder.serviceInfo.serviceCategory.name}}</span></td>
+				<td align="center"><span>{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}
+						{{serviceOrder.serviceHour}}:00</span></td>
+				<td align="center"><span>{{serviceOrder.address}}</span></td>
+				<td align="center"><span>{{serviceOrder.phone}}</span></td>
 			</tr>
 		</tbody>
 	</table>

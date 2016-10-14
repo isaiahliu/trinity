@@ -18,122 +18,127 @@ import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 
 public abstract class AbstractCrudProcessController<TEntity, TDto extends AbstractBusinessDto, TSearchingDto extends IDto>
-		extends AbstractProcessController
-		implements ICrudProcessController<TDto, TSearchingDto>, SelfAware<AbstractCrudProcessController<TEntity, TDto, TSearchingDto>> {
-	private AbstractCrudProcessController<TEntity, TDto, TSearchingDto> selfProxy = this;
+        extends AbstractProcessController
+        implements ICrudProcessController<TDto, TSearchingDto>, SelfAware<AbstractCrudProcessController<TEntity, TDto, TSearchingDto>> {
+    private AbstractCrudProcessController<TEntity, TDto, TSearchingDto> selfProxy = this;
 
-	@Override
-	@Transactional
-	public List<TDto> addAll(final List<TDto> data) throws IException {
-		for (final TDto dto : data) {
-			final TEntity entity = getDomainObjectConverter().convertBack(dto);
+    @Override
+    @Transactional
+    public List<TDto> addAll(final List<TDto> data) throws IException {
+        for (final TDto dto : data) {
+            final TEntity entity = getDomainObjectConverter().convertBack(dto);
 
-			selfProxy.validateDataPermission(dto);
+            selfProxy.validateDataPermission(dto);
 
-			selfProxy.addRelationship(entity, dto);
+            selfProxy.addRelationship(entity, dto);
 
-			getDomainEntityRepository().save(entity);
+            getDomainEntityRepository().save(entity);
 
-			getDomainObjectConverter().convert(entity, dto, CopyPolicy.TARGET_IS_NULL);
-		}
+            getDomainObjectConverter().convert(entity, dto, CopyPolicy.TARGET_IS_NULL);
+        }
 
-		return data;
-	}
+        return data;
+    }
 
-	@Override
-	@Transactional
-	public void delete(final Long id) throws IException {
+    @Override
+    @Transactional
+    public void delete(final Long id) throws IException {
 
-		final TEntity entity = getDomainEntityRepository().findOne(id);
-		if (entity == null) {
-			throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
-		}
+        final TEntity entity = getDomainEntityRepository().findOne(id);
+        if (entity == null) {
+            throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
+        }
 
-		final TDto dto = getDomainObjectConverter().convert(entity);
+        final TDto dto = getDomainObjectConverter().convert(entity);
 
-		selfProxy.validateDataPermission(dto);
+        selfProxy.validateDataPermission(dto);
 
-		selfProxy.deleteRelationship(entity);
+        selfProxy.deleteRelationship(entity);
 
-		getDomainEntityRepository().delete(entity);
-	}
+        getDomainEntityRepository().delete(entity);
+    }
 
-	@Override
-	public Page<TDto> getAll(final TSearchingDto data) throws IException {
-		return new PageImpl<>(Collections.emptyList());
-	}
+    @Override
+    public Page<TDto> getAll(final TSearchingDto data) throws IException {
+        return new PageImpl<>(Collections.emptyList());
+    }
 
-	@Override
-	public List<TDto> getMe() throws IException {
-		return Collections.emptyList();
-	}
+    @Override
+    public List<TDto> getMe() throws IException {
+        return Collections.emptyList();
+    }
 
-	@Override
-	public TDto getOne(final Long id) throws IException {
-		final TEntity entity = getDomainEntityRepository().findOne(id);
-		if (entity == null) {
-			throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
-		}
+    @Override
+    public TDto getOne(final Long id) throws IException {
+        final TEntity entity = getDomainEntityRepository().findOne(id);
+        if (entity == null) {
+            throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
+        }
 
-		final TDto dto = getDomainObjectConverter().convert(entity);
+        final TDto dto = getDomainObjectConverter().convert(entity);
 
-		selfProxy.validateDataPermission(dto);
+        getRelationship(entity, null, dto);
 
-		return dto;
-	}
+        selfProxy.validateDataPermission(dto);
 
-	@Override
-	public void setSelf(final AbstractCrudProcessController<TEntity, TDto, TSearchingDto> selfProxy) {
-		this.selfProxy = selfProxy;
-	}
+        return dto;
+    }
 
-	@Override
-	@Transactional
-	public void updateAll(final List<TDto> data) throws IException {
-		final List<TEntity> entities = new ArrayList<>();
-		for (final TDto dto : data) {
-			final Long id = dto.getId();
+    @Override
+    public void setSelf(final AbstractCrudProcessController<TEntity, TDto, TSearchingDto> selfProxy) {
+        this.selfProxy = selfProxy;
+    }
 
-			selfProxy.validateDataPermission(dto);
+    @Override
+    @Transactional
+    public void updateAll(final List<TDto> data) throws IException {
+        final List<TEntity> entities = new ArrayList<>();
+        for (final TDto dto : data) {
+            final Long id = dto.getId();
 
-			TEntity entity = null;
+            selfProxy.validateDataPermission(dto);
 
-			if (id != null && id != 0) {
-				entity = getDomainEntityRepository().findOne(id);
-				if (entity == null) {
-					throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
-				}
-				selfProxy.updateRelationship(entity, dto);
-			} else {
-				dto.setId(null);
-				entity = getDomainObjectConverter().convertBack(dto);
-				selfProxy.addRelationship(entity, dto);
-			}
+            TEntity entity = null;
 
-			entities.add(getDomainObjectConverter().convertBack(dto, entity, CopyPolicy.SOURCE_IS_NOT_NULL));
-		}
+            if (id != null && id != 0) {
+                entity = getDomainEntityRepository().findOne(id);
+                if (entity == null) {
+                    throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
+                }
+                selfProxy.updateRelationship(entity, dto);
+            } else {
+                dto.setId(null);
+                entity = getDomainObjectConverter().convertBack(dto);
+                selfProxy.addRelationship(entity, dto);
+            }
 
-		getDomainEntityRepository().save(entities);
-	}
+            entities.add(getDomainObjectConverter().convertBack(dto, entity, CopyPolicy.SOURCE_IS_NOT_NULL));
+        }
 
-	protected void addRelationship(final TEntity entity, final TDto dto) throws IException {
-	}
+        getDomainEntityRepository().save(entities);
+    }
 
-	protected void deleteRelationship(final TEntity entity) {
-	}
+    protected void addRelationship(final TEntity entity, final TDto dto) throws IException {
+    }
 
-	protected abstract CrudRepository<TEntity, Long> getDomainEntityRepository();
+    protected void deleteRelationship(final TEntity entity) {
+    }
 
-	protected abstract Class<TEntity> getDomainEntityType();
+    protected abstract CrudRepository<TEntity, Long> getDomainEntityRepository();
 
-	protected abstract IObjectConverter<TEntity, TDto> getDomainObjectConverter();
+    protected abstract Class<TEntity> getDomainEntityType();
 
-	protected abstract IErrorMessage getNoInstanceFoundError();
+    protected abstract IObjectConverter<TEntity, TDto> getDomainObjectConverter();
 
-	protected void updateRelationship(final TEntity entity, final TDto dto) {
-	}
+    protected abstract IErrorMessage getNoInstanceFoundError();
 
-	protected void validateDataPermission(final TDto dto) throws IException {
-		getDataPermissionValidatorProvider().getValidator(getDomainEntityType()).validate(dto.getId());
-	}
+    protected void getRelationship(final TEntity entity, final TSearchingDto searchingDto, final TDto dto) {
+    }
+
+    protected void updateRelationship(final TEntity entity, final TDto dto) {
+    }
+
+    protected void validateDataPermission(final TDto dto) throws IException {
+        getDataPermissionValidatorProvider().getValidator(getDomainEntityType()).validate(dto.getId());
+    }
 }

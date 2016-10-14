@@ -35,14 +35,14 @@
 							<span class="key">#label("ORDER_ID")</span><a
 								href="/user/order/{{unprocessedOrder.id}}"><span
 								class="value">{{unprocessedOrder.id}}</span></a> <span class="key">#label("SERVICE_TIME")</span><span
-								class="value">{{unprocessedOrder.serviceTime |
-								date:'yyyy-MM-dd HH-mm:ss'}}</span> <span class="key">#label("SERVICE_CATEGORY")</span><span
-								ng-repeat="subOrder in unprocessedOrder.serviceSubOrders">{{subOrder.service.serviceCategory.name}}
+								class="value">{{unprocessedOrder.serviceDate |
+								date:'yyyy-MM-dd'}} {{unprocessedOrder.serviceHour}}:00</span>
+							<span class="key">#label("SERVICE_CATEGORY")</span><span>{{unprocessedOrder.serviceInfo.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="orderCompany">
-							<span class="key">{{unprocessedOrder.serviceSubOrders[0].service.serviceSupplierClient.name}}</span><span
-								class="value">{{unprocessedOrder.serviceSubOrders[0].service.serviceSupplierClient.address}}</span>
+							<span class="key">{{unprocessedOrder.serviceInfo.serviceSupplierClient.name}}</span><span
+								class="value">{{unprocessedOrder.serviceInfo.serviceSupplierClient.address}}</span>
 						</div>
 						<button>#button("ORDER_CANCEL")</button>
 					</div>
@@ -72,14 +72,14 @@
 							<span class="key">#label("ORDER_ID")</span><a
 								href="/user/order/{{processingOrder.id}}"><span
 								class="value">{{processingOrder.id}}</span></a> <span class="key">#label("SERVICE_TIME")</span><span
-								class="value">{{processingOrder.serviceTime |
-								date:'yyyy-MM-dd HH-mm:ss'}}</span> <span class="key">#label("SERVICE_CATEGORY")</span><span
-								ng-repeat="subOrder in processingOrder.serviceSubOrders">{{subOrder.service.serviceCategory.name}}
+								class="value">{{processingOrder.serviceDate |
+								date:'yyyy-MM-dd'}} {{processingOrder.serviceHour}}:00</span><span
+								class="key">#label("SERVICE_CATEGORY")</span><span>{{processingOrder.serviceInfo.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="orderCompany">
-							<span class="key">{{processingOrder.serviceSubOrders[0].service.serviceSupplierClient.name}}</span><span
-								class="value">{{processingOrder.serviceSubOrders[0].service.serviceSupplierClient.address}}</span>
+							<span class="key">{{processingOrder.serviceInfo.serviceSupplierClient.name}}</span><span
+								class="value">{{processingOrder.serviceInfo.serviceSupplierClient.address}}</span>
 						</div>
 						<button>#button("ORDER_CANCEL")</button>
 					</div>
@@ -109,14 +109,14 @@
 							<span class="key">#label("ORDER_ID")</span><a
 								href="/user/order/{{processedOrder.id}}"><span class="value">{{processedOrder.id}}</span></a>
 							<span class="key">#label("SERVICE_TIME")</span><span
-								class="value">{{processedOrder.serviceTime |
-								date:'yyyy-MM-dd HH-mm:ss'}}</span> <span class="key">#label("SERVICE_CATEGORY")</span><span
-								ng-repeat="subOrder in processedOrder.serviceSubOrders">{{subOrder.service.serviceCategory.name}}
+								class="value">{{processedOrder.serviceDate |
+								date:'yyyy-MM-dd'}} {{processedOrder.serviceHour}}:00</span>
+							<span class="key">#label("SERVICE_CATEGORY")</span><span>{{processedOrder.serviceInfo.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="orderCompany">
-							<span class="key">{{processedOrder.serviceSubOrders[0].service.serviceSupplierClient.name}}</span><span
-								class="value">{{processedOrder.serviceSubOrders[0].service.serviceSupplierClient.address}}</span>
+							<span class="key">{{processedOrder.serviceInfo.serviceSupplierClient.name}}</span><span
+								class="value">{{processedOrder.serviceInfo.serviceSupplierClient.address}}</span>
 						</div>
 						<button>#button("ORDER_APPRAISE")</button>
 					</div>

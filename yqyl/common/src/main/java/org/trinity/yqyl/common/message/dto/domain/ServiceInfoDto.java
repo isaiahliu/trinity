@@ -8,6 +8,8 @@ public class ServiceInfoDto extends AbstractBusinessDto {
     private Double price;
     private LookupDto status;
     private String image;
+    private LookupDto paymentMethod;
+    private LookupDto paymentType;
 
     private ServiceSupplierClientDto serviceSupplierClient;
 
@@ -23,6 +25,14 @@ public class ServiceInfoDto extends AbstractBusinessDto {
 
     public String getName() {
         return name;
+    }
+
+    public LookupDto getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public LookupDto getPaymentType() {
+        return paymentType;
     }
 
     public Double getPrice() {
@@ -51,6 +61,14 @@ public class ServiceInfoDto extends AbstractBusinessDto {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public void setPaymentMethod(final LookupDto paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void setPaymentType(final LookupDto paymentType) {
+        this.paymentType = paymentType;
     }
 
     public void setPrice(final Double price) {

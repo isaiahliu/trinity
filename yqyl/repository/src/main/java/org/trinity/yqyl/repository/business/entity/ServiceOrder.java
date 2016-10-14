@@ -39,7 +39,7 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     // bi-directional many-to-one association to ServiceInfo
     @ManyToOne
-    @JoinColumn(name = "service_id")
+    @JoinColumn(name = "service_info_id")
     private ServiceInfo serviceInfo;
 
     @Id
