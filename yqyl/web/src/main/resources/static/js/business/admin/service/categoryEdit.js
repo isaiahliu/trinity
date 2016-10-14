@@ -1,5 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window,
-		categoryId) {
+layoutApp.controller('contentController', function($scope, $http, $window, categoryId) {
 	var url = "/ajax/service/category"
 
 	if (categoryId > 0) {
@@ -68,5 +67,8 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 			$window.location.href = "/admin/service/category";
 		}).error(function(response) {
 		});
-	}
+	};
+	$scope.back = function() {
+		$window.location.href = "/admin/service/category";
+	};
 });

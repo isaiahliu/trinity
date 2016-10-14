@@ -25,8 +25,10 @@
 				ng-repeat="category in categories">
 				<td align="center"><span>{{category.id}}</span></td>
 				<td align="center"><a
-					href="/admin/service/category/edit/{{category.id}}"><span>{{category.name}}</span></a></td>
+					href="/admin/service/category/edit/{{category.id}}"><span
+						ng-class="{'D': 'disabledCategory'}[category.status.code]">{{category.name}}</span></a></td>
 				<td align="center"><span
+					ng-class="{'D': 'disabledCategory'}[subCategory.status.code]"
 					ng-repeat="subCategory in category.serviceSubCategories">{{subCategory.name}}
 				</span></td>
 				<td align="center"><span>{{category.status.message}}</span></td>

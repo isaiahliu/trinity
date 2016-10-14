@@ -23,3 +23,7 @@ div.category table thead td {
 div.category table td {
 	border: 1px solid;
 }
+
+div.category span.disabledCategory {
+	text-decoration: line-through;
+}
