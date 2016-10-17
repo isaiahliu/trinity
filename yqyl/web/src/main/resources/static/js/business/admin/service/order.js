@@ -1,4 +1,5 @@
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window,
+		$filter) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
 	};
@@ -22,12 +23,32 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
 
-		if ($scope.searchingCategory != undefined) {
-			ajaxUrl += "&categoryParent=" + $scope.searchingCategory.id;
+		if ($scope.filterData.username != undefined
+				&& $scope.filterData.username != "") {
+			ajaxUrl += "&receiverUserName=" + $scope.filterData.username;
 		}
 
-		if ($scope.searchingSubCategories != "") {
-			ajaxUrl += "&" + $scope.searchingSubCategories;
+		if ($scope.filterData.supplierId != undefined
+				&& $scope.filterData.supplierId != "") {
+			ajaxUrl += "&serviceSupplierClientId="
+					+ $scope.filterData.supplierId;
+		}
+
+		if ($scope.filterData.orderId != undefined
+				&& $scope.filterData.orderId != "") {
+			ajaxUrl += "&serviceOrderId=" + $scope.filterData.orderId;
+		}
+
+		if ($scope.filterData.status != undefined
+				&& $scope.filterData.status != "") {
+			ajaxUrl += "&status=" + $scope.filterData.status;
+		}
+
+		if ($scope.filterData.serviceTime != undefined
+				&& $scope.filterData.serviceTime != "") {
+			ajaxUrl += "&serviceDate="
+					+ $filter('date')
+							($scope.filterData.serviceTime, "yyyyMMdd");
 		}
 
 		$http({

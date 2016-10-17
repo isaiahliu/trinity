@@ -7,9 +7,9 @@
 	<div class="title">#label("SERVICE_ORDER_MANAGEMENT")</div>
 	<div class="filter">
 		<span>#label("TIME")<input type="text" placeholder="YYYY/MM/DD"
-			ui-date="dateOptions" ng-model="filterData.date"
+			ui-date="dateOptions" ng-model="filterData.serviceTime"
 			style="width: 100px;" />
-		</span> <span>#label("USER_ID")<input ng-model="filterData.userId"
+		</span> <span>#label("USER_ID")<input ng-model="filterData.username"
 			style="width: 80px;" /></span> <span>#label("SERVICE_SUPPLIER_ID")<input
 			style="width: 80px;" ng-model="filterData.supplierId" /></span> <span>#label("SERVICE_ORDER_ID")<input
 			style="width: 80px;" ng-model="filterData.orderId" /></span> <span>#label("SERVICE_ORDER_STATUS")<select
