@@ -47,16 +47,16 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return score;
     }
 
-    public ServiceInfoDto getServiceInfo() {
-        return serviceInfo;
-    }
-
     public Date getServiceDate() {
         return serviceDate;
     }
 
     public Integer getServiceHour() {
         return serviceHour;
+    }
+
+    public ServiceInfoDto getServiceInfo() {
+        return serviceInfo;
     }
 
     public Date getSettledTime() {
@@ -99,16 +99,16 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.score = score;
     }
 
-    public void setServiceInfo(final ServiceInfoDto serviceInfo) {
-        this.serviceInfo = serviceInfo;
-    }
-
     public void setServiceDate(final Date serviceDate) {
         this.serviceDate = serviceDate;
     }
 
     public void setServiceHour(final Integer serviceHour) {
         this.serviceHour = serviceHour;
+    }
+
+    public void setServiceInfo(final ServiceInfoDto serviceInfo) {
+        this.serviceInfo = serviceInfo;
     }
 
     public void setSettledTime(final Date settledTime) {

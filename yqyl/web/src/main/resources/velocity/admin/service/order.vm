@@ -36,12 +36,13 @@
 		<tbody>
 			<tr ng-repeat="order in orders">
 				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order}}</span></td>
-				<td align="center"><span>3</span></td>
-				<td align="center"><span>4</span></td>
-				<td align="center"><span>5</span></td>
-				<td align="center"><span>6</span></td>
-				<td align="center"><span>7</span></td>
+				<td align="center"><span>{{order.username}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.serviceDate|date:'yyyy/MM/dd'}}
+						{{order.serviceHour}}:00</span></td>
+				<td align="center"><span>{{order.settledTime|date:'yyyy/MM/dd HH:mm:ss'}}</span></td>
+				<td align="center"><span>{{order.status.message}}</span></td>
+				<td align="center"><span><button>aaa</button></span></td>
 			</tr>
 		</tbody>
 	</table>
