@@ -12,7 +12,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			url : "/ajax/user/order/" + orderId
 		}).success(function(response) {
 			$scope.serviceOrder = response.data[0];
-			serviceSupplierClientId = $scope.serviceOrder.serviceSubOrders[0].service.serviceSupplierClient.id;
+			serviceSupplierClientId = $scope.serviceOrder.serviceInfo.serviceSupplierClient.id;
 
 			$http({
 				method : "GET",
@@ -26,20 +26,20 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 				method : "GET",
 				url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services"
 			}).success(function(response) {
-				$scope.services = response.data;
-				for (var i = 0; i < $scope.services.length; i++) {
-					for (var j = 0; j < $scope.serviceOrder.serviceSubOrders.length; j++) {
-						var subOrder = $scope.serviceOrder.serviceSubOrders[j];
-						if (subOrder.service.id == $scope.services[i].id) {
-							$scope.services[i].checked = true;
-							$scope.services[i].subOrder = {
-								serviceDate : subOrder.serviceDate,
-								serviceHour : subOrder.serviceHour,
-								customAddress : subOrder.address,
-								customPhoneNo : subOrder.phone
-							};
-							break;
-						}
+				for (var i = 0; i < response.data.length; i++) {
+					var order = $scope.serviceOrder;
+					if (order.serviceInfo.id == response.data[i].id) {
+						$scope.selectedServices = response.data[i];
+						response.data[i].order = {
+							serviceDate : order.serviceDate,
+							serviceHour : order.serviceHour,
+							customAddress : order.address,
+							customPhoneNo : order.phone
+						};
+						$scope.selectedServiceInfo = response.data[i];
+						$scope.services = [ response.data[i] ];
+
+						break;
 					}
 				}
 
@@ -61,15 +61,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services"
 		}).success(function(response) {
 			$scope.services = response.data;
-			for (var i = 0; i < $scope.services.length; i++) {
-				for (var j = 0; j < selectedServiceInfos.length; j++) {
-					if (selectedServiceInfos[j] == $scope.services[i].id) {
-						$scope.services[i].checked = true;
-						break;
-					}
-				}
-			}
-
+			$scope.selectedServiceInfo = $scope.services[0];
 		}).error(function(response) {
 		});
 	}
@@ -83,43 +75,31 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 	});
 
 	$scope.apply = function() {
-		var order = {
-			id : null
+		var serviceInfo = $scope.selectedServiceInfo;
+
+		var address = serviceInfo.order.customAddress;
+		if (address == "" || address == null || address == undefined) {
+			address = serviceInfo.order.defaultMember.address;
+		}
+
+		var phone = serviceInfo.order.customPhoneNo;
+		if (phone == "" || phone == null || phone == undefined) {
+			phone = serviceInfo.order.defaultMember.cellphoneNo;
+		}
+
+		order = {
+			id : null,
+			serviceInfo : {
+				id : serviceInfo.id
+			},
+			serviceDate : serviceInfo.order.serviceDate,
+			serviceHour : serviceInfo.order.serviceHour,
+			phone : phone,
+			address : address
 		};
+
 		if (orderId > 0) {
 			order.id = orderId;
-		}
-		order.serviceSubOrders = new Array();
-
-		for (var i = 0; i < $scope.services.length; i++) {
-			var serviceInfo = $scope.services[i];
-
-			if (!serviceInfo.checked) {
-				continue;
-			}
-
-			var address = serviceInfo.subOrder.customAddress;
-			if (address == "" || address == null || address == undefined) {
-				address = serviceInfo.subOrder.defaultMember.address;
-			}
-
-			var phone = serviceInfo.subOrder.customPhoneNo;
-			if (phone == "" || phone == null || phone == undefined) {
-				phone = serviceInfo.subOrder.defaultMember.cellphoneNo;
-			}
-
-			order.serviceSubOrders.push({
-				service : {
-					id : serviceInfo.id
-				},
-				serviceDate : serviceInfo.subOrder.serviceDate,
-				serviceHour : serviceInfo.subOrder.serviceHour,
-				phone : phone,
-				address : address
-			});
-		}
-
-		if (orderId > 0) {
 			$http({
 				method : "PUT",
 				url : "/ajax/user/order/edit",

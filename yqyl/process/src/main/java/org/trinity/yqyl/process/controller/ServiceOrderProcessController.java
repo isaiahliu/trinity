@@ -109,7 +109,8 @@ public class ServiceOrderProcessController
     public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
         final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
 
-        final ServiceOrder serviceOrder = new ServiceOrder();
+        final ServiceOrder serviceOrder = getDomainObjectConverter().convertBack(serviceOrderDto);
+        serviceOrder.setId(null);
         serviceOrder.setPrice(0d);
         serviceOrder.setProposalTime(new Date());
         serviceOrder.setStatus(OrderStatus.UNPROCESSED);

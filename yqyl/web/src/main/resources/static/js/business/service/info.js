@@ -1,5 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window,
-		serviceSupplierClientId) {
+layoutApp.controller('contentController', function($scope, $http, $window, serviceSupplierClientId) {
 	$scope.status = 'desc';
 
 	$http({
@@ -19,8 +18,7 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 	});
 
 	$scope.searchOrders = function() {
-		var ajaxUrl = "/ajax/service/supplier/" + serviceSupplierClientId
-				+ "/orders";
+		var ajaxUrl = "/ajax/service/supplier/" + serviceSupplierClientId + "/orders";
 
 		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
@@ -44,23 +42,6 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 	$scope.searchOrders();
 
 	$scope.apply = function() {
-		var url = "/service/proposal/" + serviceSupplierClientId;
-
-		var param = "";
-		for (var index = 0; index < $scope.services.length; index++) {
-			if ($scope.services[index].checked) {
-				if (param != "") {
-					param += "&";
-				}
-
-				param += "selected=" + $scope.services[index].id;
-			}
-		}
-
-		if (param != "") {
-			url += "?" + param;
-		}
-
-		$window.location.href = url;
+		$window.location.href = "/service/proposal/" + serviceSupplierClientId;
 	};
 });

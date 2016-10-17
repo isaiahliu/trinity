@@ -25,11 +25,10 @@ div.filter ul, div.services ul {
 }
 
 div.filter li {
-	float: left;
+	display: inline-block;
 }
 
 div.filter div.category {
-	height: 70px;
 	padding-left: 40px;
 }
 
@@ -55,6 +54,7 @@ div.category li.categoryItem div {
 	text-align: center;
 	background-color: #f5f5f5;
 	margin-right: 30px;
+	margin-top: 10px;
 }
 
 div.subCategory {

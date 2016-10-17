@@ -8,8 +8,8 @@
 		<img />
 	</div>
 	<div class="card">
-		<div class="title">{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</div>
-		<div class="cardItem">
+		<div class="title ng-hide" ng-show="serviceOrder.serviceInfo">{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</div>
+		<div class="cardItem ng-hide" ng-show="serviceOrder.serviceInfo">
 			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceOrder.serviceInfo.serviceSupplierClient.address}}</span>
 		</div>
 	</div>
@@ -23,7 +23,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
+			<tr class="ng-hide" ng-show="serviceOrder.serviceInfo">
 				<td align="center"><span>{{serviceOrder.serviceInfo.serviceCategory.name}}</span></td>
 				<td align="center"><span>{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}
 						{{serviceOrder.serviceHour}}:00</span></td>

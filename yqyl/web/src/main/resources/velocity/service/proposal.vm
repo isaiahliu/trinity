@@ -18,14 +18,14 @@
 	<div class="categorySelect">
 		<span class="key">#label("SELECTED_CATEGORY")</span> <span
 			ng-repeat="serviceInfo in services" class="value"><input
-			type="checkbox" ng-model="serviceInfo.checked" />{{serviceInfo.serviceCategory.name}}</span>
+			type="radio" name="serviceRadio" ng-value="serviceInfo"
+			ng-model="$parent.selectedServiceInfo" />{{serviceInfo.serviceCategory.name}}</span>
 	</div>
-	<table ng-repeat="serviceInfo in services" class="ng-hide"
-		ng-show="serviceInfo.checked">
+	<table>
 		<thead>
 			<tr>
 				<td class="key" align="center"><span>#label("SERVICE_NAME")</span></td>
-				<td class="value" align="center"><span>{{serviceInfo.serviceCategory.name}}</span></td>
+				<td class="value" align="center"><span>{{selectedServiceInfo.serviceCategory.name}}</span></td>
 			</tr>
 		</thead>
 		<tbody>
@@ -33,31 +33,31 @@
 				<td class="key" align="center"><span>#label("SERVICE_TIME")</span></td>
 				<td class="value" align="center"><input type="text"
 					placeholder="YYYY/MM/DD" ui-date="dateOptions"
-					ng-model="serviceInfo.subOrder.serviceDate" /> <select
-					ng-model="serviceInfo.subOrder.serviceHour"
+					ng-model="selectedServiceInfo.order.serviceDate" /> <select
+					ng-model="selectedServiceInfo.order.serviceHour"
 					ng-options="hour as hour for hour in hours"></select><span>#label("OCLOCK")</span></td>
 			</tr>
 			<tr>
 				<td class="key" align="center"><span>#label("SERVICE_RECEIVER")</span></td>
 				<td class="value" align="center"><select
-					ng-model="serviceInfo.subOrder.defaultMember"
+					ng-model="selectedServiceInfo.order.defaultMember"
 					ng-options="member as member.name for member in members"></select></td>
 			</tr>
 			<tr>
 				<td class="key" align="center"><span>#label("SERVICE_ADDRESS")</span></td>
 				<td class="value" align="center"><textarea class="newInfo"
-						placeholder="{{serviceInfo.subOrder.defaultMember.address}}"
-						ng-model="serviceInfo.subOrder.customAddress"></textarea></td>
+						placeholder="{{selectedServiceInfo.order.defaultMember.address}}"
+						ng-model="selectedServiceInfo.order.customAddress"></textarea></td>
 			</tr>
 			<tr>
 				<td class="key" align="center"><span>#label("PHONE_NO")</span></td>
 				<td class="value" align="center"><input class="newInfo"
-					ng-model="serviceInfo.subOrder.customPhoneNo"
-					placeholder="{{serviceInfo.subOrder.defaultMember.cellphoneNo}}" /></td>
+					ng-model="selectedServiceInfo.order.customPhoneNo"
+					placeholder="{{selectedServiceInfo.order.defaultMember.cellphoneNo}}" /></td>
 			</tr>
 			<tr>
 				<td align="center"><span>#label("EXPECTED_PRICE")</span></td>
-				<td align="center"><span>{{serviceInfo.price}}/#label("HOUR")</span></td>
+				<td align="center"><span>{{selectedServiceInfo.price}}/#label("HOUR")</span></td>
 			</tr>
 		</tbody>
 	</table>

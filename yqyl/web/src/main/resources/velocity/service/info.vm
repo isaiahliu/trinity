@@ -14,8 +14,7 @@
 		</div>
 		<div class="cardItem category">
 			<span class="key">#label("SERVICE_CATEGORY")</span> <span
-				ng-repeat="serviceInfo in services" class="value"><input
-				type="checkbox" ng-model="serviceInfo.checked" />{{serviceInfo.serviceCategory.name}}</span>
+				ng-repeat="serviceInfo in services" class="value">{{serviceInfo.serviceCategory.name}}</span>
 		</div>
 		<div class="cardItem">
 			#if(${authentication.token.authenticated})
@@ -82,8 +81,7 @@
 					<tbody>
 						<tr ng-repeat="orderInfo in orders">
 							<td align="center"><span>{{orderInfo.username}}</span></td>
-							<td align="center"><span
-								ng-repeat="serviceSubOrder in orderInfo.serviceSubOrders">{{serviceSubOrder.service.serviceCategory.name}}
+							<td align="center"><span>{{orderInfo.serviceInfo.serviceCategory.name}}
 							</span></td>
 							<td align="center"><span>{{orderInfo.appraise}}</span></td>
 						</tr>
