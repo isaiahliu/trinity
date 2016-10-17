@@ -13,6 +13,7 @@ import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
+import org.trinity.yqyl.common.accessright.Authorize;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.ServiceOrderRequest;
 import org.trinity.yqyl.common.message.dto.response.ServiceOrderResponse;
@@ -36,6 +37,17 @@ public class OrderAjaxController extends AbstractRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<ServiceOrderResponse> ajaxGetOrderDetail(@PathVariable("id") final Long id) throws IException {
         final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, String.valueOf(id), null, null,
+                ServiceOrderResponse.class);
+
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    @Authorize(requireAny = AccessRight.OPERATOR)
+    public ResponseEntity<ServiceOrderResponse> ajaxGetOrders(final ServiceOrderSearchingDto request) throws IException {
+        request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());
+
+        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, null, null, request,
                 ServiceOrderResponse.class);
 
         return createResponseEntity(response);

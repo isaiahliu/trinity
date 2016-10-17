@@ -1,6 +1,10 @@
 package org.trinity.yqyl.process.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -90,6 +94,28 @@ public class ServiceOrderProcessController
                         dto.getServiceSupplierClientId()));
 
                 query.distinct(true);
+            }
+
+            if (dto.getServiceSupplierClientId() != null) {
+                final User user = userRepository.findOne(dto.getServiceSupplierClientId());
+                predicates.add(cb.equal(root.get(ServiceOrder_.user), user));
+            }
+
+            if (dto.getServiceOrderId() != null) {
+                predicates.add(cb.equal(root.get(ServiceOrder_.id), dto.getServiceOrderId()));
+            }
+
+            if (!StringUtils.isEmpty(dto.getServiceDate())) {
+                final DateFormat format = new SimpleDateFormat("yyyyMMdd");
+                try {
+                    final Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(format.parse(dto.getServiceDate()));
+                    predicates.add(cb.greaterThanOrEqualTo(root.get(ServiceOrder_.serviceTime), calendar.getTime()));
+
+                    calendar.add(Calendar.DATE, 1);
+                    predicates.add(cb.lessThan(root.get(ServiceOrder_.serviceTime), calendar.getTime()));
+                } catch (final ParseException e) {
+                }
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

@@ -8,11 +8,25 @@ import org.trinity.common.dto.object.PagingDto;
 public class ServiceOrderSearchingDto extends PagingDto {
     private String receiverUserName;
     private Long serviceSupplierClientId;
-
+    private String serviceDate;
+    private Long serviceReceiverClientId;
+    private Long serviceOrderId;
     private List<String> status;
 
     public String getReceiverUserName() {
         return receiverUserName;
+    }
+
+    public String getServiceDate() {
+        return serviceDate;
+    }
+
+    public Long getServiceOrderId() {
+        return serviceOrderId;
+    }
+
+    public Long getServiceReceiverClientId() {
+        return serviceReceiverClientId;
     }
 
     public Long getServiceSupplierClientId() {
@@ -28,6 +42,18 @@ public class ServiceOrderSearchingDto extends PagingDto {
 
     public void setReceiverUserName(final String receiverUserName) {
         this.receiverUserName = receiverUserName;
+    }
+
+    public void setServiceDate(final String serviceDate) {
+        this.serviceDate = serviceDate;
+    }
+
+    public void setServiceOrderId(final Long serviceOrderId) {
+        this.serviceOrderId = serviceOrderId;
+    }
+
+    public void setServiceReceiverClientId(final Long serviceReceiverClientId) {
+        this.serviceReceiverClientId = serviceReceiverClientId;
     }
 
     public void setServiceSupplierClientId(final Long serviceSupplierClientId) {
