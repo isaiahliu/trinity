@@ -50,7 +50,9 @@ public enum ErrorMessage implements IErrorMessage {
     UNABLE_TO_FIND_SERVICE_SUB_ORDER,
     NO_SUB_ORDERS,
     INVALID_ORDER_ID,
-    UNABLE_TO_FIND_SERVICE_ORDER_APPRAISE;
+    UNABLE_TO_FIND_SERVICE_ORDER_APPRAISE,
+    INCORRECT_SERVICE_ORDER_STATUS,
+    INSUFFICIENT_ACCESSRIGHT;
 
     @Override
     public String getMessageCode() {

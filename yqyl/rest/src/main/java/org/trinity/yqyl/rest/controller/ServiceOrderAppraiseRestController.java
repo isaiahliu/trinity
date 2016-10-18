@@ -9,13 +9,12 @@ import org.trinity.yqyl.common.message.dto.response.ServiceOrderAppraiseResponse
 import org.trinity.yqyl.process.controller.base.IServiceOrderAppraiseProcessController;
 
 @RestController
-@RequestMapping("/*")
+@RequestMapping("/user/order/appraise")
 public class ServiceOrderAppraiseRestController extends
-      AbstractApplicationAwareCrudRestController<ServiceOrderAppraiseDto, ServiceOrderAppraiseSearchingDto, IServiceOrderAppraiseProcessController, ServiceOrderAppraiseRequest, ServiceOrderAppraiseResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceOrderAppraiseDto, ServiceOrderAppraiseSearchingDto, IServiceOrderAppraiseProcessController, ServiceOrderAppraiseRequest, ServiceOrderAppraiseResponse> {
 
-  @Override
-  protected ServiceOrderAppraiseResponse createResponseInstance() {
-      return new ServiceOrderAppraiseResponse();
-  }
+    @Override
+    protected ServiceOrderAppraiseResponse createResponseInstance() {
+        return new ServiceOrderAppraiseResponse();
+    }
 }
-
