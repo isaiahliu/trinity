@@ -11,6 +11,7 @@ public class ServiceOrderSearchingDto extends PagingDto {
     private String serviceDate;
     private Long serviceOrderId;
     private List<String> status;
+    private String settledDate;
 
     public String getReceiverUserName() {
         return receiverUserName;
@@ -26,6 +27,10 @@ public class ServiceOrderSearchingDto extends PagingDto {
 
     public Long getServiceSupplierClientId() {
         return serviceSupplierClientId;
+    }
+
+    public String getSettledDate() {
+        return settledDate;
     }
 
     public List<String> getStatus() {
@@ -49,6 +54,10 @@ public class ServiceOrderSearchingDto extends PagingDto {
 
     public void setServiceSupplierClientId(final Long serviceSupplierClientId) {
         this.serviceSupplierClientId = serviceSupplierClientId;
+    }
+
+    public void setSettledDate(final String settledDate) {
+        this.settledDate = settledDate;
     }
 
     public void setStatus(final List<String> status) {

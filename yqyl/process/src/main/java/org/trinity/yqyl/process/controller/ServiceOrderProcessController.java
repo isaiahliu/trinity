@@ -45,138 +45,151 @@ import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 import org.trinity.yqyl.repository.business.entity.User;
+import org.trinity.yqyl.repository.business.entity.User_;
 
 @Service
 public class ServiceOrderProcessController
-        extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
-        implements IServiceOrderProcessController {
-    @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
+		extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
+		implements IServiceOrderProcessController {
+	@Autowired
+	private ISecurityUtil<AccessRight> securityUtil;
 
-    @Autowired
-    private IUserRepository userRepository;
+	@Autowired
+	private IUserRepository userRepository;
 
-    @Autowired
-    private IServiceInfoRepository serviceInfoRepository;
+	@Autowired
+	private IServiceInfoRepository serviceInfoRepository;
 
-    @Autowired
-    private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
+	@Autowired
+	private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
 
-    @Autowired
-    private IObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> serviceOrderAppraiseConverter;
+	@Autowired
+	private IObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> serviceOrderAppraiseConverter;
 
-    @Autowired
-    private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
+	@Autowired
+	private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
 
-    @Autowired
-    private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
+	@Autowired
+	private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
 
-    public ServiceOrderProcessController() {
-        super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
-    }
+	public ServiceOrderProcessController() {
+		super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
+	}
 
-    @Override
-    public Page<ServiceOrderDto> getAll(final ServiceOrderSearchingDto dto) throws IException {
-        final Pageable pagable = pagingConverter.convert(dto);
+	@Override
+	public Page<ServiceOrderDto> getAll(final ServiceOrderSearchingDto dto) throws IException {
+		final Pageable pagable = pagingConverter.convert(dto);
 
-        final Specification<ServiceOrder> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
+		final Specification<ServiceOrder> specification = (root, query, cb) -> {
+			final List<Predicate> predicates = new ArrayList<>();
 
-            if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
-                final User user = userRepository.findOneByUsername(dto.getReceiverUserName());
-                predicates.add(cb.equal(root.get(ServiceOrder_.user), user));
-            }
+			if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
+				predicates.add(cb.like(root.join(ServiceOrder_.user).get(User_.username), "%" + dto.getReceiverUserName() + "%"));
+			}
 
-            if (!dto.getStatus().isEmpty()) {
-                final In<OrderStatus> in = cb.in(root.get(ServiceOrder_.status));
-                dto.getStatus().forEach(item -> in.value(LookupParser.parse(OrderStatus.class, item)));
-                predicates.add(in);
-            }
+			if (!dto.getStatus().isEmpty()) {
+				final In<OrderStatus> in = cb.in(root.get(ServiceOrder_.status));
+				dto.getStatus().forEach(item -> in.value(LookupParser.parse(OrderStatus.class, item)));
+				predicates.add(in);
+			}
 
-            if (dto.getServiceSupplierClientId() != null) {
-                predicates.add(cb.equal(
-                        root.join(ServiceOrder_.serviceInfo).join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
-                        dto.getServiceSupplierClientId()));
+			if (dto.getServiceSupplierClientId() != null) {
+				predicates.add(cb.equal(
+						root.join(ServiceOrder_.serviceInfo).join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
+						dto.getServiceSupplierClientId()));
 
-                query.distinct(true);
-            }
+				query.distinct(true);
+			}
 
-            if (dto.getServiceOrderId() != null) {
-                predicates.add(cb.equal(root.get(ServiceOrder_.id), dto.getServiceOrderId()));
-            }
+			if (dto.getServiceOrderId() != null) {
+				predicates.add(cb.equal(root.get(ServiceOrder_.id), dto.getServiceOrderId()));
+			}
 
-            if (!StringUtils.isEmpty(dto.getServiceDate())) {
-                final DateFormat format = new SimpleDateFormat("yyyyMMdd");
-                try {
-                    final Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(format.parse(dto.getServiceDate()));
-                    predicates.add(cb.greaterThanOrEqualTo(root.get(ServiceOrder_.serviceTime), calendar.getTime()));
+			if (!StringUtils.isEmpty(dto.getServiceDate())) {
+				final DateFormat format = new SimpleDateFormat("yyyyMMdd");
+				try {
+					final Calendar calendar = Calendar.getInstance();
+					calendar.setTime(format.parse(dto.getServiceDate()));
+					predicates.add(cb.greaterThanOrEqualTo(root.get(ServiceOrder_.serviceTime), calendar.getTime()));
 
-                    calendar.add(Calendar.DATE, 1);
-                    predicates.add(cb.lessThan(root.get(ServiceOrder_.serviceTime), calendar.getTime()));
-                } catch (final ParseException e) {
-                }
-            }
+					calendar.add(Calendar.DATE, 1);
+					predicates.add(cb.lessThan(root.get(ServiceOrder_.serviceTime), calendar.getTime()));
+				} catch (final ParseException e) {
+				}
+			}
 
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
+			if (!StringUtils.isEmpty(dto.getSettledDate())) {
+				final DateFormat format = new SimpleDateFormat("yyyyMMdd");
+				try {
+					final Calendar calendar = Calendar.getInstance();
+					calendar.setTime(format.parse(dto.getSettledDate()));
+					predicates.add(cb.greaterThanOrEqualTo(root.get(ServiceOrder_.settledTime), calendar.getTime()));
 
-        final Page<ServiceOrder> findAll = getDomainEntityRepository().findAll(specification, pagable);
+					calendar.add(Calendar.DATE, 1);
+					predicates.add(cb.lessThan(root.get(ServiceOrder_.settledTime), calendar.getTime()));
+				} catch (final ParseException e) {
+				}
+			}
 
-        return findAll.map(item -> {
-            final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
-            getRelationship(item, dto, serviceOrderDto);
-            return serviceOrderDto;
-        });
-    }
+			return cb.and(predicates.toArray(new Predicate[0]));
+		};
 
-    @Override
-    @Transactional
-    public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
-        final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
+		final Page<ServiceOrder> findAll = getDomainEntityRepository().findAll(specification, pagable);
 
-        final ServiceOrder serviceOrder = getDomainObjectConverter().convertBack(serviceOrderDto);
-        serviceOrder.setId(null);
-        serviceOrder.setPrice(0d);
-        serviceOrder.setProposalTime(new Date());
-        serviceOrder.setStatus(OrderStatus.UNPROCESSED);
-        serviceOrder.setUser(user);
+		return findAll.map(item -> {
+			final ServiceOrderDto serviceOrderDto = getDomainObjectConverter().convert(item);
+			getRelationship(item, dto, serviceOrderDto);
+			return serviceOrderDto;
+		});
+	}
 
-        final ServiceInfo serviceInfo = serviceInfoRepository.findOne(serviceOrderDto.getServiceInfo().getId());
+	@Override
+	@Transactional
+	public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
+		final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
 
-        serviceOrder.setPrice(serviceInfo.getPrice());
-        serviceOrder.setServiceInfo(serviceInfo);
+		final ServiceOrder serviceOrder = getDomainObjectConverter().convertBack(serviceOrderDto);
+		serviceOrder.setId(null);
+		serviceOrder.setPrice(0d);
+		serviceOrder.setProposalTime(new Date());
+		serviceOrder.setStatus(OrderStatus.UNPROCESSED);
+		serviceOrder.setUser(user);
 
-        getDomainEntityRepository().save(serviceOrder);
+		final ServiceInfo serviceInfo = serviceInfoRepository.findOne(serviceOrderDto.getServiceInfo().getId());
 
-        return getDomainObjectConverter().convert(serviceOrder);
-    }
+		serviceOrder.setPrice(serviceInfo.getPrice());
+		serviceOrder.setServiceInfo(serviceInfo);
 
-    @Override
-    protected void getRelationship(final ServiceOrder entity, final ServiceOrderSearchingDto searchingDto,
-            final ServiceOrderDto serviceOrderDto) {
-        final ServiceInfo serviceInfo = entity.getServiceInfo();
-        final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
+		getDomainEntityRepository().save(serviceOrder);
 
-        final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
-        final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
+		return getDomainObjectConverter().convert(serviceOrder);
+	}
 
-        final ServiceSupplierClient serviceSupplierClient = serviceInfo.getServiceSupplierClient();
-        final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
+	@Override
+	protected void getRelationship(final ServiceOrder entity, final ServiceOrderSearchingDto searchingDto,
+			final ServiceOrderDto serviceOrderDto) {
+		final ServiceInfo serviceInfo = entity.getServiceInfo();
+		final ServiceInfoDto serviceInfoDto = serviceInfoConverter.convert(serviceInfo);
 
-        ServiceOrderAppraiseDto serviceOrderAppraiseDto = null;
-        final ServiceOrderAppraise serviceOrderAppraise = entity.getAppraise();
-        if (serviceOrderAppraise == null) {
-            serviceOrderAppraiseDto = new ServiceOrderAppraiseDto();
-            serviceOrderAppraiseDto.setId(entity.getId());
-        } else {
-            serviceOrderAppraiseDto = serviceOrderAppraiseConverter.convert(serviceOrderAppraise);
-        }
+		final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
+		final ServiceCategoryDto serviceCategoryDto = serviceCategoryConverter.convert(serviceCategory);
 
-        serviceInfoDto.setServiceCategory(serviceCategoryDto);
-        serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
-        serviceOrderDto.setServiceInfo(serviceInfoDto);
-        serviceOrderDto.setUsername(entity.getUser().getUsername());
-        serviceOrderDto.setAppraise(serviceOrderAppraiseDto);
-    }
+		final ServiceSupplierClient serviceSupplierClient = serviceInfo.getServiceSupplierClient();
+		final ServiceSupplierClientDto serviceSupplierDto = serviceSupplierClientConverter.convert(serviceSupplierClient);
+
+		ServiceOrderAppraiseDto serviceOrderAppraiseDto = null;
+		final ServiceOrderAppraise serviceOrderAppraise = entity.getAppraise();
+		if (serviceOrderAppraise == null) {
+			serviceOrderAppraiseDto = new ServiceOrderAppraiseDto();
+			serviceOrderAppraiseDto.setId(entity.getId());
+		} else {
+			serviceOrderAppraiseDto = serviceOrderAppraiseConverter.convert(serviceOrderAppraise);
+		}
+
+		serviceInfoDto.setServiceCategory(serviceCategoryDto);
+		serviceInfoDto.setServiceSupplierClient(serviceSupplierDto);
+		serviceOrderDto.setServiceInfo(serviceInfoDto);
+		serviceOrderDto.setUsername(entity.getUser().getUsername());
+		serviceOrderDto.setAppraise(serviceOrderAppraiseDto);
+	}
 }
