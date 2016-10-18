@@ -7,8 +7,6 @@ import org.trinity.common.dto.domain.AbstractBusinessDto;
 public class ServiceOrderDto extends AbstractBusinessDto {
     private Double price;
     private LookupDto status;
-    private Integer score;
-    private String appraise;
     private String username;
     private Date proposalTime;
     private Date approvalTime;
@@ -18,12 +16,13 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private Integer serviceHour;
     private String phone;
     private String address;
+    private ServiceOrderAppraiseDto appraise;
 
     public String getAddress() {
         return address;
     }
 
-    public String getAppraise() {
+    public ServiceOrderAppraiseDto getAppraise() {
         return appraise;
     }
 
@@ -41,10 +40,6 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public Date getProposalTime() {
         return proposalTime;
-    }
-
-    public Integer getScore() {
-        return score;
     }
 
     public Date getServiceDate() {
@@ -75,7 +70,7 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.address = address;
     }
 
-    public void setAppraise(final String appraise) {
+    public void setAppraise(final ServiceOrderAppraiseDto appraise) {
         this.appraise = appraise;
     }
 
@@ -93,10 +88,6 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setProposalTime(final Date proposalTime) {
         this.proposalTime = proposalTime;
-    }
-
-    public void setScore(final Integer score) {
-        this.score = score;
     }
 
     public void setServiceDate(final Date serviceDate) {

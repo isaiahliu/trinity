@@ -29,5 +29,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClientOther</class>
 		<class>org.trinity.yqyl.repository.business.entity.UserRealname</class>
 		<class>org.trinity.yqyl.repository.business.entity.Yiquan</class>
+		<class>org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise</class>
 	</persistence-unit>
 </persistence>

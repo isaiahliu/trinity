@@ -36,8 +36,8 @@
 								href="/user/order/{{unprocessedOrder.id}}"><span
 								class="value">{{unprocessedOrder.id}}</span></a> <span class="key">#label("SERVICE_TIME")</span><span
 								class="value">{{unprocessedOrder.serviceDate |
-								date:'yyyy-MM-dd'}} {{unprocessedOrder.serviceHour}}:00</span>
-							<span class="key">#label("SERVICE_CATEGORY")</span><span>{{unprocessedOrder.serviceInfo.serviceCategory.name}}
+								date:'yyyy-MM-dd'}} {{unprocessedOrder.serviceHour}}:00</span> <span
+								class="key">#label("SERVICE_CATEGORY")</span><span>{{unprocessedOrder.serviceInfo.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="orderCompany">
@@ -110,15 +110,16 @@
 								href="/user/order/{{processedOrder.id}}"><span class="value">{{processedOrder.id}}</span></a>
 							<span class="key">#label("SERVICE_TIME")</span><span
 								class="value">{{processedOrder.serviceDate |
-								date:'yyyy-MM-dd'}} {{processedOrder.serviceHour}}:00</span>
-							<span class="key">#label("SERVICE_CATEGORY")</span><span>{{processedOrder.serviceInfo.serviceCategory.name}}
+								date:'yyyy-MM-dd'}} {{processedOrder.serviceHour}}:00</span> <span
+								class="key">#label("SERVICE_CATEGORY")</span><span>{{processedOrder.serviceInfo.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="orderCompany">
 							<span class="key">{{processedOrder.serviceInfo.serviceSupplierClient.name}}</span><span
 								class="value">{{processedOrder.serviceInfo.serviceSupplierClient.address}}</span>
 						</div>
-						<button>#button("ORDER_APPRAISE")</button>
+						<button class="ng-hide" ng-show="processedOrder.status.code=='P'"
+							ng-click="appraise(processedOrder.id)">#button("ORDER_APPRAISE")</button>
 					</div>
 				</div>
 			</li>

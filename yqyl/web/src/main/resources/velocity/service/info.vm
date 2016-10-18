@@ -69,7 +69,7 @@
 				</table>
 			</div>
 			<div class='ng-hide' ng-show="status=='appr'">
-				<div class="title">#info("COMPANY_ORDERED_1")2#info("COMPANY_ORDERED_2")</div>
+				<div class="title">#info("COMPANY_ORDERED_1"){{pagingData.itemCount}}#info("COMPANY_ORDERED_2")</div>
 				<table>
 					<thead>
 						<tr>

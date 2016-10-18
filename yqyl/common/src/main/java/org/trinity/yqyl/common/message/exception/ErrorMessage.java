@@ -49,7 +49,8 @@ public enum ErrorMessage implements IErrorMessage {
     UNABLE_TO_FIND_PARENT_CATEGORY,
     UNABLE_TO_FIND_SERVICE_SUB_ORDER,
     NO_SUB_ORDERS,
-    INVALID_ORDER_ID;
+    INVALID_ORDER_ID,
+    UNABLE_TO_FIND_SERVICE_ORDER_APPRAISE;
 
     @Override
     public String getMessageCode() {

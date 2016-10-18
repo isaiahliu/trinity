@@ -17,8 +17,6 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
         copyObject(source::getProposalTime, target::getProposalTime, target::setProposalTime, copyPolicy);
         copyObject(source::getApprovalTime, target::getApprovalTime, target::setApprovalTime, copyPolicy);
         copyObject(source::getSettledTime, target::getSettledTime, target::setSettledTime, copyPolicy);
-        copyObject(source::getAppraise, target::getAppraise, target::setAppraise, copyPolicy);
-        copyObject(source::getScore, target::getScore, target::setScore, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, OrderStatus.class, copyPolicy);
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);
@@ -47,8 +45,6 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
         copyObject(source::getProposalTime, target::getProposalTime, target::setProposalTime, copyPolicy);
         copyObject(source::getApprovalTime, target::getApprovalTime, target::setApprovalTime, copyPolicy);
         copyObject(source::getSettledTime, target::getSettledTime, target::setSettledTime, copyPolicy);
-        copyObject(source::getAppraise, target::getAppraise, target::setAppraise, copyPolicy);
-        copyObject(source::getScore, target::getScore, target::setScore, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);

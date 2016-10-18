@@ -21,6 +21,11 @@ public class UserWebController extends AbstractResourceWebController {
         return createModelAndView("user/health");
     }
 
+    @RequestMapping(value = "/order/appraise/{id}", method = RequestMethod.GET)
+    public ModelAndView orderAppraisePage(@PathVariable("id") final Long id) throws IException {
+        return createModelAndView("user/appraise").addObject("orderId", id);
+    }
+
     @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
     public ModelAndView orderDetailPage(@PathVariable("id") final Long id) throws IException {
         return createModelAndView("service/detail").addObject("orderId", id);

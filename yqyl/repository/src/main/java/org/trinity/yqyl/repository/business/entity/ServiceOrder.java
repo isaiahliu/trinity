@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -63,9 +64,9 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     private OrderStatus status;
 
-    private Integer score;
-
-    private String appraise;
+    // bi-directional one-to-one association to ServiceOrderAppraise
+    @OneToOne(mappedBy = "serviceOrder")
+    private ServiceOrderAppraise appraise;
 
     // bi-directional many-to-one association to User
     @ManyToOne
@@ -78,8 +79,8 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
         return address;
     }
 
-    public String getAppraise() {
-        return appraise;
+    public ServiceOrderAppraise getAppraise() {
+        return this.appraise;
     }
 
     public Date getApprovalTime() {
@@ -100,10 +101,6 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public Date getProposalTime() {
         return proposalTime;
-    }
-
-    public Integer getScore() {
-        return score;
     }
 
     public ServiceInfo getServiceInfo() {
@@ -130,7 +127,7 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
         this.address = address;
     }
 
-    public void setAppraise(final String appraise) {
+    public void setAppraise(final ServiceOrderAppraise appraise) {
         this.appraise = appraise;
     }
 
@@ -152,10 +149,6 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public void setProposalTime(final Date proposalTime) {
         this.proposalTime = proposalTime;
-    }
-
-    public void setScore(final Integer score) {
-        this.score = score;
     }
 
     public void setServiceInfo(final ServiceInfo serviceInfo) {
