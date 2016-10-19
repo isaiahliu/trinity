@@ -28,6 +28,7 @@ public enum Url implements IHttpUrl {
     ORDER_PROPOSAL(HttpMethod.POST, Path.ORDER, "proposal"),
 
     APPRAISE_NEW(HttpMethod.POST, Path.APPRAISE),
+    APPRAISE_UPDATE(HttpMethod.PUT, Path.APPRAISE),
 
     REALNAME_ME(HttpMethod.GET, Path.REALNAME, "me"),
     REALNAME_UPDATE(HttpMethod.PUT, Path.REALNAME),
