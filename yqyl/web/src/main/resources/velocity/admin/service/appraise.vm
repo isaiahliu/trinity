@@ -36,7 +36,7 @@
 				<td align="center"><span>{{order.username}}</span></td>
 				<td align="center"><span>{{order.serviceInfo.serviceSupplierClient.id}}</span></td>
 				<td align="center"><span>{{order.appraise.comment}}</span></td>
-				<td align="center"><span><button>{{(order.appraise.status.code=='A')?'#button("DISABLE")':'#button("ACTIVE")'}}</button></span></td>
+				<td align="center"><span><button>{{(order.appraise.status.code=='A')?'#button("HIDE")':'#button("SHOW")'}}</button></span></td>
 			</tr>
 		</tbody>
 	</table>
