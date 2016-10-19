@@ -17,14 +17,17 @@
 				ng-repeat="serviceInfo in services" class="value">{{serviceInfo.serviceCategory.name}}</span>
 		</div>
 		<div class="cardItem">
-			#if(${authentication.token.authenticated})
+			#if($platform=='ADMIN')
+			<button ng-click="passAudit()">#button("PASS_AUDIT")</button>
+			<button ng-click="denyAudit()">#button("DENY_AUDIT")</button>
+			#else #if(${authentication.token.authenticated})
 			<button ng-click="apply()">#button("APPLY")</button>
 			#else
 			<div>
 				<span>#info("LOGIN_BEFORE_ORDERING")</span>
 			</div>
 			<button>#button("LOGIN")</button>
-			#end
+			#end #end
 		</div>
 	</div>
 	<div class="detail">
@@ -83,7 +86,7 @@
 							<td align="center"><span>{{orderInfo.username}}</span></td>
 							<td align="center"><span>{{orderInfo.serviceInfo.serviceCategory.name}}
 							</span></td>
-							<td align="center"><span>{{orderInfo.appraise}}</span></td>
+							<td align="center"><span>{{orderInfo.appraise.comment}}</span></td>
 						</tr>
 					</tbody>
 				</table>

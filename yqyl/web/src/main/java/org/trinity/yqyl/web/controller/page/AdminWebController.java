@@ -10,6 +10,11 @@ import org.trinity.common.exception.IException;
 @RequestMapping("/admin")
 public class AdminWebController extends AbstractResourceWebController {
 
+	@RequestMapping("/supplier/audit/{id}")
+	public ModelAndView infoPage(@PathVariable("id") final Long id) throws IException {
+		return createModelAndView("service/info").addObject("serviceSupplierClientId", id);
+	}
+
 	@RequestMapping({ "", "/news" })
 	public ModelAndView newsPage() throws IException {
 		return createModelAndView("admin/news");

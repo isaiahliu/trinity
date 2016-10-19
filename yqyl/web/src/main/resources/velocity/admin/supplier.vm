@@ -26,7 +26,8 @@
 				ng-repeat="supplier in suppliers">
 				<td align="center"><span>{{supplier.id}}</span></td>
 				<td align="center"><span>{{supplier.name}}</span></td>
-				<td align="center"><span ng-if="supplier.status.code!='A'"><button>#button("AUDIT")</button></span><span
+				<td align="center"><span ng-if="supplier.status.code=='P'"><button
+							ng-click="audit(supplier)">#button("AUDIT")</button></span><span
 					ng-if="supplier.status.code=='A'">#label("AUDITED")</span></td>
 				<td align="center"><span><button
 							ng-if="supplier.status.code=='A'">#button("VIEW_DEVICE")</button></span></td>

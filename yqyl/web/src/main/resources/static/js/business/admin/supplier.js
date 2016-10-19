@@ -7,7 +7,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		supplierName : "",
 		supplierId : ""
 	};
-	
+
 	$scope.searchSuppliers = function() {
 		var ajaxUrl = "/ajax/service/supplier";
 
@@ -33,5 +33,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
 		});
+	};
+
+	$scope.audit = function(supplier) {
+		$window.location.href = "/admin/supplier/audit/" + supplier.id;
 	};
 });

@@ -22,31 +22,31 @@ public class OperatorClientRestController extends
 	}
 
 	@Override
-	@Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	protected void validateAdd() throws IException {
 		super.validateAdd();
 	}
 
 	@Override
-	@Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	protected void validateDelete() throws IException {
 		super.validateDelete();
 	}
 
 	@Override
-	@Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	protected void validateGetAll() throws IException {
 		super.validateGetAll();
 	}
 
 	@Override
-	@Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	protected void validateGetOne() throws IException {
 		super.validateGetOne();
 	}
 
 	@Override
-	@Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	protected void validateUpdate() throws IException {
 		super.validateUpdate();
 	}

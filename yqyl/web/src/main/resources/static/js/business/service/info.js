@@ -1,4 +1,5 @@
-layoutApp.controller('contentController', function($scope, $http, $window, serviceSupplierClientId) {
+layoutApp.controller('contentController', function($scope, $http, $window,
+		serviceSupplierClientId) {
 	$scope.status = 'desc';
 
 	$http({
@@ -18,7 +19,8 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	});
 
 	$scope.searchOrders = function() {
-		var ajaxUrl = "/ajax/service/supplier/" + serviceSupplierClientId + "/orders";
+		var ajaxUrl = "/ajax/service/supplier/" + serviceSupplierClientId
+				+ "/orders";
 
 		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
@@ -43,5 +45,18 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 
 	$scope.apply = function() {
 		$window.location.href = "/service/proposal/" + serviceSupplierClientId;
+	};
+
+	$scope.passAudit = function() {
+		$http({
+			method : "PUT",
+			url : "/ajax/service/supplier/audit/" + serviceSupplierClientId
+		}).success(function(response) {
+			$window.location.href = "/admin/supplier";
+		}).error(function(response) {
+		});
+	};
+	$scope.denyAudit = function() {
+		$window.location.href = "/admin/supplier";
 	};
 });

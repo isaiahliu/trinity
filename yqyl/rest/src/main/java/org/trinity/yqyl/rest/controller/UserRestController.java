@@ -43,12 +43,12 @@ public class UserRestController
 	protected void validateAdd() throws IException {
 		super.validateAdd();
 
-		securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR);
+		securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
 	}
 
 	@Override
 	protected void validateDelete() throws IException {
 		super.validateDelete();
-		securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR);
+		securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
 	}
 }

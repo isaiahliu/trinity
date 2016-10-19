@@ -38,7 +38,7 @@ public class AccessrightRestController extends
 	}
 
 	@RequestMapping(value = "/refresh", method = RequestMethod.PUT)
-	@Authorize(requireAny = AccessRight.USER_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	public @ResponseBody ResponseEntity<DefaultResponse> updateAll() throws IException {
 		final DefaultResponse response = new DefaultResponse();
 
@@ -65,19 +65,19 @@ public class AccessrightRestController extends
 	}
 
 	@Override
-	@Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	protected void validateGetAll() throws IException {
 		super.validateGetAll();
 	}
 
 	@Override
-	@Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	protected void validateGetOne() throws IException {
 		super.validateGetOne();
 	}
 
 	@Override
-	@Authorize(requireAny = AccessRight.CLIENT_ADMINISTRATOR)
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
 	protected void validateUpdate() throws IException {
 		super.validateUpdate();
 	}

@@ -67,7 +67,7 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
 
 		final User user = getDomainEntityRepository().findOne(dto.getId());
 
-		if (!securityUtil.hasAccessRight(CheckMode.ANY, AccessRight.USER_ADMINISTRATOR)) {
+		if (!securityUtil.hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR)) {
 			if (!currentUser.equals(user.getUsername())) {
 				throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_ACCESS_USER, user.getUsername());
 			}
