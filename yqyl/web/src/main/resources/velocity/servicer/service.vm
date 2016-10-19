@@ -2,6 +2,44 @@
 
 <link rel="stylesheet" href="/static/css/business/servicer/service.css"></link>
 
-<div class="service" ng-controller="contentController">service</div>
+<div class="service" ng-controller="contentController">
+	<div class="title">#label("SERVICE_MANAGEMENT")</div>
+	<div class="filter" style="text-align: center;">
+		<input style="width: 400px;" ng-model="filterData.supplierId" />
+		<button ng-click="searchServices()">#button("SEARCH")</button>
+		<button ng-click="newService()">#button("NEW_SERVICE")</button>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<td align="center"><span>#label("PHOTO")</span></td>
+				<td align="center"><span>#label("SERVICE_NAME")</span></td>
+				<td align="center"><span>#label("PRICE")</span></td>
+				<td align="center"><span>#label("ORDER_TIMES_IN_A_MONTH")</span></td>
+				<td align="center"><span>#label("APPRAISE_RATE")</span></td>
+				<td align="center"><span>#label("EDIT")</span></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="order in orders">
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="paging" style="text-align: center;">
+		<pagination total-items="pagingData.itemCount"
+			ng-model="pagingData.pageIndex" max-size="10"
+			items-per-page="pagingData.pageSize" class="pagination-sm"
+			boundary-links="true" ng-change="searchServices()"
+			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+			previous-text='#label("PREVIOUS_PAGE")'
+			next-text='#label("NEXT_PAGE")'></pagination>
+	</div>
+</div>
 
 <script src="/static/js/business/servicer/service.js"></script>
