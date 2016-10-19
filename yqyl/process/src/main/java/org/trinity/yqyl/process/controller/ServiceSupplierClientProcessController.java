@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.exception.IException;
 import org.trinity.process.converter.IObjectConverter;
@@ -90,6 +91,13 @@ public class ServiceSupplierClientProcessController extends
 				query.distinct(true);
 			}
 
+			if (!StringUtils.isEmpty(searchingData.getName())) {
+				predicates.add(cb.like(root.get(ServiceSupplierClient_.name), "%" + searchingData.getName() + "%"));
+			}
+
+			if (searchingData.getId() != null && searchingData.getId() != 0) {
+				predicates.add(cb.equal(root.get(ServiceSupplierClient_.userId), searchingData.getId()));
+			}
 			return cb.and(predicates.toArray(new Predicate[0]));
 		};
 
