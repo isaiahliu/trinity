@@ -12,7 +12,7 @@
 		<div class="image">
 			<img ng-src="/ajax/content/image/{{serviceInfo.image}}" />
 		</div>
-		<button>#button("UPLOAD_PHOTO")</button>
+		<button ng-click="uploadPhoto()" class="ng-hide" ng-show="serviceInfo.image" ng-if="serviceInfo.image">#button("UPLOAD_PHOTO")</button>
 	</div>
 	<div class="right">
 		<div>
@@ -39,9 +39,9 @@
 				ng-model="serviceInfo.active" />
 		</div>
 		<div>
-			<button>#button("APPLY")</button>
-			<button>#button("DELETE")</button>
-			<button>#button("BACK")</button>
+			<button ng-click="apply()">#button("APPLY")</button>
+			<button ng-click="remove()">#button("DELETE")</button>
+			<button ng-click="back()">#button("BACK")</button>
 		</div>
 	</div>
 </div>

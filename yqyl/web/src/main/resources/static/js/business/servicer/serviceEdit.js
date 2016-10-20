@@ -10,6 +10,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 
 	$scope.populateSubCategory = function() {
 		if (subCategoryMapping[$scope.serviceInfo.serviceCategory.parent.id] == undefined) {
+			$scope.subCategories = [];
 			$http({
 				method : "GET",
 				url : "/ajax/service/category/children/" + $scope.serviceInfo.serviceCategory.parent.id + "?status=A"
@@ -50,4 +51,14 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 
 		$scope.serviceInfo.active = true;
 	}
+
+	$scope.uploadPhoto = function() {
+	};
+	$scope.apply = function() {
+	};
+	$scope.remove = function() {
+	};
+	$scope.back = function() {
+		$window.location.href = "/servicer/service"
+	};
 });
