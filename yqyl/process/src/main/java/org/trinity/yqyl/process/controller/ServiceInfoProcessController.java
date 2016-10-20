@@ -82,6 +82,10 @@ public class ServiceInfoProcessController
             predicates.add(cb.equal(root.join(ServiceInfo_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
                     username));
 
+            if (dto.getId() != null) {
+                predicates.add(cb.equal(root.get(ServiceInfo_.id), dto.getId()));
+            }
+
             if (dto.getName() != null) {
                 predicates.add(cb.like(root.get(ServiceInfo_.name), "%" + dto.getName() + "%"));
             }
@@ -118,6 +122,11 @@ public class ServiceInfoProcessController
             result.setMonthlyRate(orders.stream().map(order -> (order.getAppraise() == null) ? null : order.getAppraise().getAttitudeRate())
                     .filter(rate -> rate != null).collect(Collectors.averagingDouble(rate -> rate)));
 
+            final ServiceCategory subCategory = item.getServiceCategory();
+            final ServiceCategoryDto subCategoryDto = serviceCategoryConverter.convert(subCategory);
+            subCategoryDto.setParent(serviceCategoryConverter.convert(subCategory.getParent()));
+
+            result.setServiceCategory(subCategoryDto);
             return result;
         }).collect(Collectors.toList());
     }

@@ -6,9 +6,8 @@ public enum AccessRight implements IAccessRight<LookupType> {
     SUPER_USER("SUPER", null),
 
     ADMINISTRATOR("ADMIN", SUPER_USER),
-
-    OPERATOR("OPERATOR", ADMINISTRATOR),
-    SERVICE_SUPPLIER("SUPPLIER", ADMINISTRATOR);
+    SERVICE_SUPPLIER("SUPPLIER", SUPER_USER),
+    OPERATOR("OPERATOR", SUPER_USER);
 
     private final String messageCode;
     private final AccessRight parentAccessRight;

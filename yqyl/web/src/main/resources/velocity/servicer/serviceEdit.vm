@@ -3,9 +3,47 @@
 <link rel="stylesheet"
 	href="/static/css/business/servicer/serviceEdit.css"></link>
 
-<div class="serviceEdit" ng-controller="contentController">
-	<div class="title">#label("SERVICE_EDIT")</div>
+<script type="text/javascript">
+	layoutApp.value("serviceInfoId", ${serviceInfoId});
+</script>
 
+<div class="serviceEdit" ng-controller="contentController">
+	<div class="left">
+		<div class="image">
+			<img ng-src="/ajax/content/image/{{serviceInfo.image}}" />
+		</div>
+		<button>#button("UPLOAD_PHOTO")</button>
+	</div>
+	<div class="right">
+		<div>
+			<span>#label("SERVICE_NAME")</span><input ng-model="serviceInfo.name" />
+		</div>
+		<div>
+			<span>#label("SERVICE_PARENT_CATEGORY")</span><select
+				ng-change="populateSubCategory()"
+				ng-model="serviceInfo.serviceCategory.parent.id"
+				ng-options="category.id as category.name for category in categories"></select>
+		</div>
+		<div>
+			<span>#label("SERVICE_CATEGORY")</span><select
+				ng-model="serviceInfo.serviceCategory.id"
+				ng-options="subCategory.id as subCategory.name for subCategory in subCategories">
+			</select>
+		</div>
+		<div>
+			<span>#label("SERVICE_PRICE")</span><input
+				ng-model="serviceInfo.price" />
+		</div>
+		<div>
+			<span>#label("SHOW_OR_NOT")</span><input type="checkbox"
+				ng-model="serviceInfo.active" />
+		</div>
+		<div>
+			<button>#button("APPLY")</button>
+			<button>#button("DELETE")</button>
+			<button>#button("BACK")</button>
+		</div>
+	</div>
 </div>
 
 <script src="/static/js/business/servicer/serviceEdit.js"></script>

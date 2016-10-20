@@ -39,7 +39,7 @@ public class ServiceAjaxController extends AbstractRestController {
     private IRestfulServiceUtil restfulServiceUtil;
 
     @RequestMapping(value = "/supplier/audit/{id}", method = RequestMethod.PUT)
-    @Authorize(requireAny = AccessRight.OPERATOR)
+    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
     public @ResponseBody ServiceSupplierClientResponse ajaxAuditServiceSupplier(@PathVariable("id") final Long id) throws IException {
         final ServiceSupplierClientDto serviceSupplierClientDto = new ServiceSupplierClientDto();
         serviceSupplierClientDto.setId(id);

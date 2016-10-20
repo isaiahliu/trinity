@@ -19,7 +19,7 @@ public class UserDataPermissionValidator extends AbstractDataPermissionValidator
 	private IExceptionFactory exceptionFactory;
 
 	@Override
-	@Authorize(requireAny = { AccessRight.ADMINISTRATOR })
+	@Authorize(requireAny = { AccessRight.SUPER_USER })
 	public void checkSpecialPermission() throws IException {
 	}
 

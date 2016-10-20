@@ -70,7 +70,7 @@ public class OrderAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.OPERATOR)
+    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
     public ResponseEntity<ServiceOrderResponse> ajaxGetOrders(final ServiceOrderSearchingDto request) throws IException {
         final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, null, null, request,
                 ServiceOrderResponse.class);

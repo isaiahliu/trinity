@@ -5,6 +5,11 @@ import org.trinity.common.dto.object.PagingDto;
 public class ServiceInfoSearchingDto extends PagingDto {
     private Long serviceSupplierClientId;
     private String name;
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -12,6 +17,10 @@ public class ServiceInfoSearchingDto extends PagingDto {
 
     public Long getServiceSupplierClientId() {
         return serviceSupplierClientId;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public void setName(final String name) {
