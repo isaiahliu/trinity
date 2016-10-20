@@ -6,4 +6,3 @@ import org.trinity.yqyl.common.message.dto.domain.AccountBalanceSearchingDto;
 
 public interface IAccountBalanceProcessController extends ICrudProcessController<AccountBalanceDto, AccountBalanceSearchingDto> {
 }
-

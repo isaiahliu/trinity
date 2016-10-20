@@ -6,4 +6,3 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceInfoSearchingDto;
 
 public interface IServiceInfoProcessController extends ICrudProcessController<ServiceInfoDto, ServiceInfoSearchingDto> {
 }
-

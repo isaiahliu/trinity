@@ -6,4 +6,3 @@ import org.trinity.yqyl.common.message.dto.domain.MessageSearchingDto;
 
 public interface IMessageProcessController extends ICrudProcessController<MessageDto, MessageSearchingDto> {
 }
-

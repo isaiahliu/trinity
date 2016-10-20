@@ -30,3 +30,12 @@ div.service table thead td {
 div.service table td {
 	border: 1px solid;
 }
+
+div.service table td.image {
+	padding: 5px;
+}
+
+div.service table td img {
+	width: 100px;
+	height: 100px;
+}

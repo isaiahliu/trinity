@@ -10,7 +10,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.Announcement</class>
 		<class>org.trinity.yqyl.repository.business.entity.Message</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceOrder</class>
-		<class>org.trinity.yqyl.repository.business.entity.Role</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceInfo</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClient</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceSupplierClient</class>

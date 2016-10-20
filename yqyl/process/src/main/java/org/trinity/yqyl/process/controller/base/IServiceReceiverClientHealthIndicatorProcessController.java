@@ -4,6 +4,6 @@ import org.trinity.process.controller.ICrudProcessController;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientHealthIndicatorDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientHealthIndicatorSearchingDto;
 
-public interface IServiceReceiverClientHealthIndicatorProcessController extends ICrudProcessController<ServiceReceiverClientHealthIndicatorDto, ServiceReceiverClientHealthIndicatorSearchingDto> {
+public interface IServiceReceiverClientHealthIndicatorProcessController
+        extends ICrudProcessController<ServiceReceiverClientHealthIndicatorDto, ServiceReceiverClientHealthIndicatorSearchingDto> {
 }
-

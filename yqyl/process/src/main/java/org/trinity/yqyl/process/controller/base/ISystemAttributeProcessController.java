@@ -6,5 +6,5 @@ import org.trinity.yqyl.common.message.dto.domain.SystemAttributeDto;
 import org.trinity.yqyl.common.message.dto.domain.SystemAttributeSearchingDto;
 
 public interface ISystemAttributeProcessController extends ICrudProcessController<SystemAttributeDto, SystemAttributeSearchingDto> {
-	void refreshAll() throws IException;
+    void refreshAll() throws IException;
 }

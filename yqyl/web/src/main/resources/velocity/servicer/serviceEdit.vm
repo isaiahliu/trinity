@@ -1,0 +1,11 @@
+#parse("/velocity/servicer/navigation.vm")
+
+<link rel="stylesheet"
+	href="/static/css/business/servicer/serviceEdit.css"></link>
+
+<div class="serviceEdit" ng-controller="contentController">
+	<div class="title">#label("SERVICE_EDIT")</div>
+
+</div>
+
+<script src="/static/js/business/servicer/serviceEdit.js"></script>

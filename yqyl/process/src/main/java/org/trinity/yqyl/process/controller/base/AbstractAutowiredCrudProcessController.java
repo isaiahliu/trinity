@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.controller.base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.IDto;
 import org.trinity.common.dto.object.PagingDto;
@@ -11,6 +12,7 @@ import org.trinity.message.exception.IErrorMessage;
 import org.trinity.process.controller.AbstractCrudProcessController;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.datapermission.IDataPermissionValidatorProvider;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 
 public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto extends AbstractBusinessDto, TSearchingDto extends IDto, TRepository extends CrudRepository<TEntity, Long>>
         extends AbstractCrudProcessController<TEntity, TDto, TSearchingDto> {
@@ -19,7 +21,10 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
     private final IErrorMessage noInstanceFoundError;
 
     @Autowired
-    protected IObjectConverter<PagingDto, Pageable> pagingConverter;
+    private ISecurityUtil<AccessRight> securityUtil;
+
+    @Autowired
+    private IObjectConverter<PagingDto, Pageable> pagingConverter;
 
     @Autowired
     private TRepository domainEntityRepository;
@@ -37,6 +42,14 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
         super();
         this.domainEntityType = domainEntityType;
         this.noInstanceFoundError = noInstanceFoundError;
+    }
+
+    public ISecurityUtil<AccessRight> getSecurityUtil() {
+        return securityUtil;
+    }
+
+    public void setPagingConverter(final IObjectConverter<PagingDto, Pageable> pagingConverter) {
+        this.pagingConverter = pagingConverter;
     }
 
     @Override
@@ -67,5 +80,13 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
     @Override
     protected IErrorMessage getNoInstanceFoundError() {
         return noInstanceFoundError;
+    }
+
+    protected IObjectConverter<PagingDto, Pageable> getPagingConverter() {
+        return pagingConverter;
+    }
+
+    protected void setSecurityUtil(final ISecurityUtil<AccessRight> securityUtil) {
+        this.securityUtil = securityUtil;
     }
 }

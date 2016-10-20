@@ -6,4 +6,3 @@ import org.trinity.yqyl.common.message.dto.domain.AnnouncementSearchingDto;
 
 public interface IAnnouncementProcessController extends ICrudProcessController<AnnouncementDto, AnnouncementSearchingDto> {
 }
-

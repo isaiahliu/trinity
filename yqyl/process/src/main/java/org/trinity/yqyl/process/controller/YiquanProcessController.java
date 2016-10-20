@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.YiquanDto;
@@ -27,9 +26,6 @@ public class YiquanProcessController
         extends AbstractAutowiredCrudProcessController<Yiquan, YiquanDto, YiquanSearchingDto, IYiquanRepository>
         implements IYiquanProcessController {
     @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
-
-    @Autowired
     private IUserRepository userRepository;
 
     public YiquanProcessController() {
@@ -43,7 +39,7 @@ public class YiquanProcessController
             return;
         }
 
-        final String username = securityUtil.getCurrentToken().getUsername();
+        final String username = getSecurityUtil().getCurrentToken().getUsername();
 
         final User user = userRepository.findOneByUsername(username);
 
@@ -52,7 +48,7 @@ public class YiquanProcessController
         }
 
         if (user.getYiquan() != null && !user.getYiquanCode().equals(yiquanCode.getCode())) {
-            securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+            getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
         }
 
         final Yiquan yiquan = getDomainEntityRepository().findOneByCode(yiquanCode.getCode());
@@ -65,15 +61,15 @@ public class YiquanProcessController
 
     @Override
     @Transactional
-    public List<YiquanDto> getMe() throws IException {
-        final String username = securityUtil.getCurrentToken().getUsername();
+    public List<YiquanDto> getMe(final YiquanSearchingDto dto) throws IException {
+        final String username = getSecurityUtil().getCurrentToken().getUsername();
 
         final User user = userRepository.findOneByUsername(username);
 
         final Yiquan yiquan = user.getYiquan();
 
         if (yiquan == null) {
-            return super.getMe();
+            return super.getMe(dto);
         }
 
         final YiquanDto yiquanDto = getDomainObjectConverter().convert(yiquan);

@@ -10,11 +10,10 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceReceiverClientOth
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientOther;
 
 @Service
-public class ServiceReceiverClientOtherProcessController
-      extends AbstractAutowiredCrudProcessController<ServiceReceiverClientOther, ServiceReceiverClientOtherDto, ServiceReceiverClientOtherSearchingDto, IServiceReceiverClientOtherRepository>
-      implements IServiceReceiverClientOtherProcessController {
-  public ServiceReceiverClientOtherProcessController() {
-      super(ServiceReceiverClientOther.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_RECEIVER_CLIENT_OTHER);
-  }
+public class ServiceReceiverClientOtherProcessController extends
+        AbstractAutowiredCrudProcessController<ServiceReceiverClientOther, ServiceReceiverClientOtherDto, ServiceReceiverClientOtherSearchingDto, IServiceReceiverClientOtherRepository>
+        implements IServiceReceiverClientOtherProcessController {
+    public ServiceReceiverClientOtherProcessController() {
+        super(ServiceReceiverClientOther.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_RECEIVER_CLIENT_OTHER);
+    }
 }
-

@@ -55,7 +55,7 @@ public class OperatorClientProcessController extends
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        final Pageable pagable = pagingConverter.convert(dto);
+        final Pageable pagable = getPagingConverter().convert(dto);
 
         final Page<OperatorClient> findAll = getDomainEntityRepository().findAll(specification, pagable);
 

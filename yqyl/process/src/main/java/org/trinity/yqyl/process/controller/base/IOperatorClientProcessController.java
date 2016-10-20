@@ -6,4 +6,3 @@ import org.trinity.yqyl.common.message.dto.domain.OperatorClientSearchingDto;
 
 public interface IOperatorClientProcessController extends ICrudProcessController<OperatorClientDto, OperatorClientSearchingDto> {
 }
-

@@ -5,9 +5,9 @@ import org.trinity.process.controller.IProcessController;
 import org.trinity.yqyl.common.message.dto.domain.SecurityDto;
 
 public interface ISecurityProcessController extends IProcessController {
-	SecurityDto authenticate(String tokenName, String username, String password) throws IException;
+    SecurityDto authenticate(String tokenName, String username, String password) throws IException;
 
-	SecurityDto logout(String tokenName) throws IException;
+    SecurityDto logout(String tokenName) throws IException;
 
-	void register(String username, String password) throws IException;
+    void register(String username, String password) throws IException;
 }

@@ -6,12 +6,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
-import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
@@ -28,9 +26,6 @@ public class ServiceOrderAppraiseProcessController extends
     @Autowired
     private IServiceOrderRepository serviceOrderRepository;
 
-    @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
-
     public ServiceOrderAppraiseProcessController() {
         super(ServiceOrderAppraise.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER_APPRAISE);
     }
@@ -41,7 +36,7 @@ public class ServiceOrderAppraiseProcessController extends
         for (final ServiceOrderAppraiseDto dto : data) {
             final ServiceOrder serviceOrder = serviceOrderRepository.findOne(dto.getId());
 
-            if (!serviceOrder.getUser().getUsername().equals(securityUtil.getCurrentToken().getUsername())) {
+            if (!serviceOrder.getUser().getUsername().equals(getSecurityUtil().getCurrentToken().getUsername())) {
                 throw getExceptionFactory().createException(ErrorMessage.INSUFFICIENT_ACCESSRIGHT);
             }
 

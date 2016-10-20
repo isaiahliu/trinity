@@ -8,12 +8,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.UserRealnameDto;
 import org.trinity.yqyl.common.message.dto.domain.UserRealnameSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
-import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.CredentialType;
 import org.trinity.yqyl.common.message.lookup.RealnameStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
@@ -31,9 +29,6 @@ public class UserRealnameProcessController
         extends AbstractAutowiredCrudProcessController<UserRealname, UserRealnameDto, UserRealnameSearchingDto, IUserRealnameRepository>
         implements IUserRealnameProcessController {
     @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
-
-    @Autowired
     private IUserRepository userRepository;
 
     @Autowired
@@ -45,8 +40,8 @@ public class UserRealnameProcessController
 
     @Override
     @Transactional
-    public List<UserRealnameDto> getMe() throws IException {
-        final String username = securityUtil.getCurrentToken().getUsername();
+    public List<UserRealnameDto> getMe(final UserRealnameSearchingDto dto) throws IException {
+        final String username = getSecurityUtil().getCurrentToken().getUsername();
         final User user = userRepository.findOneByUsername(username);
 
         UserRealname userRealname = getDomainEntityRepository().findOne(user.getId());

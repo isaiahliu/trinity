@@ -4,9 +4,18 @@ import org.trinity.common.dto.object.PagingDto;
 
 public class ServiceInfoSearchingDto extends PagingDto {
     private Long serviceSupplierClientId;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
 
     public Long getServiceSupplierClientId() {
         return serviceSupplierClientId;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public void setServiceSupplierClientId(final Long serviceSupplierClientId) {

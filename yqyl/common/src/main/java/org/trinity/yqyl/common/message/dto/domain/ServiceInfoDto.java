@@ -10,6 +10,8 @@ public class ServiceInfoDto extends AbstractBusinessDto {
     private String image;
     private LookupDto paymentMethod;
     private LookupDto paymentType;
+    private int monthlyProposalOrderCount;
+    private double monthlyRate;
 
     private ServiceSupplierClientDto serviceSupplierClient;
 
@@ -21,6 +23,14 @@ public class ServiceInfoDto extends AbstractBusinessDto {
 
     public String getImage() {
         return image;
+    }
+
+    public int getMonthlyProposalOrderCount() {
+        return monthlyProposalOrderCount;
+    }
+
+    public double getMonthlyRate() {
+        return monthlyRate;
     }
 
     public String getName() {
@@ -57,6 +67,14 @@ public class ServiceInfoDto extends AbstractBusinessDto {
 
     public void setImage(final String image) {
         this.image = image;
+    }
+
+    public void setMonthlyProposalOrderCount(final int monthlyProposalOrderCount) {
+        this.monthlyProposalOrderCount = monthlyProposalOrderCount;
+    }
+
+    public void setMonthlyRate(final double monthlyRate) {
+        this.monthlyRate = monthlyRate;
     }
 
     public void setName(final String name) {

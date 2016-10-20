@@ -10,11 +10,10 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceReceiverClientHea
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthInformation;
 
 @Service
-public class ServiceReceiverClientHealthInformationProcessController
-      extends AbstractAutowiredCrudProcessController<ServiceReceiverClientHealthInformation, ServiceReceiverClientHealthInformationDto, ServiceReceiverClientHealthInformationSearchingDto, IServiceReceiverClientHealthInformationRepository>
-      implements IServiceReceiverClientHealthInformationProcessController {
-  public ServiceReceiverClientHealthInformationProcessController() {
-      super(ServiceReceiverClientHealthInformation.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_RECEIVER_CLIENT_HEALTH_INFORMATION);
-  }
+public class ServiceReceiverClientHealthInformationProcessController extends
+        AbstractAutowiredCrudProcessController<ServiceReceiverClientHealthInformation, ServiceReceiverClientHealthInformationDto, ServiceReceiverClientHealthInformationSearchingDto, IServiceReceiverClientHealthInformationRepository>
+        implements IServiceReceiverClientHealthInformationProcessController {
+    public ServiceReceiverClientHealthInformationProcessController() {
+        super(ServiceReceiverClientHealthInformation.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_RECEIVER_CLIENT_HEALTH_INFORMATION);
+    }
 }
-

@@ -6,4 +6,3 @@ import org.trinity.yqyl.common.message.dto.domain.UserRealnameSearchingDto;
 
 public interface IUserRealnameProcessController extends ICrudProcessController<UserRealnameDto, UserRealnameSearchingDto> {
 }
-

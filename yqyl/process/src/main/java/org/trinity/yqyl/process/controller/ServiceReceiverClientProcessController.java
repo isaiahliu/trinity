@@ -12,14 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.exception.IException;
 import org.trinity.message.LookupParser;
 import org.trinity.message.MessageUtils;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
-import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceReceiverClientProcessController;
@@ -35,9 +33,6 @@ public class ServiceReceiverClientProcessController extends
         implements IServiceReceiverClientProcessController {
     @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
 
     public ServiceReceiverClientProcessController() {
         super(ServiceReceiverClient.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_RECEIVER_CLIENT);
@@ -74,7 +69,7 @@ public class ServiceReceiverClientProcessController extends
 
     @Override
     public Page<ServiceReceiverClientDto> getAll(final ServiceReceiverClientSearchingDto dto) throws IException {
-        final Pageable pagable = pagingConverter.convert(dto);
+        final Pageable pagable = getPagingConverter().convert(dto);
 
         final Specification<ServiceReceiverClient> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
@@ -106,15 +101,15 @@ public class ServiceReceiverClientProcessController extends
 
     @Override
     @Transactional
-    public List<ServiceReceiverClientDto> getMe() throws IException {
-        final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
+    public List<ServiceReceiverClientDto> getMe(final ServiceReceiverClientSearchingDto dto) throws IException {
+        final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
 
         return getDomainObjectConverter().convert(user.getServiceReceiverClients());
     }
 
     @Override
     protected void addRelationship(final ServiceReceiverClient entity, final ServiceReceiverClientDto dto) throws IException {
-        final User user = userRepository.findOneByUsername(securityUtil.getCurrentToken().getUsername());
+        final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
         entity.setUser(user);
     }
 }

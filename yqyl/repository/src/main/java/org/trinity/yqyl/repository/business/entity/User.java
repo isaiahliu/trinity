@@ -71,8 +71,9 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     // bi-directional many-to-many association to UserGroup
     @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
-    private List<Role> roles;
+    @JoinTable(name = "user_accessright", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "accessright_id") })
+    private List<Accessright> accessrights;
 
     // bi-directional many-to-one association to Order
     @OneToMany(mappedBy = "user")
@@ -135,6 +136,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return token;
     }
 
+    public List<Accessright> getAccessrights() {
+        return this.accessrights;
+    }
+
     public List<Account> getAccounts() {
         return this.accounts;
     }
@@ -169,10 +174,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public UserRealname getRealname() {
         return this.realname;
-    }
-
-    public List<Role> getRoles() {
-        return this.roles;
     }
 
     public List<ServiceReceiverClient> getServiceReceiverClients() {
@@ -281,8 +282,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.realname = realname;
     }
 
-    public void setRoles(final List<Role> roles) {
-        this.roles = roles;
+    public void setRoles(final List<Accessright> accessrights) {
+        this.accessrights = accessrights;
     }
 
     public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {

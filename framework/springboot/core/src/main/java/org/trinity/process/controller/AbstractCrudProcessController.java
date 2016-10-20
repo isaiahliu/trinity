@@ -64,7 +64,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     }
 
     @Override
-    public List<TDto> getMe() throws IException {
+    public List<TDto> getMe(final TSearchingDto data) throws IException {
         return Collections.emptyList();
     }
 

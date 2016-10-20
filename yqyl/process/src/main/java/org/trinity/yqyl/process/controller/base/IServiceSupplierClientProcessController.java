@@ -5,5 +5,5 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
 
 public interface IServiceSupplierClientProcessController
-		extends ICrudProcessController<ServiceSupplierClientDto, ServiceSupplierClientSearchingDto> {
+        extends ICrudProcessController<ServiceSupplierClientDto, ServiceSupplierClientSearchingDto> {
 }

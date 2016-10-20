@@ -6,4 +6,3 @@ import org.trinity.yqyl.common.message.dto.domain.FavoriteSearchingDto;
 
 public interface IFavoriteProcessController extends ICrudProcessController<FavoriteDto, FavoriteSearchingDto> {
 }
-

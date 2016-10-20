@@ -29,6 +29,6 @@
 					<span>#button("SERVICER_TRAINING")</span>
 				</div></a></li>
 	</ul>
-	
 </div>
 
+<script src="/static/js/business/servicer/navigation.js"></script>
