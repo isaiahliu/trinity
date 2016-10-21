@@ -34,6 +34,7 @@ import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.common.message.lookup.SmokerAge;
+import org.trinity.yqyl.common.message.lookup.StaffStatus;
 import org.trinity.yqyl.common.message.lookup.SystemAttributeKey;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
 import org.trinity.yqyl.common.message.lookup.TransactionCategory;
@@ -68,6 +69,7 @@ import org.trinity.yqyl.common.message.lookup.ValueType;
         @TypeDef(name = "SystemAttributeKey", defaultForType = SystemAttributeKey.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.SystemAttributeKey")),
         @TypeDef(name = "ValueType", defaultForType = ValueType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.ValueType")),
         @TypeDef(name = "UserStatus", defaultForType = UserStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.UserStatus")),
+        @TypeDef(name = "StaffStatus", defaultForType = StaffStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.StaffStatus")),
         @TypeDef(name = "FamilyRelationship", defaultForType = FamilyRelationship.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.FamilyRelationship")),
         @TypeDef(name = "TokenStatus", defaultForType = TokenStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.TokenStatus")),
         @TypeDef(name = "FavoriteCategory", defaultForType = FavoriteCategory.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.FavoriteCategory")),

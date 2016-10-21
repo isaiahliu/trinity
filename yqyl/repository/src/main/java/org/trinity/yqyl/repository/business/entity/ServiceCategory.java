@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -52,6 +53,9 @@ public class ServiceCategory extends AbstractAuditableEntity implements Serializ
     // bi-directional many-to-one association to ServiceInfo
     @OneToMany(mappedBy = "serviceCategory")
     private List<ServiceInfo> serviceInfos;
+    // bi-directional many-to-many association to ServiceSupplierStaff
+    @ManyToMany(mappedBy = "serviceCategories")
+    private List<ServiceSupplierStaff> serviceSupplierStaffs;
 
     public ServiceCategory() {
     }
@@ -94,6 +98,10 @@ public class ServiceCategory extends AbstractAuditableEntity implements Serializ
         return this.serviceInfos;
     }
 
+    public List<ServiceSupplierStaff> getServiceSupplierStaffs() {
+        return this.serviceSupplierStaffs;
+    }
+
     public RecordStatus getStatus() {
         return this.status;
     }
@@ -134,6 +142,10 @@ public class ServiceCategory extends AbstractAuditableEntity implements Serializ
 
     public void setServiceInfos(final List<ServiceInfo> serviceInfos) {
         this.serviceInfos = serviceInfos;
+    }
+
+    public void setServiceSupplierStaffs(final List<ServiceSupplierStaff> serviceSupplierStaffs) {
+        this.serviceSupplierStaffs = serviceSupplierStaffs;
     }
 
     public void setStatus(final RecordStatus status) {

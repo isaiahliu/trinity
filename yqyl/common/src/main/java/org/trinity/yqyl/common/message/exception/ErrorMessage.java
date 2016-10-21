@@ -52,7 +52,8 @@ public enum ErrorMessage implements IErrorMessage {
     INVALID_ORDER_ID,
     UNABLE_TO_FIND_SERVICE_ORDER_APPRAISE,
     INCORRECT_SERVICE_ORDER_STATUS,
-    INSUFFICIENT_ACCESSRIGHT;
+    INSUFFICIENT_ACCESSRIGHT,
+    UNABLE_TO_FIND_SERVICE_SUPPLIER_STAFF;
 
     @Override
     public String getMessageCode() {

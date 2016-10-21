@@ -37,6 +37,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     private String name;
 
+    // bi-directional many-to-one association to ServiceSupplierStaff
+    @OneToMany(mappedBy = "serviceSupplierClient")
+    private List<ServiceSupplierStaff> serviceSupplierStaffs;
+
     private String address;
 
     private ServiceSupplierClientStatus status;
@@ -44,7 +48,6 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
     private PersonalType type;
 
     private String description;
-
     // bi-directional one-to-one association to User
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -73,6 +76,13 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return serviceInfo;
     }
 
+    public ServiceSupplierStaff addServiceSupplierStaff(final ServiceSupplierStaff serviceSupplierStaff) {
+        getServiceSupplierStaffs().add(serviceSupplierStaff);
+        serviceSupplierStaff.setServiceSupplierClient(this);
+
+        return serviceSupplierStaff;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -97,12 +107,20 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return licenseCopy;
     }
 
+    public String getLogo() {
+        return logo;
+    }
+
     public String getName() {
         return this.name;
     }
 
     public List<ServiceInfo> getServiceInfos() {
         return this.serviceInfos;
+    }
+
+    public List<ServiceSupplierStaff> getServiceSupplierStaffs() {
+        return this.serviceSupplierStaffs;
     }
 
     public ServiceSupplierClientStatus getStatus() {
@@ -126,6 +144,13 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         serviceInfo.setServiceSupplierClient(null);
 
         return serviceInfo;
+    }
+
+    public ServiceSupplierStaff removeServiceSupplierStaff(final ServiceSupplierStaff serviceSupplierStaff) {
+        getServiceSupplierStaffs().remove(serviceSupplierStaff);
+        serviceSupplierStaff.setServiceSupplierClient(null);
+
+        return serviceSupplierStaff;
     }
 
     public void setAddress(final String address) {
@@ -152,12 +177,20 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         this.licenseCopy = licenseCopy;
     }
 
+    public void setLogo(final String logo) {
+        this.logo = logo;
+    }
+
     public void setName(final String name) {
         this.name = name;
     }
 
     public void setServiceInfos(final List<ServiceInfo> serviceInfos) {
         this.serviceInfos = serviceInfos;
+    }
+
+    public void setServiceSupplierStaffs(final List<ServiceSupplierStaff> serviceSupplierStaffs) {
+        this.serviceSupplierStaffs = serviceSupplierStaffs;
     }
 
     public void setStatus(final ServiceSupplierClientStatus status) {
@@ -174,14 +207,6 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public void setUserId(final Long userId) {
         this.userId = userId;
-    }
-
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
     }
 
 }

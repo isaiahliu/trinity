@@ -48,6 +48,7 @@ import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.common.message.lookup.SmokerAge;
+import org.trinity.yqyl.common.message.lookup.StaffStatus;
 import org.trinity.yqyl.common.message.lookup.SystemAttributeKey;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
 import org.trinity.yqyl.common.message.lookup.TransactionCategory;
@@ -64,7 +65,7 @@ public class CommonConfiguration {
                 ServiceSupplierClientStatus.class, ServiceReceiverClientStatus.class, TransactionCategory.class, LookupType.class,
                 SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class, FavoriteCategory.class, AccessRight.class,
                 FamilyRelationship.class, FrequencyStatus.class, FlagStatus.class, SmokerAge.class, CredentialType.class,
-                RealnameStatus.class, PaymentType.class, PaymentMethod.class);
+                RealnameStatus.class, PaymentType.class, PaymentMethod.class, StaffStatus.class);
     }
 
     @Bean

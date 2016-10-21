@@ -41,7 +41,8 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     CREDENTIAL_TYPE("CDTYPE"),
     PAYMENT_METHOD("PMMTHD"),
     PAYMENT_TYPE("PMTYPE"),
-    DISTRICT_CODE("DTCODE");
+    DISTRICT_CODE("DTCODE"),
+    STAFF_STATUS("STSTAT");
 
     private String typeName;
 

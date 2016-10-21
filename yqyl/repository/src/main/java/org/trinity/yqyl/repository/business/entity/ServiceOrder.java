@@ -43,13 +43,17 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     @JoinColumn(name = "service_info_id")
     private ServiceInfo serviceInfo;
 
+    // bi-directional many-to-one association to ServiceSupplierStaff
+    @ManyToOne
+    @JoinColumn(name = "service_supplier_staff_id")
+    private ServiceSupplierStaff serviceSupplierStaff;
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
     @TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
     private Long id;
 
     private Double price;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "proposal_time")
     private Date proposalTime;
@@ -107,6 +111,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
         return this.serviceInfo;
     }
 
+    public ServiceSupplierStaff getServiceSupplierStaff() {
+        return this.serviceSupplierStaff;
+    }
+
     public Date getServiceTime() {
         return serviceTime;
     }
@@ -153,6 +161,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public void setServiceInfo(final ServiceInfo serviceInfo) {
         this.serviceInfo = serviceInfo;
+    }
+
+    public void setServiceSupplierStaff(final ServiceSupplierStaff serviceSupplierStaff) {
+        this.serviceSupplierStaff = serviceSupplierStaff;
     }
 
     public void setServiceTime(final Date serviceTime) {

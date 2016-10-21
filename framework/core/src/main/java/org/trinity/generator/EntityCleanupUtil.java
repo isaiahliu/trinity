@@ -74,7 +74,11 @@ public final class EntityCleanupUtil {
                 continue;
             }
 
-            final List<Tuple2<String, String>> userTypes = userTypeMapping.get(file.getName().replace(".java", ""));
+            List<Tuple2<String, String>> userTypes = userTypeMapping.get(file.getName().replace(".java", ""));
+
+            if (userTypes == null) {
+                userTypes = new ArrayList<>();
+            }
 
             if (!userTypes.stream().filter(item -> item.getItem1().equals("status")).findAny().isPresent()) {
                 userTypes.add(new Tuple2<>("status", "RecordStatus"));
