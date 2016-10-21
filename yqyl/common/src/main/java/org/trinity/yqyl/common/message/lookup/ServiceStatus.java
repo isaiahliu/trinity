@@ -3,7 +3,6 @@ package org.trinity.yqyl.common.message.lookup;
 import org.trinity.message.ILookupMessage;
 
 public enum ServiceStatus implements ILookupMessage<LookupType> {
-    PROPOSAL("P"),
     ACTIVE("A"),
     OFFLINE("O"),
     DISABLED("D");

@@ -132,15 +132,6 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 			});
 		}
 	};
-	$scope.remove = function() {
-		$http({
-			method : "DELETE",
-			url : "/ajax/service/" + serviceInfoId
-		}).success(function(response) {
-			$window.location.href = "/servicer/service"
-		}).error(function(response) {
-		});
-	};
 	$scope.back = function() {
 		$window.location.href = "/servicer/service"
 	};

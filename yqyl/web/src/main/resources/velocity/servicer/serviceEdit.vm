@@ -55,7 +55,6 @@
 		</div>
 		<div>
 			<button ng-click="apply()">#button("APPLY")</button>
-			<button ng-click="remove()">#button("DELETE")</button>
 			<button ng-click="back()">#button("BACK")</button>
 		</div>
 	</div>

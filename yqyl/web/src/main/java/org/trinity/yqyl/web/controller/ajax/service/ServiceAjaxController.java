@@ -72,11 +72,6 @@ public class ServiceAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.SERVICE_INFO_NEW, null, request, null, ServiceInfoResponse.class);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody DefaultResponse ajaxDeleteServiceInfo(@PathVariable("id") final Long id) throws IException {
-        return restfulServiceUtil.callRestService(Url.SERVICE_INFO_DELETE, String.valueOf(id), null, null, DefaultResponse.class);
-    }
-
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     public @ResponseBody ServiceInfoResponse ajaxGetServiceInfoMe(final ServiceInfoSearchingDto dto) throws IException {
         return restfulServiceUtil.callRestService(Url.SERVICE_INFO_ME, null, null, dto, ServiceInfoResponse.class);
