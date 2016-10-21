@@ -22,16 +22,14 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	$http({
 		method : "GET",
 		url : "/ajax/user/realname/me"
-	}).success(
-			function(response) {
-				if (response.data.length > 0) {
-					$scope.realnameData = response.data[0];
-					var verifyStatus = $scope.realnameData.status.code;
-					$scope.verified = verifyStatus == 'V';
-					$scope.credentialCopyUrl = '/ajax/content/image/'
-							+ $scope.realnameData.credentialCopy;
-				}
-			}).error(function(response) {
+	}).success(function(response) {
+		if (response.data.length > 0) {
+			$scope.realnameData = response.data[0];
+			var verifyStatus = $scope.realnameData.status.code;
+			$scope.verified = verifyStatus == 'V';
+			$scope.credentialCopyUrl = '/ajax/content/image/' + $scope.realnameData.credentialCopy;
+		}
+	}).error(function(response) {
 	});
 
 	$scope.apply = function() {
@@ -55,22 +53,23 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}
 	};
 
-	$scope.upload = function() {
-		var fd = new FormData();
-		fd.append("CREDENTIAL_COPY", $scope.newCredentialCopy);
-		$http({
-			method : "POST",
-			url : "/ajax/user/realname/upload",
-			transformRequest : angular.identity,
-			headers : {
-				'Content-Type' : undefined
-			},
-			data : fd
-		}).success(
-				function(response) {
-					$scope.credentialCopyUrl = '/ajax/content/image/'
-							+ $scope.realnameData.credentialCopy + "?ticks="
-							+ new Date().getTime();
-				})
-	};
+	$scope.upload =
+			function() {
+				var fd = new FormData();
+				fd.append("CREDENTIAL_COPY", $scope.newCredentialCopy);
+				$http({
+					method : "POST",
+					url : "/ajax/user/realname/upload",
+					transformRequest : angular.identity,
+					headers : {
+						'Content-Type' : undefined
+					},
+					data : fd
+				}).success(
+						function(response) {
+							$scope.credentialCopyUrl =
+									'/ajax/content/image/' + $scope.realnameData.credentialCopy + "?ticks="
+											+ new Date().getTime();
+						})
+			};
 });

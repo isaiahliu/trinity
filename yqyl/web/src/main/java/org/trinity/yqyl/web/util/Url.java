@@ -63,6 +63,9 @@ public enum Url implements IHttpUrl {
     SERVICE_CATEGORY_CHILDREN(HttpMethod.GET, Path.SERVICE_CATEGORY, "children"),
 
     SERVICE_INFO(HttpMethod.GET, Path.SERVICE_INFO),
+    SERVICE_INFO_NEW(HttpMethod.POST, Path.SERVICE_INFO),
+    SERVICE_INFO_UPDATE(HttpMethod.PUT, Path.SERVICE_INFO),
+    SERVICE_INFO_DELETE(HttpMethod.DELETE, Path.SERVICE_INFO),
     SERVICE_INFO_ME(HttpMethod.GET, Path.SERVICE_INFO, "me"),
 
     PING(HttpMethod.GET, Path.COMMON, "ping");

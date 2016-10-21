@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Predicate;
@@ -14,21 +15,34 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
+import org.trinity.message.LookupParser;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceProcessController;
+import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceCategoryRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 import org.trinity.yqyl.repository.business.entity.User_;
 
@@ -43,11 +57,78 @@ public class ServiceInfoProcessController
     @Autowired
     private IServiceOrderRepository serviceOrderRepository;
 
+    @Autowired
+    private IUserRepository userRepository;
+
+    @Autowired
+    private IServiceCategoryRepository serviceCategoryRepository;
+
+    @Autowired
+    private IServiceSupplierClientRepository serviceSupplierClientRepository;
+
+    @Autowired
+    private IContentRepository contentRepository;
+
     public ServiceInfoProcessController() {
         super(ServiceInfo.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_INFO);
     }
 
     @Override
+    @Transactional
+    public List<ServiceInfoDto> addAll(final List<ServiceInfoDto> data) throws IException {
+        for (final ServiceInfoDto dto : data) {
+            final ServiceInfo entity = getDomainObjectConverter().convertBack(dto);
+            final ServiceSupplierClient serviceSupplierClient = userRepository
+                    .findOneByUsername(getSecurityUtil().getCurrentToken().getUsername()).getServiceSupplierClient();
+
+            if (dto.getServiceSupplierClient() != null && dto.getServiceSupplierClient().getId() != null
+                    && dto.getServiceSupplierClient().getId() > 0
+                    && dto.getServiceSupplierClient().getId() != serviceSupplierClient.getUserId()) {
+                getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.OPERATOR);
+
+                entity.setServiceSupplierClient(serviceSupplierClientRepository.findOne(dto.getServiceSupplierClient().getId()));
+            } else {
+                entity.setServiceSupplierClient(serviceSupplierClient);
+            }
+
+            final Content content = new Content();
+            content.setContent(new byte[0]);
+            content.setStatus(RecordStatus.ACTIVE);
+            content.setUuid(UUID.randomUUID().toString());
+            contentRepository.save(content);
+
+            entity.setImage(content.getUuid());
+
+            if (dto.getServiceCategory() != null && dto.getServiceCategory().getId() != null && dto.getServiceCategory().getId() > 0) {
+                entity.setServiceCategory(serviceCategoryRepository.findOne(dto.getServiceCategory().getId()));
+            }
+
+            getDomainEntityRepository().save(entity);
+
+            getDomainObjectConverter().convert(entity, dto, CopyPolicy.TARGET_IS_NULL);
+        }
+
+        return data;
+    }
+
+    @Override
+    @Transactional
+    public void delete(final Long id) throws IException {
+        final ServiceInfo serviceInfo = getDomainEntityRepository().findOne(id);
+
+        final String username = serviceInfo.getServiceSupplierClient().getUser().getUsername();
+
+        if (!username.equals(getSecurityUtil().getCurrentToken().getUsername())) {
+            getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.OPERATOR);
+        }
+
+        serviceInfo.setStatus(ServiceStatus.DISABLED);
+
+        getDomainEntityRepository().save(serviceInfo);
+    }
+
+    @Override
+    @Transactional
     public Page<ServiceInfoDto> getAll(final ServiceInfoSearchingDto dto) throws IException {
         final Pageable pagable = getPagingConverter().convert(dto);
 
@@ -57,6 +138,10 @@ public class ServiceInfoProcessController
             if (dto.getServiceSupplierClientId() != null) {
                 predicates.add(cb.equal(root.join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
                         dto.getServiceSupplierClientId()));
+            }
+
+            if (!StringUtils.isEmpty(dto.getStatus())) {
+                predicates.add(cb.equal(root.get(ServiceInfo_.status), LookupParser.parse(ServiceStatus.class, dto.getStatus())));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
@@ -129,5 +214,12 @@ public class ServiceInfoProcessController
             result.setServiceCategory(subCategoryDto);
             return result;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    protected void updateRelationship(final ServiceInfo entity, final ServiceInfoDto dto) {
+        if (dto.getServiceCategory() != null && dto.getServiceCategory().getId() != null && dto.getServiceCategory().getId() > 0) {
+            entity.setServiceCategory(serviceCategoryRepository.findOne(dto.getServiceCategory().getId()));
+        }
     }
 }

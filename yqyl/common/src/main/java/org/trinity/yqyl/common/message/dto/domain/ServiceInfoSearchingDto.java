@@ -6,6 +6,7 @@ public class ServiceInfoSearchingDto extends PagingDto {
     private Long serviceSupplierClientId;
     private String name;
     private Long id;
+    private String status;
 
     public Long getId() {
         return id;
@@ -19,6 +20,10 @@ public class ServiceInfoSearchingDto extends PagingDto {
         return serviceSupplierClientId;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public void setId(final Long id) {
         this.id = id;
     }
@@ -29,5 +34,9 @@ public class ServiceInfoSearchingDto extends PagingDto {
 
     public void setServiceSupplierClientId(final Long serviceSupplierClientId) {
         this.serviceSupplierClientId = serviceSupplierClientId;
+    }
+
+    public void setStatus(final String status) {
+        this.status = status;
     }
 }

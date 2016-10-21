@@ -1,3 +1,13 @@
+layoutApp.directive('customOnChange', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			var onChangeHandler = scope.$eval(attrs.customOnChange);
+			element.bind('change', onChangeHandler);
+		}
+	};
+});
+
 layoutApp.controller('contentController', function($scope, $http, $window, serviceInfoId) {
 	$http({
 		method : "GET",
@@ -32,6 +42,9 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 			$scope.serviceInfo = response.data[0];
 			$scope.serviceInfo.active = $scope.serviceInfo.status.code == 'A'
 			$scope.populateSubCategory();
+			if ($scope.serviceInfo.image != undefined && $scope.serviceInfo.image != null) {
+				$scope.imageUrl = "/ajax/content/image/" + $scope.serviceInfo.image;
+			}
 		}).error(function(response) {
 		});
 	} else {
@@ -52,11 +65,65 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 		$scope.serviceInfo.active = true;
 	}
 
-	$scope.uploadPhoto = function() {
+	$scope.selectImage = function(event) {
+		if (event.target.files.length > 0) {
+			$scope.newImage = event.target.files[0];
+		} else {
+			$scope.newImage = {};
+		}
 	};
+
+	$scope.uploadPhoto = function() {
+		var fd = new FormData();
+		fd.append("IMAGE", $scope.newImage);
+		$http({
+			method : "POST",
+			url : "/ajax/service/" + serviceInfoId + "/upload",
+			transformRequest : angular.identity,
+			headers : {
+				'Content-Type' : undefined
+			},
+			data : fd
+		}).success(function(response) {
+			$scope.imageUrl = '/ajax/content/image/' + $scope.serviceInfo.image + "?ticks=" + new Date().getTime();
+		})
+	};
+
 	$scope.apply = function() {
+		$scope.serviceInfo.status.code = $scope.serviceInfo.active ? 'A' : 'O';
+
+		if (serviceInfoId > 0) {
+			$http({
+				method : "PUT",
+				url : "/ajax/service/",
+				data : {
+					data : [ $scope.serviceInfo ]
+				}
+			}).success(function(response) {
+				$window.location.href = "/servicer/service"
+			}).error(function(response) {
+			});
+		} else {
+			$http({
+				method : "POST",
+				url : "/ajax/service/",
+				data : {
+					data : [ $scope.serviceInfo ]
+				}
+			}).success(function(response) {
+				$window.location.href = "/servicer/service"
+			}).error(function(response) {
+			});
+		}
 	};
 	$scope.remove = function() {
+		$http({
+			method : "DELETE",
+			url : "/ajax/service/" + serviceInfoId
+		}).success(function(response) {
+			$window.location.href = "/servicer/service"
+		}).error(function(response) {
+		});
 	};
 	$scope.back = function() {
 		$window.location.href = "/servicer/service"

@@ -10,9 +10,12 @@
 <div class="serviceEdit" ng-controller="contentController">
 	<div class="left">
 		<div class="image">
-			<img ng-src="/ajax/content/image/{{serviceInfo.image}}" />
+			<img ng-src="{{imageUrl}}" />
 		</div>
-		<button ng-click="uploadPhoto()" class="ng-hide" ng-show="serviceInfo.image" ng-if="serviceInfo.image">#button("UPLOAD_PHOTO")</button>
+		<input style="margin-left: 50px" type="file" class="ng-hide"
+			ng-show="serviceInfo.image" custom-on-change="selectImage" />
+		<button ng-click="uploadPhoto()" class="ng-hide"
+			ng-show="serviceInfo.image" ng-if="serviceInfo.image">#button("UPLOAD_PHOTO")</button>
 	</div>
 	<div class="right">
 		<div>

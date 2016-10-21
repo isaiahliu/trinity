@@ -1,35 +1,27 @@
 package org.trinity.yqyl.web.controller.ajax.service;
 
+import java.io.InputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
-import org.trinity.yqyl.common.accessright.Authorize;
-import org.trinity.yqyl.common.message.dto.domain.LookupDto;
-import org.trinity.yqyl.common.message.dto.domain.ServiceCategorySearchingDto;
+import org.trinity.yqyl.common.message.dto.domain.ContentDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoSearchingDto;
-import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
-import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
-import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
-import org.trinity.yqyl.common.message.dto.request.ServiceCategoryRequest;
-import org.trinity.yqyl.common.message.dto.request.ServiceSupplierClientRequest;
-import org.trinity.yqyl.common.message.dto.response.ServiceCategoryResponse;
+import org.trinity.yqyl.common.message.dto.request.ContentRequest;
+import org.trinity.yqyl.common.message.dto.request.ServiceInfoRequest;
+import org.trinity.yqyl.common.message.dto.response.ContentResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceInfoResponse;
-import org.trinity.yqyl.common.message.dto.response.ServiceOrderResponse;
-import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientResponse;
-import org.trinity.yqyl.common.message.lookup.AccessRight;
-import org.trinity.yqyl.common.message.lookup.OrderStatus;
-import org.trinity.yqyl.common.message.lookup.RecordStatus;
-import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
+import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.web.util.Url;
 
 @RestController
@@ -38,38 +30,51 @@ public class ServiceAjaxController extends AbstractRestController {
     @Autowired
     private IRestfulServiceUtil restfulServiceUtil;
 
-    @RequestMapping(value = "/supplier/audit/{id}", method = RequestMethod.PUT)
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public @ResponseBody ServiceSupplierClientResponse ajaxAuditServiceSupplier(@PathVariable("id") final Long id) throws IException {
-        final ServiceSupplierClientDto serviceSupplierClientDto = new ServiceSupplierClientDto();
-        serviceSupplierClientDto.setId(id);
-        serviceSupplierClientDto.setStatus(new LookupDto(ServiceSupplierClientStatus.ACTIVE));
+    @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
+    public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
+            throws IException {
 
-        final ServiceSupplierClientRequest request = new ServiceSupplierClientRequest();
-        request.getData().add(serviceSupplierClientDto);
+        final DefaultResponse response = new DefaultResponse();
+        if (request.getFileNames().hasNext()) {
+            try {
+                final ServiceInfoSearchingDto searchingDto = new ServiceInfoSearchingDto();
+                searchingDto.setId(id);
+                final ServiceInfoResponse serviceSupplierClientResponse = restfulServiceUtil.callRestService(Url.SERVICE_INFO_ME, null,
+                        null, searchingDto, ServiceInfoResponse.class);
 
-        return restfulServiceUtil.callRestService(Url.SUPPLIER_UPDATE, null, request, null, ServiceSupplierClientResponse.class);
-    }
+                final String uuid = serviceSupplierClientResponse.getData().get(0).getImage();
 
-    @RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
-    public @ResponseBody ServiceCategoryResponse ajaxGetACategory(@PathVariable("id") final Long id) throws IException {
-        return restfulServiceUtil.callRestService(Url.SERVICE_CATEGORY, String.valueOf(id), null, null, ServiceCategoryResponse.class);
-    }
+                final ContentRequest contentRequest = new ContentRequest();
 
-    @RequestMapping(value = "/category", method = RequestMethod.GET)
-    public @ResponseBody ServiceCategoryResponse ajaxGetAllCategories(final ServiceCategorySearchingDto request) throws IException {
-        return restfulServiceUtil.callRestService(Url.SERVICE_CATEGORY, null, null, request, ServiceCategoryResponse.class);
-    }
+                final InputStream stream = request.getFile("IMAGE").getInputStream();
+                final byte[] bytes = new byte[stream.available()];
+                stream.read(bytes);
 
-    @RequestMapping(value = "/category/parents", method = RequestMethod.GET)
-    public @ResponseBody ServiceCategoryResponse ajaxGetParentCategories(
-            @RequestParam(value = "status", required = false) final String status) throws IException {
-        final ServiceCategoryResponse response = restfulServiceUtil.callRestService(Url.SERVICE_CATEGORY_PARENTS, null, null, null,
-                ServiceCategoryResponse.class);
-        if (!StringUtils.isEmpty(status)) {
-            response.getData().removeIf(item -> !item.getStatus().getCode().equals(status));
+                final ContentDto dto = new ContentDto();
+                dto.setUuid(uuid);
+                dto.setContent(bytes);
+                contentRequest.getData().add(dto);
+
+                restfulServiceUtil.callRestService(Url.CONTENT_UPLOAD, null, contentRequest, null, ContentResponse.class);
+            } catch (final Exception e) {
+            }
         }
-        return response;
+
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public @ResponseBody ServiceInfoResponse ajaxCreateServiceInfo(@RequestBody final ServiceInfoRequest request) throws IException {
+        request.getData().forEach(item -> {
+            item.setImage(null);
+        });
+
+        return restfulServiceUtil.callRestService(Url.SERVICE_INFO_NEW, null, request, null, ServiceInfoResponse.class);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public @ResponseBody DefaultResponse ajaxDeleteServiceInfo(@PathVariable("id") final Long id) throws IException {
+        return restfulServiceUtil.callRestService(Url.SERVICE_INFO_DELETE, String.valueOf(id), null, null, DefaultResponse.class);
     }
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
@@ -77,53 +82,16 @@ public class ServiceAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.SERVICE_INFO_ME, null, null, dto, ServiceInfoResponse.class);
     }
 
-    @RequestMapping(value = "/supplier/{id}", method = RequestMethod.GET)
-    public @ResponseBody ServiceSupplierClientResponse ajaxGetServiceSupplier(@PathVariable("id") final Long id) throws IException {
-        return restfulServiceUtil.callRestService(Url.SUPPLIER, String.valueOf(id), null, null, ServiceSupplierClientResponse.class);
-    }
-
-    @RequestMapping(value = "/supplier/{id}/orders", method = RequestMethod.GET)
-    public @ResponseBody ServiceOrderResponse ajaxGetServiceSupplierOrders(@PathVariable("id") final Long id,
-            final ServiceOrderSearchingDto request) throws IException {
-        request.setServiceSupplierClientId(id);
-        request.getStatus().add(OrderStatus.SETTLED.getMessageCode());
-
-        return restfulServiceUtil.callRestService(Url.ORDER, null, null, request, ServiceOrderResponse.class);
-    }
-
-    @RequestMapping(value = "/supplier/{id}/services", method = RequestMethod.GET)
-    public @ResponseBody ServiceInfoResponse ajaxGetServiceSupplierServices(@PathVariable("id") final Long id) throws IException {
-        final ServiceInfoSearchingDto request = new ServiceInfoSearchingDto();
-        request.setServiceSupplierClientId(id);
-
-        return restfulServiceUtil.callRestService(Url.SERVICE_INFO, null, null, request, ServiceInfoResponse.class);
-    }
-
-    @RequestMapping(value = "/category/children/{id}", method = RequestMethod.GET)
-    public @ResponseBody ServiceCategoryResponse ajaxGetSubCategories(@PathVariable("id") final Long id,
-            @RequestParam(value = "status", required = false) final String status) throws IException {
-        final ServiceCategoryResponse response = restfulServiceUtil.callRestService(Url.SERVICE_CATEGORY_CHILDREN, String.valueOf(id), null,
-                null, ServiceCategoryResponse.class);
-        if (!StringUtils.isEmpty(status)) {
-            response.getData().removeIf(item -> !item.getStatus().getCode().equals(status));
-        }
-        return response;
-    }
-
-    @RequestMapping(value = "/supplier", method = RequestMethod.GET)
-    public @ResponseBody ServiceSupplierClientResponse ajaxServices(final ServiceSupplierClientSearchingDto request) throws IException {
-        return restfulServiceUtil.callRestService(Url.SUPPLIER, null, null, request, ServiceSupplierClientResponse.class);
-    }
-
-    @RequestMapping(value = "/category", method = RequestMethod.PUT)
-    public @ResponseBody DefaultResponse ajaxUpdateCategories(@RequestBody final ServiceCategoryRequest request) throws IException {
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public @ResponseBody ServiceInfoResponse ajaxUpdateServiceInfo(@RequestBody final ServiceInfoRequest request) throws IException {
         request.getData().forEach(item -> {
-            item.setDescription(null);
-            if (item.getId() == null || item.getId() == 0) {
-                item.setStatus(new LookupDto(RecordStatus.ACTIVE));
+            item.setImage(null);
+            if (item.getStatus() != null) {
+                if (!ServiceStatus.ACTIVE.getMessageCode().equals(item.getStatus().getCode())) {
+                    item.getStatus().setCode(ServiceStatus.OFFLINE.getMessageCode());
+                }
             }
         });
-
-        return restfulServiceUtil.callRestService(Url.SERVICE_CATEGORY_UPDATE, null, request, null, DefaultResponse.class);
+        return restfulServiceUtil.callRestService(Url.SERVICE_INFO_UPDATE, null, request, null, ServiceInfoResponse.class);
     }
 }
