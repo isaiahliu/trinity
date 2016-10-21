@@ -18,20 +18,20 @@ import org.trinity.yqyl.process.controller.base.ISystemAttributeProcessControlle
 @RestController
 @RequestMapping("/common/systemattribute")
 public class SystemAttributeRestController extends
-		AbstractApplicationAwareCrudRestController<SystemAttributeDto, SystemAttributeSearchingDto, ISystemAttributeProcessController, SystemAttributeRequest, SystemAttributeResponse> {
+        AbstractApplicationAwareCrudRestController<SystemAttributeDto, SystemAttributeSearchingDto, ISystemAttributeProcessController, SystemAttributeRequest, SystemAttributeResponse> {
 
-	@RequestMapping(value = "/refresh", method = RequestMethod.PUT)
-	@Authorize(requireAny = AccessRight.SUPER_USER)
-	public @ResponseBody ResponseEntity<DefaultResponse> updateAll() throws IException {
-		final DefaultResponse response = new DefaultResponse();
+    @RequestMapping(value = "/refresh", method = RequestMethod.PUT)
+    @Authorize(requireAny = AccessRight.SUPER_USER)
+    public @ResponseBody ResponseEntity<DefaultResponse> updateAll() throws IException {
+        final DefaultResponse response = new DefaultResponse();
 
-		getDomainProcessController().refreshAll();
+        getDomainProcessController().refreshAll();
 
-		return createResponseEntity(response);
-	}
+        return createResponseEntity(response);
+    }
 
-	@Override
-	protected SystemAttributeResponse createResponseInstance() {
-		return new SystemAttributeResponse();
-	}
+    @Override
+    protected SystemAttributeResponse createResponseInstance() {
+        return new SystemAttributeResponse();
+    }
 }

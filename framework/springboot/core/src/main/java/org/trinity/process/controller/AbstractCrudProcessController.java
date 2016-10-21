@@ -10,14 +10,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.repository.CrudRepository;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
-import org.trinity.common.dto.object.IDto;
+import org.trinity.common.dto.object.ISearchingDto;
 import org.trinity.common.exception.IException;
 import org.trinity.common.util.SelfAware;
 import org.trinity.message.exception.IErrorMessage;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 
-public abstract class AbstractCrudProcessController<TEntity, TDto extends AbstractBusinessDto, TSearchingDto extends IDto>
+public abstract class AbstractCrudProcessController<TEntity, TDto extends AbstractBusinessDto, TSearchingDto extends ISearchingDto>
         extends AbstractProcessController
         implements ICrudProcessController<TDto, TSearchingDto>, SelfAware<AbstractCrudProcessController<TEntity, TDto, TSearchingDto>> {
     private AbstractCrudProcessController<TEntity, TDto, TSearchingDto> selfProxy = this;
@@ -61,11 +61,6 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     @Override
     public Page<TDto> getAll(final TSearchingDto data) throws IException {
         return new PageImpl<>(Collections.emptyList());
-    }
-
-    @Override
-    public List<TDto> getMe(final TSearchingDto data) throws IException {
-        return Collections.emptyList();
     }
 
     @Override

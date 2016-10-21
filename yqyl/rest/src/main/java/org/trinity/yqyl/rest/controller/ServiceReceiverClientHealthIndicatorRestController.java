@@ -11,10 +11,10 @@ import org.trinity.yqyl.process.controller.base.IServiceReceiverClientHealthIndi
 @RestController
 @RequestMapping("/client/receiver/healthindicator")
 public class ServiceReceiverClientHealthIndicatorRestController extends
-		AbstractApplicationAwareCrudRestController<ServiceReceiverClientHealthIndicatorDto, ServiceReceiverClientHealthIndicatorSearchingDto, IServiceReceiverClientHealthIndicatorProcessController, ServiceReceiverClientHealthIndicatorRequest, ServiceReceiverClientHealthIndicatorResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceReceiverClientHealthIndicatorDto, ServiceReceiverClientHealthIndicatorSearchingDto, IServiceReceiverClientHealthIndicatorProcessController, ServiceReceiverClientHealthIndicatorRequest, ServiceReceiverClientHealthIndicatorResponse> {
 
-	@Override
-	protected ServiceReceiverClientHealthIndicatorResponse createResponseInstance() {
-		return new ServiceReceiverClientHealthIndicatorResponse();
-	}
+    @Override
+    protected ServiceReceiverClientHealthIndicatorResponse createResponseInstance() {
+        return new ServiceReceiverClientHealthIndicatorResponse();
+    }
 }

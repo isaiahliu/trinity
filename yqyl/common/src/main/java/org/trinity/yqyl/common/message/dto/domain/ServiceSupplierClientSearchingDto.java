@@ -3,9 +3,9 @@ package org.trinity.yqyl.common.message.dto.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.trinity.common.dto.object.PagingDto;
+import org.trinity.common.dto.object.AbstractSearchingDto;
 
-public class ServiceSupplierClientSearchingDto extends PagingDto {
+public class ServiceSupplierClientSearchingDto extends AbstractSearchingDto {
     private Long categoryParent;
     private List<Long> categoryChildren;
     private Long id;

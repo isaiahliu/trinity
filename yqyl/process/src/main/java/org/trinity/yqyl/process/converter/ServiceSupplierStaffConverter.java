@@ -1,5 +1,7 @@
 package org.trinity.yqyl.process.converter;
 
+import java.util.Calendar;
+
 import org.springframework.stereotype.Component;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.lookup.StaffStatus;
@@ -30,6 +32,27 @@ public class ServiceSupplierStaffConverter extends AbstractLookupSupportObjectCo
         copyObject(source::getPhoneNo, target::getPhoneNo, target::setPhoneNo, copyPolicy);
         copyObject(source::getPhoto, target::getPhoto, target::setPhoto, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
+
+        if (source.getDob() != null) {
+            final Calendar dob = Calendar.getInstance();
+            dob.setTime(source.getDob());
+
+            final Calendar now = Calendar.getInstance();
+            now.setTime(source.getDob());
+
+            final int currentYear = now.get(Calendar.YEAR);
+            final int doy = dob.get(Calendar.YEAR);
+            int age = 0;
+            if (currentYear > doy) {
+                age = currentYear - doy;
+                final int currentMonth = now.get(Calendar.MONTH);
+                final int dom = dob.get(Calendar.MONTH);
+                if (currentMonth < dom || (currentMonth == dom && now.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH))) {
+                    age -= 1;
+                }
+            }
+            target.setAge(age);
+        }
     }
 
     @Override

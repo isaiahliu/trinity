@@ -11,10 +11,10 @@ import org.trinity.yqyl.process.controller.base.IServiceReceiverClientOtherProce
 @RestController
 @RequestMapping("/client/receiver/other")
 public class ServiceReceiverClientOtherRestController extends
-		AbstractApplicationAwareCrudRestController<ServiceReceiverClientOtherDto, ServiceReceiverClientOtherSearchingDto, IServiceReceiverClientOtherProcessController, ServiceReceiverClientOtherRequest, ServiceReceiverClientOtherResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceReceiverClientOtherDto, ServiceReceiverClientOtherSearchingDto, IServiceReceiverClientOtherProcessController, ServiceReceiverClientOtherRequest, ServiceReceiverClientOtherResponse> {
 
-	@Override
-	protected ServiceReceiverClientOtherResponse createResponseInstance() {
-		return new ServiceReceiverClientOtherResponse();
-	}
+    @Override
+    protected ServiceReceiverClientOtherResponse createResponseInstance() {
+        return new ServiceReceiverClientOtherResponse();
+    }
 }

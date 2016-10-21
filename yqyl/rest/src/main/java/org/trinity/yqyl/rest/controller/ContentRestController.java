@@ -22,7 +22,6 @@ import org.trinity.yqyl.process.controller.base.IContentProcessController;
 @RequestMapping("/content")
 public class ContentRestController extends
         AbstractApplicationAwareCrudRestController<ContentDto, ContentSearchingDto, IContentProcessController, ContentRequest, ContentResponse> {
-
     @Autowired
     private ISecurityUtil<AccessRight> securityUtil;
 

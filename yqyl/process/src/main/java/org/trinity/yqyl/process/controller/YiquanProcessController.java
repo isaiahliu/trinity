@@ -1,6 +1,7 @@
 package org.trinity.yqyl.process.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -69,7 +70,7 @@ public class YiquanProcessController
         final Yiquan yiquan = user.getYiquan();
 
         if (yiquan == null) {
-            return super.getMe(dto);
+            return Collections.emptyList();
         }
 
         final YiquanDto yiquanDto = getDomainObjectConverter().convert(yiquan);

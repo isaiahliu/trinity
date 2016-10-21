@@ -37,6 +37,8 @@ public enum Url implements IHttpUrl {
     SUPPLIER_UPDATE(HttpMethod.PUT, Path.SUPPLIER),
     SUPPLIER_ME(HttpMethod.GET, Path.SUPPLIER, "me"),
 
+    STAFF(HttpMethod.GET, Path.STAFF),
+
     RECEIVER_AUDIT(HttpMethod.PUT, Path.RECEIVER_INFO, "audit"),
     RECEIVER_ME(HttpMethod.GET, Path.RECEIVER_INFO, "me"),
     RECEIVER(HttpMethod.GET, Path.RECEIVER_INFO),
@@ -86,6 +88,8 @@ public enum Url implements IHttpUrl {
         SUPPLIER(CLIENT, "supplier"),
         RECEIVER(CLIENT, "receiver"),
         OPERATOR(CLIENT, "operator"),
+
+        STAFF(SUPPLIER, "staff"),
 
         RECEIVER_INFO(RECEIVER, "info"),
 

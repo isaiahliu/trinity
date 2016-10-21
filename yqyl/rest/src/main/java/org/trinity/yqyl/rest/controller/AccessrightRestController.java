@@ -24,61 +24,61 @@ import org.trinity.yqyl.process.controller.base.IAccessrightProcessController;
 @RestController
 @RequestMapping("/security/accessright")
 public class AccessrightRestController extends
-		AbstractApplicationAwareCrudRestController<AccessrightDto, AccessrightSearchingDto, IAccessrightProcessController, AccessrightRequest, AccessrightResponse> {
+        AbstractApplicationAwareCrudRestController<AccessrightDto, AccessrightSearchingDto, IAccessrightProcessController, AccessrightRequest, AccessrightResponse> {
 
-	@Override
-	public ResponseEntity<AccessrightResponse> getAll(final AccessrightSearchingDto request) throws IException {
-		final AccessrightResponse response = createResponseInstance();
+    @Override
+    public ResponseEntity<AccessrightResponse> getAll(final AccessrightSearchingDto request) throws IException {
+        final AccessrightResponse response = createResponseInstance();
 
-		final List<AccessrightDto> data = getDomainProcessController().getAccessRightTree();
+        final List<AccessrightDto> data = getDomainProcessController().getAccessRightTree();
 
-		response.addData(data);
+        response.addData(data);
 
-		return createResponseEntity(response);
-	}
+        return createResponseEntity(response);
+    }
 
-	@RequestMapping(value = "/refresh", method = RequestMethod.PUT)
-	@Authorize(requireAny = AccessRight.SUPER_USER)
-	public @ResponseBody ResponseEntity<DefaultResponse> updateAll() throws IException {
-		final DefaultResponse response = new DefaultResponse();
+    @RequestMapping(value = "/refresh", method = RequestMethod.PUT)
+    @Authorize(requireAny = AccessRight.SUPER_USER)
+    public @ResponseBody ResponseEntity<DefaultResponse> updateAll() throws IException {
+        final DefaultResponse response = new DefaultResponse();
 
-		getDomainProcessController().refreshAll();
+        getDomainProcessController().refreshAll();
 
-		return createResponseEntity(response);
-	}
+        return createResponseEntity(response);
+    }
 
-	@Override
-	protected AccessrightResponse createResponseInstance() {
-		return new AccessrightResponse();
-	}
+    @Override
+    protected AccessrightResponse createResponseInstance() {
+        return new AccessrightResponse();
+    }
 
-	@Override
-	@Authorize(enabled = false)
-	protected void validateAdd() throws IException {
-		super.validateAdd();
-	}
+    @Override
+    @Authorize(enabled = false)
+    protected void validateAdd() throws IException {
+        super.validateAdd();
+    }
 
-	@Override
-	@Authorize(enabled = false)
-	protected void validateDelete() throws IException {
-		super.validateDelete();
-	}
+    @Override
+    @Authorize(enabled = false)
+    protected void validateDelete() throws IException {
+        super.validateDelete();
+    }
 
-	@Override
-	@Authorize(requireAny = AccessRight.SUPER_USER)
-	protected void validateGetAll() throws IException {
-		super.validateGetAll();
-	}
+    @Override
+    @Authorize(requireAny = AccessRight.SUPER_USER)
+    protected void validateGetAll() throws IException {
+        super.validateGetAll();
+    }
 
-	@Override
-	@Authorize(requireAny = AccessRight.SUPER_USER)
-	protected void validateGetOne() throws IException {
-		super.validateGetOne();
-	}
+    @Override
+    @Authorize(requireAny = AccessRight.SUPER_USER)
+    protected void validateGetOne() throws IException {
+        super.validateGetOne();
+    }
 
-	@Override
-	@Authorize(requireAny = AccessRight.SUPER_USER)
-	protected void validateUpdate() throws IException {
-		super.validateUpdate();
-	}
+    @Override
+    @Authorize(requireAny = AccessRight.SUPER_USER)
+    protected void validateUpdate() throws IException {
+        super.validateUpdate();
+    }
 }

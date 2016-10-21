@@ -1,8 +1,8 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
-import org.trinity.common.dto.object.PagingDto;
+import org.trinity.common.dto.object.AbstractSearchingDto;
 
-public class OperatorClientSearchingDto extends PagingDto {
+public class OperatorClientSearchingDto extends AbstractSearchingDto {
     private String username;
     private String status;
     private String staffNo;

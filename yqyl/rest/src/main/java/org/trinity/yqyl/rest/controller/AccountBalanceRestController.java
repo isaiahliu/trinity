@@ -15,10 +15,10 @@ import org.trinity.yqyl.process.controller.base.IAccountBalanceProcessController
 @RestController
 @RequestMapping("/account/balance")
 public class AccountBalanceRestController extends
-		AbstractApplicationAwareCrudRestController<AccountBalanceDto, AccountBalanceSearchingDto, IAccountBalanceProcessController, AccountBalanceRequest, AccountBalanceResponse> {
+        AbstractApplicationAwareCrudRestController<AccountBalanceDto, AccountBalanceSearchingDto, IAccountBalanceProcessController, AccountBalanceRequest, AccountBalanceResponse> {
 
-	@Override
-	protected AccountBalanceResponse createResponseInstance() {
-		return new AccountBalanceResponse();
-	}
+    @Override
+    protected AccountBalanceResponse createResponseInstance() {
+        return new AccountBalanceResponse();
+    }
 }

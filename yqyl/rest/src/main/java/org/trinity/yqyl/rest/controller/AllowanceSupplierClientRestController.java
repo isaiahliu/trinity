@@ -15,10 +15,10 @@ import org.trinity.yqyl.process.controller.base.IAllowanceSupplierClientProcessC
 @RestController
 @RequestMapping("/client/allowance")
 public class AllowanceSupplierClientRestController extends
-		AbstractApplicationAwareCrudRestController<AllowanceSupplierClientDto, AllowanceSupplierClientSearchingDto, IAllowanceSupplierClientProcessController, AllowanceSupplierClientRequest, AllowanceSupplierClientResponse> {
+        AbstractApplicationAwareCrudRestController<AllowanceSupplierClientDto, AllowanceSupplierClientSearchingDto, IAllowanceSupplierClientProcessController, AllowanceSupplierClientRequest, AllowanceSupplierClientResponse> {
 
-	@Override
-	protected AllowanceSupplierClientResponse createResponseInstance() {
-		return new AllowanceSupplierClientResponse();
-	}
+    @Override
+    protected AllowanceSupplierClientResponse createResponseInstance() {
+        return new AllowanceSupplierClientResponse();
+    }
 }

@@ -11,10 +11,10 @@ import org.trinity.yqyl.process.controller.base.IServiceReceiverClientHealthInfo
 @RestController
 @RequestMapping("/client/receiver/healthinfo")
 public class ServiceReceiverClientHealthInformationRestController extends
-		AbstractApplicationAwareCrudRestController<ServiceReceiverClientHealthInformationDto, ServiceReceiverClientHealthInformationSearchingDto, IServiceReceiverClientHealthInformationProcessController, ServiceReceiverClientHealthInformationRequest, ServiceReceiverClientHealthInformationResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceReceiverClientHealthInformationDto, ServiceReceiverClientHealthInformationSearchingDto, IServiceReceiverClientHealthInformationProcessController, ServiceReceiverClientHealthInformationRequest, ServiceReceiverClientHealthInformationResponse> {
 
-	@Override
-	protected ServiceReceiverClientHealthInformationResponse createResponseInstance() {
-		return new ServiceReceiverClientHealthInformationResponse();
-	}
+    @Override
+    protected ServiceReceiverClientHealthInformationResponse createResponseInstance() {
+        return new ServiceReceiverClientHealthInformationResponse();
+    }
 }

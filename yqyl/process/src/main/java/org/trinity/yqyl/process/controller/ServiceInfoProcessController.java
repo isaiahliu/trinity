@@ -29,7 +29,7 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
-import org.trinity.yqyl.process.controller.base.IServiceProcessController;
+import org.trinity.yqyl.process.controller.base.IServiceInfoProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceCategoryRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
@@ -49,7 +49,7 @@ import org.trinity.yqyl.repository.business.entity.User_;
 @Service
 public class ServiceInfoProcessController
         extends AbstractAutowiredCrudProcessController<ServiceInfo, ServiceInfoDto, ServiceInfoSearchingDto, IServiceInfoRepository>
-        implements IServiceProcessController {
+        implements IServiceInfoProcessController {
 
     @Autowired
     private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;

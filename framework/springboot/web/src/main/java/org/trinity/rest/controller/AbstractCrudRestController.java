@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
-import org.trinity.common.dto.object.IDto;
+import org.trinity.common.dto.object.ISearchingDto;
 import org.trinity.common.dto.object.PagingDto;
 import org.trinity.common.dto.request.AbstractDataRequest;
 import org.trinity.common.dto.request.AbstractDataRequest.AddData;
@@ -22,7 +22,7 @@ import org.trinity.common.exception.IException;
 import org.trinity.common.util.SelfAware;
 import org.trinity.process.controller.ICrudProcessController;
 
-public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDto, TSearchingDto extends IDto, TProcessController extends ICrudProcessController<TDto, TSearchingDto>, TRequest extends AbstractDataRequest<TDto>, TResponse extends AbstractResponse<TDto>>
+public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDto, TSearchingDto extends ISearchingDto, TProcessController extends ICrudProcessController<TDto, TSearchingDto>, TRequest extends AbstractDataRequest<TDto>, TResponse extends AbstractResponse<TDto>>
         extends AbstractRestController
         implements SelfAware<AbstractCrudRestController<TDto, TSearchingDto, TProcessController, TRequest, TResponse>> {
 
@@ -54,7 +54,11 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<TResponse> getAll(final TSearchingDto request) throws IException {
-        selfProxy.validateGetAll();
+        if (request.isSearchAll()) {
+            selfProxy.validateGetAll();
+        } else {
+            selfProxy.validateGetMe();
+        }
 
         final TResponse response = createResponseInstance();
 
@@ -68,17 +72,6 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
 
         response.addData(data.getContent());
         response.getMeta().setPaging(responsePaging);
-
-        return createResponseEntity(response);
-    }
-
-    @RequestMapping(value = "/me", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<TResponse> getMe(final TSearchingDto request) throws IException {
-        final TResponse response = createResponseInstance();
-
-        final List<TDto> data = getDomainProcessController().getMe(request);
-
-        response.addData(data);
 
         return createResponseEntity(response);
     }
@@ -124,6 +117,9 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
     }
 
     protected void validateGetAll() throws IException {
+    }
+
+    protected void validateGetMe() throws IException {
     }
 
     protected void validateGetOne() throws IException {

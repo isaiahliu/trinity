@@ -1,6 +1,6 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
-import org.trinity.common.dto.object.PagingDto;
+import org.trinity.common.dto.object.AbstractSearchingDto;
 
-public class ServiceReceiverClientOtherSearchingDto extends PagingDto {
+public class ServiceReceiverClientOtherSearchingDto extends AbstractSearchingDto {
 }

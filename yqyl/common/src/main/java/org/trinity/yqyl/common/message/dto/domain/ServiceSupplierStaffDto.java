@@ -1,6 +1,8 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 
@@ -18,6 +20,14 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
     private String photo;
 
     private LookupDto status;
+
+    private Integer age;
+
+    private List<ServiceCategoryDto> serviceCategories;
+
+    public Integer getAge() {
+        return age;
+    }
 
     public String getComment() {
         return comment;
@@ -43,8 +53,19 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
         return photo;
     }
 
+    public List<ServiceCategoryDto> getServiceCategories() {
+        if (serviceCategories == null) {
+            serviceCategories = new ArrayList<>();
+        }
+        return serviceCategories;
+    }
+
     public LookupDto getStatus() {
         return status;
+    }
+
+    public void setAge(final Integer age) {
+        this.age = age;
     }
 
     public void setComment(final String comment) {
@@ -69,6 +90,10 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
 
     public void setPhoto(final String photo) {
         this.photo = photo;
+    }
+
+    public void setServiceCategories(final List<ServiceCategoryDto> serviceCategories) {
+        this.serviceCategories = serviceCategories;
     }
 
     public void setStatus(final LookupDto status) {
