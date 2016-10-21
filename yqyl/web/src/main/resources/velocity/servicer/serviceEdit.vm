@@ -34,6 +34,18 @@
 			</select>
 		</div>
 		<div>
+			<span>#label("SERVICE_PAYMENT_METHOD")</span><select
+				ng-model="serviceInfo.paymentMethod.code"
+				ng-options="paymentMethod.code as paymentMethod.message for paymentMethod in paymentMethods">
+			</select>
+		</div>
+		<div>
+			<span>#label("SERVICE_PAYMENT_TYPE")</span><select
+				ng-model="serviceInfo.paymentType.code"
+				ng-options="paymentType.code as paymentType.message for paymentType in paymentTypes">
+			</select>
+		</div>
+		<div>
 			<span>#label("SERVICE_PRICE")</span><input
 				ng-model="serviceInfo.price" />
 		</div>

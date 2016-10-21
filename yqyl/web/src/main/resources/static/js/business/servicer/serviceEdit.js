@@ -11,6 +11,22 @@ layoutApp.directive('customOnChange', function() {
 layoutApp.controller('contentController', function($scope, $http, $window, serviceInfoId) {
 	$http({
 		method : "GET",
+		url : "/ajax/common/lookup/PMMTHD"
+	}).success(function(response) {
+		$scope.paymentMethods = response.data;
+	}).error(function(response) {
+	});
+
+	$http({
+		method : "GET",
+		url : "/ajax/common/lookup/PMTYPE"
+	}).success(function(response) {
+		$scope.paymentTypes = response.data;
+	}).error(function(response) {
+	});
+
+	$http({
+		method : "GET",
 		url : "/ajax/service/category/parents?status=A"
 	}).success(function(response) {
 		$scope.categories = response.data;
