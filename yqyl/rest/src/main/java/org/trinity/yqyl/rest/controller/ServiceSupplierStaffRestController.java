@@ -9,13 +9,12 @@ import org.trinity.yqyl.common.message.dto.response.ServiceSupplierStaffResponse
 import org.trinity.yqyl.process.controller.base.IServiceSupplierStaffProcessController;
 
 @RestController
-@RequestMapping("/*")
+@RequestMapping("/client/supplier/staff")
 public class ServiceSupplierStaffRestController extends
-      AbstractApplicationAwareCrudRestController<ServiceSupplierStaffDto, ServiceSupplierStaffSearchingDto, IServiceSupplierStaffProcessController, ServiceSupplierStaffRequest, ServiceSupplierStaffResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceSupplierStaffDto, ServiceSupplierStaffSearchingDto, IServiceSupplierStaffProcessController, ServiceSupplierStaffRequest, ServiceSupplierStaffResponse> {
 
-  @Override
-  protected ServiceSupplierStaffResponse createResponseInstance() {
-      return new ServiceSupplierStaffResponse();
-  }
+    @Override
+    protected ServiceSupplierStaffResponse createResponseInstance() {
+        return new ServiceSupplierStaffResponse();
+    }
 }
-
