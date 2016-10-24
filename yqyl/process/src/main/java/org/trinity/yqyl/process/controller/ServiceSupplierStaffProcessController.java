@@ -10,12 +10,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
+import org.trinity.message.LookupParser;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.StaffStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierStaffProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepository;
@@ -52,6 +56,13 @@ public class ServiceSupplierStaffProcessController extends
                 predicates.add(cb.like(root.get(ServiceSupplierStaff_.name), "%" + searchingData.getName() + "%"));
             }
 
+            if (!StringUtils.isEmpty(searchingData.getStatus())) {
+                final StaffStatus status = LookupParser.parse(StaffStatus.class, searchingData.getStatus());
+                if (status != null) {
+                    predicates.add(cb.equal(root.get(ServiceSupplierStaff_.status), status));
+                }
+            }
+
             if (searchingData.getId() != null && searchingData.getId() != 0) {
                 predicates.add(cb.equal(root.get(ServiceSupplierStaff_.id), searchingData.getId()));
             }
@@ -62,5 +73,14 @@ public class ServiceSupplierStaffProcessController extends
             dto.setServiceCategories(serviceCategoryConverter.convert(item.getServiceCategories()));
             return dto;
         });
+    }
+
+    @Override
+    protected void validateDataPermission(final ServiceSupplierStaffDto dto) throws IException {
+        final String username = getDomainEntityRepository().findOne(dto.getId()).getServiceSupplierClient().getUser().getUsername();
+        if (!getSecurityUtil().getCurrentToken().getUsername().equals(username)) {
+            getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+        }
+        super.validateDataPermission(dto);
     }
 }

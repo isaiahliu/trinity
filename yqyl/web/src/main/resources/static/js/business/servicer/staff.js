@@ -32,5 +32,29 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
 		});
-	}
+	};
+
+	$scope.away = function(staff) {
+		$http({
+			method : "DELETE",
+			url : "/ajax/service/supplier/staff/away/" + staff.id
+		}).success(function(response) {
+			staff.status.code = 'F';
+		}).error(function(response) {
+		});
+	};
+
+	$scope.back = function(staff) {
+		$http({
+			method : "POST",
+			url : "/ajax/service/supplier/staff/return/" + staff.id
+		}).success(function(response) {
+			staff.status.code = 'A';
+		}).error(function(response) {
+		});
+	};
+
+	$scope.edit = function(staff) {
+		$window.location.href = "/servicer/staff/edit/" + staff.id;
+	};
 });

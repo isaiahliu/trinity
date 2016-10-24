@@ -1,0 +1,9 @@
+#parse("/velocity/servicer/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/servicer/staffEdit.css"></link>
+
+<div class="staffEdit" ng-controller="contentController">
+	<div class="title">#label("SERVICE_SUPPLIER_STAFF_MANAGEMENT")</div>
+</div>
+
+<script src="/static/js/business/servicer/staffEdit.js"></script>

@@ -31,10 +31,18 @@
 				<td align="center"><span>{{staff.name}}</span></td>
 				<td align="center"><span>{{staff.phoneNo}}</span></td>
 				<td align="center"><span>{{staff.comment}}</span></td>
-				<td align="center"><span>{{staff.dob}}</span></td>
+				<td align="center"><span>{{staff.age}}</span></td>
 				<td align="center"><span>{{staff.identityCard}}</span></td>
-				<td align="center"><span>{{staff.id}}</span></td>
-				<td align="center"><span>{{staff.id}}</span></td>
+				<td align="center"><span
+					ng-repeat="category in staff.serviceCategories">{{category.name}}<br /></span></td>
+				<td align="center"><button ng-show="staff.status.code == 'A'"
+						ng-click="$parent.away(staff)"
+						style="font-size: small; width: 50px; height: 30px; min-width: 50px;">#button("AWAY_FROM_WORK")</button>
+					<button ng-show="staff.status.code == 'F'"
+						ng-click="$parent.back(staff)"
+						style="font-size: small; width: 50px; height: 30px; min-width: 50px;">#button("BACK_TO_WORK")</button>
+					<button ng-click="$parent.edit(staff)"
+						style="font-size: small; width: 50px; height: 30px; min-width: 50px;">#button("EDIT")</button></td>
 			</tr>
 		</tbody>
 	</table>

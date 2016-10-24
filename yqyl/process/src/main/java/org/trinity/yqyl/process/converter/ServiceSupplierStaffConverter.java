@@ -1,6 +1,7 @@
 package org.trinity.yqyl.process.converter;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.stereotype.Component;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
@@ -38,7 +39,7 @@ public class ServiceSupplierStaffConverter extends AbstractLookupSupportObjectCo
             dob.setTime(source.getDob());
 
             final Calendar now = Calendar.getInstance();
-            now.setTime(source.getDob());
+            now.setTime(new Date());
 
             final int currentYear = now.get(Calendar.YEAR);
             final int doy = dob.get(Calendar.YEAR);

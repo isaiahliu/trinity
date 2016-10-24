@@ -41,6 +41,18 @@ public class ServicerWebController extends AbstractResourceWebController {
         return createModelAndView("servicer/service");
     }
 
+    @RequestMapping("/staff/edit/{id}")
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public ModelAndView staffEditPage(@PathVariable("id") final Long id) throws IException {
+        return createModelAndView("servicer/staffEdit").addObject("staffId", id);
+    }
+
+    @RequestMapping("/staff/new")
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public ModelAndView staffNewPage() throws IException {
+        return createModelAndView("servicer/staffEdit").addObject("staffId", 0);
+    }
+
     @RequestMapping("/staff")
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
     public ModelAndView staffPage() throws IException {
