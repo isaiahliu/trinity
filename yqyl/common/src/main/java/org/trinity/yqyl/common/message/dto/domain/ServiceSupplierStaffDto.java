@@ -22,6 +22,7 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
     private LookupDto status;
 
     private Integer age;
+    private ServiceSupplierClientDto serviceSupplierClient;
 
     private List<ServiceCategoryDto> serviceCategories;
 
@@ -60,6 +61,10 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
         return serviceCategories;
     }
 
+    public ServiceSupplierClientDto getServiceSupplierClient() {
+        return serviceSupplierClient;
+    }
+
     public LookupDto getStatus() {
         return status;
     }
@@ -94,6 +99,10 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
 
     public void setServiceCategories(final List<ServiceCategoryDto> serviceCategories) {
         this.serviceCategories = serviceCategories;
+    }
+
+    public void setServiceSupplierClient(final ServiceSupplierClientDto serviceSupplierClient) {
+        this.serviceSupplierClient = serviceSupplierClient;
     }
 
     public void setStatus(final LookupDto status) {

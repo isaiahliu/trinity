@@ -2,18 +2,21 @@ package org.trinity.yqyl.process.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.trinity.common.exception.IException;
+import org.trinity.message.LookupParser;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategorySearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceCategoryProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceCategoryRepository;
@@ -30,9 +33,46 @@ public class ServiceCategoryProcessController extends
 
     @Override
     @Transactional
-    public List<ServiceCategoryDto> getAllParentServiceCategories() throws IException {
-        final List<ServiceCategory> serviceCategories = getDomainEntityRepository().findAllByParent(null);
-        return getDomainObjectConverter().convert(serviceCategories);
+    public Page<ServiceCategoryDto> getAll(final ServiceCategorySearchingDto data) throws IException {
+        final Pageable pagable = getPagingConverter().convert(data);
+
+        final Specification<ServiceCategory> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            if (!StringUtils.isEmpty(data.getName())) {
+                predicates.add(cb.like(root.get(ServiceCategory_.name), "%" + data.getName() + "%"));
+            }
+
+            if (data.getId() != null && data.getId() > 0) {
+                predicates.add(cb.equal(root.get(ServiceCategory_.id), data.getId()));
+            } else if (data.getParentId() == null || data.getParentId() == 0) {
+                predicates.add(cb.isNull(root.get(ServiceCategory_.parent)));
+            } else {
+                predicates.add(cb.equal(root.join(ServiceCategory_.parent).get(ServiceCategory_.id), data.getParentId()));
+            }
+
+            if (!StringUtils.isEmpty(data.getStatus())) {
+                final RecordStatus status = LookupParser.parse(RecordStatus.class, data.getStatus());
+                if (status != null) {
+                    predicates.add(cb.equal(root.get(ServiceCategory_.status), status));
+                }
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        final Page<ServiceCategory> serviceCategories = getDomainEntityRepository().findAll(specification, pagable);
+
+        return serviceCategories.map(serviceCategory -> {
+            final ServiceCategoryDto serviceCategoryDto = getDomainObjectConverter().convert(serviceCategory);
+
+            if (data.isIncludeChildren()) {
+                serviceCategory.getChildren()
+                        .forEach(item -> serviceCategoryDto.getServiceSubCategories().add(getDomainObjectConverter().convert(item)));
+            }
+
+            return serviceCategoryDto;
+        });
     }
 
     @Override
@@ -48,44 +88,6 @@ public class ServiceCategoryProcessController extends
         entity.getChildren().forEach(item -> dto.getServiceSubCategories().add(getDomainObjectConverter().convert(item)));
 
         return dto;
-    }
-
-    @Override
-    @Transactional
-    public List<ServiceCategoryDto> getParentServiceCategoriesWithChildren(final ServiceCategorySearchingDto data) throws IException {
-        final Specification<ServiceCategory> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
-
-            if (!StringUtils.isEmpty(data.getName())) {
-                predicates.add(cb.like(root.get(ServiceCategory_.name), "%" + data.getName() + "%"));
-            }
-
-            predicates.add(cb.isNull(root.get(ServiceCategory_.parent)));
-
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-
-        final List<ServiceCategory> serviceCategories = getDomainEntityRepository().findAll(specification);
-        return serviceCategories.stream().map(serviceCategory -> {
-            final ServiceCategoryDto serviceCategoryDto = getDomainObjectConverter().convert(serviceCategory);
-
-            serviceCategory.getChildren()
-                    .forEach(item -> serviceCategoryDto.getServiceSubCategories().add(getDomainObjectConverter().convert(item)));
-
-            return serviceCategoryDto;
-        }).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public List<ServiceCategoryDto> getSubServiceCategories(final long parentServiceCateogryId) throws IException {
-        final ServiceCategory parent = getDomainEntityRepository().findOne(parentServiceCateogryId);
-        if (parent == null) {
-            throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_FIND_PARENT_CATEGORY);
-        }
-
-        final List<ServiceCategory> serviceCategories = getDomainEntityRepository().findAllByParent(parent);
-        return getDomainObjectConverter().convert(serviceCategories);
     }
 
     @Override

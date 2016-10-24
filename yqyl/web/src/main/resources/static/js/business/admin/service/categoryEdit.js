@@ -2,17 +2,13 @@ layoutApp.controller('contentController', function($scope, $http, $window, categ
 	var url = "/ajax/service/category"
 
 	if (categoryId > 0) {
-		url += "/" + categoryId;
+		url += "?parentId=" + categoryId;
 	}
 	$http({
 		method : "GET",
 		url : url
 	}).success(function(response) {
-		if (categoryId > 0) {
-			$scope.categories = response.data[0].serviceSubCategories;
-		} else {
-			$scope.categories = response.data;
-		}
+		$scope.categories = response.data;
 	}).error(function(response) {
 	});
 

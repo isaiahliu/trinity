@@ -2,10 +2,10 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	$scope.name = "";
 
 	$scope.search = function() {
-		var url = "/ajax/service/category";
+		var url = "/ajax/service/category?includeChildren=true";
 
 		if ($scope.name != "") {
-			url += "?name=" + $scope.name;
+			url += "&name=" + $scope.name;
 		}
 
 		$http({

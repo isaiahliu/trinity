@@ -1,7 +1,7 @@
 layoutApp.controller('contentController', function($scope, $http, $window) {
 	$http({
 		method : "GET",
-		url : "/ajax/service/category/parents?status=A"
+		url : "/ajax/service/category?status=A"
 	}).success(function(response) {
 		$scope.categories = response.data;
 		if ($scope.categories.length > 0) {
@@ -17,7 +17,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		if (category.children == undefined) {
 			$http({
 				method : "GET",
-				url : "/ajax/service/category/children/" + category.id + "?status=A"
+				url : "/ajax/service/category?status=A&parentId=" + category.id
 			}).success(function(response) {
 				category.children = response.data;
 			}).error(function(response) {

@@ -27,7 +27,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 
 	$http({
 		method : "GET",
-		url : "/ajax/service/category/parents?status=A"
+		url : "/ajax/service/category?status=A"
 	}).success(function(response) {
 		$scope.categories = response.data;
 	}).error(function(response) {
@@ -39,7 +39,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 			$scope.subCategories = [];
 			$http({
 				method : "GET",
-				url : "/ajax/service/category/children/" + $scope.serviceInfo.serviceCategory.parent.id + "?status=A"
+				url : "/ajax/service/category?status=A&parentId=" + $scope.serviceInfo.serviceCategory.parent.id
 			}).success(function(response) {
 				subCategoryMapping[$scope.serviceInfo.serviceCategory.parent.id] = response.data;
 				$scope.subCategories = subCategoryMapping[$scope.serviceInfo.serviceCategory.parent.id];

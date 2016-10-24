@@ -39,6 +39,7 @@ public enum Url implements IHttpUrl {
 
     STAFF(HttpMethod.GET, Path.STAFF),
     STAFF_UPDATE(HttpMethod.PUT, Path.STAFF),
+    STAFF_NEW(HttpMethod.POST, Path.STAFF),
 
     RECEIVER_AUDIT(HttpMethod.PUT, Path.RECEIVER_INFO, "audit"),
     RECEIVER_ME(HttpMethod.GET, Path.RECEIVER_INFO, "me"),
@@ -62,8 +63,6 @@ public enum Url implements IHttpUrl {
 
     SERVICE_CATEGORY(HttpMethod.GET, Path.SERVICE_CATEGORY),
     SERVICE_CATEGORY_UPDATE(HttpMethod.PUT, Path.SERVICE_CATEGORY),
-    SERVICE_CATEGORY_PARENTS(HttpMethod.GET, Path.SERVICE_CATEGORY, "parents"),
-    SERVICE_CATEGORY_CHILDREN(HttpMethod.GET, Path.SERVICE_CATEGORY, "children"),
 
     SERVICE_INFO(HttpMethod.GET, Path.SERVICE_INFO),
     SERVICE_INFO_NEW(HttpMethod.POST, Path.SERVICE_INFO),
