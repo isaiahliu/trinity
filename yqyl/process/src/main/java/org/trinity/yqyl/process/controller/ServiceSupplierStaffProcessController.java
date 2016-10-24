@@ -42,115 +42,116 @@ import org.trinity.yqyl.repository.business.entity.User_;
 
 @Service
 public class ServiceSupplierStaffProcessController extends
-        AbstractAutowiredCrudProcessController<ServiceSupplierStaff, ServiceSupplierStaffDto, ServiceSupplierStaffSearchingDto, IServiceSupplierStaffRepository>
-        implements IServiceSupplierStaffProcessController {
-    @Autowired
-    private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
+		AbstractAutowiredCrudProcessController<ServiceSupplierStaff, ServiceSupplierStaffDto, ServiceSupplierStaffSearchingDto, IServiceSupplierStaffRepository>
+		implements IServiceSupplierStaffProcessController {
+	@Autowired
+	private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
 
-    @Autowired
-    private IUserRepository userRepository;
+	@Autowired
+	private IUserRepository userRepository;
 
-    @Autowired
-    private IServiceSupplierClientRepository serviceSupplierClientRepository;
+	@Autowired
+	private IServiceSupplierClientRepository serviceSupplierClientRepository;
 
-    @Autowired
-    private IContentRepository contentRepository;
+	@Autowired
+	private IContentRepository contentRepository;
 
-    @Autowired
-    private IServiceCategoryRepository serviceCategoryRepository;
+	@Autowired
+	private IServiceCategoryRepository serviceCategoryRepository;
 
-    public ServiceSupplierStaffProcessController() {
-        super(ServiceSupplierStaff.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_SUPPLIER_STAFF);
-    }
+	public ServiceSupplierStaffProcessController() {
+		super(ServiceSupplierStaff.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_SUPPLIER_STAFF);
+	}
 
-    @Override
-    @Transactional
-    public List<ServiceSupplierStaffDto> addAll(final List<ServiceSupplierStaffDto> data) throws IException {
-        for (final ServiceSupplierStaffDto dto : data) {
-            final ServiceSupplierStaff entity = getDomainObjectConverter().convertBack(dto);
-            final ServiceSupplierClient serviceSupplierClient = userRepository
-                    .findOneByUsername(getSecurityUtil().getCurrentToken().getUsername()).getServiceSupplierClient();
+	@Override
+	@Transactional
+	public List<ServiceSupplierStaffDto> addAll(final List<ServiceSupplierStaffDto> data) throws IException {
+		for (final ServiceSupplierStaffDto dto : data) {
+			final ServiceSupplierStaff entity = getDomainObjectConverter().convertBack(dto);
+			final ServiceSupplierClient serviceSupplierClient = userRepository
+					.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername()).getServiceSupplierClient();
 
-            if (dto.getServiceSupplierClient() != null && dto.getServiceSupplierClient().getId() != null
-                    && dto.getServiceSupplierClient().getId() > 0
-                    && dto.getServiceSupplierClient().getId() != serviceSupplierClient.getUserId()) {
-                getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.OPERATOR);
+			if (dto.getServiceSupplierClient() != null && dto.getServiceSupplierClient().getId() != null
+					&& dto.getServiceSupplierClient().getId() > 0
+					&& dto.getServiceSupplierClient().getId() != serviceSupplierClient.getUserId()) {
+				getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.OPERATOR);
 
-                entity.setServiceSupplierClient(serviceSupplierClientRepository.findOne(dto.getServiceSupplierClient().getId()));
-            } else {
-                entity.setServiceSupplierClient(serviceSupplierClient);
-            }
+				entity.setServiceSupplierClient(serviceSupplierClientRepository.findOne(dto.getServiceSupplierClient().getId()));
+			} else {
+				entity.setServiceSupplierClient(serviceSupplierClient);
+			}
 
-            final Content content = new Content();
-            content.setContent(new byte[0]);
-            content.setStatus(RecordStatus.ACTIVE);
-            content.setUuid(UUID.randomUUID().toString());
-            contentRepository.save(content);
+			final Content content = new Content();
+			content.setContent(new byte[0]);
+			content.setStatus(RecordStatus.ACTIVE);
+			content.setUuid(UUID.randomUUID().toString());
+			contentRepository.save(content);
 
-            entity.setPhoto(content.getUuid());
+			entity.setPhoto(content.getUuid());
 
-            if (!dto.getServiceCategories().isEmpty()) {
-                serviceCategoryRepository
-                        .findAll(dto.getServiceCategories().stream().map(item -> item.getId()).collect(Collectors.toList()))
-                        .forEach(item -> entity.getServiceCategories().add(item));
-            }
+			if (!dto.getServiceCategories().isEmpty()) {
+				final List<ServiceCategory> serviceCategories = entity.getServiceCategories();
+				serviceCategoryRepository
+						.findAll(dto.getServiceCategories().stream().map(item -> item.getId()).collect(Collectors.toList()))
+						.forEach(item -> serviceCategories.add(item));
+			}
 
-            getDomainEntityRepository().save(entity);
+			getDomainEntityRepository().save(entity);
 
-            getDomainObjectConverter().convert(entity, dto, CopyPolicy.TARGET_IS_NULL);
-        }
+			getDomainObjectConverter().convert(entity, dto, CopyPolicy.TARGET_IS_NULL);
+		}
 
-        return data;
-    }
+		return data;
+	}
 
-    @Override
-    public Page<ServiceSupplierStaffDto> getAll(final ServiceSupplierStaffSearchingDto searchingData) throws IException {
-        final String username = getSecurityUtil().getCurrentToken().getUsername();
-        final Specification<ServiceSupplierStaff> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
+	@Override
+	public Page<ServiceSupplierStaffDto> getAll(final ServiceSupplierStaffSearchingDto searchingData) throws IException {
+		final String username = getSecurityUtil().getCurrentToken().getUsername();
+		final Specification<ServiceSupplierStaff> specification = (root, query, cb) -> {
+			final List<Predicate> predicates = new ArrayList<>();
 
-            if (!searchingData.isSearchAll()) {
-                predicates.add(cb.equal(
-                        root.join(ServiceSupplierStaff_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
-                        username));
-            }
+			if (!searchingData.isSearchAll()) {
+				predicates.add(cb.equal(
+						root.join(ServiceSupplierStaff_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
+						username));
+			}
 
-            if (!StringUtils.isEmpty(searchingData.getName())) {
-                predicates.add(cb.like(root.get(ServiceSupplierStaff_.name), "%" + searchingData.getName() + "%"));
-            }
+			if (!StringUtils.isEmpty(searchingData.getName())) {
+				predicates.add(cb.like(root.get(ServiceSupplierStaff_.name), "%" + searchingData.getName() + "%"));
+			}
 
-            if (!StringUtils.isEmpty(searchingData.getStatus())) {
-                final StaffStatus status = LookupParser.parse(StaffStatus.class, searchingData.getStatus());
-                if (status != null) {
-                    predicates.add(cb.equal(root.get(ServiceSupplierStaff_.status), status));
-                }
-            }
+			if (!StringUtils.isEmpty(searchingData.getStatus())) {
+				final StaffStatus status = LookupParser.parse(StaffStatus.class, searchingData.getStatus());
+				if (status != null) {
+					predicates.add(cb.equal(root.get(ServiceSupplierStaff_.status), status));
+				}
+			}
 
-            if (searchingData.getId() != null && searchingData.getId() != 0) {
-                predicates.add(cb.equal(root.get(ServiceSupplierStaff_.id), searchingData.getId()));
-            }
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-        return getDomainEntityRepository().findAll(specification, getPagingConverter().convert(searchingData)).map(item -> {
-            final ServiceSupplierStaffDto dto = getDomainObjectConverter().convert(item);
-            dto.setServiceCategories(serviceCategoryConverter.convert(item.getServiceCategories()));
-            return dto;
-        });
-    }
+			if (searchingData.getId() != null && searchingData.getId() != 0) {
+				predicates.add(cb.equal(root.get(ServiceSupplierStaff_.id), searchingData.getId()));
+			}
+			return cb.and(predicates.toArray(new Predicate[0]));
+		};
+		return getDomainEntityRepository().findAll(specification, getPagingConverter().convert(searchingData)).map(item -> {
+			final ServiceSupplierStaffDto dto = getDomainObjectConverter().convert(item);
+			dto.setServiceCategories(serviceCategoryConverter.convert(item.getServiceCategories()));
+			return dto;
+		});
+	}
 
-    @Override
-    protected void updateRelationship(final ServiceSupplierStaff entity, final ServiceSupplierStaffDto dto) {
-        entity.getServiceCategories().clear();
-        serviceCategoryRepository.findAll(dto.getServiceCategories().stream().map(item -> item.getId()).collect(Collectors.toList()))
-                .forEach(item -> entity.getServiceCategories().add(item));
-    }
+	@Override
+	protected void updateRelationship(final ServiceSupplierStaff entity, final ServiceSupplierStaffDto dto) {
+		entity.getServiceCategories().clear();
+		serviceCategoryRepository.findAll(dto.getServiceCategories().stream().map(item -> item.getId()).collect(Collectors.toList()))
+				.forEach(item -> entity.getServiceCategories().add(item));
+	}
 
-    @Override
-    protected void validateDataPermission(final ServiceSupplierStaffDto dto) throws IException {
-        final String username = getDomainEntityRepository().findOne(dto.getId()).getServiceSupplierClient().getUser().getUsername();
-        if (!getSecurityUtil().getCurrentToken().getUsername().equals(username)) {
-            getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
-        }
-        super.validateDataPermission(dto);
-    }
+	@Override
+	protected void validateDataPermission(final ServiceSupplierStaffDto dto) throws IException {
+		final String username = getDomainEntityRepository().findOne(dto.getId()).getServiceSupplierClient().getUser().getUsername();
+		if (!getSecurityUtil().getCurrentToken().getUsername().equals(username)) {
+			getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+		}
+		super.validateDataPermission(dto);
+	}
 }

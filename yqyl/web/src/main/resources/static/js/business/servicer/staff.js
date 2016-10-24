@@ -33,7 +33,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).error(function(response) {
 		});
 	};
-
+	$scope.newStaff = function() {
+		$window.location.href = "/servicer/staff/new";
+	};
 	$scope.away = function(staff) {
 		$http({
 			method : "DELETE",

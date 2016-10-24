@@ -1,14 +1,25 @@
+layoutApp.directive('customOnChange', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			var onChangeHandler = scope.$eval(attrs.customOnChange);
+			element.bind('change', onChangeHandler);
+		}
+	};
+});
+
 layoutApp.controller('contentController', function($scope, $http, $window, staffId) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
 	};
-
 	if (staffId > 0) {
 		$http({
 			method : "GET",
 			url : "/ajax/service/supplier/staff/me?id=" + staffId
 		}).success(function(response) {
+			var temp = new Date(response.data[0].dob);
 			$scope.staff = response.data[0];
+			$scope.staff.dob = temp;
 			if ($scope.staff.photo != undefined && $scope.staff.photo != null) {
 				$scope.imageUrl = "/ajax/content/image/" + $scope.staff.photo;
 			}
@@ -78,6 +89,17 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 	};
 
 	$scope.apply = function() {
+		var selectedCategories = new Array();
+		for (var i = 0; i < $scope.categories.length; i++) {
+			for (var j = 0; j < $scope.categories[i].serviceSubCategories.length; j++) {
+				var currentCategory = $scope.categories[i].serviceSubCategories[j];
+
+				if (currentCategory.checked) {
+					selectedCategories.push(currentCategory);
+				}
+			}
+		}
+		$scope.staff.serviceCategories = selectedCategories;
 		if (staffId > 0) {
 			$http({
 				method : "PUT",

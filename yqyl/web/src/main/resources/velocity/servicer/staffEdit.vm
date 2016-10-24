@@ -35,22 +35,22 @@
 				ng-model="staff.comment" />
 		</div>
 		<div>
-			<span>#label("SERVICE_CATEGORY")</span>
-			<div class="ng-hide categoryTree" ng-show="categories" ui-tree>
-				<ol class="root" ui-tree-nodes="" ng-model="categories">
-					<li ng-repeat="category in categories" ui-tree-node>
-						<div ui-tree-handle>{{category.name}}</div>
-						<ol ui-tree-nodes="" ng-model="category.serviceSubCategories">
-							<li ng-repeat="subCategory in category.serviceSubCategories"
-								ui-tree-node>
-								<div ui-tree-handle>
-									<input type="checkbox" ng-model="subCategory.checked" /> <span>{{subCategory.name}}</span>
-								</div>
-							</li>
-						</ol>
-					</li>
-				</ol>
-			</div>
+			<span>#label("SERVICE_CATEGORY")</span><span><div
+					class="ng-hide categoryTree" ng-show="categories" ui-tree>
+					<ol class="root" ui-tree-nodes="" ng-model="categories">
+						<li ng-repeat="category in categories" ui-tree-node>
+							<div ui-tree-handle>{{category.name}}</div>
+							<ol ui-tree-nodes="" ng-model="category.serviceSubCategories">
+								<li ng-repeat="subCategory in category.serviceSubCategories"
+									ui-tree-node>
+									<div ui-tree-handle>
+										<input type="checkbox" ng-model="subCategory.checked" /> <span>{{subCategory.name}}</span>
+									</div>
+								</li>
+							</ol>
+						</li>
+					</ol>
+				</div></span>
 		</div>
 		<div>
 			<button ng-click="apply()">#button("APPLY")</button>

@@ -9,6 +9,7 @@
 			style="width: 80px;" /></span> <span>#label("STAFF_NAME")<input
 			ng-model="filterData.name" style="width: 80px;" /></span>
 		<button ng-click="searchStaffs()">#button("SEARCH")</button>
+		<button ng-click="newStaff()">#button("NEW_STAFF")</button>
 	</div>
 	<table>
 		<thead>
@@ -27,7 +28,8 @@
 		<tbody>
 			<tr class="ng-hide" ng-show="staffs" ng-repeat="staff in staffs">
 				<td align="center"><span>{{staff.id}}</span></td>
-				<td align="center"><span>{{staff.id}}</span></td>
+				<td align="center"><img
+					ng-src="/ajax/content/image/{{staff.photo}}" /></td>
 				<td align="center"><span>{{staff.name}}</span></td>
 				<td align="center"><span>{{staff.phoneNo}}</span></td>
 				<td align="center"><span>{{staff.comment}}</span></td>

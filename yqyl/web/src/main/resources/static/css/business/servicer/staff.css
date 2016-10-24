@@ -30,3 +30,10 @@ div.staff table thead td {
 div.staff table td {
 	border: 1px solid;
 }
+
+div.staff table td img {
+	min-width: 80px;
+	min-height: 80px;
+	max-width: 80px;
+	max-height: 80px;
+}

@@ -9,7 +9,7 @@ div.staffEdit div.left {
 }
 
 div.staffEdit div.right {
-	float: left;
+	display: inline-block;
 	width: 400px;
 }
 
