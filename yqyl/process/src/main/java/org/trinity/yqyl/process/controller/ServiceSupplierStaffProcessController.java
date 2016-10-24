@@ -90,10 +90,12 @@ public class ServiceSupplierStaffProcessController extends
 			entity.setPhoto(content.getUuid());
 
 			if (!dto.getServiceCategories().isEmpty()) {
-				final List<ServiceCategory> serviceCategories = entity.getServiceCategories();
+				final List<ServiceCategory> serviceCategories = new ArrayList<>();
 				serviceCategoryRepository
 						.findAll(dto.getServiceCategories().stream().map(item -> item.getId()).collect(Collectors.toList()))
 						.forEach(item -> serviceCategories.add(item));
+
+				entity.setServiceCategories(serviceCategories);
 			}
 
 			getDomainEntityRepository().save(entity);

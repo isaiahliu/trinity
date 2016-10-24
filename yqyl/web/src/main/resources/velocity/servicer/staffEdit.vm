@@ -27,6 +27,10 @@
 				ui-date="dateOptions" ng-model="staff.dob" />
 		</div>
 		<div>
+			<span>#label("PHONE_NO")</span><input
+				ng-model="staff.phoneNo" />
+		</div>
+		<div>
 			<span>#label("CREDENTIAL_NO")</span><input
 				ng-model="staff.identityCard" />
 		</div>

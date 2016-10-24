@@ -51,7 +51,8 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			name : "",
 			dob : null,
 			identityCard : "",
-			staffRate : ""
+			staffRate : "",
+			phoneNo : ""
 		};
 
 		$http({
