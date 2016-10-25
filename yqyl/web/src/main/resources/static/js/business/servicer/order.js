@@ -22,7 +22,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 
 		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
-
+		ajaxUrl += "&sortedBy=id_desc";
 		if ($scope.filterData.id != undefined && $scope.filterData.id != "") {
 			ajaxUrl += "&id=" + $scope.filterData.id;
 		}

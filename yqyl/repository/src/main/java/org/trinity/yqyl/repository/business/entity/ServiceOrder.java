@@ -66,6 +66,9 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     @Column(name = "settled_time")
     private Date settledTime;
 
+    @Column(name = "receipt", insertable = true, updatable = true)
+    private String receipt;
+
     private OrderStatus status;
 
     // bi-directional one-to-one association to ServiceOrderAppraise
@@ -105,6 +108,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public Date getProposalTime() {
         return proposalTime;
+    }
+
+    public String getReceipt() {
+        return receipt;
     }
 
     public ServiceInfo getServiceInfo() {
@@ -157,6 +164,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public void setProposalTime(final Date proposalTime) {
         this.proposalTime = proposalTime;
+    }
+
+    public void setReceipt(final String receipt) {
+        this.receipt = receipt;
     }
 
     public void setServiceInfo(final ServiceInfo serviceInfo) {

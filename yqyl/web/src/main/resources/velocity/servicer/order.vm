@@ -32,16 +32,23 @@
 		</thead>
 		<tbody>
 			<tr class="ng-hide" ng-show="orders" ng-repeat="order in orders">
+				<td align="center"><button class="ng-hide"
+						ng-click="$parent.assign(order)" ng-show="order.status.code=='U'||order.status.code=='G'"
+						style="font-size: small; width: 50px; height: 25px; min-width: 50px;">#button("ASSIGNMENT")</button>
+					<span class="ng-hide" ng-hide="order.status.code=='U'||order.status.code=='G'">#label("ASSIGNED")</span></td>
 				<td align="center"><span>{{order.id}}</span></td>
 				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.serviceDate|date:'yyyy/MM/dd'}}</span><br />
+					<span> {{order.serviceHour}}:00</span></td>
+				<td align="center"><span>{{order.address}}</span></td>
+				<td align="center"><span>{{order.serviceInfo.serviceCategory.name}}</span></td>
+				<td align="center"><span>{{order.phone}}</span></td>
+				<td align="center"><span>{{order.price}}</span></td>
+				<td align="center"><button class="ng-hide"
+						ng-click="$parent.uploadReceipt(order)" ng-hide="order.receipt"
+						style="font-size: small; width: 50px; height: 25px; min-width: 50px;">#button("UPLOAD")</button>
+					<span class="ng-hide" ng-show="order.receipt">#label("RECEIPT_UPLOADED")</span></td>
+				<td align="center"><span>{{order.status.message}}</span></td>
 				<td align="center"><span>{{order.id}}</span></td>
 			</tr>
 		</tbody>

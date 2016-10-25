@@ -20,6 +20,7 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
         copyLookup(source::getStatus, target::getStatus, target::setStatus, OrderStatus.class, copyPolicy);
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);
+        copyObject(source::getReceipt, target::getReceipt, target::setReceipt, copyPolicy);
         copyObject(() -> {
             final Date serviceDate = source.getServiceDate();
             if (serviceDate == null) {
@@ -48,8 +49,9 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);
-
+        copyObject(source::getReceipt, target::getReceipt, target::setReceipt, copyPolicy);
         copyObject(source::getServiceTime, target::getServiceDate, target::setServiceDate, copyPolicy);
+
         copyObject(() -> {
             final Date serviceTime = source.getServiceTime();
             if (serviceTime == null) {

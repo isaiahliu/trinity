@@ -23,8 +23,9 @@ public class ServiceOrderRestController extends
     @RequestMapping(value = "/processed", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessedOrders(final ServiceOrderSearchingDto request)
             throws IException {
-        request.getStatus().add(OrderStatus.SETTLED.getMessageCode());
         request.getStatus().add(OrderStatus.AWAITING_APPRAISE.getMessageCode());
+        request.getStatus().add(OrderStatus.SETTLED.getMessageCode());
+        request.getStatus().add(OrderStatus.REQUEST_FAILED.getMessageCode());
 
         return getAll(request);
     }
@@ -33,6 +34,7 @@ public class ServiceOrderRestController extends
     public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessingOrders(final ServiceOrderSearchingDto request)
             throws IException {
         request.getStatus().add(OrderStatus.IN_PROGRESS.getMessageCode());
+        request.getStatus().add(OrderStatus.AWAITING_PAYMENT.getMessageCode());
 
         return getAll(request);
     }
@@ -40,7 +42,7 @@ public class ServiceOrderRestController extends
     @RequestMapping(value = "/unprocessed", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllUnprocessedOrders(final ServiceOrderSearchingDto request)
             throws IException {
-        request.getStatus().add(OrderStatus.AWAITING_PAYMENT.getMessageCode());
+        request.getStatus().add(OrderStatus.REQUEST_GRABBED.getMessageCode());
         request.getStatus().add(OrderStatus.UNPROCESSED.getMessageCode());
 
         return getAll(request);

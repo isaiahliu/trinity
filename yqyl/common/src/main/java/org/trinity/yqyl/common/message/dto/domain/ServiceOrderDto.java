@@ -16,6 +16,7 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private Integer serviceHour;
     private String phone;
     private String address;
+    private String receipt;
     private ServiceOrderAppraiseDto appraise;
 
     public String getAddress() {
@@ -40,6 +41,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public Date getProposalTime() {
         return proposalTime;
+    }
+
+    public String getReceipt() {
+        return receipt;
     }
 
     public Date getServiceDate() {
@@ -88,6 +93,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setProposalTime(final Date proposalTime) {
         this.proposalTime = proposalTime;
+    }
+
+    public void setReceipt(final String receipt) {
+        this.receipt = receipt;
     }
 
     public void setServiceDate(final Date serviceDate) {
