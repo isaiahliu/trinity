@@ -9,13 +9,12 @@ import org.trinity.yqyl.common.message.dto.response.ServiceOrderRequirementRespo
 import org.trinity.yqyl.process.controller.base.IServiceOrderRequirementProcessController;
 
 @RestController
-@RequestMapping("/*")
+@RequestMapping("/service/requirement")
 public class ServiceOrderRequirementRestController extends
-      AbstractApplicationAwareCrudRestController<ServiceOrderRequirementDto, ServiceOrderRequirementSearchingDto, IServiceOrderRequirementProcessController, ServiceOrderRequirementRequest, ServiceOrderRequirementResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceOrderRequirementDto, ServiceOrderRequirementSearchingDto, IServiceOrderRequirementProcessController, ServiceOrderRequirementRequest, ServiceOrderRequirementResponse> {
 
-  @Override
-  protected ServiceOrderRequirementResponse createResponseInstance() {
-      return new ServiceOrderRequirementResponse();
-  }
+    @Override
+    protected ServiceOrderRequirementResponse createResponseInstance() {
+        return new ServiceOrderRequirementResponse();
+    }
 }
-
