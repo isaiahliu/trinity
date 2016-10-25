@@ -91,6 +91,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
     @Column(name = "yiquan_code", insertable = false, updatable = false)
     private String yiquanCode;
 
+    // bi-directional many-to-one association to ServiceOrderRequirement
+    @OneToMany(mappedBy = "user")
+    private List<ServiceOrderRequirement> serviceOrderRequirements;
+
     public User() {
     }
 
@@ -120,6 +124,13 @@ public class User extends AbstractAuditableEntity implements Serializable {
         order.setUser(this);
 
         return order;
+    }
+
+    public ServiceOrderRequirement addServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
+        getServiceOrderRequirements().add(serviceOrderRequirement);
+        serviceOrderRequirement.setUser(this);
+
+        return serviceOrderRequirement;
     }
 
     public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
@@ -174,6 +185,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public UserRealname getRealname() {
         return this.realname;
+    }
+
+    public List<ServiceOrderRequirement> getServiceOrderRequirements() {
+        return this.serviceOrderRequirements;
     }
 
     public List<ServiceReceiverClient> getServiceReceiverClients() {
@@ -232,6 +247,13 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return order;
     }
 
+    public ServiceOrderRequirement removeServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
+        getServiceOrderRequirements().remove(serviceOrderRequirement);
+        serviceOrderRequirement.setUser(null);
+
+        return serviceOrderRequirement;
+    }
+
     public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
         getServiceReceiverClients().remove(serviceReceiverClient);
         serviceReceiverClient.setUser(null);
@@ -284,6 +306,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public void setRoles(final List<Accessright> accessrights) {
         this.accessrights = accessrights;
+    }
+
+    public void setServiceOrderRequirements(final List<ServiceOrderRequirement> serviceOrderRequirements) {
+        this.serviceOrderRequirements = serviceOrderRequirements;
     }
 
     public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {

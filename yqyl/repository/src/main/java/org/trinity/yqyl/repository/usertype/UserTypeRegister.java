@@ -30,6 +30,7 @@ import org.trinity.yqyl.common.message.lookup.PaymentType;
 import org.trinity.yqyl.common.message.lookup.PersonalType;
 import org.trinity.yqyl.common.message.lookup.RealnameStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
@@ -72,6 +73,7 @@ import org.trinity.yqyl.common.message.lookup.ValueType;
         @TypeDef(name = "StaffStatus", defaultForType = StaffStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.StaffStatus")),
         @TypeDef(name = "FamilyRelationship", defaultForType = FamilyRelationship.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.FamilyRelationship")),
         @TypeDef(name = "TokenStatus", defaultForType = TokenStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.TokenStatus")),
+        @TypeDef(name = "ServiceOrderRequirementStatus", defaultForType = ServiceOrderRequirementStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus")),
         @TypeDef(name = "FavoriteCategory", defaultForType = FavoriteCategory.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.FavoriteCategory")),
         @TypeDef(name = "PaymentType", defaultForType = PaymentType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.PaymentType")),
         @TypeDef(name = "PaymentMethod", defaultForType = PaymentMethod.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.PaymentMethod")),

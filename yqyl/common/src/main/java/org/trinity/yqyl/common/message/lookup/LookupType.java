@@ -42,7 +42,8 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     PAYMENT_METHOD("PMMTHD"),
     PAYMENT_TYPE("PMTYPE"),
     DISTRICT_CODE("DTCODE"),
-    STAFF_STATUS("STSTAT");
+    STAFF_STATUS("STSTAT"),
+    SERVICE_ORDER_REQUIREMENT_STATUS("SORSTAT");
 
     private String typeName;
 
