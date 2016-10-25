@@ -2,29 +2,30 @@ package org.trinity.yqyl.process.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.message.ILookupMessage;
-import org.trinity.message.IMessageResolverChain;
-import org.trinity.process.converter.AbstractObjectConverter;
-import org.trinity.yqyl.common.message.dto.domain.LookupDto;
+import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
+import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.repository.business.entity.Lookup;
 
 @Component
-public class LookupConverter extends AbstractObjectConverter<ILookupMessage<?>, LookupDto> {
+public class LookupConverter extends AbstractLookupSupportObjectConverter<Lookup, LookupDto> {
     @Autowired
-    private IMessageResolverChain messageResolver;
-
-    @Override
-    protected void convertBackInternal(final LookupDto source, final ILookupMessage<?> target, final CopyPolicy copyPolicy) {
+    public LookupConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
+        super(lookupConverter);
     }
 
     @Override
-    protected void convertInternal(final ILookupMessage<?> source, final LookupDto target, final CopyPolicy copyPolicy) {
-        copyObject(source::getMessageCode, target::getCode, target::setCode, copyPolicy);
-        copyObject(() -> messageResolver.getMessage(source), target::getMessage, target::setMessage, copyPolicy);
+    protected void convertBackInternal(final LookupDto source, final Lookup target, final CopyPolicy copyPolicy) {
     }
 
     @Override
-    protected ILookupMessage<?> createFromInstance() {
-        return null;
+    protected void convertInternal(final Lookup source, final LookupDto target, final CopyPolicy copyPolicy) {
+    }
+
+    @Override
+    protected Lookup createFromInstance() {
+        return new Lookup();
     }
 
     @Override

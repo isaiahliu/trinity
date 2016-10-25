@@ -7,6 +7,7 @@ import javax.validation.constraints.Null;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.request.AbstractDataRequest.AddData;
 import org.trinity.common.dto.request.AbstractDataRequest.UpdateData;
 

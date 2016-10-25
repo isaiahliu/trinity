@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.message.GeneralMessageType;
 import org.trinity.message.IMessageResolver;
-import org.trinity.yqyl.common.message.dto.domain.LookupDto;
 import org.trinity.yqyl.common.message.lookup.Language;
 import org.trinity.yqyl.repository.business.dataaccess.ILookupRepository;
 

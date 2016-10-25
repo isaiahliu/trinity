@@ -1,6 +1,7 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
 import org.trinity.common.dto.object.IDto;
+import org.trinity.common.dto.object.LookupDto;
 
 public class TokenDto implements IDto {
     private String token;

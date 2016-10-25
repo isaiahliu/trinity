@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
+import org.trinity.common.dto.object.LookupDto;
 
 public class ServiceSupplierStaffDto extends AbstractBusinessDto {
     private String comment;

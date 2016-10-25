@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
+import org.trinity.common.dto.object.LookupDto;
 
 public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private LookupDto type;

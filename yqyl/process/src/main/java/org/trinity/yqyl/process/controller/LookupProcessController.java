@@ -10,10 +10,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.message.ILookupMessage;
 import org.trinity.message.IMessageResolverChain;
 import org.trinity.message.LookupParser;
-import org.trinity.yqyl.common.message.dto.domain.LookupDto;
 import org.trinity.yqyl.common.message.lookup.Language;
 import org.trinity.yqyl.common.message.lookup.LookupType;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;

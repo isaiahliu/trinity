@@ -9,16 +9,20 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.trinity.common.SelfAwareProcessor;
 import org.trinity.common.accessright.ISecurityUtil;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.exception.IException;
 import org.trinity.common.exception.LocalizedException;
 import org.trinity.common.exception.factory.IExceptionFactory;
 import org.trinity.common.exception.factory.LocalizedExceptionFactory;
 import org.trinity.common.message.MessageResolverChain;
 import org.trinity.common.message.ResourceMessageResolver;
+import org.trinity.message.ILookupMessage;
 import org.trinity.message.IMessageResolver;
 import org.trinity.message.IMessageResolverChain;
 import org.trinity.message.LookupParser;
 import org.trinity.message.exception.IErrorMessage;
+import org.trinity.process.converter.IObjectConverter;
+import org.trinity.process.converter.LookupConverter;
 import org.trinity.yqyl.common.accessright.SecurityUtil;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.AccountBalanceCategory;
@@ -104,6 +108,11 @@ public class CommonConfiguration {
     @Bean
     public IExceptionFactory getExceptionFactory(final IMessageResolverChain messageResolver) {
         return new LocalizedExceptionFactory(messageResolver);
+    }
+
+    @Bean
+    public IObjectConverter<ILookupMessage<?>, LookupDto> getLookupConverter(final IMessageResolverChain messageResolver) {
+        return new LookupConverter(messageResolver);
     }
 
     @Bean

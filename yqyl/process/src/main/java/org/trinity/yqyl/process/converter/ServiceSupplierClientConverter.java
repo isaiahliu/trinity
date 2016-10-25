@@ -1,6 +1,11 @@
 package org.trinity.yqyl.process.converter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.trinity.common.dto.object.LookupDto;
+import org.trinity.message.ILookupMessage;
+import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
+import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.lookup.PersonalType;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
@@ -8,6 +13,10 @@ import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 
 @Component
 public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> {
+    @Autowired
+    public ServiceSupplierClientConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
+        super(lookupConverter);
+    }
 
     @Override
     protected void convertBackInternal(final ServiceSupplierClientDto source, final ServiceSupplierClient target,

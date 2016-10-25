@@ -77,13 +77,24 @@ public final class CrudGeneratorUtil {
         protected void write(final PrintWriter writer, final String projectName, final String entitySchema, final String entity) {
             writer.println(String.format("package org.trinity.%1$s.process.converter;", projectName));
             writer.println(String.format(""));
+            writer.println(String.format("import org.springframework.beans.factory.annotation.Autowired;"));
             writer.println(String.format("import org.springframework.stereotype.Component;"));
+            writer.println(String.format("import org.trinity.common.dto.object.LookupDto;"));
+            writer.println(String.format("import org.trinity.message.ILookupMessage;"));
+            writer.println(String.format("import org.trinity.process.converter.AbstractLookupSupportObjectConverter;"));
+            writer.println(String.format("import org.trinity.process.converter.IObjectConverter;"));
             writer.println(String.format("import org.trinity.%1$s.common.message.dto.domain.%2$sDto;", projectName, entity));
             writer.println(String.format("import org.trinity.%1$s.repository.%2$s.entity.%3$s;", projectName, entitySchema, entity));
             writer.println(String.format(""));
             writer.println(String.format("@Component"));
             writer.println(
                     String.format("public class %1$sConverter extends AbstractLookupSupportObjectConverter<%1$s, %1$sDto> {", entity));
+            writer.println(String.format("@Autowired"));
+            writer.println(
+                    String.format("public %1$sConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {", entity));
+            writer.println(String.format("super(lookupConverter);"));
+            writer.println(String.format("}"));
+            writer.println(String.format(""));
             writer.println(String.format("@Override"));
             writer.println(String.format(
                     "protected void convertBackInternal(final %1$sDto source, final %1$s target, final CopyPolicy copyPolicy) {", entity));

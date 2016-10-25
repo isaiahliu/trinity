@@ -1,6 +1,11 @@
 package org.trinity.yqyl.process.converter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.trinity.common.dto.object.LookupDto;
+import org.trinity.message.ILookupMessage;
+import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
+import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.Gender;
@@ -10,6 +15,11 @@ import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
 @Component
 public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectConverter<ServiceReceiverClient, ServiceReceiverClientDto> {
     private static final String DATE_FORMAT = "yyyy/MM/dd";
+
+    @Autowired
+    public ServiceReceiverClientConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
+        super(lookupConverter);
+    }
 
     @Override
     protected void convertBackInternal(final ServiceReceiverClientDto source, final ServiceReceiverClient target,

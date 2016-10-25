@@ -1,12 +1,22 @@
 package org.trinity.yqyl.process.converter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.trinity.common.dto.object.LookupDto;
+import org.trinity.message.ILookupMessage;
+import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
+import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.UserDto;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.repository.business.entity.User;
 
 @Component
 public class UserConverter extends AbstractLookupSupportObjectConverter<User, UserDto> {
+    @Autowired
+    public UserConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
+        super(lookupConverter);
+    }
+
     @Override
     protected void convertBackInternal(final UserDto source, final User target, final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getId, target::setId, copyPolicy);

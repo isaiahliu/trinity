@@ -3,13 +3,23 @@ package org.trinity.yqyl.process.converter;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.trinity.common.dto.object.LookupDto;
+import org.trinity.message.ILookupMessage;
+import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
+import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.lookup.StaffStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierStaff;
 
 @Component
 public class ServiceSupplierStaffConverter extends AbstractLookupSupportObjectConverter<ServiceSupplierStaff, ServiceSupplierStaffDto> {
+    @Autowired
+    public ServiceSupplierStaffConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
+        super(lookupConverter);
+    }
+
     @Override
     protected void convertBackInternal(final ServiceSupplierStaffDto source, final ServiceSupplierStaff target,
             final CopyPolicy copyPolicy) {

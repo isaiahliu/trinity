@@ -3,6 +3,7 @@ package org.trinity.yqyl.common.message.dto.domain;
 import java.util.Date;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
+import org.trinity.common.dto.object.LookupDto;
 
 public class ServiceOrderDto extends AbstractBusinessDto {
     private Double price;

@@ -1,6 +1,11 @@
 package org.trinity.yqyl.process.converter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.trinity.common.dto.object.LookupDto;
+import org.trinity.message.ILookupMessage;
+import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
+import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.UserRealnameDto;
 import org.trinity.yqyl.common.message.lookup.CredentialType;
 import org.trinity.yqyl.common.message.lookup.RealnameStatus;
@@ -8,6 +13,11 @@ import org.trinity.yqyl.repository.business.entity.UserRealname;
 
 @Component
 public class UserRealnameConverter extends AbstractLookupSupportObjectConverter<UserRealname, UserRealnameDto> {
+    @Autowired
+    public UserRealnameConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
+        super(lookupConverter);
+    }
+
     @Override
     protected void convertBackInternal(final UserRealnameDto source, final UserRealname target, final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getUserId, target::setUserId, copyPolicy);
