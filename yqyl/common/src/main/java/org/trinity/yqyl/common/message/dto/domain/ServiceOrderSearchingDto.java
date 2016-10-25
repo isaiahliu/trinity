@@ -1,15 +1,11 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.trinity.common.dto.object.AbstractSearchingDto;
 
 public class ServiceOrderSearchingDto extends AbstractSearchingDto {
     private String receiverUserName;
     private Long serviceSupplierClientId;
     private String serviceDate;
-    private List<String> status;
     private String settledDate;
     private String supplierUserName;
     private String category;
@@ -34,13 +30,6 @@ public class ServiceOrderSearchingDto extends AbstractSearchingDto {
         return settledDate;
     }
 
-    public List<String> getStatus() {
-        if (status == null) {
-            status = new ArrayList<>();
-        }
-        return status;
-    }
-
     public String getSupplierUserName() {
         return supplierUserName;
     }
@@ -63,10 +52,6 @@ public class ServiceOrderSearchingDto extends AbstractSearchingDto {
 
     public void setSettledDate(final String settledDate) {
         this.settledDate = settledDate;
-    }
-
-    public void setStatus(final List<String> status) {
-        this.status = status;
     }
 
     public void setSupplierUserName(final String supplierUserName) {

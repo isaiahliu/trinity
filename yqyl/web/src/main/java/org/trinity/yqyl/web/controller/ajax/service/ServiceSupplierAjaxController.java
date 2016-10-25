@@ -62,7 +62,7 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
     public @ResponseBody ServiceInfoResponse ajaxGetServiceSupplierServices(@PathVariable("id") final Long id) throws IException {
         final ServiceInfoSearchingDto request = new ServiceInfoSearchingDto();
         request.setServiceSupplierClientId(id);
-        request.setStatus(ServiceStatus.ACTIVE.getMessageCode());
+        request.getStatus().add(ServiceStatus.ACTIVE.getMessageCode());
 
         return restfulServiceUtil.callRestService(Url.SERVICE_INFO, null, null, request, ServiceInfoResponse.class);
     }

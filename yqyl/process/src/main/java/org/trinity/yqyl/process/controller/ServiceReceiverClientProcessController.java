@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
@@ -86,9 +87,10 @@ public class ServiceReceiverClientProcessController extends
                 predicates.add(cb.like(root.get(ServiceReceiverClient_.identityCard), "%" + dto.getIdentity() + "%"));
             }
 
-            final ServiceReceiverClientStatus statusEnum = LookupParser.parse(ServiceReceiverClientStatus.class, dto.getStatus());
-            if (statusEnum != null) {
-                predicates.add(cb.equal(root.get(ServiceReceiverClient_.status), statusEnum));
+            if (!dto.getStatus().isEmpty()) {
+                final In<ServiceReceiverClientStatus> in = cb.in(root.get(ServiceReceiverClient_.status));
+                dto.getStatus().forEach(item -> in.value(LookupParser.parse(ServiceReceiverClientStatus.class, item)));
+                predicates.add(in);
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

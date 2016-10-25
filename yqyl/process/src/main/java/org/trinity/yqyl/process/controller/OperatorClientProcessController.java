@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
 
 import org.springframework.data.domain.Page;
@@ -15,7 +16,7 @@ import org.trinity.message.LookupParser;
 import org.trinity.yqyl.common.message.dto.domain.OperatorClientDto;
 import org.trinity.yqyl.common.message.dto.domain.OperatorClientSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
-import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
+import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IOperatorClientProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IOperatorClientRepository;
@@ -34,7 +35,7 @@ public class OperatorClientProcessController extends
     @Override
     public Page<OperatorClientDto> getAll(final OperatorClientSearchingDto dto) throws IException {
         final Specification<OperatorClient> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<Predicate>();
+            final List<Predicate> predicates = new ArrayList<>();
 
             if (!StringUtils.isEmpty(dto.getUsername())) {
                 predicates.add(cb.like(root.join(OperatorClient_.user).get(User_.username), "%" + dto.getUsername() + "%"));
@@ -48,9 +49,10 @@ public class OperatorClientProcessController extends
                 predicates.add(cb.like(root.get(OperatorClient_.staffNo), "%" + dto.getStaffNo() + "%"));
             }
 
-            final ServiceReceiverClientStatus statusEnum = LookupParser.parse(ServiceReceiverClientStatus.class, dto.getStatus());
-            if (statusEnum != null) {
-                predicates.add(cb.equal(root.get(OperatorClient_.status), statusEnum));
+            if (!dto.getStatus().isEmpty()) {
+                final In<OperatorClientStatus> in = cb.in(root.get(OperatorClient_.status));
+                dto.getStatus().forEach(item -> in.value(LookupParser.parse(OperatorClientStatus.class, item)));
+                predicates.add(in);
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

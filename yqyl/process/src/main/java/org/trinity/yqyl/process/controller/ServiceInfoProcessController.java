@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
@@ -15,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.message.LookupParser;
@@ -140,8 +140,10 @@ public class ServiceInfoProcessController
                         dto.getServiceSupplierClientId()));
             }
 
-            if (!StringUtils.isEmpty(dto.getStatus())) {
-                predicates.add(cb.equal(root.get(ServiceInfo_.status), LookupParser.parse(ServiceStatus.class, dto.getStatus())));
+            if (!dto.getStatus().isEmpty()) {
+                final In<ServiceStatus> in = cb.in(root.get(ServiceInfo_.status));
+                dto.getStatus().forEach(item -> in.value(LookupParser.parse(ServiceStatus.class, item)));
+                predicates.add(in);
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

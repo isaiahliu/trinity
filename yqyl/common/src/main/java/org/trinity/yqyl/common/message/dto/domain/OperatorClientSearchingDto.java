@@ -4,7 +4,6 @@ import org.trinity.common.dto.object.AbstractSearchingDto;
 
 public class OperatorClientSearchingDto extends AbstractSearchingDto {
     private String username;
-    private String status;
     private String staffNo;
     private String name;
 
@@ -14,10 +13,6 @@ public class OperatorClientSearchingDto extends AbstractSearchingDto {
 
     public String getStaffNo() {
         return staffNo;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public String getUsername() {
@@ -30,10 +25,6 @@ public class OperatorClientSearchingDto extends AbstractSearchingDto {
 
     public void setStaffNo(final String staffNo) {
         this.staffNo = staffNo;
-    }
-
-    public void setStatus(final String status) {
-        this.status = status;
     }
 
     public void setUsername(final String username) {

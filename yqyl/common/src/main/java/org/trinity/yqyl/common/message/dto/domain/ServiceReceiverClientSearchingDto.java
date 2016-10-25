@@ -6,7 +6,6 @@ public class ServiceReceiverClientSearchingDto extends AbstractSearchingDto {
     private String name;
     private String yijincode;
     private String identity;
-    private String status;
 
     public String getIdentity() {
         return identity;
@@ -14,10 +13,6 @@ public class ServiceReceiverClientSearchingDto extends AbstractSearchingDto {
 
     public String getName() {
         return name;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public String getYijincode() {
@@ -30,10 +25,6 @@ public class ServiceReceiverClientSearchingDto extends AbstractSearchingDto {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public void setStatus(final String status) {
-        this.status = status;
     }
 
     public void setYijincode(final String yijincode) {

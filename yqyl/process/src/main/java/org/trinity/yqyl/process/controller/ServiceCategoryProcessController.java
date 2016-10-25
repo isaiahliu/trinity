@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
@@ -50,12 +51,10 @@ public class ServiceCategoryProcessController extends
             } else {
                 predicates.add(cb.equal(root.join(ServiceCategory_.parent).get(ServiceCategory_.id), data.getParentId()));
             }
-
-            if (!StringUtils.isEmpty(data.getStatus())) {
-                final RecordStatus status = LookupParser.parse(RecordStatus.class, data.getStatus());
-                if (status != null) {
-                    predicates.add(cb.equal(root.get(ServiceCategory_.status), status));
-                }
+            if (!data.getStatus().isEmpty()) {
+                final In<RecordStatus> in = cb.in(root.get(ServiceCategory_.status));
+                data.getStatus().forEach(item -> in.value(LookupParser.parse(RecordStatus.class, item)));
+                predicates.add(in);
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
