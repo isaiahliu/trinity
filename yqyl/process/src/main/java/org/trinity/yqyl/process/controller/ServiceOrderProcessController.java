@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.message.LookupParser;
 import org.trinity.process.converter.IObjectConverter;
@@ -28,6 +29,7 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
@@ -35,6 +37,7 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
+import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
@@ -76,11 +79,31 @@ public class ServiceOrderProcessController
     public Page<ServiceOrderDto> getAll(final ServiceOrderSearchingDto dto) throws IException {
         final Pageable pagable = getPagingConverter().convert(dto);
 
+        final String username = getSecurityUtil().getCurrentToken().getUsername();
+
+        if (dto.isSearchAll()) {
+            if (username.equals(dto.getSupplierUserName())) {
+                getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SERVICE_SUPPLIER);
+            } else {
+                getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+            }
+        }
+
         final Specification<ServiceOrder> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
-
-            if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
+            if (!dto.isSearchAll()) {
+                predicates.add(cb.equal(root.join(ServiceOrder_.user).get(User_.username), username));
+            } else if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
                 predicates.add(cb.like(root.join(ServiceOrder_.user).get(User_.username), "%" + dto.getReceiverUserName() + "%"));
+            }
+
+            if (dto.getId() != null && dto.getId() > 0) {
+                predicates.add(cb.equal(root.get(ServiceOrder_.id), dto.getId()));
+            }
+
+            if (!StringUtils.isEmpty(dto.getCategory())) {
+                predicates.add(cb.equal(root.join(ServiceOrder_.serviceInfo).join(ServiceInfo_.serviceCategory).get(ServiceCategory_.name),
+                        dto.getCategory()));
             }
 
             if (!dto.getStatus().isEmpty()) {
@@ -97,8 +120,9 @@ public class ServiceOrderProcessController
                 query.distinct(true);
             }
 
-            if (dto.getServiceOrderId() != null) {
-                predicates.add(cb.equal(root.get(ServiceOrder_.id), dto.getServiceOrderId()));
+            if (!StringUtils.isEmpty(dto.getSupplierUserName())) {
+                predicates.add(cb.like(root.join(ServiceOrder_.serviceInfo).join(ServiceInfo_.serviceSupplierClient)
+                        .join(ServiceSupplierClient_.user).get(User_.username), "%" + dto.getSupplierUserName() + "%"));
             }
 
             if (!StringUtils.isEmpty(dto.getServiceDate())) {

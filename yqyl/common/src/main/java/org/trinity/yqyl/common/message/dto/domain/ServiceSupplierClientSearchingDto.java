@@ -8,7 +8,6 @@ import org.trinity.common.dto.object.AbstractSearchingDto;
 public class ServiceSupplierClientSearchingDto extends AbstractSearchingDto {
     private Long categoryParent;
     private List<Long> categoryChildren;
-    private Long id;
     private String name;
 
     public List<Long> getCategoryChildren() {
@@ -22,10 +21,6 @@ public class ServiceSupplierClientSearchingDto extends AbstractSearchingDto {
         return categoryParent;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -36,10 +31,6 @@ public class ServiceSupplierClientSearchingDto extends AbstractSearchingDto {
 
     public void setCategoryParent(final Long categoryParent) {
         this.categoryParent = categoryParent;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
     }
 
     public void setName(final String name) {

@@ -3,15 +3,10 @@ package org.trinity.yqyl.common.message.dto.domain;
 import org.trinity.common.dto.object.AbstractSearchingDto;
 
 public class ServiceReceiverClientSearchingDto extends AbstractSearchingDto {
-    private Long id;
     private String name;
     private String yijincode;
     private String identity;
     private String status;
-
-    public Long getId() {
-        return id;
-    }
 
     public String getIdentity() {
         return identity;
@@ -27,10 +22,6 @@ public class ServiceReceiverClientSearchingDto extends AbstractSearchingDto {
 
     public String getYijincode() {
         return yijincode;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
     }
 
     public void setIdentity(final String identity) {

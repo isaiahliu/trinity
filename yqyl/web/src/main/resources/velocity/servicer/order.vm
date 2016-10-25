@@ -2,6 +2,59 @@
 
 <link rel="stylesheet" href="/static/css/business/servicer/order.css"></link>
 
-<div class="order" ng-controller="contentController">order</div>
+<div class="order" ng-controller="contentController">
+	<div class="title">#label("SERVICE_MANAGEMENT")</div>
+	<div class="filter">
+		<span>#label("SERVICE_ORDER_ID")</span><input ng-model="filterData.id" />
+		<span>#label("SERVICE_CATEGORY")</span><input
+			ng-model="filterData.category" /> <span>#label("SERVICE_ORDER_STATUS")</span><select
+			style="min-width: 130px;" ng-model="filterData.status"
+			ng-options="status.code as status.message for status in statuses">
+			<option value="">#label("ALL")</option>
+		</select>
+		<button ng-click="searchOrders()">#button("SEARCH")</button>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<td align="center"><span>#label("ASSIGNMENT")</span></td>
+				<td align="center"><span>#label("SERVICE_ORDER_ID")</span></td>
+				<td align="center"><span>#label("SERVICE_RECEIVER_NAME")</span></td>
+				<td align="center"><span>#label("SERVICE_TIME")</span></td>
+				<td align="center"><span>#label("SERVICE_ADDRESS")</span></td>
+				<td align="center"><span>#label("SERVICE_CATEGORY")</span></td>
+				<td align="center"><span>#label("PHONE_NO")</span></td>
+				<td align="center"><span>#label("PRICE")</span></td>
+				<td align="center"><span>#label("RECEIPT")</span></td>
+				<td align="center"><span>#label("STATUS")</span></td>
+				<td align="center"><span>#label("OPERATION")</span></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="ng-hide" ng-show="orders" ng-repeat="order in orders">
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.id}}</span></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="paging" style="text-align: center;">
+		<pagination total-items="pagingData.itemCount"
+			ng-model="pagingData.pageIndex" max-size="10"
+			items-per-page="pagingData.pageSize" class="pagination-sm"
+			boundary-links="true" ng-change="searchOrders()"
+			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+			previous-text='#label("PREVIOUS_PAGE")'
+			next-text='#label("NEXT_PAGE")'></pagination>
+	</div>
+</div>
 
 <script src="/static/js/business/servicer/order.js"></script>

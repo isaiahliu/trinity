@@ -98,6 +98,18 @@ public class OrderAjaxController extends AbstractRestController {
         return createResponseEntity(response);
     }
 
+    @RequestMapping(value = "/supplier", method = RequestMethod.GET)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public ResponseEntity<ServiceOrderResponse> ajaxGetSupplierOrders(final ServiceOrderSearchingDto request) throws IException {
+        request.setSupplierUserName(securityUtil.getCurrentToken().getUsername());
+        request.setSearchAll(true);
+
+        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, null, null, request,
+                ServiceOrderResponse.class);
+
+        return createResponseEntity(response);
+    }
+
     @RequestMapping(value = "/unprocessed", method = RequestMethod.GET)
     public ResponseEntity<ServiceOrderResponse> ajaxGetUnprocessedOrders(final ServiceOrderSearchingDto request) throws IException {
         request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());

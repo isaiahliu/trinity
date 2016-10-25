@@ -1,0 +1,48 @@
+#parse("/velocity/servicer/navigation.vm")
+
+<link rel="stylesheet"
+	href="/static/css/business/servicer/orderEdit.css"></link>
+
+<div class="orderEdit" ng-controller="contentController">
+	<div>
+		<span>#label("SERVICE_NAME")</span><input ng-model="serviceInfo.name" />
+	</div>
+	<div>
+		<span>#label("SERVICE_PARENT_CATEGORY")</span><select
+			ng-change="populateSubCategory()"
+			ng-model="serviceInfo.serviceCategory.parent.id"
+			ng-options="category.id as category.name for category in categories"></select>
+	</div>
+	<div>
+		<span>#label("SERVICE_CATEGORY")</span><select
+			ng-model="serviceInfo.serviceCategory.id"
+			ng-options="subCategory.id as subCategory.name for subCategory in subCategories">
+		</select>
+	</div>
+	<div>
+		<span>#label("SERVICE_PAYMENT_METHOD")</span><select
+			ng-model="serviceInfo.paymentMethod.code"
+			ng-options="paymentMethod.code as paymentMethod.message for paymentMethod in paymentMethods">
+		</select>
+	</div>
+	<div>
+		<span>#label("SERVICE_PAYMENT_TYPE")</span><select
+			ng-model="serviceInfo.paymentType.code"
+			ng-options="paymentType.code as paymentType.message for paymentType in paymentTypes">
+		</select>
+	</div>
+	<div>
+		<span>#label("SERVICE_PRICE")</span><input
+			ng-model="serviceInfo.price" />
+	</div>
+	<div>
+		<span>#label("SHOW_OR_NOT")</span><input type="checkbox"
+			ng-model="serviceInfo.active" />
+	</div>
+	<div>
+		<button ng-click="apply()">#button("APPLY")</button>
+		<button ng-click="back()">#button("BACK")</button>
+	</div>
+</div>
+
+<script src="/static/js/business/servicer/orderEdit.js"></script>

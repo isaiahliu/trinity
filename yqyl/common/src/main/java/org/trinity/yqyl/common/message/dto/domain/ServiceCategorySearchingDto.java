@@ -6,12 +6,7 @@ public class ServiceCategorySearchingDto extends AbstractSearchingDto {
     private String name;
     private String status;
     private boolean includeChildren = false;
-    private Long id;
     private Long parentId;
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -27,10 +22,6 @@ public class ServiceCategorySearchingDto extends AbstractSearchingDto {
 
     public boolean isIncludeChildren() {
         return includeChildren;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
     }
 
     public void setIncludeChildren(final boolean includeChildren) {
