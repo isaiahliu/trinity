@@ -10,7 +10,7 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     private Long id;
     private List<String> status;
 
-    private String relationshipExpression;
+    private String rsexp;
 
     private RelationshipNode relationshipNode;
 
@@ -30,8 +30,8 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
         }
 
         final RelationshipNode node = new RelationshipNode();
-        if (relationshipExpression != null) {
-            generate(node, relationshipExpression);
+        if (rsexp != null) {
+            generate(node, rsexp);
         }
 
         relationshipNode = node;
@@ -45,8 +45,8 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     }
 
     @Override
-    public String getRelationshipExpression() {
-        return relationshipExpression;
+    public String getRsexp() {
+        return rsexp;
     }
 
     @Override
@@ -68,8 +68,8 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     }
 
     @Override
-    public void setRelationshipExpression(final String relationshipExpression) {
-        this.relationshipExpression = relationshipExpression;
+    public void setRsexp(final String rsexp) {
+        this.rsexp = rsexp;
         relationshipNode = null;
     }
 

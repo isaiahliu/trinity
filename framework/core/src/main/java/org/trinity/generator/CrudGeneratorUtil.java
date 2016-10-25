@@ -75,6 +75,7 @@ public final class CrudGeneratorUtil {
 
         @Override
         protected void write(final PrintWriter writer, final String projectName, final String entitySchema, final String entity) {
+
             writer.println(String.format("package org.trinity.%1$s.process.converter;", projectName));
             writer.println(String.format(""));
             writer.println(String.format("import org.springframework.beans.factory.annotation.Autowired;"));
@@ -89,6 +90,10 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("@Component"));
             writer.println(
                     String.format("public class %1$sConverter extends AbstractLookupSupportObjectConverter<%1$s, %1$sDto> {", entity));
+            writer.println(String.format("@SuppressWarnings(\"unused\")"));
+            writer.println(String.format("private static enum %1$sRelationship {", entity));
+            writer.println(String.format("}"));
+            writer.println(String.format(""));
             writer.println(String.format("@Autowired"));
             writer.println(
                     String.format("public %1$sConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {", entity));

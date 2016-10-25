@@ -40,7 +40,7 @@ public interface ISearchingDto extends IPagingDto {
 
     Long getId();
 
-    String getRelationshipExpression();
+    String getRsexp();
 
     List<String> getStatus();
 
@@ -48,7 +48,7 @@ public interface ISearchingDto extends IPagingDto {
 
     void setId(final Long id);
 
-    void setRelationshipExpression(final String relationshipExpression);
+    void setRsexp(final String rsexp);
 
     void setSearchAll(boolean searchAll);
 

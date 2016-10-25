@@ -12,6 +12,12 @@ import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 
 @Component
 public class ServiceCategoryConverter extends AbstractLookupSupportObjectConverter<ServiceCategory, ServiceCategoryDto> {
+    @SuppressWarnings("unused")
+    private static enum ServiceCategoryRelationship {
+        PARENT,
+        SERVICESUBCATEGORIES
+    }
+
     @Autowired
     public ServiceCategoryConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
