@@ -1,6 +1,5 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,9 +56,6 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
     }
 
     public List<ServiceCategoryDto> getServiceCategories() {
-        if (serviceCategories == null) {
-            serviceCategories = new ArrayList<>();
-        }
         return serviceCategories;
     }
 

@@ -18,6 +18,7 @@ import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.message.LookupParser;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
+import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
@@ -134,9 +135,12 @@ public class ServiceSupplierStaffProcessController extends
 
     @Override
     protected void updateRelationship(final ServiceSupplierStaff entity, final ServiceSupplierStaffDto dto) {
-        entity.getServiceCategories().clear();
-        serviceCategoryRepository.findAll(dto.getServiceCategories().stream().map(item -> item.getId()).collect(Collectors.toList()))
-                .forEach(item -> entity.getServiceCategories().add(item));
+        final List<ServiceCategoryDto> serviceCategories = dto.getServiceCategories();
+        if (serviceCategories != null) {
+            entity.getServiceCategories().clear();
+            serviceCategoryRepository.findAll(serviceCategories.stream().map(item -> item.getId()).collect(Collectors.toList()))
+                    .forEach(item -> entity.getServiceCategories().add(item));
+        }
     }
 
     @Override

@@ -27,7 +27,8 @@
 		</thead>
 		<tbody>
 			<tr class="ng-hide" ng-show="staffs" ng-repeat="staff in staffs">
-				<td align="center"><a ng-href="/servicer/staff/edit/{{staff.id}}"><span>{{staff.id}}</span></a></td>
+				<td align="center"><a
+					ng-href="/servicer/staff/edit/{{staff.id}}"><span>{{staff.id}}</span></a></td>
 				<td align="center"><img
 					ng-src="/ajax/content/image/{{staff.photo}}" /></td>
 				<td align="center"><span>{{staff.name}}</span></td>
@@ -43,8 +44,7 @@
 					<button ng-show="staff.status.code == 'F'"
 						ng-click="$parent.back(staff)"
 						style="font-size: small; width: 50px; height: 30px; min-width: 50px;">#button("BACK_TO_WORK")</button>
-					<button ng-click="$parent.edit(staff)"
-						style="font-size: small; width: 50px; height: 30px; min-width: 50px;">#button("EDIT")</button></td>
+				</td>
 			</tr>
 		</tbody>
 	</table>
