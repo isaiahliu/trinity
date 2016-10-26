@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -12,6 +13,9 @@ import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthIn
 @Component
 public class ServiceReceiverClientHealthInformationConverter
         extends AbstractLookupSupportObjectConverter<ServiceReceiverClientHealthInformation, ServiceReceiverClientHealthInformationDto> {
+    private static enum ServiceReceiverClientHealthInformationRelationship {
+    }
+
     @Autowired
     public ServiceReceiverClientHealthInformationConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -20,11 +24,22 @@ public class ServiceReceiverClientHealthInformationConverter
     @Override
     protected void convertBackInternal(final ServiceReceiverClientHealthInformationDto source,
             final ServiceReceiverClientHealthInformation target, final CopyPolicy copyPolicy) {
+        copyObject(source::getId, target::getServiceReceiverClientId, target::setServiceReceiverClientId, copyPolicy);
     }
 
     @Override
     protected void convertInternal(final ServiceReceiverClientHealthInformation source,
             final ServiceReceiverClientHealthInformationDto target, final CopyPolicy copyPolicy) {
+        copyObject(source::getServiceReceiverClientId, target::getId, target::setId, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final ServiceReceiverClientHealthInformation source,
+            final ServiceReceiverClientHealthInformationDto target, final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceReceiverClientHealthInformationRelationship.class)) {
+        default:
+            break;
+        }
     }
 
     @Override

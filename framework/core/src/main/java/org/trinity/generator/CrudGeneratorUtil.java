@@ -82,6 +82,7 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("import org.springframework.stereotype.Component;"));
             writer.println(String.format("import org.trinity.common.dto.object.LookupDto;"));
             writer.println(String.format("import org.trinity.message.ILookupMessage;"));
+            writer.println(String.format("import org.trinity.common.dto.object.RelationshipExpression;"));
             writer.println(String.format("import org.trinity.process.converter.AbstractLookupSupportObjectConverter;"));
             writer.println(String.format("import org.trinity.process.converter.IObjectConverter;"));
             writer.println(String.format("import org.trinity.%1$s.common.message.dto.domain.%2$sDto;", projectName, entity));
@@ -90,7 +91,6 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("@Component"));
             writer.println(
                     String.format("public class %1$sConverter extends AbstractLookupSupportObjectConverter<%1$s, %1$sDto> {", entity));
-            writer.println(String.format("@SuppressWarnings(\"unused\")"));
             writer.println(String.format("private static enum %1$sRelationship {", entity));
             writer.println(String.format("}"));
             writer.println(String.format(""));
@@ -103,11 +103,13 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("@Override"));
             writer.println(String.format(
                     "protected void convertBackInternal(final %1$sDto source, final %1$s target, final CopyPolicy copyPolicy) {", entity));
+            writer.println(String.format("copyObject(source::getId, target::getId, target::setId, copyPolicy);"));
             writer.println(String.format("}"));
             writer.println(String.format(""));
             writer.println(String.format("@Override"));
             writer.println(String.format(
                     "protected void convertInternal(final %1$s source, final %1$sDto target, final CopyPolicy copyPolicy) {", entity));
+            writer.println(String.format("copyObject(source::getId, target::getId, target::setId, copyPolicy);"));
             writer.println(String.format("}"));
             writer.println(String.format(""));
             writer.println(String.format("@Override"));
@@ -119,6 +121,16 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("protected %1$sDto createToInstance() {", entity));
             writer.println(String.format("return new %1$sDto();", entity));
             writer.println(String.format("}", entity));
+            writer.println(String.format("@Override", entity));
+            writer.println(String.format(
+                    "protected void convertRelationshipInternal(final %1$s source, final %1$sDto target, final RelationshipExpression relationshipExpression) {",
+                    entity));
+            writer.println(String.format("switch (relationshipExpression.getName(%1$sRelationship.class)) {", entity));
+            writer.println(String.format("default:", entity));
+            writer.println(String.format("break;", entity));
+            writer.println(String.format("}", entity));
+            writer.println(String.format("}", entity));
+
             writer.println(String.format("}", entity));
         }
     }

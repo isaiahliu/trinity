@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -36,6 +37,12 @@ public class AccessrightConverter extends AbstractLookupSupportObjectConverter<A
         for (final Accessright child : source.getChildren()) {
             target.getChildren().add(convert(child));
         }
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final Accessright source, final AccessrightDto target,
+            final RelationshipExpression relationshipExpression) {
+
     }
 
     @Override

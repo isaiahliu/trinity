@@ -12,7 +12,7 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
 
     private String rsexp;
 
-    private RelationshipNode relationshipNode;
+    private RelationshipExpression relationshipExpression;
 
     private final String SPLITTER = ",";
     private final String START_TAG = "[";
@@ -24,19 +24,19 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     private final Pattern endPattern = Pattern.compile("^(\\" + END_TAG + ")(.*)$");
 
     @Override
-    public RelationshipNode generateRelationshipNode() {
-        if (relationshipNode != null) {
-            return relationshipNode;
+    public RelationshipExpression generateRelationship() {
+        if (relationshipExpression != null) {
+            return relationshipExpression;
         }
 
-        final RelationshipNode node = new RelationshipNode();
+        final RelationshipExpression node = new RelationshipExpression();
         if (rsexp != null) {
             generate(node, rsexp);
         }
 
-        relationshipNode = node;
+        relationshipExpression = node;
 
-        return relationshipNode;
+        return relationshipExpression;
     }
 
     @Override
@@ -70,7 +70,7 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     @Override
     public void setRsexp(final String rsexp) {
         this.rsexp = rsexp;
-        relationshipNode = null;
+        relationshipExpression = null;
     }
 
     @Override
@@ -83,14 +83,13 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
         this.status = status;
     }
 
-    private String generate(final RelationshipNode node, String expression) {
+    private String generate(final RelationshipExpression node, String expression) {
         while (true) {
             Matcher matcher = namePattern.matcher(expression);
             if (!matcher.find()) {
                 return "";
             }
-            final RelationshipNode child = new RelationshipNode();
-            child.setName(matcher.group(1));
+            final RelationshipExpression child = new RelationshipExpression(matcher.group(1));
             node.getChildren().add(child);
 
             expression = matcher.group(2);

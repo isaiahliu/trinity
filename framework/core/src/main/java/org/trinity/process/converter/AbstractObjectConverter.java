@@ -4,35 +4,47 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class AbstractObjectConverter<T1, T2> implements IObjectConverter<T1, T2> {
+import org.trinity.common.dto.object.RelationshipExpression;
+
+public abstract class AbstractObjectConverter<TEntity, TDto> implements IObjectConverter<TEntity, TDto> {
     @Override
-    public T2 convert(final T1 source) {
-        return convert(source, createToInstance(), CopyPolicy.ALWAYS);
+    public TDto convert(final TEntity source, final RelationshipExpression relationshipExpression) {
+        return convert(source, createToInstance(), CopyPolicy.ALWAYS, relationshipExpression);
     }
 
     @Override
-    public T2 convert(final T1 source, final T2 target, final CopyPolicy copyPolicy) {
+    public TDto convert(final TEntity source, final TDto target, final CopyPolicy copyPolicy,
+            final RelationshipExpression relationshipExpression) {
         convertInternal(source, target, copyPolicy);
+        if (relationshipExpression != null) {
+            relationshipExpression.getChildren().forEach(item -> {
+                convertRelationshipInternal(source, target, item);
+            });
+        }
         return target;
     }
 
     @Override
-    public T1 convertBack(final T2 source) {
+    public TEntity convertBack(final TDto source) {
         return convertBack(source, createFromInstance(), CopyPolicy.ALWAYS);
     }
 
     @Override
-    public T1 convertBack(final T2 source, final T1 target, final CopyPolicy copyPolicy) {
+    public TEntity convertBack(final TDto source, final TEntity target, final CopyPolicy copyPolicy) {
         convertBackInternal(source, target, copyPolicy);
         return target;
     }
 
-    protected abstract void convertBackInternal(T2 source, T1 target, final CopyPolicy copyPolicy);
+    protected abstract void convertBackInternal(TDto source, TEntity target, final CopyPolicy copyPolicy);
 
-    protected abstract void convertInternal(T1 source, T2 target, final CopyPolicy copyPolicy);
+    protected abstract void convertInternal(TEntity source, TDto target, final CopyPolicy copyPolicy);
+
+    protected abstract void convertRelationshipInternal(final TEntity source, final TDto target,
+            final RelationshipExpression relationshipExpression);
 
     protected void copyDate(final Supplier<Date> sourceGetter, final Supplier<String> targetGetter, final Consumer<String> targetSetter,
             final String dateFormat, final CopyPolicy copyPolicy) {
@@ -93,9 +105,26 @@ public abstract class AbstractObjectConverter<T1, T2> implements IObjectConverte
         }
     }
 
-    protected abstract T1 createFromInstance();
+    protected <TCopyEntity, TCopyDto> void copyRelationship(final Supplier<TCopyEntity> sourceGetter, final Consumer<TCopyDto> targetSetter,
+            final IObjectConverter<TCopyEntity, TCopyDto> converter, final RelationshipExpression relationshipExpression) {
+        final TCopyEntity enity = sourceGetter.get();
+        if (enity != null) {
+            targetSetter.accept(converter.convert(enity, relationshipExpression));
+        }
+    }
 
-    protected abstract T2 createToInstance();
+    protected <TCopyEntity, TCopyDto> void copyRelationshipList(final Supplier<List<TCopyEntity>> sourceGetter,
+            final Consumer<List<TCopyDto>> targetSetter, final IObjectConverter<TCopyEntity, TCopyDto> converter,
+            final RelationshipExpression relationshipExpression) {
+        final List<TCopyEntity> enityList = sourceGetter.get();
+        if (enityList != null) {
+            targetSetter.accept(converter.convert(enityList, relationshipExpression));
+        }
+    }
+
+    protected abstract TEntity createFromInstance();
+
+    protected abstract TDto createToInstance();
 
     protected <T> Supplier<T> nullGetter() {
         return () -> null;

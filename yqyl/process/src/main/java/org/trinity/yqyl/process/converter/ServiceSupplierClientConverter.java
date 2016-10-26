@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -13,6 +14,9 @@ import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 
 @Component
 public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> {
+    private static enum ServiceSupplierClientRelationship {
+    }
+
     @Autowired
     public ServiceSupplierClientConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -48,6 +52,15 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
     }
 
     @Override
+    protected void convertRelationshipInternal(final ServiceSupplierClient source, final ServiceSupplierClientDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceSupplierClientRelationship.class)) {
+        default:
+            break;
+        }
+    }
+
+    @Override
     protected ServiceSupplierClient createFromInstance() {
         return new ServiceSupplierClient();
     }
@@ -56,5 +69,4 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
     protected ServiceSupplierClientDto createToInstance() {
         return new ServiceSupplierClientDto();
     }
-
 }

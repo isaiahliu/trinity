@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -12,6 +13,9 @@ import org.trinity.yqyl.repository.business.entity.OperatorClient;
 
 @Component
 public class OperatorClientConverter extends AbstractLookupSupportObjectConverter<OperatorClient, OperatorClientDto> {
+    private static enum AnnouncementRelationship {
+    }
+
     @Autowired
     public OperatorClientConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -32,6 +36,15 @@ public class OperatorClientConverter extends AbstractLookupSupportObjectConverte
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
         copyObject(source::getStaffNo, target::getStaffNo, target::setStaffNo, copyPolicy);
         copyObject(() -> source.getUser().getUsername(), target::getUsername, target::setUsername, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final OperatorClient source, final OperatorClientDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(AnnouncementRelationship.class)) {
+        default:
+            break;
+        }
     }
 
     @Override

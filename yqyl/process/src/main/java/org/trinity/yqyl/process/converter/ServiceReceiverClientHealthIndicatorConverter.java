@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -16,6 +17,9 @@ import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthIn
 @Component
 public class ServiceReceiverClientHealthIndicatorConverter
         extends AbstractLookupSupportObjectConverter<ServiceReceiverClientHealthIndicator, ServiceReceiverClientHealthIndicatorDto> {
+    private static enum ServiceReceiverClientHealthIndicatorRelationship {
+    }
+
     @Autowired
     public ServiceReceiverClientHealthIndicatorConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -80,6 +84,15 @@ public class ServiceReceiverClientHealthIndicatorConverter
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyMessage(source::getSmokerAge, target::getSmokerAge, target::setSmokerAge, copyPolicy);
         copyMessage(source::getDrinkerFrequency, target::getDrinkerFrequency, target::setDrinkerFrequency, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final ServiceReceiverClientHealthIndicator source,
+            final ServiceReceiverClientHealthIndicatorDto target, final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceReceiverClientHealthIndicatorRelationship.class)) {
+        default:
+            break;
+        }
     }
 
     @Override

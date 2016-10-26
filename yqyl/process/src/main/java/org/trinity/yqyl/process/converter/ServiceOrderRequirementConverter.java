@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -17,6 +18,9 @@ import org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement;
 @Component
 public class ServiceOrderRequirementConverter
         extends AbstractLookupSupportObjectConverter<ServiceOrderRequirement, ServiceOrderRequirementDto> {
+    private static enum ServiceOrderRequirementRelationship {
+    }
+
     @Autowired
     public ServiceOrderRequirementConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -71,6 +75,15 @@ public class ServiceOrderRequirementConverter
             calendar.setTime(serviceTime);
             return calendar.get(Calendar.HOUR_OF_DAY);
         }, target::getServiceHour, target::setServiceHour, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final ServiceOrderRequirement source, final ServiceOrderRequirementDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceOrderRequirementRelationship.class)) {
+        default:
+            break;
+        }
     }
 
     @Override

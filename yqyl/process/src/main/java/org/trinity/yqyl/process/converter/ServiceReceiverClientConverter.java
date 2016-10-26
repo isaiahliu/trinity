@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -14,6 +15,9 @@ import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
 
 @Component
 public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectConverter<ServiceReceiverClient, ServiceReceiverClientDto> {
+    private static enum ServiceReceiverClientRelationship {
+    }
+
     private static final String DATE_FORMAT = "yyyy/MM/dd";
 
     @Autowired
@@ -51,6 +55,15 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
         copyObject(source::getHomephoneNo, target::getHomephoneNo, target::setHomephoneNo, copyPolicy);
         copyObject(source::getIdentityCard, target::getIdentityCard, target::setIdentityCard, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final ServiceReceiverClient source, final ServiceReceiverClientDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceReceiverClientRelationship.class)) {
+        default:
+            break;
+        }
     }
 
     @Override

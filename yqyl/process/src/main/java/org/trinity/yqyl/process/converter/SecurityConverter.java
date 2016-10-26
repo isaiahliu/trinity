@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -26,6 +27,11 @@ public class SecurityConverter extends AbstractLookupSupportObjectConverter<User
     protected void convertInternal(final User source, final SecurityDto target, final CopyPolicy copyPolicy) {
         copyObject(source::getUsername, target::getUsername, target::setUsername, copyPolicy);
         copyObject(source::getPassword, target::getPassword, target::setPassword, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final User source, final SecurityDto target,
+            final RelationshipExpression relationshipExpression) {
     }
 
     @Override

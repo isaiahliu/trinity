@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -12,10 +13,9 @@ import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 
 @Component
 public class ServiceCategoryConverter extends AbstractLookupSupportObjectConverter<ServiceCategory, ServiceCategoryDto> {
-    @SuppressWarnings("unused")
     private static enum ServiceCategoryRelationship {
         PARENT,
-        SERVICESUBCATEGORIES
+        SERVICE_SUB_CATEGORIES
     }
 
     @Autowired
@@ -37,6 +37,15 @@ public class ServiceCategoryConverter extends AbstractLookupSupportObjectConvert
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
         copyObject(source::getDescription, target::getDescription, target::setDescription, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final ServiceCategory source, final ServiceCategoryDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceCategoryRelationship.class)) {
+        default:
+            break;
+        }
     }
 
     @Override

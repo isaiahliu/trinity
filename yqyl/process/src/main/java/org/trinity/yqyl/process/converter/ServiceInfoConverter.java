@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -14,6 +15,9 @@ import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 
 @Component
 public class ServiceInfoConverter extends AbstractLookupSupportObjectConverter<ServiceInfo, ServiceInfoDto> {
+    private static enum ServiceInfoRelationship {
+    }
+
     @Autowired
     public ServiceInfoConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -41,6 +45,15 @@ public class ServiceInfoConverter extends AbstractLookupSupportObjectConverter<S
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyMessage(source::getPaymentMethod, target::getPaymentMethod, target::setPaymentMethod, copyPolicy);
         copyMessage(source::getPaymentType, target::getPaymentType, target::setPaymentType, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final ServiceInfo source, final ServiceInfoDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceInfoRelationship.class)) {
+        default:
+            break;
+        }
     }
 
     @Override

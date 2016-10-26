@@ -6,15 +6,24 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
+import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise;
 
 @Component
 public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<ServiceOrder, ServiceOrderDto> {
+    private static enum ServiceOrderRelationship {
+    }
+
+    @Autowired
+    private IObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> serviceAppraiseConverter;
+
     @Autowired
     public ServiceOrderConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -72,6 +81,17 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
             calendar.setTime(serviceTime);
             return calendar.get(Calendar.HOUR_OF_DAY);
         }, target::getServiceHour, target::setServiceHour, copyPolicy);
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final ServiceOrder source, final ServiceOrderDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceOrderRelationship.class)) {
+        default:
+            break;
+        }
+
+        copyRelationship(source::getAppraise, target::setAppraise, serviceAppraiseConverter, relationshipExpression);
     }
 
     @Override

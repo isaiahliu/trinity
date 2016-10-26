@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.trinity.common.dto.object.PagingDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.process.converter.IObjectConverter;
 
 @Component
@@ -60,6 +61,17 @@ public class PagingConverter implements IObjectConverter<PagingDto, Pageable> {
     }
 
     @Override
+    public Pageable convert(final PagingDto source, final Pageable target, final CopyPolicy copyPolicy,
+            final RelationshipExpression relationshipExpression) {
+        return null;
+    }
+
+    @Override
+    public Pageable convert(final PagingDto source, final RelationshipExpression relationshipExpression) {
+        return null;
+    }
+
+    @Override
     public PagingDto convertBack(final Pageable source) {
         return null;
     }
@@ -68,5 +80,4 @@ public class PagingConverter implements IObjectConverter<PagingDto, Pageable> {
     public PagingDto convertBack(final Pageable source, final PagingDto target, final CopyPolicy copyPolicy) {
         return null;
     }
-
 }

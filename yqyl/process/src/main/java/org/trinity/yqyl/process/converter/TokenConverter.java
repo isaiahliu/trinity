@@ -3,6 +3,7 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -13,6 +14,9 @@ import org.trinity.yqyl.repository.business.entity.User;
 
 @Component
 public class TokenConverter extends AbstractLookupSupportObjectConverter<Token, TokenDto> {
+    private static enum TokenRelationship {
+    }
+
     @Autowired
     public TokenConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -31,6 +35,15 @@ public class TokenConverter extends AbstractLookupSupportObjectConverter<Token, 
         final User user = source.getUser();
         if (user != null) {
             copyObject(user::getUsername, target::getUsername, target::setUsername, copyPolicy);
+        }
+    }
+
+    @Override
+    protected void convertRelationshipInternal(final Token source, final TokenDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(TokenRelationship.class)) {
+        default:
+            break;
         }
     }
 
