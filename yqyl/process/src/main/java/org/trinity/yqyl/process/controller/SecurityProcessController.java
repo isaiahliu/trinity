@@ -31,7 +31,7 @@ public class SecurityProcessController implements ISecurityProcessController {
     @Autowired
     private IExceptionFactory exceptionFactory;
     @Autowired
-    private IObjectConverter<User, SecurityDto> userConverter;
+    private IObjectConverter<User, SecurityDto> securityConverter;
 
     @Autowired
     private IOperatorClientRepository operatorClientRepository;
@@ -48,7 +48,7 @@ public class SecurityProcessController implements ISecurityProcessController {
             throw exceptionFactory.createException(ErrorMessage.WRONG_PASSWORD);
         }
 
-        final SecurityDto userDto = userConverter.convert(user);
+        final SecurityDto userDto = securityConverter.convert(user);
         userDto.setPassword("");
 
         final Token token = tokenRepository.findOneByToken(tokenName);

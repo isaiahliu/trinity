@@ -59,20 +59,19 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     }
 
     @Override
+    @Transactional
     public Page<TDto> getAll(final TSearchingDto data) throws IException {
-        return new PageImpl<>(Collections.emptyList());
+        return queryAll(data).map(item -> getDomainObjectConverter().convert(item, data.generateRelationship()));
     }
 
     @Override
-    public TDto getOne(final Long id) throws IException {
+    public TDto getOne(final Long id, final TSearchingDto data) throws IException {
         final TEntity entity = getDomainEntityRepository().findOne(id);
         if (entity == null) {
             throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
         }
 
-        final TDto dto = getDomainObjectConverter().convert(entity);
-
-        getRelationship(entity, null, dto);
+        final TDto dto = getDomainObjectConverter().convert(entity, data.generateRelationship());
 
         selfProxy.validateDataPermission(dto);
 
@@ -127,7 +126,8 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
 
     protected abstract IErrorMessage getNoInstanceFoundError();
 
-    protected void getRelationship(final TEntity entity, final TSearchingDto searchingDto, final TDto dto) {
+    protected Page<TEntity> queryAll(final TSearchingDto data) throws IException {
+        return new PageImpl<>(Collections.emptyList());
     }
 
     protected void updateRelationship(final TEntity entity, final TDto dto) {

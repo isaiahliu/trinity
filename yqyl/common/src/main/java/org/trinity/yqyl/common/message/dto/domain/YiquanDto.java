@@ -4,7 +4,7 @@ import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.LookupDto;
 
 public class YiquanDto extends AbstractBusinessDto {
-    private double amount;
+    private Double amount;
 
     private String cellphone;
 
@@ -12,7 +12,7 @@ public class YiquanDto extends AbstractBusinessDto {
 
     private LookupDto status;
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -28,7 +28,7 @@ public class YiquanDto extends AbstractBusinessDto {
         return status;
     }
 
-    public void setAmount(final double amount) {
+    public void setAmount(final Double amount) {
         this.amount = amount;
     }
 

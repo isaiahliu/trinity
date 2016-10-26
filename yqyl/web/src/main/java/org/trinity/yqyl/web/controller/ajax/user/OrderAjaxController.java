@@ -14,7 +14,6 @@ import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
-import org.trinity.yqyl.common.accessright.Authorize;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.ServiceOrderAppraiseRequest;
@@ -62,15 +61,15 @@ public class OrderAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ServiceOrderResponse> ajaxGetOrderDetail(@PathVariable("id") final Long id) throws IException {
-        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, String.valueOf(id), null, null,
+    public ResponseEntity<ServiceOrderResponse> ajaxGetOrderDetail(@PathVariable("id") final Long id,
+            final ServiceOrderSearchingDto request) throws IException {
+        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, String.valueOf(id), null, request,
                 ServiceOrderResponse.class);
 
         return createResponseEntity(response);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
     public ResponseEntity<ServiceOrderResponse> ajaxGetOrders(final ServiceOrderSearchingDto request) throws IException {
         final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, null, null, request,
                 ServiceOrderResponse.class);
@@ -93,18 +92,6 @@ public class OrderAjaxController extends AbstractRestController {
         request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());
 
         final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER_PROCESSING, null, null, request,
-                ServiceOrderResponse.class);
-
-        return createResponseEntity(response);
-    }
-
-    @RequestMapping(value = "/supplier", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public ResponseEntity<ServiceOrderResponse> ajaxGetSupplierOrders(final ServiceOrderSearchingDto request) throws IException {
-        request.setSupplierUserName(securityUtil.getCurrentToken().getUsername());
-        request.setSearchAll(true);
-
-        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, null, null, request,
                 ServiceOrderResponse.class);
 
         return createResponseEntity(response);

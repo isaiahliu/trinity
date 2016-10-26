@@ -29,9 +29,9 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 	};
 
 	$scope.searchOrders = function() {
-		var ajaxUrl = "/ajax/user/order";
+		var ajaxUrl = "/ajax/user/order?rsexp=appraise,serviceInfo[serviceSupplierClient]";
 
-		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
+		ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
 		ajaxUrl += "&status=S";
 

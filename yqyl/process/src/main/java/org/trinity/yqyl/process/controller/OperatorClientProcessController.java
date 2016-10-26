@@ -33,7 +33,7 @@ public class OperatorClientProcessController extends
     }
 
     @Override
-    public Page<OperatorClientDto> getAll(final OperatorClientSearchingDto dto) throws IException {
+    public Page<OperatorClient> queryAll(final OperatorClientSearchingDto dto) throws IException {
         final Specification<OperatorClient> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
 
@@ -59,8 +59,6 @@ public class OperatorClientProcessController extends
         };
         final Pageable pagable = getPagingConverter().convert(dto);
 
-        final Page<OperatorClient> findAll = getDomainEntityRepository().findAll(specification, pagable);
-
-        return findAll.map(item -> getDomainObjectConverter().convert(item));
+        return getDomainEntityRepository().findAll(specification, pagable);
     }
 }

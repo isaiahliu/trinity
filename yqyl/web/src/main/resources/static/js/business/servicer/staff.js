@@ -10,9 +10,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	};
 
 	$scope.searchStaffs = function() {
-		var ajaxUrl = "/ajax/service/supplier/staff/me";
+		var ajaxUrl = "/ajax/service/supplier/staff?rsexp=serviceCategories";
 
-		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
+		ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
 
 		if ($scope.filterData.id != undefined && $scope.filterData.id != "") {
@@ -54,9 +54,5 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			staff.status.code = 'A';
 		}).error(function(response) {
 		});
-	};
-
-	$scope.edit = function(staff) {
-		$window.location.href = "/servicer/staff/edit/" + staff.id;
 	};
 });

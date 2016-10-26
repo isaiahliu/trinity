@@ -37,7 +37,7 @@
 						style="font-size: small; width: 50px; height: 25px; min-width: 50px;">#button("ASSIGNMENT")</button>
 					<span class="ng-hide" ng-hide="order.status.code=='U'||order.status.code=='G'">#label("ASSIGNED")</span></td>
 				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><span>{{order.id}}</span></td>
+				<td align="center"><span>{{order.username}}</span></td>
 				<td align="center"><span>{{order.serviceDate|date:'yyyy/MM/dd'}}</span><br />
 					<span> {{order.serviceHour}}:00</span></td>
 				<td align="center"><span>{{order.address}}</span></td>

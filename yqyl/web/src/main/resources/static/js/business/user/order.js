@@ -17,9 +17,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	};
 
 	$scope.populateUnprocessedOrders = function() {
-		var ajaxUrl = "/ajax/user/order/unprocessed";
+		var ajaxUrl = "/ajax/user/order/unprocessed?rsexp=serviceInfo[serviceCategory,serviceSupplierClient]";
 
-		ajaxUrl += "?pageIndex=" + ($scope.unprocessedOrderPaging.pageIndex - 1);
+		ajaxUrl += "&pageIndex=" + ($scope.unprocessedOrderPaging.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.unprocessedOrderPaging.pageSize;
 		ajaxUrl += "&sortedBy=id_desc";
 
@@ -35,9 +35,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}
 
 	$scope.populateProcessedOrders = function() {
-		var ajaxUrl = "/ajax/user/order/processed";
+		var ajaxUrl = "/ajax/user/order/processed?rsexp=serviceInfo[serviceCategory,serviceSupplierClient]";
 
-		ajaxUrl += "?pageIndex=" + ($scope.processedOrderPaging.pageIndex - 1);
+		ajaxUrl += "&pageIndex=" + ($scope.processedOrderPaging.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.processedOrderPaging.pageSize;
 		ajaxUrl += "&sortedBy=id_desc";
 
@@ -52,9 +52,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		});
 	}
 	$scope.populateProcessingOrders = function() {
-		var ajaxUrl = "/ajax/user/order/processing";
+		var ajaxUrl = "/ajax/user/order/processing?rsexp=serviceInfo[serviceCategory,serviceSupplierClient]";
 
-		ajaxUrl += "?pageIndex=" + ($scope.processingOrderPaging.pageIndex - 1);
+		ajaxUrl += "&pageIndex=" + ($scope.processingOrderPaging.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.processingOrderPaging.pageSize;
 		ajaxUrl += "&sortedBy=id_desc";
 

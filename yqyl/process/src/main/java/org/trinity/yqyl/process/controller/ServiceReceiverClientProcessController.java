@@ -69,7 +69,15 @@ public class ServiceReceiverClientProcessController extends
     }
 
     @Override
-    public Page<ServiceReceiverClientDto> getAll(final ServiceReceiverClientSearchingDto dto) throws IException {
+    @Transactional
+    public List<ServiceReceiverClientDto> getMe(final ServiceReceiverClientSearchingDto dto) throws IException {
+        final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
+
+        return getDomainObjectConverter().convert(user.getServiceReceiverClients());
+    }
+
+    @Override
+    public Page<ServiceReceiverClient> queryAll(final ServiceReceiverClientSearchingDto dto) throws IException {
         final Pageable pagable = getPagingConverter().convert(dto);
 
         final Specification<ServiceReceiverClient> specification = (root, query, cb) -> {
@@ -96,17 +104,7 @@ public class ServiceReceiverClientProcessController extends
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 
-        final Page<ServiceReceiverClient> findAll = getDomainEntityRepository().findAll(specification, pagable);
-
-        return findAll.map(item -> getDomainObjectConverter().convert(item));
-    }
-
-    @Override
-    @Transactional
-    public List<ServiceReceiverClientDto> getMe(final ServiceReceiverClientSearchingDto dto) throws IException {
-        final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
-
-        return getDomainObjectConverter().convert(user.getServiceReceiverClients());
+        return getDomainEntityRepository().findAll(specification, pagable);
     }
 
     @Override

@@ -18,9 +18,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	};
 
 	$scope.searchOrders = function() {
-		var ajaxUrl = "/ajax/user/order/supplier";
+		var ajaxUrl = "/ajax/user/order?searchScope=supplier&rsexp=serviceInfo[serviceCategory]";
 
-		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
+		ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
 		ajaxUrl += "&sortedBy=id_desc";
 		if ($scope.filterData.id != undefined && $scope.filterData.id != "") {

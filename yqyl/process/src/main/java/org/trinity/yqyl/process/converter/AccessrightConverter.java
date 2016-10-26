@@ -14,6 +14,10 @@ import org.trinity.yqyl.repository.business.entity.Accessright;
 
 @Component
 public class AccessrightConverter extends AbstractLookupSupportObjectConverter<Accessright, AccessrightDto> {
+    private static enum AccessrightRelationship {
+        CHILDREN
+    }
+
     @Autowired
     public AccessrightConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
         super(lookupConverter);
@@ -33,17 +37,19 @@ public class AccessrightConverter extends AbstractLookupSupportObjectConverter<A
         copyMessage(source::getName, target::getName, target::setName, copyPolicy);
         copyObject(source::getDescription, target::getDescription, target::setDescription, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
-
-        for (final Accessright child : source.getChildren()) {
-            target.getChildren().add(convert(child));
-        }
     }
 
     @Override
     protected void convertRelationshipInternal(final Accessright source, final AccessrightDto target,
             final RelationshipExpression relationshipExpression) {
-
-    }
+        switch (relationshipExpression.getName(AccessrightRelationship.class)) {
+        case CHILDREN:
+            copyRelationshipList(source::getChildren, target::setChildren, this, relationshipExpression);
+            break;
+        default:
+            break;
+        }
+    };
 
     @Override
     protected Accessright createFromInstance() {

@@ -10,14 +10,26 @@ import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.lookup.StaffStatus;
+import org.trinity.yqyl.repository.business.entity.ServiceCategory;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierStaff;
 
 @Component
 public class ServiceSupplierStaffConverter extends AbstractLookupSupportObjectConverter<ServiceSupplierStaff, ServiceSupplierStaffDto> {
     private static enum ServiceSupplierStaffRelationship {
+        SERVICE_SUPPLIER_CLIENT,
+        SERVICE_CATEGORIES
     }
+
+    @Autowired
+    private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
+
+    @Autowired
+    private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
 
     @Autowired
     public ServiceSupplierStaffConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
@@ -74,6 +86,14 @@ public class ServiceSupplierStaffConverter extends AbstractLookupSupportObjectCo
     protected void convertRelationshipInternal(final ServiceSupplierStaff source, final ServiceSupplierStaffDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(ServiceSupplierStaffRelationship.class)) {
+        case SERVICE_CATEGORIES:
+            copyRelationshipList(source::getServiceCategories, target::setServiceCategories, serviceCategoryConverter,
+                    relationshipExpression);
+            break;
+        case SERVICE_SUPPLIER_CLIENT:
+            copyRelationship(source::getServiceSupplierClient, target::setServiceSupplierClient, serviceSupplierClientConverter,
+                    relationshipExpression);
+            break;
         default:
             break;
         }

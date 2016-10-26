@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class AbstractSearchingDto extends PagingDto implements ISearchingDto {
-    private boolean searchAll = false;
+    private String searchScope = SEARCH_ME;
     private Long id;
     private List<String> status;
 
@@ -50,16 +50,16 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     }
 
     @Override
+    public String getSearchScope() {
+        return searchScope;
+    }
+
+    @Override
     public List<String> getStatus() {
         if (status == null) {
             status = new ArrayList<>();
         }
         return status;
-    }
-
-    @Override
-    public boolean isSearchAll() {
-        return searchAll;
     }
 
     @Override
@@ -74,8 +74,8 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     }
 
     @Override
-    public void setSearchAll(final boolean searchAll) {
-        this.searchAll = searchAll;
+    public void setSearchScope(final String searchScope) {
+        this.searchScope = searchScope;
     }
 
     @Override

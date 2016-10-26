@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
-import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,8 +32,7 @@ public class ServiceCategoryProcessController extends
     }
 
     @Override
-    @Transactional
-    public Page<ServiceCategoryDto> getAll(final ServiceCategorySearchingDto data) throws IException {
+    public Page<ServiceCategory> queryAll(final ServiceCategorySearchingDto data) throws IException {
         final Pageable pagable = getPagingConverter().convert(data);
 
         final Specification<ServiceCategory> specification = (root, query, cb) -> {
@@ -60,33 +58,7 @@ public class ServiceCategoryProcessController extends
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 
-        final Page<ServiceCategory> serviceCategories = getDomainEntityRepository().findAll(specification, pagable);
-
-        return serviceCategories.map(serviceCategory -> {
-            final ServiceCategoryDto serviceCategoryDto = getDomainObjectConverter().convert(serviceCategory);
-
-            if (data.isIncludeChildren()) {
-                serviceCategory.getChildren()
-                        .forEach(item -> serviceCategoryDto.getServiceSubCategories().add(getDomainObjectConverter().convert(item)));
-            }
-
-            return serviceCategoryDto;
-        });
-    }
-
-    @Override
-    @Transactional
-    public ServiceCategoryDto getOne(final Long id) throws IException {
-        final ServiceCategory entity = getDomainEntityRepository().findOne(id);
-        if (entity == null) {
-            throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
-        }
-
-        final ServiceCategoryDto dto = getDomainObjectConverter().convert(entity);
-
-        entity.getChildren().forEach(item -> dto.getServiceSubCategories().add(getDomainObjectConverter().convert(item)));
-
-        return dto;
+        return getDomainEntityRepository().findAll(specification, pagable);
     }
 
     @Override

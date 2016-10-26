@@ -1,5 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window,
-		serviceSupplierClientId) {
+layoutApp.controller('contentController', function($scope, $http, $window, serviceSupplierClientId) {
 	$scope.status = 'desc';
 
 	$http({
@@ -12,29 +11,31 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 
 	$http({
 		method : "GET",
-		url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services"
+		url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services?rsexp=serviceCategory"
 	}).success(function(response) {
 		$scope.services = response.data;
 	}).error(function(response) {
 	});
 
-	$scope.searchOrders = function() {
-		var ajaxUrl = "/ajax/service/supplier/" + serviceSupplierClientId
-				+ "/orders";
+	$scope.searchOrders =
+			function() {
+				var ajaxUrl =
+						"/ajax/service/supplier/orders?rsexp=serviceInfo[serviceCategory],appraise&searchScope=all&serviceSupplierClientId="
+								+ serviceSupplierClientId;
 
-		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
-		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
+				ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
+				ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
 
-		$http({
-			method : "GET",
-			url : ajaxUrl
-		}).success(function(response) {
-			$scope.orders = response.data;
-			response.meta.paging.pageIndex++;
-			$scope.pagingData = response.meta.paging;
-		}).error(function(response) {
-		});
-	};
+				$http({
+					method : "GET",
+					url : ajaxUrl
+				}).success(function(response) {
+					$scope.orders = response.data;
+					response.meta.paging.pageIndex++;
+					$scope.pagingData = response.meta.paging;
+				}).error(function(response) {
+				});
+			};
 
 	$scope.pagingData = {
 		pageIndex : 1,

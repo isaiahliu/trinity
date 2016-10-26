@@ -27,7 +27,7 @@
 		</thead>
 		<tbody>
 			<tr class="ng-hide" ng-show="staffs" ng-repeat="staff in staffs">
-				<td align="center"><span>{{staff.id}}</span></td>
+				<td align="center"><a ng-href="/servicer/staff/edit/{{staff.id}}"><span>{{staff.id}}</span></a></td>
 				<td align="center"><img
 					ng-src="/ajax/content/image/{{staff.photo}}" /></td>
 				<td align="center"><span>{{staff.name}}</span></td>

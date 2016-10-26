@@ -31,95 +31,93 @@ import org.trinity.yqyl.web.util.Url;
 @RestController
 @RequestMapping("/ajax/service/supplier/staff")
 public class ServiceSupplierStaffAjaxController extends AbstractRestController {
-	@Autowired
-	private IRestfulServiceUtil restfulServiceUtil;
+    @Autowired
+    private IRestfulServiceUtil restfulServiceUtil;
 
-	@RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
-			throws IException {
+    @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
+            throws IException {
 
-		final DefaultResponse response = new DefaultResponse();
-		if (request.getFileNames().hasNext()) {
-			try {
-				final ServiceSupplierStaffSearchingDto searchingDto = new ServiceSupplierStaffSearchingDto();
-				searchingDto.setId(id);
-				final ServiceSupplierStaffResponse serviceSupplierStaffResponse = restfulServiceUtil.callRestService(Url.STAFF, null, null,
-						searchingDto, ServiceSupplierStaffResponse.class);
+        final DefaultResponse response = new DefaultResponse();
+        if (request.getFileNames().hasNext()) {
+            try {
+                final ServiceSupplierStaffSearchingDto searchingDto = new ServiceSupplierStaffSearchingDto();
+                searchingDto.setId(id);
+                final ServiceSupplierStaffResponse serviceSupplierStaffResponse = restfulServiceUtil.callRestService(Url.STAFF, null, null,
+                        searchingDto, ServiceSupplierStaffResponse.class);
 
-				final String uuid = serviceSupplierStaffResponse.getData().get(0).getPhoto();
+                final String uuid = serviceSupplierStaffResponse.getData().get(0).getPhoto();
 
-				final ContentRequest contentRequest = new ContentRequest();
+                final ContentRequest contentRequest = new ContentRequest();
 
-				final InputStream stream = request.getFile("IMAGE").getInputStream();
-				final byte[] bytes = new byte[stream.available()];
-				stream.read(bytes);
+                final InputStream stream = request.getFile("IMAGE").getInputStream();
+                final byte[] bytes = new byte[stream.available()];
+                stream.read(bytes);
 
-				final ContentDto dto = new ContentDto();
-				dto.setUuid(uuid);
-				dto.setContent(bytes);
-				contentRequest.getData().add(dto);
+                final ContentDto dto = new ContentDto();
+                dto.setUuid(uuid);
+                dto.setContent(bytes);
+                contentRequest.getData().add(dto);
 
-				restfulServiceUtil.callRestService(Url.CONTENT_UPLOAD, null, contentRequest, null, ContentResponse.class);
-			} catch (final Exception e) {
-			}
-		}
+                restfulServiceUtil.callRestService(Url.CONTENT_UPLOAD, null, contentRequest, null, ContentResponse.class);
+            } catch (final Exception e) {
+            }
+        }
 
-		return createResponseEntity(response);
-	}
+        return createResponseEntity(response);
+    }
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public @ResponseBody ServiceSupplierStaffResponse ajaxCreateServiceInfo(@RequestBody final ServiceSupplierStaffRequest request)
-			throws IException {
-		request.getData().forEach(item -> {
-			item.setPhoto(null);
-			item.setStatus(new LookupDto(StaffStatus.ACTIVE));
-		});
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public @ResponseBody ServiceSupplierStaffResponse ajaxCreateServiceInfo(@RequestBody final ServiceSupplierStaffRequest request)
+            throws IException {
+        request.getData().forEach(item -> {
+            item.setPhoto(null);
+            item.setStatus(new LookupDto(StaffStatus.ACTIVE));
+        });
 
-		return restfulServiceUtil.callRestService(Url.STAFF_NEW, null, request, null, ServiceSupplierStaffResponse.class);
-	}
+        return restfulServiceUtil.callRestService(Url.STAFF_NEW, null, request, null, ServiceSupplierStaffResponse.class);
+    }
 
-	@RequestMapping(value = "/me", method = RequestMethod.GET)
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public @ResponseBody ServiceSupplierStaffResponse ajaxGetStaffs(final ServiceSupplierStaffSearchingDto request) throws IException {
-		request.setSearchAll(false);
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public @ResponseBody ServiceSupplierStaffResponse ajaxGetStaffs(final ServiceSupplierStaffSearchingDto request) throws IException {
+        return restfulServiceUtil.callRestService(Url.STAFF, null, null, request, ServiceSupplierStaffResponse.class);
+    }
 
-		return restfulServiceUtil.callRestService(Url.STAFF, null, null, request, ServiceSupplierStaffResponse.class);
-	}
+    @RequestMapping(value = "/away/{id}", method = RequestMethod.DELETE)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public @ResponseBody DefaultResponse ajaxStaffAway(@PathVariable("id") final Long id) throws IException {
+        final ServiceSupplierStaffDto serviceSupplierStaffDto = new ServiceSupplierStaffDto();
+        serviceSupplierStaffDto.setId(id);
+        serviceSupplierStaffDto.setStatus(new LookupDto(StaffStatus.FIRED));
 
-	@RequestMapping(value = "/away/{id}", method = RequestMethod.DELETE)
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public @ResponseBody DefaultResponse ajaxStaffAway(@PathVariable("id") final Long id) throws IException {
-		final ServiceSupplierStaffDto serviceSupplierStaffDto = new ServiceSupplierStaffDto();
-		serviceSupplierStaffDto.setId(id);
-		serviceSupplierStaffDto.setStatus(new LookupDto(StaffStatus.FIRED));
+        final ServiceSupplierStaffRequest request = new ServiceSupplierStaffRequest();
+        request.getData().add(serviceSupplierStaffDto);
 
-		final ServiceSupplierStaffRequest request = new ServiceSupplierStaffRequest();
-		request.getData().add(serviceSupplierStaffDto);
+        return restfulServiceUtil.callRestService(Url.STAFF_UPDATE, null, request, null, DefaultResponse.class);
+    }
 
-		return restfulServiceUtil.callRestService(Url.STAFF_UPDATE, null, request, null, DefaultResponse.class);
-	}
+    @RequestMapping(value = "/return/{id}", method = RequestMethod.POST)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public @ResponseBody DefaultResponse ajaxStaffReturn(@PathVariable("id") final Long id) throws IException {
+        final ServiceSupplierStaffDto serviceSupplierStaffDto = new ServiceSupplierStaffDto();
+        serviceSupplierStaffDto.setId(id);
+        serviceSupplierStaffDto.setStatus(new LookupDto(StaffStatus.ACTIVE));
 
-	@RequestMapping(value = "/return/{id}", method = RequestMethod.POST)
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public @ResponseBody DefaultResponse ajaxStaffReturn(@PathVariable("id") final Long id) throws IException {
-		final ServiceSupplierStaffDto serviceSupplierStaffDto = new ServiceSupplierStaffDto();
-		serviceSupplierStaffDto.setId(id);
-		serviceSupplierStaffDto.setStatus(new LookupDto(StaffStatus.ACTIVE));
+        final ServiceSupplierStaffRequest request = new ServiceSupplierStaffRequest();
+        request.getData().add(serviceSupplierStaffDto);
 
-		final ServiceSupplierStaffRequest request = new ServiceSupplierStaffRequest();
-		request.getData().add(serviceSupplierStaffDto);
+        return restfulServiceUtil.callRestService(Url.STAFF_UPDATE, null, request, null, DefaultResponse.class);
+    }
 
-		return restfulServiceUtil.callRestService(Url.STAFF_UPDATE, null, request, null, DefaultResponse.class);
-	}
-
-	@RequestMapping(value = "", method = RequestMethod.PUT)
-	public @ResponseBody ServiceSupplierStaffResponse ajaxUpdateStaff(@RequestBody final ServiceSupplierStaffRequest request)
-			throws IException {
-		request.getData().forEach(item -> {
-			item.setPhoto(null);
-			item.setStatus(null);
-		});
-		return restfulServiceUtil.callRestService(Url.STAFF_UPDATE, null, request, null, ServiceSupplierStaffResponse.class);
-	}
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public @ResponseBody ServiceSupplierStaffResponse ajaxUpdateStaff(@RequestBody final ServiceSupplierStaffRequest request)
+            throws IException {
+        request.getData().forEach(item -> {
+            item.setPhoto(null);
+            item.setStatus(null);
+        });
+        return restfulServiceUtil.callRestService(Url.STAFF_UPDATE, null, request, null, ServiceSupplierStaffResponse.class);
+    }
 }

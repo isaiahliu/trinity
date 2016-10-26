@@ -77,12 +77,13 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<TResponse> getOne(@PathVariable("id") final Long id) throws IException {
+    public @ResponseBody ResponseEntity<TResponse> getOne(@PathVariable("id") final Long id, final TSearchingDto request)
+            throws IException {
         selfProxy.validateGetOne();
 
         final TResponse response = createResponseInstance();
 
-        final TDto data = getDomainProcessController().getOne(id);
+        final TDto data = getDomainProcessController().getOne(id, request);
 
         response.addData(data);
 

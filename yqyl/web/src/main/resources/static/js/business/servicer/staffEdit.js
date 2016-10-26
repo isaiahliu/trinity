@@ -15,7 +15,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 	if (staffId > 0) {
 		$http({
 			method : "GET",
-			url : "/ajax/service/supplier/staff/me?id=" + staffId
+			url : "/ajax/service/supplier/staff?rsexp=serviceCategories&id=" + staffId
 		}).success(function(response) {
 			var temp = new Date(response.data[0].dob);
 			$scope.staff = response.data[0];
@@ -25,7 +25,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			}
 			$http({
 				method : "GET",
-				url : "/ajax/service/category?status=A&includeChildren=true"
+				url : "/ajax/service/category?status=A&rsexp=serviceSubCategories"
 			}).success(function(response) {
 				for (var i = 0; i < response.data.length; i++) {
 					for (var j = 0; j < response.data[i].serviceSubCategories.length; j++) {
@@ -57,7 +57,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 
 		$http({
 			method : "GET",
-			url : "/ajax/service/category?status=A&includeChildren=true"
+			url : "/ajax/service/category?status=A&rsexp=serviceSubCategories"
 		}).success(function(response) {
 			$scope.categories = response.data;
 

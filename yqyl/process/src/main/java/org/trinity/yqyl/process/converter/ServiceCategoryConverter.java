@@ -43,6 +43,12 @@ public class ServiceCategoryConverter extends AbstractLookupSupportObjectConvert
     protected void convertRelationshipInternal(final ServiceCategory source, final ServiceCategoryDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(ServiceCategoryRelationship.class)) {
+        case PARENT:
+            copyRelationship(source::getParent, target::setParent, this, relationshipExpression);
+            break;
+        case SERVICE_SUB_CATEGORIES:
+            copyRelationshipList(source::getChildren, target::setServiceSubCategories, this, relationshipExpression);
+            break;
         default:
             break;
         }

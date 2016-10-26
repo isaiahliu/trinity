@@ -12,12 +12,12 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private Date proposalTime;
     private Date approvalTime;
     private Date settledTime;
-    private ServiceInfoDto serviceInfo;
     private Date serviceDate;
     private Integer serviceHour;
     private String phone;
     private String address;
     private String receipt;
+    private ServiceInfoDto serviceInfo;
     private ServiceOrderAppraiseDto appraise;
 
     public String getAddress() {

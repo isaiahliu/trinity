@@ -10,19 +10,26 @@ import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
+import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise;
 
 @Component
 public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<ServiceOrder, ServiceOrderDto> {
     private static enum ServiceOrderRelationship {
+        SERVICE_INFO,
+        APPRAISE
     }
 
     @Autowired
-    private IObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> serviceAppraiseConverter;
+    private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
+
+    @Autowired
+    private IObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> serviceOrderAppraiseConverter;
 
     @Autowired
     public ServiceOrderConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
@@ -70,6 +77,7 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);
         copyObject(source::getReceipt, target::getReceipt, target::setReceipt, copyPolicy);
         copyObject(source::getServiceTime, target::getServiceDate, target::setServiceDate, copyPolicy);
+        copyObject(() -> source.getUser().getUsername(), target::getUsername, target::setUsername, copyPolicy);
 
         copyObject(() -> {
             final Date serviceTime = source.getServiceTime();
@@ -87,11 +95,15 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
     protected void convertRelationshipInternal(final ServiceOrder source, final ServiceOrderDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(ServiceOrderRelationship.class)) {
+        case APPRAISE:
+            copyRelationship(source::getAppraise, target::setAppraise, serviceOrderAppraiseConverter, relationshipExpression);
+            break;
+        case SERVICE_INFO:
+            copyRelationship(source::getServiceInfo, target::setServiceInfo, serviceInfoConverter, relationshipExpression);
         default:
             break;
         }
 
-        copyRelationship(source::getAppraise, target::setAppraise, serviceAppraiseConverter, relationshipExpression);
     }
 
     @Override

@@ -45,22 +45,21 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody ServiceSupplierClientResponse ajaxGetServiceSupplier(@PathVariable("id") final Long id) throws IException {
-        return restfulServiceUtil.callRestService(Url.SUPPLIER, String.valueOf(id), null, null, ServiceSupplierClientResponse.class);
+    public @ResponseBody ServiceSupplierClientResponse ajaxGetServiceSupplier(@PathVariable("id") final Long id,
+            final ServiceSupplierClientSearchingDto request) throws IException {
+        return restfulServiceUtil.callRestService(Url.SUPPLIER, String.valueOf(id), null, request, ServiceSupplierClientResponse.class);
     }
 
-    @RequestMapping(value = "/{id}/orders", method = RequestMethod.GET)
-    public @ResponseBody ServiceOrderResponse ajaxGetServiceSupplierOrders(@PathVariable("id") final Long id,
-            final ServiceOrderSearchingDto request) throws IException {
-        request.setServiceSupplierClientId(id);
+    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    public @ResponseBody ServiceOrderResponse ajaxGetServiceSupplierOrders(final ServiceOrderSearchingDto request) throws IException {
         request.getStatus().add(OrderStatus.SETTLED.getMessageCode());
 
         return restfulServiceUtil.callRestService(Url.ORDER, null, null, request, ServiceOrderResponse.class);
     }
 
     @RequestMapping(value = "/{id}/services", method = RequestMethod.GET)
-    public @ResponseBody ServiceInfoResponse ajaxGetServiceSupplierServices(@PathVariable("id") final Long id) throws IException {
-        final ServiceInfoSearchingDto request = new ServiceInfoSearchingDto();
+    public @ResponseBody ServiceInfoResponse ajaxGetServiceSupplierServices(@PathVariable("id") final Long id,
+            final ServiceInfoSearchingDto request) throws IException {
         request.setServiceSupplierClientId(id);
         request.getStatus().add(ServiceStatus.ACTIVE.getMessageCode());
 

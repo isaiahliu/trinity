@@ -17,9 +17,7 @@ import org.springframework.util.StringUtils;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.message.LookupParser;
-import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
-import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
@@ -45,9 +43,6 @@ import org.trinity.yqyl.repository.business.entity.User_;
 public class ServiceSupplierStaffProcessController extends
         AbstractAutowiredCrudProcessController<ServiceSupplierStaff, ServiceSupplierStaffDto, ServiceSupplierStaffSearchingDto, IServiceSupplierStaffRepository>
         implements IServiceSupplierStaffProcessController {
-    @Autowired
-    private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
-
     @Autowired
     private IUserRepository userRepository;
 
@@ -108,12 +103,12 @@ public class ServiceSupplierStaffProcessController extends
     }
 
     @Override
-    public Page<ServiceSupplierStaffDto> getAll(final ServiceSupplierStaffSearchingDto searchingData) throws IException {
+    public Page<ServiceSupplierStaff> queryAll(final ServiceSupplierStaffSearchingDto searchingData) throws IException {
         final String username = getSecurityUtil().getCurrentToken().getUsername();
         final Specification<ServiceSupplierStaff> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
 
-            if (!searchingData.isSearchAll()) {
+            if (searchingData.isSearchAll()) {
                 predicates.add(cb.equal(
                         root.join(ServiceSupplierStaff_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
                         username));
@@ -134,11 +129,7 @@ public class ServiceSupplierStaffProcessController extends
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        return getDomainEntityRepository().findAll(specification, getPagingConverter().convert(searchingData)).map(item -> {
-            final ServiceSupplierStaffDto dto = getDomainObjectConverter().convert(item);
-            dto.setServiceCategories(serviceCategoryConverter.convert(item.getServiceCategories()));
-            return dto;
-        });
+        return getDomainEntityRepository().findAll(specification, getPagingConverter().convert(searchingData));
     }
 
     @Override

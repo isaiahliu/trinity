@@ -129,38 +129,6 @@ public class ServiceInfoProcessController
 
     @Override
     @Transactional
-    public Page<ServiceInfoDto> getAll(final ServiceInfoSearchingDto dto) throws IException {
-        final Pageable pagable = getPagingConverter().convert(dto);
-
-        final Specification<ServiceInfo> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
-
-            if (dto.getServiceSupplierClientId() != null) {
-                predicates.add(cb.equal(root.join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
-                        dto.getServiceSupplierClientId()));
-            }
-
-            if (!dto.getStatus().isEmpty()) {
-                final In<ServiceStatus> in = cb.in(root.get(ServiceInfo_.status));
-                dto.getStatus().forEach(item -> in.value(LookupParser.parse(ServiceStatus.class, item)));
-                predicates.add(in);
-            }
-
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-
-        final Page<ServiceInfo> serviceInfos = getDomainEntityRepository().findAll(specification, pagable);
-
-        return serviceInfos.map(item -> {
-            final ServiceInfoDto serviceInfoDto = getDomainObjectConverter().convert(item);
-
-            serviceInfoDto.setServiceCategory(serviceCategoryConverter.convert(item.getServiceCategory()));
-            return serviceInfoDto;
-        });
-    }
-
-    @Override
-    @Transactional
     public List<ServiceInfoDto> getMe(final ServiceInfoSearchingDto dto) throws IException {
         final String username = getSecurityUtil().getCurrentToken().getUsername();
         final Specification<ServiceInfo> specification = (root, query, cb) -> {
@@ -216,6 +184,30 @@ public class ServiceInfoProcessController
             result.setServiceCategory(subCategoryDto);
             return result;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ServiceInfo> queryAll(final ServiceInfoSearchingDto dto) throws IException {
+        final Pageable pagable = getPagingConverter().convert(dto);
+
+        final Specification<ServiceInfo> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            if (dto.getServiceSupplierClientId() != null) {
+                predicates.add(cb.equal(root.join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
+                        dto.getServiceSupplierClientId()));
+            }
+
+            if (!dto.getStatus().isEmpty()) {
+                final In<ServiceStatus> in = cb.in(root.get(ServiceInfo_.status));
+                dto.getStatus().forEach(item -> in.value(LookupParser.parse(ServiceStatus.class, item)));
+                predicates.add(in);
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return getDomainEntityRepository().findAll(specification, pagable);
     }
 
     @Override

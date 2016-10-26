@@ -1,8 +1,5 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.constraints.Null;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,15 +25,6 @@ public class UserDto extends AbstractBusinessDto {
     @Null(groups = { AddData.class, UpdateData.class })
     private LookupDto status;
 
-    private List<LookupDto> accessRights;
-
-    public List<LookupDto> getAccessRights() {
-        if (accessRights == null) {
-            accessRights = new ArrayList<>();
-        }
-        return accessRights;
-    }
-
     public String getCellphone() {
         return cellphone;
     }
@@ -59,10 +47,6 @@ public class UserDto extends AbstractBusinessDto {
 
     public String getYiquanCode() {
         return yiquanCode;
-    }
-
-    public void setAccessRights(final List<LookupDto> accessRights) {
-        this.accessRights = accessRights;
     }
 
     public void setCellphone(final String cellphone) {

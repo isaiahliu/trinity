@@ -23,6 +23,7 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
     private LookupDto status;
 
     private Integer age;
+
     private ServiceSupplierClientDto serviceSupplierClient;
 
     private List<ServiceCategoryDto> serviceCategories;

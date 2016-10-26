@@ -10,16 +10,22 @@ import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderRequirementDto;
 import org.trinity.yqyl.common.message.lookup.FlagStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
+import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement;
 
 @Component
 public class ServiceOrderRequirementConverter
         extends AbstractLookupSupportObjectConverter<ServiceOrderRequirement, ServiceOrderRequirementDto> {
     private static enum ServiceOrderRequirementRelationship {
+        SERVICE_ORDERS
     }
+
+    @Autowired
+    private IObjectConverter<ServiceOrder, ServiceOrderDto> serviceOrderConverter;
 
     @Autowired
     public ServiceOrderRequirementConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
@@ -81,6 +87,9 @@ public class ServiceOrderRequirementConverter
     protected void convertRelationshipInternal(final ServiceOrderRequirement source, final ServiceOrderRequirementDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(ServiceOrderRequirementRelationship.class)) {
+        case SERVICE_ORDERS:
+            copyRelationshipList(source::getServiceOrders, target::setServiceOrders, serviceOrderConverter, relationshipExpression);
+            break;
         default:
             break;
         }

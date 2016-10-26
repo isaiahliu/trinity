@@ -13,7 +13,7 @@ import org.trinity.yqyl.repository.business.entity.User;
 
 @Component
 public class UserConverter extends AbstractLookupSupportObjectConverter<User, UserDto> {
-    private static enum TokenRelationship {
+    private static enum UserRelationship {
     }
 
     @Autowired
@@ -46,7 +46,7 @@ public class UserConverter extends AbstractLookupSupportObjectConverter<User, Us
     @Override
     protected void convertRelationshipInternal(final User source, final UserDto target,
             final RelationshipExpression relationshipExpression) {
-        switch (relationshipExpression.getName(TokenRelationship.class)) {
+        switch (relationshipExpression.getName(UserRelationship.class)) {
         default:
             break;
         }
