@@ -1,3 +1,13 @@
+layoutApp.directive('customOnChange', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+			var onChangeHandler = scope.$eval(attrs.customOnChange);
+			element.bind('change', onChangeHandler);
+		}
+	};
+});
+
 layoutApp.controller('contentController', function($scope, $http, $window) {
 	$http({
 		method : "GET",
@@ -39,6 +49,15 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			method : "GET",
 			url : ajaxUrl
 		}).success(function(response) {
+			for (var i = 0; i < response.data.length; i++) {
+				response.data[i].selectImage = function(event) {
+					if (event.target.files.length > 0) {
+						response.data[i].newImage = event.target.files[0];
+					} else {
+						response.data[i].newImage = {};
+					}
+				};
+			}
 			$scope.orders = response.data;
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;

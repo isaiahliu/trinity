@@ -47,9 +47,10 @@
 				<td align="center"><span>{{order.price}}</span></td>
 				<td align="center"><span
 					ng-click="$parent.uploadReceipt(order)" ng-hide="order.receipt"
-					class="uploadControl ng-hide"><input type="file" size="1">
-						<a href="javascript:void(0);">#button("UPLOAD")</a></span><span class="ng-hide"
-					ng-show="order.receipt">#label("RECEIPT_UPLOADED")</span></td>
+					class="uploadControl ng-hide"><input type="file" size="1"
+						custom-on-change="order.selectImage"> <a
+						href="javascript:void(0);">#button("UPLOAD")</a></span><span
+					class="ng-hide" ng-show="order.receipt">#label("RECEIPT_UPLOADED")</span></td>
 				<td align="center"><span>{{order.status.message}}</span></td>
 				<td align="center"><button ng-click="release(order)"
 						class="ng-hide" ng-show="order.status.code=='G'">#button("RELEASE")</button>
