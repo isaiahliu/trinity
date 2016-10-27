@@ -3,46 +3,108 @@
 <link rel="stylesheet"
 	href="/static/css/business/servicer/orderEdit.css"></link>
 
+<script type="text/javascript">
+	layoutApp.value("serviceOrderId", ${serviceOrderId});
+</script>
+
 <div class="orderEdit" ng-controller="contentController">
-	<div>
-		<span>#label("SERVICE_NAME")</span><input ng-model="serviceInfo.name" />
-	</div>
-	<div>
-		<span>#label("SERVICE_PARENT_CATEGORY")</span><select
-			ng-change="populateSubCategory()"
-			ng-model="serviceInfo.serviceCategory.parent.id"
-			ng-options="category.id as category.name for category in categories"></select>
-	</div>
-	<div>
-		<span>#label("SERVICE_CATEGORY")</span><select
-			ng-model="serviceInfo.serviceCategory.id"
-			ng-options="subCategory.id as subCategory.name for subCategory in subCategories">
-		</select>
-	</div>
-	<div>
-		<span>#label("SERVICE_PAYMENT_METHOD")</span><select
-			ng-model="serviceInfo.paymentMethod.code"
-			ng-options="paymentMethod.code as paymentMethod.message for paymentMethod in paymentMethods">
-		</select>
-	</div>
-	<div>
-		<span>#label("SERVICE_PAYMENT_TYPE")</span><select
-			ng-model="serviceInfo.paymentType.code"
-			ng-options="paymentType.code as paymentType.message for paymentType in paymentTypes">
-		</select>
-	</div>
-	<div>
-		<span>#label("SERVICE_PRICE")</span><input
-			ng-model="serviceInfo.price" />
-	</div>
-	<div>
-		<span>#label("SHOW_OR_NOT")</span><input type="checkbox"
-			ng-model="serviceInfo.active" />
-	</div>
-	<div>
-		<button ng-click="apply()">#button("APPLY")</button>
-		<button ng-click="back()">#button("BACK")</button>
-	</div>
+	<table>
+		<tr>
+			<td align="center" class="key"><span>#label("SERVICE_ORDER_ID")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span>{{order.id}}</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("ASSIGNMENT")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<div class="ng-hide"
+						ng-hide="order.status.code=='U'||order.status.code=='G'">
+						<span>#label("ASSIGNED")</span>
+					</div>
+					<div class="ng-hide"
+						ng-show="order.status.code=='U'||order.status.code=='G'">
+						<span>#label("NOT_ASSIGNED")</span>
+					</div>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("SERVICE_RECEIVER_NAME")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span>{{order.username}}</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("SERVICE_TIME")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span class="value">{{order.serviceDate |
+						date:'yyyy-MM-dd'}} {{order.serviceHour}}:00</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("SERVICE_ADDRESS")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span>{{order.address}}</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("SERVICE_CATEGORY")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span>{{order.serviceInfo.serviceCategory.name}}</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("PHONE_NO")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span>{{order.phone}}</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("PRICE")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span>{{order.price}}</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("RECEIPT")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span ng-show="order.receipt">#label("RECEIPT_UPLOADED")</span><span
+						ng-hide="order.receipt">#label("RECEIPT_NOT_UPLOADED")</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("RECEIPT_NO")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<input />
+				</div></td>
+		</tr>
+		<tr>
+			<td align="center" class="key"><span>#label("STATUS")</span></td>
+			<td align="center" class="value"><div class="ng-hide"
+					ng-show="order">
+					<span>{{order.status.message}}</span>
+				</div></td>
+		</tr>
+		<tr>
+			<td colspan="2" style="border: none;">
+				<div style="text-align: center;">
+					<button ng-click="apply()">#button("APPLY")</button>
+					<button ng-click="back()">#button("BACK")</button>
+				</div>
+			</td>
+		</tr>
+	</table>
+
 </div>
 
 <script src="/static/js/business/servicer/orderEdit.js"></script>

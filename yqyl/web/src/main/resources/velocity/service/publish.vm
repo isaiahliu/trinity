@@ -3,7 +3,6 @@
 <div class="publish" ng-controller="contentController">
 	<table>
 		<tbody>
-
 			<tr>
 				<td align="center">#label("TIME")</td>
 				<td><input style="min-width: 100px;" type="text"

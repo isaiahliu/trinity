@@ -58,7 +58,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 
 		$http({
 			method : "GET",
-			url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services"
+			url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services?rsexp=serviceCategory"
 		}).success(function(response) {
 			$scope.services = response.data;
 			$scope.selectedServiceInfo = $scope.services[0];

@@ -26,6 +26,7 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
+import org.trinity.yqyl.common.message.lookup.PaymentMethod;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
@@ -218,6 +219,10 @@ public class ServiceOrderProcessController
             order.setReceipt(content.getUuid());
         } else {
             content = contentRepository.findOneByUuid(order.getReceipt());
+        }
+
+        if (order.getServiceInfo().getPaymentMethod() == PaymentMethod.POS) {
+            order.setStatus(OrderStatus.AWAITING_APPRAISE);
         }
 
         content.setContent(serviceOrderDto.getReceiptContent());
