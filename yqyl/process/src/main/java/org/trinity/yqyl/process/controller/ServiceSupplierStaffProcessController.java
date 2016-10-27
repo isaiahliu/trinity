@@ -35,6 +35,7 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepo
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
+import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
@@ -135,6 +136,9 @@ public class ServiceSupplierStaffProcessController extends
             predicates.add(
                     cb.equal(root.join(ServiceSupplierStaff_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
                             username));
+
+            predicates.add(cb.equal(root.join(ServiceSupplierStaff_.serviceCategories).get(ServiceCategory_.id),
+                    searchingData.getServiceCategoryId()));
 
             predicates.add(cb.equal(root.get(ServiceSupplierStaff_.status), StaffStatus.ACTIVE));
 

@@ -91,6 +91,11 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}
 
 	$scope.assign = function(order) {
+		if (order.availableStaffs.length == 0) {
+			order.assigning = false;
+			return;
+		}
+
 		if (order.selectedStaff == undefined || order.selectedStaff == "") {
 			order.selectedStaff = order.availableStaffs[Math.floor(Math.random() * order.availableStaffs.length)].id
 		}

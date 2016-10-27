@@ -46,7 +46,8 @@
 					</div></td>
 				<td class="ng-hide" ng-show="order.assigning" colspan="9"><select
 					ng-model="order.selectedStaff" style="min-width: 400px;">
-						<option value="">(#label("RANDOM"))</option>
+						<option value="" ng-if="order.availableStaffs.length>0">(#label("RANDOM"))</option>
+						<option value="" ng-if="order.availableStaffs.length==0">(#label("NO_AVAILABLE_STAFF"))</option>
 						<option ng-repeat="staff in order.availableStaffs"
 							value="{{staff.id}}">{{staff.name}} (Id: {{staff.id}})</option>
 				</select>
