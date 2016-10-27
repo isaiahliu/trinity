@@ -27,11 +27,13 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRequirementRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.Content;
@@ -39,6 +41,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
+import org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 import org.trinity.yqyl.repository.business.entity.User;
@@ -57,6 +60,9 @@ public class ServiceOrderProcessController
 
     @Autowired
     private IContentRepository contentRepository;
+
+    @Autowired
+    private IServiceOrderRequirementRepository serviceOrderRequirementRepository;
 
     @Autowired
     private IServiceSupplierStaffRepository serviceSupplierStaffRepository;
@@ -170,6 +176,30 @@ public class ServiceOrderProcessController
         };
 
         return getDomainEntityRepository().findAll(specification, pagable);
+    }
+
+    @Override
+    @Transactional
+    public void releaseOrder(final List<ServiceOrderDto> data) throws IException {
+        for (final ServiceOrderDto serviceOrderDto : data) {
+            final ServiceOrder serviceOrder = getDomainEntityRepository().findOne(serviceOrderDto.getId());
+
+            if (serviceOrder.getStatus() != OrderStatus.REQUEST_GRABBED) {
+                throw getExceptionFactory().createException(ErrorMessage.INCORRECT_SERVICE_ORDER_STATUS);
+            }
+            final ServiceOrderRequirement serviceOrderRequirement = serviceOrder.getServiceOrderRequirement();
+
+            serviceOrder.setStatus(OrderStatus.REQUEST_FAILED);
+            if (serviceOrderRequirement != null) {
+                serviceOrderRequirement.setStatus(ServiceOrderRequirementStatus.ACTIVE);
+
+                serviceOrderRequirementRepository.save(serviceOrderRequirement);
+            }
+
+            serviceOrder.setServiceOrderRequirement(null);
+
+            getDomainEntityRepository().save(serviceOrder);
+        }
     }
 
     @Override

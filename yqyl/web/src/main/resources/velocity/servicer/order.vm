@@ -32,17 +32,19 @@
 		</thead>
 		<tbody>
 			<tr class="ng-hide" ng-show="orders" ng-repeat="order in orders">
-				<td align="center"><span>{{order.id}}</span></td>
-				<td align="center"><div class="ng-hide"
-						ng-show="order.status.code=='U'||order.status.code=='G'">
-						<button ng-hide="order.assigning"
-							ng-click="$parent.assignPrepare(order)">#button("ASSIGNMENT")</button>
-						<button ng-show="order.assigning"
-							ng-click="$parent.assignCancel(order)">#button("CANCEL")</button>
-					</div>
-					<div class="ng-hide"
-						ng-hide="order.status.code=='U'||order.status.code=='G'">
-						<span>#label("ASSIGNED")</span>
+				<td align="center"><a ng-href="/servicer/order/{{order.id}}"><span>{{order.id}}</span></a></td>
+				<td align="center"><div ng-hide="order.status.code=='F'">
+						<div class="ng-hide"
+							ng-show="order.status.code=='U'||order.status.code=='G'">
+							<button ng-hide="order.assigning"
+								ng-click="$parent.assignPrepare(order)">#button("ASSIGNMENT")</button>
+							<button ng-show="order.assigning"
+								ng-click="$parent.assignCancel(order)">#button("CANCEL")</button>
+						</div>
+						<div class="ng-hide"
+							ng-hide="order.status.code=='U'||order.status.code=='G'">
+							<span>#label("ASSIGNED")</span>
+						</div>
 					</div></td>
 				<td class="ng-hide" ng-show="order.assigning" colspan="9"><select
 					ng-model="order.selectedStaff" style="min-width: 400px;">
@@ -62,15 +64,14 @@
 				<td align="center" ng-hide="order.assigning"><div
 						class="ng-hide"
 						ng-show="order.status.code=='A'||order.status.code=='I'||order.status.code=='P'||order.status.code=='S'">
-						<div>
+						<div class="ng-hide" ng-hide="order.receipt">
 							<span class="uploadControl"><input type="file" size="1"
 								receipt-upload="$parent.uploadReceipt"> <a
 								href="javascript:void(0);">#button("UPLOAD")</a></span>
 						</div>
-						<div>
+						<div class="ng-hide" ng-show="order.receipt">
 							<a ng-href="/ajax/content/image/{{order.receipt}}"
-								target="_blank"><span class="ng-hide"
-								ng-show="order.receipt">#label("RECEIPT_UPLOADED")</span></a>
+								target="_blank"><span>#label("RECEIPT_UPLOADED")</span></a>
 						</div>
 					</div></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.status.message}}</span></td>

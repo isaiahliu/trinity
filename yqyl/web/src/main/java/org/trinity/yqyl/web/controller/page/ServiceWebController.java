@@ -21,9 +21,13 @@ public class ServiceWebController extends AbstractResourceWebController {
     @RequestMapping("/proposal/{id}")
     public ModelAndView proposalPage(@PathVariable("id") final Long id,
             @RequestParam(value = "selected", required = false) final List<Long> selectedServiceInfos) throws IException {
-
         return createModelAndView("service/proposal").addObject("serviceSupplierClientId", id).addObject("selectedServiceInfos",
                 (selectedServiceInfos != null) ? selectedServiceInfos : Collections.emptyList());
+    }
+
+    @RequestMapping("/publish")
+    public ModelAndView publishPage() throws IException {
+        return createModelAndView("service/publish");
     }
 
     @RequestMapping({ "", "/search" })

@@ -10,7 +10,7 @@ import org.trinity.common.dto.object.LookupDto;
 public class ServiceOrderRequirementDto extends AbstractBusinessDto {
     private String address;
 
-    private LookupDto announceStatus;
+    private Date announceTime;
 
     private LookupDto status;
 
@@ -32,8 +32,8 @@ public class ServiceOrderRequirementDto extends AbstractBusinessDto {
         return address;
     }
 
-    public LookupDto getAnnounceStatus() {
-        return announceStatus;
+    public Date getAnnounceTime() {
+        return announceTime;
     }
 
     public String getComment() {
@@ -75,8 +75,8 @@ public class ServiceOrderRequirementDto extends AbstractBusinessDto {
         this.address = address;
     }
 
-    public void setAnnounceStatus(final LookupDto announceStatus) {
-        this.announceStatus = announceStatus;
+    public void setAnnounceTime(final Date announceTime) {
+        this.announceTime = announceTime;
     }
 
     public void setComment(final String comment) {

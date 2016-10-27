@@ -24,11 +24,14 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.ServiceOrderAppraiseRequest;
 import org.trinity.yqyl.common.message.dto.request.ServiceOrderRequest;
+import org.trinity.yqyl.common.message.dto.request.ServiceOrderRequirementRequest;
 import org.trinity.yqyl.common.message.dto.response.ServiceOrderAppraiseResponse;
+import org.trinity.yqyl.common.message.dto.response.ServiceOrderRequirementResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceOrderResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
 import org.trinity.yqyl.web.util.Url;
 
 @RestController
@@ -128,6 +131,24 @@ public class OrderAjaxController extends AbstractRestController {
     public @ResponseBody ServiceOrderResponse ajaxProposeOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest)
             throws IException {
         return restfulServiceUtil.callRestService(Url.ORDER_PROPOSAL, null, serviceOrderRequest, null, ServiceOrderResponse.class);
+    }
+
+    @RequestMapping(value = "/requirement", method = RequestMethod.POST)
+    public @ResponseBody ServiceOrderRequirementResponse ajaxPublishRequirement(@RequestBody final ServiceOrderRequirementRequest request)
+            throws IException {
+        request.getData().forEach(item -> {
+            item.setId(null);
+            item.setStatus(new LookupDto(ServiceOrderRequirementStatus.ACTIVE));
+            item.setAnnounceTime(new Date());
+            item.setUser(null);
+        });
+
+        return restfulServiceUtil.callRestService(Url.REQUIREMENT_NEW, null, request, null, ServiceOrderRequirementResponse.class);
+    }
+
+    @RequestMapping(value = "/release", method = RequestMethod.POST)
+    public @ResponseBody DefaultResponse ajaxReleaseOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
+        return restfulServiceUtil.callRestService(Url.ORDER_RELEASE, null, serviceOrderRequest, null, DefaultResponse.class);
     }
 
     @RequestMapping(value = "/appraise", method = RequestMethod.POST)

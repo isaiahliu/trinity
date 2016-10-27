@@ -12,7 +12,6 @@ import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderRequirementDto;
-import org.trinity.yqyl.common.message.lookup.FlagStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement;
@@ -40,8 +39,8 @@ public class ServiceOrderRequirementConverter
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);
         copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
+        copyObject(source::getAnnounceTime, target::getAnnounceTime, target::setAnnounceTime, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, ServiceOrderRequirementStatus.class, copyPolicy);
-        copyLookup(source::getAnnounceStatus, target::getAnnounceStatus, target::setAnnounceStatus, FlagStatus.class, copyPolicy);
         copyObject(() -> {
             final Date serviceDate = source.getServiceDate();
             if (serviceDate == null) {
@@ -69,7 +68,7 @@ public class ServiceOrderRequirementConverter
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);
         copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
-        copyMessage(source::getAnnounceStatus, target::getAnnounceStatus, target::setAnnounceStatus, copyPolicy);
+        copyObject(source::getAnnounceTime, target::getAnnounceTime, target::setAnnounceTime, copyPolicy);
 
         copyObject(() -> {
             final Date serviceTime = source.getServiceTime();

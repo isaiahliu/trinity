@@ -19,7 +19,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
-import org.trinity.yqyl.common.message.lookup.FlagStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
 
 /**
@@ -39,8 +38,9 @@ public class ServiceOrderRequirement extends AbstractAuditableEntity implements 
 
     private String address;
 
-    @Column(name = "announce_status")
-    private FlagStatus announceStatus;
+    @Column(name = "announce_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date announceTime;
 
     private String comment;
 
@@ -76,8 +76,8 @@ public class ServiceOrderRequirement extends AbstractAuditableEntity implements 
         return this.address;
     }
 
-    public FlagStatus getAnnounceStatus() {
-        return this.announceStatus;
+    public Date getAnnounceTime() {
+        return announceTime;
     }
 
     public String getComment() {
@@ -123,8 +123,8 @@ public class ServiceOrderRequirement extends AbstractAuditableEntity implements 
         this.address = address;
     }
 
-    public void setAnnounceStatus(final FlagStatus announceStatus) {
-        this.announceStatus = announceStatus;
+    public void setAnnounceTime(final Date announceTime) {
+        this.announceTime = announceTime;
     }
 
     public void setComment(final String comment) {

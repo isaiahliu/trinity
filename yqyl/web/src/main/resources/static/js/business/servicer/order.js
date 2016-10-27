@@ -99,6 +99,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		if (order.selectedStaff == undefined || order.selectedStaff == "") {
 			order.selectedStaff = order.availableStaffs[Math.floor(Math.random() * order.availableStaffs.length)].id
 		}
+
 		$http({
 			method : "POST",
 			url : "/ajax/user/order/assign",
@@ -119,6 +120,26 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 					break;
 				}
 			}
+		});
+	};
+
+	$scope.release = function(order) {
+		$http({
+			method : "POST",
+			url : "/ajax/user/order/release",
+			data : {
+				data : [ {
+					id : order.id
+				} ]
+			}
+		}).success(function(response) {
+			order.status.code = 'F';
+			for (var i = 0; i < $scope.statuses.length; i++) {
+				if ($scope.statuses[i].code == order.status.code) {
+					order.status.message = $scope.statuses[i].message;
+					break;
+				}
+			}
 		})
-	}
+	};
 });

@@ -62,6 +62,14 @@ public class ServiceOrderRestController extends
         return createResponseEntity(response);
     }
 
+    @RequestMapping(value = "/release", method = RequestMethod.POST)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public @ResponseBody ResponseEntity<DefaultResponse> releaseOrder(@RequestBody final ServiceOrderRequest request) throws IException {
+        getDomainProcessController().releaseOrder(request.getData());
+
+        return createResponseEntity(new DefaultResponse());
+    }
+
     @RequestMapping(value = "/receipt", method = RequestMethod.PUT)
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ResponseEntity<DefaultResponse> uploadReceipt(@RequestBody final ServiceOrderRequest request) throws IException {

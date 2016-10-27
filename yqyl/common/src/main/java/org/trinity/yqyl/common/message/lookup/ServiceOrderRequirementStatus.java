@@ -4,7 +4,8 @@ import org.trinity.message.ILookupMessage;
 
 public enum ServiceOrderRequirementStatus implements ILookupMessage<LookupType> {
     ACTIVE("A"),
-    DISABLED("D");
+    IN_PROGRESS("I"),
+    EXPIRED("E");
 
     private final String messageCode;
 
