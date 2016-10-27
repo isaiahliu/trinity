@@ -7,4 +7,6 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 
 public interface IServiceOrderProcessController extends ICrudProcessController<ServiceOrderDto, ServiceOrderSearchingDto> {
     ServiceOrderDto proposeOrder(ServiceOrderDto serviceOrderDto) throws IException;
+
+    String uploadReceipt(ServiceOrderDto serviceOrderDto) throws IException;
 }

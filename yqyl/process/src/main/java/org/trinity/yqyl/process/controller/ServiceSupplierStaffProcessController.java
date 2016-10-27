@@ -23,6 +23,7 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.StaffStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
@@ -34,6 +35,7 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepo
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
+import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierStaff;
@@ -104,12 +106,56 @@ public class ServiceSupplierStaffProcessController extends
     }
 
     @Override
+    @Transactional
+    public List<ServiceSupplierStaffDto> getAvailableStaffs(final ServiceSupplierStaffSearchingDto searchingData) throws IException {
+        final String username = getSecurityUtil().getCurrentToken().getUsername();
+        final Specification<ServiceSupplierStaff> unAvailableSpecification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(
+                    cb.equal(root.join(ServiceSupplierStaff_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
+                            username));
+
+            predicates.add(cb.equal(root.get(ServiceSupplierStaff_.status), StaffStatus.ACTIVE));
+
+            predicates.add(cb.in(root.join(ServiceSupplierStaff_.serviceOrders).get(ServiceOrder_.status)).value(OrderStatus.IN_PROGRESS)
+                    .value(OrderStatus.AWAITING_PAYMENT));
+
+            query.distinct(true);
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        final List<Long> unavailableStaffIds = getDomainEntityRepository().findAll(unAvailableSpecification).stream()
+                .map(item -> item.getId()).collect(Collectors.toList());
+
+        final Specification<ServiceSupplierStaff> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(
+                    cb.equal(root.join(ServiceSupplierStaff_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
+                            username));
+
+            predicates.add(cb.equal(root.get(ServiceSupplierStaff_.status), StaffStatus.ACTIVE));
+
+            if (!unavailableStaffIds.isEmpty()) {
+                final In<Long> in = cb.in(root.get(ServiceSupplierStaff_.id));
+                unavailableStaffIds.forEach(item -> in.value(item));
+                predicates.add(cb.not(in));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return getDomainObjectConverter().convert(getDomainEntityRepository().findAll(specification), searchingData.generateRelationship());
+    }
+
+    @Override
     public Page<ServiceSupplierStaff> queryAll(final ServiceSupplierStaffSearchingDto searchingData) throws IException {
         final String username = getSecurityUtil().getCurrentToken().getUsername();
         final Specification<ServiceSupplierStaff> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
 
-            if (searchingData.isSearchAll()) {
+            if (!searchingData.isSearchAll()) {
                 predicates.add(cb.equal(
                         root.join(ServiceSupplierStaff_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
                         username));

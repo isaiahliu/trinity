@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.trinity.common.dto.object.ISearchingDto;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
@@ -77,6 +78,16 @@ public class ServiceSupplierStaffAjaxController extends AbstractRestController {
         });
 
         return restfulServiceUtil.callRestService(Url.STAFF_NEW, null, request, null, ServiceSupplierStaffResponse.class);
+    }
+
+    @RequestMapping(value = "/available", method = RequestMethod.GET)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public @ResponseBody ServiceSupplierStaffResponse ajaxGetMyAvailableStaffs(final ServiceSupplierStaffSearchingDto request)
+            throws IException {
+        request.setId(null);
+        request.setName(null);
+        request.setSearchScope(ISearchingDto.SEARCH_ME);
+        return restfulServiceUtil.callRestService(Url.STAFF_AVAILABLE, null, null, request, ServiceSupplierStaffResponse.class);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)

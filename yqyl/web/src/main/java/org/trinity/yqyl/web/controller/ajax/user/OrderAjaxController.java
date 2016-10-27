@@ -1,5 +1,8 @@
 package org.trinity.yqyl.web.controller.ajax.user;
 
+import java.io.InputStream;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,19 +11,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
+import org.trinity.yqyl.common.accessright.Authorize;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.ServiceOrderAppraiseRequest;
 import org.trinity.yqyl.common.message.dto.request.ServiceOrderRequest;
 import org.trinity.yqyl.common.message.dto.response.ServiceOrderAppraiseResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceOrderResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.web.util.Url;
 
@@ -42,6 +49,16 @@ public class OrderAjaxController extends AbstractRestController {
         request.getData().add(dto);
 
         return restfulServiceUtil.callRestService(Url.APPRAISE_UPDATE, null, request, null, DefaultResponse.class);
+    }
+
+    @RequestMapping(value = "/assign", method = RequestMethod.POST)
+    public @ResponseBody DefaultResponse ajaxAssignOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
+        serviceOrderRequest.getData().forEach(item -> {
+            item.setStatus(new LookupDto(OrderStatus.IN_PROGRESS));
+            item.setApprovalTime(new Date());
+        });
+
+        return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
     }
 
     @RequestMapping(value = "/appraise/disable/{id}", method = RequestMethod.PUT)
@@ -117,5 +134,31 @@ public class OrderAjaxController extends AbstractRestController {
     public @ResponseBody ServiceOrderAppraiseResponse ajaxSubmitOrder(@RequestBody final ServiceOrderAppraiseRequest request)
             throws IException {
         return restfulServiceUtil.callRestService(Url.APPRAISE_NEW, null, request, null, ServiceOrderAppraiseResponse.class);
+    }
+
+    @RequestMapping(value = "/{id}/receipt", method = RequestMethod.POST)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public ResponseEntity<DefaultResponse> ajaxUploadReceipt(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
+            throws IException {
+        if (request.getFileNames().hasNext()) {
+            try {
+                final ServiceOrderRequest contentRequest = new ServiceOrderRequest();
+
+                final InputStream stream = request.getFile("IMAGE").getInputStream();
+                final byte[] bytes = new byte[stream.available()];
+                stream.read(bytes);
+
+                final ServiceOrderDto dto = new ServiceOrderDto();
+                dto.setId(id);
+                dto.setReceiptContent(bytes);
+                contentRequest.getData().add(dto);
+
+                return createResponseEntity(
+                        restfulServiceUtil.callRestService(Url.ORDER_RECEIPT, null, contentRequest, null, DefaultResponse.class));
+            } catch (final Exception e) {
+            }
+        }
+
+        return createResponseEntity(new DefaultResponse());
     }
 }

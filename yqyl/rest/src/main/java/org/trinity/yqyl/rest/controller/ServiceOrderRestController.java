@@ -6,12 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
+import org.trinity.yqyl.common.accessright.Authorize;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.OrderRequest;
 import org.trinity.yqyl.common.message.dto.request.ServiceOrderRequest;
 import org.trinity.yqyl.common.message.dto.response.ServiceOrderResponse;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
 
@@ -55,6 +58,16 @@ public class ServiceOrderRestController extends
         final ServiceOrderDto serviceOrderDto = request.getData().get(0);
         serviceOrderDto.setId(null);
         response.addData(getDomainProcessController().proposeOrder(serviceOrderDto));
+
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/receipt", method = RequestMethod.PUT)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public @ResponseBody ResponseEntity<DefaultResponse> uploadReceipt(@RequestBody final ServiceOrderRequest request) throws IException {
+        final DefaultResponse response = new DefaultResponse();
+        final ServiceOrderDto serviceOrderDto = request.getData().get(0);
+        response.addData(getDomainProcessController().uploadReceipt(serviceOrderDto));
 
         return createResponseEntity(response);
     }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
@@ -25,11 +26,15 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
+import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
@@ -49,6 +54,12 @@ public class ServiceOrderProcessController
 
     @Autowired
     private IServiceInfoRepository serviceInfoRepository;
+
+    @Autowired
+    private IContentRepository contentRepository;
+
+    @Autowired
+    private IServiceSupplierStaffRepository serviceSupplierStaffRepository;
 
     public ServiceOrderProcessController() {
         super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
@@ -161,4 +172,37 @@ public class ServiceOrderProcessController
         return getDomainEntityRepository().findAll(specification, pagable);
     }
 
+    @Override
+    @Transactional
+    public String uploadReceipt(final ServiceOrderDto serviceOrderDto) throws IException {
+        final ServiceOrder order = getDomainEntityRepository().findOne(serviceOrderDto.getId());
+        if (order == null) {
+            throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
+        }
+
+        Content content;
+        if (StringUtils.isEmpty(order.getReceipt())) {
+            content = new Content();
+            content.setUuid(UUID.randomUUID().toString());
+            content.setStatus(RecordStatus.ACTIVE);
+            order.setReceipt(content.getUuid());
+        } else {
+            content = contentRepository.findOneByUuid(order.getReceipt());
+        }
+
+        content.setContent(serviceOrderDto.getReceiptContent());
+
+        contentRepository.save(content);
+        getDomainEntityRepository().save(order);
+
+        return order.getReceipt();
+    }
+
+    @Override
+    protected void updateRelationship(final ServiceOrder entity, final ServiceOrderDto dto) {
+        if (dto.getStaff() != null && dto.getStaff().getId() > 0) {
+            entity.setServiceSupplierStaff(serviceSupplierStaffRepository.findOne(dto.getStaff().getId()));
+        }
+        super.updateRelationship(entity, dto);
+    }
 }

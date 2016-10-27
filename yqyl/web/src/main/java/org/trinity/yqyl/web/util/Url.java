@@ -26,6 +26,7 @@ public enum Url implements IHttpUrl {
     ORDER_PROCESSING(HttpMethod.GET, Path.ORDER, "processing"),
     ORDER_PROCESSED(HttpMethod.GET, Path.ORDER, "processed"),
     ORDER_PROPOSAL(HttpMethod.POST, Path.ORDER, "proposal"),
+    ORDER_RECEIPT(HttpMethod.PUT, Path.ORDER, "receipt"),
 
     APPRAISE_NEW(HttpMethod.POST, Path.APPRAISE),
     APPRAISE_UPDATE(HttpMethod.PUT, Path.APPRAISE),
@@ -38,6 +39,7 @@ public enum Url implements IHttpUrl {
     SUPPLIER_ME(HttpMethod.GET, Path.SUPPLIER, "me"),
 
     STAFF(HttpMethod.GET, Path.STAFF),
+    STAFF_AVAILABLE(HttpMethod.GET, Path.STAFF, "available"),
     STAFF_UPDATE(HttpMethod.PUT, Path.STAFF),
     STAFF_NEW(HttpMethod.POST, Path.STAFF),
 

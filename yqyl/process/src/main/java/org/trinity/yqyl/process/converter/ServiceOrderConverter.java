@@ -13,20 +13,26 @@ import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierStaff;
 
 @Component
 public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<ServiceOrder, ServiceOrderDto> {
     private static enum ServiceOrderRelationship {
         SERVICE_INFO,
-        APPRAISE
+        APPRAISE,
+        STAFF
     }
 
     @Autowired
     private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
+
+    @Autowired
+    private IObjectConverter<ServiceSupplierStaff, ServiceSupplierStaffDto> serviceSupplierStaffConverter;
 
     @Autowired
     private IObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> serviceOrderAppraiseConverter;
@@ -100,6 +106,10 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
             break;
         case SERVICE_INFO:
             copyRelationship(source::getServiceInfo, target::setServiceInfo, serviceInfoConverter, relationshipExpression);
+            break;
+        case STAFF:
+            copyRelationship(source::getServiceSupplierStaff, target::setStaff, serviceSupplierStaffConverter, relationshipExpression);
+            break;
         default:
             break;
         }

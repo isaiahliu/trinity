@@ -19,6 +19,8 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private String receipt;
     private ServiceInfoDto serviceInfo;
     private ServiceOrderAppraiseDto appraise;
+    private ServiceSupplierStaffDto staff;
+    private byte[] receiptContent;
 
     public String getAddress() {
         return address;
@@ -48,6 +50,13 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return receipt;
     }
 
+    public byte[] getReceiptContent() {
+        if (receiptContent == null) {
+            receiptContent = new byte[0];
+        }
+        return receiptContent;
+    }
+
     public Date getServiceDate() {
         return serviceDate;
     }
@@ -62,6 +71,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public Date getSettledTime() {
         return settledTime;
+    }
+
+    public ServiceSupplierStaffDto getStaff() {
+        return staff;
     }
 
     public LookupDto getStatus() {
@@ -100,6 +113,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.receipt = receipt;
     }
 
+    public void setReceiptContent(final byte[] receiptContent) {
+        this.receiptContent = receiptContent;
+    }
+
     public void setServiceDate(final Date serviceDate) {
         this.serviceDate = serviceDate;
     }
@@ -114,6 +131,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setSettledTime(final Date settledTime) {
         this.settledTime = settledTime;
+    }
+
+    public void setStaff(final ServiceSupplierStaffDto staff) {
+        this.staff = staff;
     }
 
     public void setStatus(final LookupDto status) {
