@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class AbstractSearchingDto extends PagingDto implements ISearchingDto {
-    private String searchScope = SEARCH_ME;
+    private String searchScope = SEARCH_ALL;
     private Long id;
     private List<String> status;
 

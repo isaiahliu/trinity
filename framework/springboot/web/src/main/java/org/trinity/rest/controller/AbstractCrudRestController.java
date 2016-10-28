@@ -55,7 +55,12 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
     @RequestMapping(value = "", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<TResponse> getAll(final TSearchingDto request) throws IException {
         if (request.isSearchAll()) {
-            selfProxy.validateGetAll();
+            try {
+                selfProxy.validateGetAll();
+            } catch (final IException e) {
+                request.setSearchScope(ISearchingDto.SEARCH_ME);
+                selfProxy.validateGetMe();
+            }
         } else {
             selfProxy.validateGetMe();
         }
