@@ -13,5 +13,18 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 
 	$scope.edit = function() {
 		$window.location.href = "/user/order/edit/" + serviceOrderId;
-	}
+	};
+
+	$scope.pay = function() {
+		$http({
+			method : "POST",
+			url : "/ajax/user/order/pay",
+			data : {
+				data : [ $scope.serviceOrder ]
+			}
+		}).success(function(response) {
+			$window.location.href = "/user";
+		}).error(function(response) {
+		});
+	};
 });

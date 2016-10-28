@@ -58,18 +58,18 @@
 				<td align="center" ng-hide="order.assigning"><span>{{order.serviceDate|date:'yyyy/MM/dd'}}</span><br />
 					<span> {{order.serviceHour}}:00</span></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.address}}</span></td>
-				<td align="center" ng-hide="order.assigning"><span>{{order.serviceInfo.serviceCategory.name}}</span></td>
+				<td align="center" ng-hide="order.assigning"><span>{{order.serviceInfo.name}}</span></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.phone}}</span></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.price}}</span></td>
 				<td align="center" ng-hide="order.assigning"><div
 						class="ng-hide"
 						ng-show="order.status.code=='A'||order.status.code=='I'||order.status.code=='P'||order.status.code=='S'">
-						<div class="ng-hide" ng-hide="order.receipt">
+						<div class="ng-hide" ng-show="!order.receipt&&order.status.code=='I'">
 							<span class="uploadControl"><input type="file" size="1"
 								receipt-upload="$parent.uploadReceipt"> <a
 								href="javascript:void(0);">#button("UPLOAD")</a></span>
 						</div>
-						<div class="ng-hide" ng-show="order.receipt">
+						<div class="ng-hide" ng-show="order.receipt&&(order.status.code=='P'||order.status.code=='S')">
 							<a ng-href="/ajax/content/image/{{order.receipt}}"
 								target="_blank"><span>#label("RECEIPT_UPLOADED")</span></a>
 						</div>

@@ -1,9 +1,14 @@
 layoutApp.controller('contentController', function($scope, $http, $window, orderId) {
 	$http({
 		method : "GET",
-		url : "/ajax/user/order/" + orderId
+		url : "/ajax/user/order/" + orderId + "?rsexp=appraise"
 	}).success(function(response) {
 		$scope.order = response.data[0];
+		if ($scope.order.appraise == undefined) {
+			$scope.order.appraise = {
+				id : $scope.order.id
+			};
+		}
 		if ($scope.order.appraise.attitudeRate == undefined || $scope.order.appraise.attitudeRate == null) {
 			$scope.order.appraise.attitudeRate = 5;
 		}

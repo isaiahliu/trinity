@@ -127,6 +127,12 @@ public class OrderAjaxController extends AbstractRestController {
         return createResponseEntity(response);
     }
 
+    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    public @ResponseBody DefaultResponse ajaxPayOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
+        serviceOrderRequest.getData().forEach(item -> item.setStatus(new LookupDto(OrderStatus.AWAITING_APPRAISE)));
+        return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
+    }
+
     @RequestMapping(value = "/proposal", method = RequestMethod.POST)
     public @ResponseBody ServiceOrderResponse ajaxProposeOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest)
             throws IException {

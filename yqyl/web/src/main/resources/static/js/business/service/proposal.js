@@ -4,14 +4,15 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 		dateFormat : 'yy/mm/dd',
 	};
 
-	$scope.hours = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 ];
+	$scope.hours = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ];
 
 	if (orderId > 0) {
 		$http({
 			method : "GET",
-			url : "/ajax/user/order/" + orderId
+			url : "/ajax/user/order/" + orderId + "?rsexp=serviceInfo[serviceSupplierClient]"
 		}).success(function(response) {
 			$scope.serviceOrder = response.data[0];
+			$scope.serviceOrder.serviceDate = new Date($scope.serviceOrder.serviceDate);
 			serviceSupplierClientId = $scope.serviceOrder.serviceInfo.serviceSupplierClient.id;
 
 			$http({
@@ -24,7 +25,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 
 			$http({
 				method : "GET",
-				url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services"
+				url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services?rsexp=serviceCategory"
 			}).success(function(response) {
 				for (var i = 0; i < response.data.length; i++) {
 					var order = $scope.serviceOrder;
