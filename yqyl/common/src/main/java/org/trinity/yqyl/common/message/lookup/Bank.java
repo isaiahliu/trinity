@@ -17,9 +17,7 @@ public enum Bank implements ILookupMessage<LookupType> {
     HXB("HXB"),
     SPDB("SPDB"),
     CMBC("CMBC"),
-    GDB("GDB"),
-    FIB("FIB"),
-    XIB("XIB");
+    GDB("GDB");
 
     private final String messageCode;
 

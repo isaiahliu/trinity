@@ -23,13 +23,16 @@
 			<button ng-show="announcementAgreed2" ng-click="registerSupplier()">#button("NEXT")</button>
 		</div>
 	</div>
-	<div class="ng-hide" ng-show="serviceSupplierClient">
+	<div class="details ng-hide" ng-show="serviceSupplierClient">
 		<div class="title">
 			<span>#label("SERVICER_GENERAL_INFO")</span>
 		</div>
 
 		<div class="left">
-			<img /> <input type="file" />
+			<div class="image">
+				<img />
+			</div>
+			<input type="file" />
 		</div>
 		<div class="right">
 			<div>
@@ -37,36 +40,37 @@
 			</div>
 			<textarea rows="" cols=""></textarea>
 		</div>
-		<div>
-			<div>
+		<div class="tab">
+			<div class="tabTitle">
 				<span>#label("SUPPLIER_INFO")</span>
 			</div>
-			<div>
-				<span>#label("COMPANY_NAME")</span> <input /> <span>#label("COMPANY_TYPE")</span> <select></select>
+			<div class="tabContent">
+				<span>#label("COMPANY_NAME")</span> <input /> <span>#label("COMPANY_TYPE")</span> <select ng-model="yyy" ng-options="companyType.code as companyType.message for companyType in companyTypes"></select>
 			</div>
-			<div>
-				<span>#label("CATEGORIES")</span> <input /> <span>#label("SERVICE_REGION")</span><input />
+			<div class="tabContent">
+				<span>#label("CATEGORIES")</span> <input /> <span>#label("SERVICE_REGION")</span> <input />
 			</div>
-			<div>
+			<div class="tabContent">
 				<span>#label("CONTACT")</span> <input /> <span>#label("PHONE_NO")</span> <input />
 			</div>
-			<div>
+			<div class="tabContent">
 				<span>#label("EMAIL")</span> <input /> <span>#label("SERVICE_PHONE_NO")</span> <input />
 			</div>
 		</div>
-		<div>
-			<div>
+		<div class="tab">
+			<div class="tabTitle">
 				<span>#label("SUPPLIER_ACCOUNT_INFO")</span>
 			</div>
-			<div>
-				<span>#label("ACCOUNT_BANK")</span> <select></select> <span>#label("ACCOUNT_NAME")</span> <input />
+			<div class="tabContent">
+				<span>#label("ACCOUNT_BANK")</span> <select ng-model="xxx" ng-options="bank.code as bank.message for bank in banks"></select> <span>#label("ACCOUNT_NAME")</span>
+				<input />
 			</div>
-			<div>
-				<span>#label("BANK_ACCOUNT")</span> <input /> <span>#label("ACCOUNT_TYPE")</span><input />
+			<div class="tabContent">
+				<span>#label("BANK_ACCOUNT")</span> <input /> <span>#label("ACCOUNT_TYPE")</span> <select ng-model="zzz" ng-options="accountType.code as accountType.message for accountType in accountTypes"></select>
 			</div>
 		</div>
 
-		<div>
+		<div class="buttonGroup">
 			<button>#button("EDIT")</button>
 			<button>#button("APPLY")</button>
 			<button>#button("BACK")</button>
