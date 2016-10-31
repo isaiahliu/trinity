@@ -9,13 +9,12 @@ import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientMateria
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientMaterialProcessController;
 
 @RestController
-@RequestMapping("/*")
+@RequestMapping("/client/supplier/material")
 public class ServiceSupplierClientMaterialRestController extends
-      AbstractApplicationAwareCrudRestController<ServiceSupplierClientMaterialDto, ServiceSupplierClientMaterialSearchingDto, IServiceSupplierClientMaterialProcessController, ServiceSupplierClientMaterialRequest, ServiceSupplierClientMaterialResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceSupplierClientMaterialDto, ServiceSupplierClientMaterialSearchingDto, IServiceSupplierClientMaterialProcessController, ServiceSupplierClientMaterialRequest, ServiceSupplierClientMaterialResponse> {
 
-  @Override
-  protected ServiceSupplierClientMaterialResponse createResponseInstance() {
-      return new ServiceSupplierClientMaterialResponse();
-  }
+    @Override
+    protected ServiceSupplierClientMaterialResponse createResponseInstance() {
+        return new ServiceSupplierClientMaterialResponse();
+    }
 }
-

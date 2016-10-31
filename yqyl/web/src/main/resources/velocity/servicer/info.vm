@@ -2,6 +2,77 @@
 
 <link rel="stylesheet" href="/static/css/business/servicer/info.css"></link>
 
-<div class="info" ng-controller="contentController">info</div>
+<div class="info" ng-controller="contentController">
+	<div class="applicationStep ng-hide" ng-if="!serviceSupplierClient" ng-show="step=='ANNOUNCEMENT1'">
+		<div class="title">#label("SERVICE_SUPPLIER_ANNOUNCEMENT_1")</div>
+		<textarea>#info("SERVICE_SUPPLIER_ANNOUNCEMENT_1")</textarea>
+		<div class="accept">
+			<input type="checkBox" ng-model="announcementAgreed1" /><span>#label("READ_AND_ACCEPT")</span>
+		</div>
+		<div class="next">
+			<button ng-show="announcementAgreed1" ng-click="next()">#button("NEXT")</button>
+		</div>
+	</div>
+	<div class="applicationStep ng-hide" ng-if="!serviceSupplierClient" ng-show="step=='ANNOUNCEMENT2'">
+		<div class="title">#label("SERVICE_SUPPLIER_ANNOUNCEMENT_2")</div>
+		<textarea>#info("SERVICE_SUPPLIER_ANNOUNCEMENT_2")</textarea>
+		<div class="accept">
+			<input type="checkBox" ng-model="announcementAgreed2" /><span>#label("READ_AND_ACCEPT")</span>
+		</div>
+		<div class="next">
+			<button ng-show="announcementAgreed2" ng-click="registerSupplier()">#button("NEXT")</button>
+		</div>
+	</div>
+	<div class="ng-hide" ng-show="serviceSupplierClient">
+		<div class="title">
+			<span>#label("SERVICER_GENERAL_INFO")</span>
+		</div>
+
+		<div class="left">
+			<img /> <input type="file" />
+		</div>
+		<div class="right">
+			<div>
+				<span>#label("COMPANY_DESCRIPTION")</span>
+			</div>
+			<textarea rows="" cols=""></textarea>
+		</div>
+		<div>
+			<div>
+				<span>#label("SUPPLIER_INFO")</span>
+			</div>
+			<div>
+				<span>#label("COMPANY_NAME")</span> <input /> <span>#label("COMPANY_TYPE")</span> <select></select>
+			</div>
+			<div>
+				<span>#label("CATEGORIES")</span> <input /> <span>#label("SERVICE_REGION")</span><input />
+			</div>
+			<div>
+				<span>#label("CONTACT")</span> <input /> <span>#label("PHONE_NO")</span> <input />
+			</div>
+			<div>
+				<span>#label("EMAIL")</span> <input /> <span>#label("SERVICE_PHONE_NO")</span> <input />
+			</div>
+		</div>
+		<div>
+			<div>
+				<span>#label("SUPPLIER_ACCOUNT_INFO")</span>
+			</div>
+			<div>
+				<span>#label("ACCOUNT_BANK")</span> <select></select> <span>#label("ACCOUNT_NAME")</span> <input />
+			</div>
+			<div>
+				<span>#label("BANK_ACCOUNT")</span> <input /> <span>#label("ACCOUNT_TYPE")</span><input />
+			</div>
+		</div>
+
+		<div>
+			<button>#button("EDIT")</button>
+			<button>#button("APPLY")</button>
+			<button>#button("BACK")</button>
+			<button>#button("NEXT")</button>
+		</div>
+	</div>
+</div>
 
 <script src="/static/js/business/servicer/info.js"></script>

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,16 +22,26 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientProcessController;
+import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceCategoryRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientAccountRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientMaterialRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAccount;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientMaterial;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
+import org.trinity.yqyl.repository.business.entity.User;
 import org.trinity.yqyl.repository.business.entity.User_;
 
 @Service
@@ -41,6 +53,18 @@ public class ServiceSupplierClientProcessController extends
 
     @Autowired
     private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
+
+    @Autowired
+    private IUserRepository userRepository;
+
+    @Autowired
+    private IServiceSupplierClientAccountRepository serviceSupplierClientAccountRepository;
+
+    @Autowired
+    private IServiceSupplierClientMaterialRepository serviceSupplierClientMaterialRepository;
+
+    @Autowired
+    private IContentRepository contentRepository;
 
     public ServiceSupplierClientProcessController() {
         super(ServiceSupplierClient.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_SUPPLIER_CLIENT);
@@ -110,4 +134,96 @@ public class ServiceSupplierClientProcessController extends
         });
     }
 
+    @Override
+    @Transactional
+    public ServiceSupplierClientDto register() throws IException {
+        final ServiceSupplierClientSearchingDto searchingDto = new ServiceSupplierClientSearchingDto();
+        searchingDto.setRsexp("account");
+
+        final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
+        if (user.getServiceSupplierClient() != null) {
+            return getDomainObjectConverter().convert(user.getServiceSupplierClient(), searchingDto.generateRelationship());
+        }
+
+        Content content = new Content();
+        content.setStatus(RecordStatus.ACTIVE);
+        content.setUuid(UUID.randomUUID().toString());
+        content.setContent(new byte[0]);
+
+        contentRepository.save(content);
+
+        final ServiceSupplierClient serviceSupplierClient = new ServiceSupplierClient();
+        serviceSupplierClient.setUserId(user.getId());
+        serviceSupplierClient.setUser(user);
+        serviceSupplierClient.setStatus(ServiceSupplierClientStatus.INACTIVE);
+        serviceSupplierClient.setLogo(content.getUuid());
+
+        getDomainEntityRepository().save(serviceSupplierClient);
+
+        final ServiceSupplierClientAccount serviceSupplierClientAccount = new ServiceSupplierClientAccount();
+        serviceSupplierClientAccount.setServiceSupplierClient(serviceSupplierClient);
+        serviceSupplierClientAccount.setServiceSupplierClientId(serviceSupplierClient.getUserId());
+        serviceSupplierClientAccount.setStatus(RecordStatus.ACTIVE);
+        serviceSupplierClientAccountRepository.save(serviceSupplierClientAccount);
+
+        final ServiceSupplierClientMaterial serviceSupplierClientMaterial = new ServiceSupplierClientMaterial();
+        content = new Content();
+        content.setStatus(RecordStatus.ACTIVE);
+        content.setUuid(UUID.randomUUID().toString());
+        content.setContent(new byte[0]);
+        contentRepository.save(content);
+
+        serviceSupplierClientMaterial.setApplicationCopy(content.getUuid());
+
+        content = new Content();
+        content.setStatus(RecordStatus.ACTIVE);
+        content.setUuid(UUID.randomUUID().toString());
+        content.setContent(new byte[0]);
+        contentRepository.save(content);
+
+        serviceSupplierClientMaterial.setBusinessLicenseCopy(content.getUuid());
+
+        content = new Content();
+        content.setStatus(RecordStatus.ACTIVE);
+        content.setUuid(UUID.randomUUID().toString());
+        content.setContent(new byte[0]);
+        contentRepository.save(content);
+
+        serviceSupplierClientMaterial.setContractCopy(content.getUuid());
+
+        content = new Content();
+        content.setStatus(RecordStatus.ACTIVE);
+        content.setUuid(UUID.randomUUID().toString());
+        content.setContent(new byte[0]);
+        contentRepository.save(content);
+
+        serviceSupplierClientMaterial.setCorporateCheckingCopy(content.getUuid());
+
+        content = new Content();
+        content.setStatus(RecordStatus.ACTIVE);
+        content.setUuid(UUID.randomUUID().toString());
+        content.setContent(new byte[0]);
+        contentRepository.save(content);
+
+        serviceSupplierClientMaterial.setJcv(content.getUuid());
+
+        content = new Content();
+        content.setStatus(RecordStatus.ACTIVE);
+        content.setUuid(UUID.randomUUID().toString());
+        content.setContent(new byte[0]);
+        contentRepository.save(content);
+
+        serviceSupplierClientMaterial.setLicenseCopy(content.getUuid());
+
+        serviceSupplierClientMaterial.setServiceSupplierClient(serviceSupplierClient);
+        serviceSupplierClientMaterial.setServiceSupplierClientId(serviceSupplierClient.getUserId());
+        serviceSupplierClientMaterial.setStatus(RecordStatus.ACTIVE);
+
+        serviceSupplierClientMaterialRepository.save(serviceSupplierClientMaterial);
+
+        serviceSupplierClient.setAccount(serviceSupplierClientAccount);
+        serviceSupplierClient.setMaterial(serviceSupplierClientMaterial);
+
+        return getDomainObjectConverter().convert(serviceSupplierClient, searchingDto.generateRelationship());
+    }
 }

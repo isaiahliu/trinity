@@ -12,9 +12,13 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 @RequestMapping("/servicer")
 public class ServicerWebController extends AbstractResourceWebController {
     @RequestMapping({ "", "/info" })
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
     public ModelAndView infoPage() throws IException {
         return createModelAndView("servicer/info");
+    }
+
+    @RequestMapping("/info/material")
+    public ModelAndView materialPage() throws IException {
+        return createModelAndView("servicer/material");
     }
 
     @RequestMapping("/order/{id}")

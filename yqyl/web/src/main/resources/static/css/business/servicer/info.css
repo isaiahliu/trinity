@@ -1,0 +1,25 @@
+div.info {
+	padding: 10px 0px 0px 280px;
+}
+
+div.info div.applicationStep {
+	text-align: center;
+}
+
+div.info div.applicationStep div.title, div.info div.applicationStep div.next
+	{
+	text-align: center;
+}
+
+div.info div.applicationStep textarea {
+	width: 600px;
+	height: 400px;
+	display: block;
+	margin: 10px auto;
+}
+
+div.info div.applicationStep div.accept {
+	text-align: left;
+	margin: 10px auto;
+	width: 600px;
+}

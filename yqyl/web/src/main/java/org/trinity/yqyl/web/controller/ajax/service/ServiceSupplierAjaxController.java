@@ -66,6 +66,11 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.SERVICE_INFO, null, null, request, ServiceInfoResponse.class);
     }
 
+    @RequestMapping(value = "register", method = RequestMethod.POST)
+    public @ResponseBody ServiceSupplierClientResponse ajaxRegister() throws IException {
+        return restfulServiceUtil.callRestService(Url.SUPPLIER_REGISTER, null, null, null, ServiceSupplierClientResponse.class);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public @ResponseBody ServiceSupplierClientResponse ajaxServices(final ServiceSupplierClientSearchingDto request) throws IException {
         return restfulServiceUtil.callRestService(Url.SUPPLIER, null, null, request, ServiceSupplierClientResponse.class);

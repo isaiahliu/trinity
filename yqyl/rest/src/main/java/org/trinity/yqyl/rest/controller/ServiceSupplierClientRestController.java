@@ -1,6 +1,5 @@
 package org.trinity.yqyl.rest.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,14 +17,13 @@ import org.trinity.yqyl.process.controller.base.IServiceSupplierClientProcessCon
 public class ServiceSupplierClientRestController extends
         AbstractApplicationAwareCrudRestController<ServiceSupplierClientDto, ServiceSupplierClientSearchingDto, IServiceSupplierClientProcessController, ServiceSupplierClientRequest, ServiceSupplierClientResponse> {
 
-    @RequestMapping(value = "/me", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<ServiceSupplierClientResponse> getMe(final ServiceSupplierClientSearchingDto request)
-            throws IException {
+    @RequestMapping(value = "register", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<ServiceSupplierClientResponse> register() throws IException {
         final ServiceSupplierClientResponse response = createResponseInstance();
 
-        final Page<ServiceSupplierClientDto> data = getDomainProcessController().getAll(request);
+        final ServiceSupplierClientDto data = getDomainProcessController().register();
 
-        response.addData(data.getContent());
+        response.addData(data);
 
         return createResponseEntity(response);
     }

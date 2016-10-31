@@ -1,0 +1,7 @@
+#parse("/velocity/servicer/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/servicer/material.css"></link>
+
+<div class="material" ng-controller="contentController">material</div>
+
+<script src="/static/js/business/servicer/material.js"></script>

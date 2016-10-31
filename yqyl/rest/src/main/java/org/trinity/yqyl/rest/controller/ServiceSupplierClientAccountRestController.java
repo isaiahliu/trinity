@@ -9,13 +9,12 @@ import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientAccount
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientAccountProcessController;
 
 @RestController
-@RequestMapping("/*")
+@RequestMapping("/client/supplier/account")
 public class ServiceSupplierClientAccountRestController extends
-      AbstractApplicationAwareCrudRestController<ServiceSupplierClientAccountDto, ServiceSupplierClientAccountSearchingDto, IServiceSupplierClientAccountProcessController, ServiceSupplierClientAccountRequest, ServiceSupplierClientAccountResponse> {
+        AbstractApplicationAwareCrudRestController<ServiceSupplierClientAccountDto, ServiceSupplierClientAccountSearchingDto, IServiceSupplierClientAccountProcessController, ServiceSupplierClientAccountRequest, ServiceSupplierClientAccountResponse> {
 
-  @Override
-  protected ServiceSupplierClientAccountResponse createResponseInstance() {
-      return new ServiceSupplierClientAccountResponse();
-  }
+    @Override
+    protected ServiceSupplierClientAccountResponse createResponseInstance() {
+        return new ServiceSupplierClientAccountResponse();
+    }
 }
-
