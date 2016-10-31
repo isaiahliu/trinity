@@ -10,18 +10,39 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private LookupDto type;
     private LookupDto status;
     private String email;
-    private String identity;
     private String name;
-    private String licenseCopy;
-    private String identityCopy;
     private String address;
     private String description;
     private List<ServiceCategoryDto> serviceCategories;
     private Double expectedPrice;
     private String logo;
+    private String contact;
+    private String contactPhone;
+    private String region;
+    private String categories;
+    private String servicePhone;
+
+    private ServiceSupplierClientAccountDto account;
+    private ServiceSupplierClientMaterialDto material;
+
+    public ServiceSupplierClientAccountDto getAccount() {
+        return account;
+    }
 
     public String getAddress() {
         return address;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
     }
 
     public String getDescription() {
@@ -36,24 +57,20 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         return expectedPrice;
     }
 
-    public String getIdentity() {
-        return identity;
-    }
-
-    public String getIdentityCopy() {
-        return identityCopy;
-    }
-
-    public String getLicenseCopy() {
-        return licenseCopy;
-    }
-
     public String getLogo() {
         return logo;
     }
 
+    public ServiceSupplierClientMaterialDto getMaterial() {
+        return material;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getRegion() {
+        return region;
     }
 
     public List<ServiceCategoryDto> getServiceCategories() {
@@ -61,6 +78,10 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
             serviceCategories = new ArrayList<>();
         }
         return serviceCategories;
+    }
+
+    public String getServicePhone() {
+        return servicePhone;
     }
 
     public LookupDto getStatus() {
@@ -71,8 +92,24 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         return type;
     }
 
+    public void setAccount(final ServiceSupplierClientAccountDto account) {
+        this.account = account;
+    }
+
     public void setAddress(final String address) {
         this.address = address;
+    }
+
+    public void setCategories(final String categories) {
+        this.categories = categories;
+    }
+
+    public void setContact(final String contact) {
+        this.contact = contact;
+    }
+
+    public void setContactPhone(final String contactPhone) {
+        this.contactPhone = contactPhone;
     }
 
     public void setDescription(final String description) {
@@ -87,28 +124,28 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         this.expectedPrice = expectedPrice;
     }
 
-    public void setIdentity(final String identity) {
-        this.identity = identity;
-    }
-
-    public void setIdentityCopy(final String identityCopy) {
-        this.identityCopy = identityCopy;
-    }
-
-    public void setLicenseCopy(final String licenseCopy) {
-        this.licenseCopy = licenseCopy;
-    }
-
     public void setLogo(final String logo) {
         this.logo = logo;
+    }
+
+    public void setMaterial(final ServiceSupplierClientMaterialDto material) {
+        this.material = material;
     }
 
     public void setName(final String name) {
         this.name = name;
     }
 
+    public void setRegion(final String region) {
+        this.region = region;
+    }
+
     public void setServiceCategories(final List<ServiceCategoryDto> serviceCategories) {
         this.serviceCategories = serviceCategories;
+    }
+
+    public void setServicePhone(final String servicePhone) {
+        this.servicePhone = servicePhone;
     }
 
     public void setStatus(final LookupDto status) {

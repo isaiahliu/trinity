@@ -22,7 +22,7 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     RECORD_STATUS("RCSTAT"),
     ROLE_NAME("RLNAME"),
     TRANSACTION_CATEOGY("TXCATE"),
-    PERSONAL_TYPE("PSTYPE"),
+    COMPANY_TYPE("CMTYPE"),
     OPERATOR_CLIENT_STATUS("OPCSTAT"),
     ANNOUNCEMENT_STATUS("ANSTAT"),
     CLIENT_TYPE("CLTYPE"),
@@ -43,7 +43,9 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     PAYMENT_TYPE("PMTYPE"),
     DISTRICT_CODE("DTCODE"),
     STAFF_STATUS("STSTAT"),
-    SERVICE_ORDER_REQUIREMENT_STATUS("SORSTAT");
+    SERVICE_ORDER_REQUIREMENT_STATUS("SORSTAT"),
+    BANK("BANK"),
+    ACCOUNT_TYPE("ACCTYPE");
 
     private String typeName;
 

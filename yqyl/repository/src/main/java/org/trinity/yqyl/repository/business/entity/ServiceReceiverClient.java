@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 import org.trinity.repository.entity.AbstractAuditableEntity;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.Gender;
-import org.trinity.yqyl.common.message.lookup.PersonalType;
+import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 
 /**
@@ -75,7 +75,7 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     private ServiceReceiverClientStatus status;
 
-    private PersonalType type;
+    private CompanyType type;
 
     @Column(name = "video_id")
     private String videoId;
@@ -208,7 +208,7 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return this.status;
     }
 
-    public PersonalType getType() {
+    public CompanyType getType() {
         return this.type;
     }
 
@@ -315,7 +315,7 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         this.status = status;
     }
 
-    public void setType(final PersonalType type) {
+    public void setType(final CompanyType type) {
         this.type = type;
     }
 

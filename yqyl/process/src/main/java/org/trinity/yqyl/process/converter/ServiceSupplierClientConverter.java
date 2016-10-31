@@ -7,15 +7,28 @@ import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAccountDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
-import org.trinity.yqyl.common.message.lookup.PersonalType;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
+import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAccount;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientMaterial;
 
 @Component
 public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> {
+
     private static enum ServiceSupplierClientRelationship {
+        MATERIAL,
+        ACCOUNT
     }
+
+    @Autowired
+    private IObjectConverter<ServiceSupplierClientMaterial, ServiceSupplierClientMaterialDto> serviceSupplierClientMaterialConverter;
+
+    @Autowired
+    private IObjectConverter<ServiceSupplierClientAccount, ServiceSupplierClientAccountDto> serviceSupplierClientAccountConverter;
 
     @Autowired
     public ServiceSupplierClientConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
@@ -27,13 +40,17 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
             final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getUserId, target::setUserId, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, ServiceSupplierClientStatus.class, copyPolicy);
-        copyLookup(source::getType, target::getType, target::setType, PersonalType.class, copyPolicy);
+        copyLookup(source::getType, target::getType, target::setType, CompanyType.class, copyPolicy);
         copyObject(source::getEmail, target::getEmail, target::setEmail, copyPolicy);
-        copyObject(source::getIdentity, target::getIdentity, target::setIdentity, copyPolicy);
         copyObject(source::getLogo, target::getLogo, target::setLogo, copyPolicy);
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
         copyObject(source::getDescription, target::getDescription, target::setDescription, copyPolicy);
+        copyObject(source::getCategories, target::getServiceCategories, target::setServiceCategories, copyPolicy);
+        copyObject(source::getContact, target::getContact, target::setContact, copyPolicy);
+        copyObject(source::getContactPhone, target::getContactPhone, target::setContactPhone, copyPolicy);
+        copyObject(source::getRegion, target::getRegion, target::setRegion, copyPolicy);
+        copyObject(source::getServicePhone, target::getServicePhone, target::setServicePhone, copyPolicy);
     }
 
     @Override
@@ -42,19 +59,27 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyMessage(source::getType, target::getType, target::setType, copyPolicy);
         copyObject(source::getEmail, target::getEmail, target::setEmail, copyPolicy);
-        copyObject(source::getIdentity, target::getIdentity, target::setIdentity, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
-        copyObject(source::getIdentityCopy, target::getIdentityCopy, target::setIdentityCopy, copyPolicy);
         copyObject(source::getLogo, target::getLogo, target::setLogo, copyPolicy);
-        copyObject(source::getLicenseCopy, target::getLicenseCopy, target::setLicenseCopy, copyPolicy);
         copyObject(source::getDescription, target::getDescription, target::setDescription, copyPolicy);
+        copyObject(source::getServiceCategories, target::getCategories, target::setCategories, copyPolicy);
+        copyObject(source::getContact, target::getContact, target::setContact, copyPolicy);
+        copyObject(source::getContactPhone, target::getContactPhone, target::setContactPhone, copyPolicy);
+        copyObject(source::getRegion, target::getRegion, target::setRegion, copyPolicy);
+        copyObject(source::getServicePhone, target::getServicePhone, target::setServicePhone, copyPolicy);
     }
 
     @Override
     protected void convertRelationshipInternal(final ServiceSupplierClient source, final ServiceSupplierClientDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(ServiceSupplierClientRelationship.class)) {
+        case ACCOUNT:
+            copyRelationship(source::getAccount, target::setAccount, serviceSupplierClientAccountConverter, relationshipExpression);
+            break;
+        case MATERIAL:
+            copyRelationship(source::getMaterial, target::setMaterial, serviceSupplierClientMaterialConverter, relationshipExpression);
+            break;
         default:
             break;
         }

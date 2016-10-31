@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
-import org.trinity.yqyl.common.message.lookup.PersonalType;
+import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 
 /**
@@ -31,40 +31,50 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
     @Column(name = "user_id")
     private Long userId;
 
-    private String email;
-
-    private String identity;
-
-    private String name;
+    private String address;
 
     // bi-directional many-to-one association to ServiceSupplierStaff
     @OneToMany(mappedBy = "serviceSupplierClient")
     private List<ServiceSupplierStaff> serviceSupplierStaffs;
 
-    private String address;
-
-    private ServiceSupplierClientStatus status;
-
-    private PersonalType type;
-
-    private String description;
     // bi-directional one-to-one association to User
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "identity_copy", insertable = true, updatable = true)
-    private String identityCopy;
-
-    @Column(name = "logo", insertable = true, updatable = true)
-    private String logo;
-
-    @Column(name = "license_copy", insertable = true, updatable = true)
-    private String licenseCopy;
-
     // bi-directional many-to-one association to ServiceInfo
     @OneToMany(mappedBy = "serviceSupplierClient")
     private List<ServiceInfo> serviceInfos;
+
+    private String description;
+
+    private String email;
+
+    private String logo;
+
+    private String name;
+
+    private String contact;
+    @Column(name = "contact_phone")
+    private String contactPhone;
+    private String region;
+
+    @Column(name = "service_categories")
+    private String serviceCategories;
+
+    @Column(name = "service_phone")
+    private String servicePhone;
+    private CompanyType type;
+
+    private ServiceSupplierClientStatus status;
+
+    // bi-directional one-to-one association to ServiceSupplierClientAccount
+    @OneToOne(mappedBy = "serviceSupplierClient")
+    private ServiceSupplierClientAccount account;
+
+    // bi-directional one-to-one association to ServiceSupplierClientMaterial
+    @OneToOne(mappedBy = "serviceSupplierClient")
+    private ServiceSupplierClientMaterial material;
 
     public ServiceSupplierClient() {
     }
@@ -83,40 +93,56 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return serviceSupplierStaff;
     }
 
+    public ServiceSupplierClientAccount getAccount() {
+        return this.account;
+    }
+
     public String getAddress() {
-        return address;
+        return this.address;
+    }
+
+    public String getContact() {
+        return this.contact;
+    }
+
+    public String getContactPhone() {
+        return this.contactPhone;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public String getEmail() {
         return this.email;
     }
 
-    public String getIdentity() {
-        return this.identity;
-    }
-
-    public String getIdentityCopy() {
-        return identityCopy;
-    }
-
-    public String getLicenseCopy() {
-        return licenseCopy;
-    }
-
     public String getLogo() {
-        return logo;
+        return this.logo;
+    }
+
+    public ServiceSupplierClientMaterial getMaterial() {
+        return this.material;
     }
 
     public String getName() {
         return this.name;
     }
 
+    public String getRegion() {
+        return this.region;
+    }
+
+    public String getServiceCategories() {
+        return this.serviceCategories;
+    }
+
     public List<ServiceInfo> getServiceInfos() {
         return this.serviceInfos;
+    }
+
+    public String getServicePhone() {
+        return this.servicePhone;
     }
 
     public List<ServiceSupplierStaff> getServiceSupplierStaffs() {
@@ -127,7 +153,7 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return this.status;
     }
 
-    public PersonalType getType() {
+    public CompanyType getType() {
         return this.type;
     }
 
@@ -136,7 +162,7 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
     }
 
     public Long getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public ServiceInfo removeServiceInfo(final ServiceInfo serviceInfo) {
@@ -153,8 +179,20 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return serviceSupplierStaff;
     }
 
+    public void setAccount(final ServiceSupplierClientAccount account) {
+        this.account = account;
+    }
+
     public void setAddress(final String address) {
         this.address = address;
+    }
+
+    public void setContact(final String contact) {
+        this.contact = contact;
+    }
+
+    public void setContactPhone(final String contactPhone) {
+        this.contactPhone = contactPhone;
     }
 
     public void setDescription(final String description) {
@@ -165,28 +203,32 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         this.email = email;
     }
 
-    public void setIdentity(final String identity) {
-        this.identity = identity;
-    }
-
-    public void setIdentityCopy(final String identityCopy) {
-        this.identityCopy = identityCopy;
-    }
-
-    public void setLicenseCopy(final String licenseCopy) {
-        this.licenseCopy = licenseCopy;
-    }
-
     public void setLogo(final String logo) {
         this.logo = logo;
+    }
+
+    public void setMaterial(final ServiceSupplierClientMaterial material) {
+        this.material = material;
     }
 
     public void setName(final String name) {
         this.name = name;
     }
 
+    public void setRegion(final String region) {
+        this.region = region;
+    }
+
+    public void setServiceCategories(final String serviceCategories) {
+        this.serviceCategories = serviceCategories;
+    }
+
     public void setServiceInfos(final List<ServiceInfo> serviceInfos) {
         this.serviceInfos = serviceInfos;
+    }
+
+    public void setServicePhone(final String servicePhone) {
+        this.servicePhone = servicePhone;
     }
 
     public void setServiceSupplierStaffs(final List<ServiceSupplierStaff> serviceSupplierStaffs) {
@@ -197,7 +239,7 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         this.status = status;
     }
 
-    public void setType(final PersonalType type) {
+    public void setType(final CompanyType type) {
         this.type = type;
     }
 
@@ -208,5 +250,4 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
     public void setUserId(final Long userId) {
         this.userId = userId;
     }
-
 }

@@ -14,7 +14,7 @@ import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
 import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
-import org.trinity.yqyl.common.message.lookup.PersonalType;
+import org.trinity.yqyl.common.message.lookup.CompanyType;
 
 /**
  * The persistent class for the allowance_supplier_client database table.
@@ -33,7 +33,7 @@ public class AllowanceSupplierClient extends AbstractAuditableEntity implements 
 
 	private OperatorClientStatus status;
 
-	private PersonalType type;
+	private CompanyType type;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
@@ -50,7 +50,7 @@ public class AllowanceSupplierClient extends AbstractAuditableEntity implements 
 		return this.status;
 	}
 
-	public PersonalType getType() {
+	public CompanyType getType() {
 		return this.type;
 	}
 
@@ -66,7 +66,7 @@ public class AllowanceSupplierClient extends AbstractAuditableEntity implements 
 		this.status = status;
 	}
 
-	public void setType(final PersonalType type) {
+	public void setType(final CompanyType type) {
 		this.type = type;
 	}
 

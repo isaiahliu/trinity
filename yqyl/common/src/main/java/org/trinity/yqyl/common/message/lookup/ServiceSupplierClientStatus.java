@@ -3,9 +3,9 @@ package org.trinity.yqyl.common.message.lookup;
 import org.trinity.message.ILookupMessage;
 
 public enum ServiceSupplierClientStatus implements ILookupMessage<LookupType> {
+    INACTIVE("I"),
     ACTIVE("A"),
     DISABLED("D"),
-    INACTIVE("I"),
     PROPOSAL("P"),
     AWAITING_PAYMENT("W");
 

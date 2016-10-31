@@ -11,8 +11,11 @@ import org.trinity.yqyl.common.message.lookup.AccountBalanceCategory;
 import org.trinity.yqyl.common.message.lookup.AccountBalanceStatus;
 import org.trinity.yqyl.common.message.lookup.AccountPostingStatus;
 import org.trinity.yqyl.common.message.lookup.AccountStatus;
+import org.trinity.yqyl.common.message.lookup.AccountType;
 import org.trinity.yqyl.common.message.lookup.AnnouncementStatus;
+import org.trinity.yqyl.common.message.lookup.Bank;
 import org.trinity.yqyl.common.message.lookup.ClientType;
+import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.CredentialType;
 import org.trinity.yqyl.common.message.lookup.Currency;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
@@ -27,7 +30,6 @@ import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.PaymentMethod;
 import org.trinity.yqyl.common.message.lookup.PaymentType;
-import org.trinity.yqyl.common.message.lookup.PersonalType;
 import org.trinity.yqyl.common.message.lookup.RealnameStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
@@ -61,7 +63,9 @@ import org.trinity.yqyl.common.message.lookup.ValueType;
         @TypeDef(name = "Language", defaultForType = Language.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.Language")),
         @TypeDef(name = "MessageStatus", defaultForType = MessageStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.MessageStatus")),
         @TypeDef(name = "OrderStatus", defaultForType = OrderStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.OrderStatus")),
-        @TypeDef(name = "PersonalType", defaultForType = PersonalType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.PersonalType")),
+        @TypeDef(name = "Bank", defaultForType = Bank.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.Bank")),
+        @TypeDef(name = "AccountType", defaultForType = AccountType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.AccountType")),
+        @TypeDef(name = "CompanyType", defaultForType = CompanyType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.CompanyType")),
         @TypeDef(name = "ServiceStatus", defaultForType = ServiceStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.ServiceStatus")),
         @TypeDef(name = "ServiceSupplierClientStatus", defaultForType = ServiceSupplierClientStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus")),
         @TypeDef(name = "ServiceReceiverClientStatus", defaultForType = ServiceReceiverClientStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus")),

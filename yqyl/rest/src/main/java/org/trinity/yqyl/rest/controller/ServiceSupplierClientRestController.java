@@ -1,7 +1,6 @@
 package org.trinity.yqyl.rest.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,9 +23,9 @@ public class ServiceSupplierClientRestController extends
             throws IException {
         final ServiceSupplierClientResponse response = createResponseInstance();
 
-        final List<ServiceSupplierClientDto> data = getDomainProcessController().getMe(request);
+        final Page<ServiceSupplierClientDto> data = getDomainProcessController().getAll(request);
 
-        response.addData(data);
+        response.addData(data.getContent());
 
         return createResponseEntity(response);
     }
