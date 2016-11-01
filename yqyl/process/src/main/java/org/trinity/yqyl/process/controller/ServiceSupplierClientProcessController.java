@@ -1,9 +1,7 @@
 package org.trinity.yqyl.process.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -17,14 +15,16 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.trinity.common.exception.IException;
-import org.trinity.process.converter.IObjectConverter;
-import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAccountDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
+import org.trinity.yqyl.process.controller.base.IServiceSupplierClientAccountProcessController;
+import org.trinity.yqyl.process.controller.base.IServiceSupplierClientMaterialProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceCategoryRepository;
@@ -35,7 +35,6 @@ import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
-import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAccount;
@@ -52,9 +51,6 @@ public class ServiceSupplierClientProcessController extends
     private IServiceCategoryRepository serviceCategoryRepository;
 
     @Autowired
-    private IObjectConverter<ServiceCategory, ServiceCategoryDto> serviceCategoryConverter;
-
-    @Autowired
     private IUserRepository userRepository;
 
     @Autowired
@@ -66,34 +62,57 @@ public class ServiceSupplierClientProcessController extends
     @Autowired
     private IContentRepository contentRepository;
 
+    @Autowired
+    private IServiceSupplierClientAccountProcessController supplierClientAccountProcessController;
+
+    @Autowired
+    private IServiceSupplierClientMaterialProcessController supplierClientMaterialProcessController;
+
     public ServiceSupplierClientProcessController() {
         super(ServiceSupplierClient.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_SUPPLIER_CLIENT);
     }
 
     @Override
     public Page<ServiceSupplierClientDto> getAll(final ServiceSupplierClientSearchingDto searchingData) throws IException {
-        final List<Long> categoryIds = new ArrayList<>();
-        final Pageable pagable = getPagingConverter().convert(searchingData);
-
         if (searchingData.getCategoryChildren().isEmpty()) {
             if (searchingData.getCategoryParent() != null) {
                 final ServiceCategory category = serviceCategoryRepository.findOne(searchingData.getCategoryParent());
                 if (category != null) {
-                    categoryIds.addAll(serviceCategoryRepository.findAllByParent(category).stream().map(item -> item.getId())
-                            .collect(Collectors.toList()));
+                    searchingData.getCategoryChildren().addAll(serviceCategoryRepository.findAllByParent(category).stream()
+                            .map(item -> item.getId()).collect(Collectors.toList()));
                 }
             }
-        } else {
-            serviceCategoryRepository.findAll(searchingData.getCategoryChildren()).forEach(item -> categoryIds.add(item.getId()));
         }
+
+        final Page<ServiceSupplierClientDto> dtos = super.getAll(searchingData);
+        dtos.forEach(item -> {
+            if (item.getServiceInfos() != null && !item.getServiceInfos().isEmpty()) {
+                if (!searchingData.getCategoryChildren().isEmpty()) {
+                    item.setExpectedPrice(item.getServiceInfos().stream()
+                            .filter(info -> searchingData.getCategoryChildren().contains(info.getServiceCategory().getId()))
+                            .collect(Collectors.summarizingDouble(info -> info.getPrice())).getSum());
+                } else {
+                    item.setExpectedPrice(
+                            item.getServiceInfos().stream().collect(Collectors.summarizingDouble(info -> info.getPrice())).getSum());
+                }
+            }
+        });
+
+        return dtos;
+    }
+
+    @Override
+    public Page<ServiceSupplierClient> queryAll(final ServiceSupplierClientSearchingDto searchingData) throws IException {
+        final Pageable pagable = getPagingConverter().convert(searchingData);
+
         final String username = getSecurityUtil().getCurrentToken().getUsername();
 
         final Specification<ServiceSupplierClient> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
 
-            if (!categoryIds.isEmpty()) {
+            if (!searchingData.getCategoryChildren().isEmpty()) {
                 predicates.add(root.join(ServiceSupplierClient_.serviceInfos).join(ServiceInfo_.serviceCategory).get(ServiceCategory_.id)
-                        .in(categoryIds));
+                        .in(searchingData.getCategoryChildren()));
                 query.distinct(true);
             }
 
@@ -111,27 +130,7 @@ public class ServiceSupplierClientProcessController extends
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 
-        return getDomainEntityRepository().findAll(specification, pagable).map(item -> {
-            final ServiceSupplierClientDto dto = getDomainObjectConverter().convert(item);
-
-            final List<ServiceInfo> serviceInfos = item.getServiceInfos();
-            final Map<Long, ServiceCategory> map = new HashMap<>();
-            double expectedPrice = 0;
-            for (final ServiceInfo serviceInfo : serviceInfos) {
-                final ServiceCategory serviceCategory = serviceInfo.getServiceCategory();
-                if (!map.containsKey(serviceCategory.getId())) {
-                    map.put(serviceCategory.getId(), serviceCategory);
-                }
-
-                if (categoryIds.contains(serviceCategory.getId())) {
-                    expectedPrice += serviceInfo.getPrice();
-                }
-            }
-            dto.setExpectedPrice(expectedPrice);
-            dto.setServiceCategories(serviceCategoryConverter.convert(map.values()));
-
-            return dto;
-        });
+        return getDomainEntityRepository().findAll(specification, pagable);
     }
 
     @Override
@@ -226,4 +225,28 @@ public class ServiceSupplierClientProcessController extends
 
         return getDomainObjectConverter().convert(serviceSupplierClient, searchingDto.generateRelationship());
     }
+
+    @Override
+    protected void updateRelationship(final ServiceSupplierClient entity, final ServiceSupplierClientDto dto) throws IException {
+        if (dto.getAccount() != null) {
+            final List<ServiceSupplierClientAccountDto> supplierClientAccountDtos = new ArrayList<>();
+
+            dto.getAccount().setId(dto.getId());
+
+            supplierClientAccountDtos.add(dto.getAccount());
+            supplierClientAccountProcessController.updateAll(supplierClientAccountDtos);
+        }
+
+        if (dto.getMaterial() != null) {
+            final List<ServiceSupplierClientMaterialDto> supplierClientMaterialDtos = new ArrayList<>();
+
+            dto.getMaterial().setId(dto.getId());
+
+            supplierClientMaterialDtos.add(dto.getMaterial());
+            supplierClientMaterialProcessController.updateAll(supplierClientMaterialDtos);
+        }
+
+        super.updateRelationship(entity, dto);
+    }
+
 }

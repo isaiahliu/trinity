@@ -5,7 +5,7 @@
 <div class="info" ng-controller="contentController">
 	<div class="applicationStep ng-hide" ng-if="!serviceSupplierClient" ng-show="step=='ANNOUNCEMENT1'">
 		<div class="title">#label("SERVICE_SUPPLIER_ANNOUNCEMENT_1")</div>
-		<textarea>#info("SERVICE_SUPPLIER_ANNOUNCEMENT_1")</textarea>
+		<textarea ng-readonly="true">#info("SERVICE_SUPPLIER_ANNOUNCEMENT_1")</textarea>
 		<div class="accept">
 			<input type="checkBox" ng-model="announcementAgreed1" /><span>#label("READ_AND_ACCEPT")</span>
 		</div>
@@ -15,7 +15,7 @@
 	</div>
 	<div class="applicationStep ng-hide" ng-if="!serviceSupplierClient" ng-show="step=='ANNOUNCEMENT2'">
 		<div class="title">#label("SERVICE_SUPPLIER_ANNOUNCEMENT_2")</div>
-		<textarea>#info("SERVICE_SUPPLIER_ANNOUNCEMENT_2")</textarea>
+		<textarea ng-readonly="true">#info("SERVICE_SUPPLIER_ANNOUNCEMENT_2")</textarea>
 		<div class="accept">
 			<input type="checkBox" ng-model="announcementAgreed2" /><span>#label("READ_AND_ACCEPT")</span>
 		</div>
@@ -25,36 +25,41 @@
 	</div>
 	<div class="details ng-hide" ng-show="serviceSupplierClient">
 		<div class="title">
-			<span>#label("SERVICER_GENERAL_INFO")</span>
+			<span>#label("SERVICER_GENERAL_INFO")</span> <span>({{serviceSupplierClient.status.message}})</span>
 		</div>
 
 		<div class="left">
 			<div class="image">
-				<img />
+				<img ng-src="{{logoUrl}}" />
 			</div>
-			<input type="file" />
+			<input type="file" ng-if="!audited" upload-logo="uploadLogo" />
 		</div>
 		<div class="right">
 			<div>
 				<span>#label("COMPANY_DESCRIPTION")</span>
 			</div>
-			<textarea rows="" cols=""></textarea>
+			<textarea ng-model="serviceSupplierClient.description" ng-readonly="audited"></textarea>
 		</div>
 		<div class="tab">
 			<div class="tabTitle">
 				<span>#label("SUPPLIER_INFO")</span>
 			</div>
 			<div class="tabContent">
-				<span>#label("COMPANY_NAME")</span> <input /> <span>#label("COMPANY_TYPE")</span> <select ng-model="yyy" ng-options="companyType.code as companyType.message for companyType in companyTypes"></select>
+				<span>#label("COMPANY_NAME")</span> <input ng-model="serviceSupplierClient.name" ng-readonly="audited" /> <span>#label("COMPANY_TYPE")</span>
+				<input ng-show="audited" ng-readonly="true" ng-model="serviceSupplierClient.type.message" /> <select ng-hide="audited"
+					ng-model="serviceSupplierClient.type.code" ng-options="companyType.code as companyType.message for companyType in companyTypes"></select>
 			</div>
 			<div class="tabContent">
-				<span>#label("CATEGORIES")</span> <input /> <span>#label("SERVICE_REGION")</span> <input />
+				<span>#label("CATEGORIES")</span> <input ng-model="serviceSupplierClient.categories" ng-readonly="audited" /> <span>#label("SERVICE_REGION")</span>
+				<input ng-model="serviceSupplierClient.region" ng-readonly="audited" />
 			</div>
 			<div class="tabContent">
-				<span>#label("CONTACT")</span> <input /> <span>#label("PHONE_NO")</span> <input />
+				<span>#label("CONTACT")</span> <input ng-model="serviceSupplierClient.contact" ng-readonly="audited" /> <span>#label("PHONE_NO")</span>
+				<input ng-model="serviceSupplierClient.contactPhone" ng-readonly="audited" />
 			</div>
 			<div class="tabContent">
-				<span>#label("EMAIL")</span> <input /> <span>#label("SERVICE_PHONE_NO")</span> <input />
+				<span>#label("EMAIL")</span> <input ng-model="serviceSupplierClient.email" ng-readonly="audited" /> <span>#label("SERVICE_PHONE_NO")</span>
+				<input ng-model="serviceSupplierClient.servicePhone" ng-readonly="audited" />
 			</div>
 		</div>
 		<div class="tab">
@@ -62,19 +67,20 @@
 				<span>#label("SUPPLIER_ACCOUNT_INFO")</span>
 			</div>
 			<div class="tabContent">
-				<span>#label("ACCOUNT_BANK")</span> <select ng-model="xxx" ng-options="bank.code as bank.message for bank in banks"></select> <span>#label("ACCOUNT_NAME")</span>
-				<input />
+				<span>#label("ACCOUNT_BANK")</span> <input ng-show="audited" ng-readonly="true" ng-model="serviceSupplierClient.account.bank.message" />
+				<select ng-hide="audited" ng-model="serviceSupplierClient.account.bank.code" ng-options="bank.code as bank.message for bank in banks"></select>
+				<span>#label("ACCOUNT_NAME")</span> <input ng-model="serviceSupplierClient.account.clientName" ng-readonly="audited" />
 			</div>
 			<div class="tabContent">
-				<span>#label("BANK_ACCOUNT")</span> <input /> <span>#label("ACCOUNT_TYPE")</span> <select ng-model="zzz" ng-options="accountType.code as accountType.message for accountType in accountTypes"></select>
+				<span>#label("BANK_ACCOUNT")</span> <input ng-model="serviceSupplierClient.account.account" ng-readonly="audited" /> <span>#label("ACCOUNT_TYPE")</span>
+				<input ng-show="audited" ng-readonly="true" ng-model="serviceSupplierClient.account.type.message" /> <select
+					ng-model="serviceSupplierClient.account.type.code" ng-options="accountType.code as accountType.message for accountType in accountTypes"></select>
 			</div>
 		</div>
 
 		<div class="buttonGroup">
-			<button>#button("EDIT")</button>
-			<button>#button("APPLY")</button>
-			<button>#button("BACK")</button>
-			<button>#button("NEXT")</button>
+			<button ng-if="!audited" ng-click="cancel()">#button("CANCEL")</button>
+			<button ng-click="next()">#button("NEXT")</button>
 		</div>
 	</div>
 </div>

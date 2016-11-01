@@ -2,6 +2,49 @@
 
 <link rel="stylesheet" href="/static/css/business/servicer/material.css"></link>
 
-<div class="material" ng-controller="contentController">material</div>
+<div class="material" ng-controller="contentController">
+	<div class="title">
+		<span>#label("SERVICER_MARTERIAL")</span>
+	</div>
+	<div class="line">
+		<span class="key">#label("COMPANY_LICENSE")</span> <input ng-readonly="audited" ng-model="serviceSupplierClient.material.licenseNo" /> <a
+			target="_blank" ng-href="{{licenseUrl}}"><img ng-class="ng-hide" ng-show="licenseUrl" ng-class="ng-hide" ng-show="licenseUrl"
+			alt="#label('NOT_UPLOADED')" ng-src="{{licenseUrl}}"></a> <input type="file" class="upload" ng-if="!audited"
+			upload-photo="uploadLicense" />
+	</div>
+	<div class="line">
+		<span class="key">#label("COMPANY_CORPORATE_CHECKING")</span> <input ng-readonly="audited"
+			ng-model="serviceSupplierClient.material.corporateCheckingNo" /> <a target="_blank" ng-href="{{corporateCheckingUrl}}"><img
+			ng-class="ng-hide" ng-show="corporateCheckingUrl" alt="#label('NOT_UPLOADED')" ng-src="{{corporateCheckingUrl}}"></a> <input
+			type="file" class="upload" ng-if="!audited" upload-photo="uploadCorporateChecking" />
+	</div>
+	<div class="line">
+		<span class="key">#label("COMPANY_CONTRACT")</span> <input ng-readonly="audited" ng-model="serviceSupplierClient.material.contractNo" />
+		<a target="_blank" ng-href="{{contractUrl}}"><img ng-class="ng-hide" ng-show="contractUrl" alt="#label('NOT_UPLOADED')"
+			ng-src="{{contractUrl}}"></a> <input type="file" class="upload" ng-if="!audited" upload-photo="uploadContract" />
+	</div>
+	<div class="line">
+		<span class="key">#label("COMPANY_APPLICATION")</span> <input ng-readonly="audited"
+			ng-model="serviceSupplierClient.material.applicationNo" /> <a target="_blank" ng-href="{{applicationUrl}}"><img ng-class="ng-hide"
+			ng-show="applicationUrl" alt="#label('NOT_UPLOADED')" ng-src="{{applicationUrl}}"></a> <input type="file" class="upload"
+			ng-if="!audited" upload-photo="uploadApplication" />
+	</div>
+	<div class="line">
+		<span class="key">#label("COMPANY_BUSINESS_LICENSE")</span> <input ng-readonly="audited"
+			ng-model="serviceSupplierClient.material.businessLicenseNo" /> <a target="_blank" ng-href="{{businessLicenseUrl}}"><img
+			ng-class="ng-hide" ng-show="businessLicenseUrl" alt="#label('NOT_UPLOADED')" ng-src="{{businessLicenseUrl}}"></a> <input type="file"
+			class="upload" ng-if="!audited" upload-photo="uploadBusinessLicense" />
+	</div>
+	<div class="line">
+		<span class="key">#label("COMPANY_JCV")</span> <a target="_blank" ng-href="{{jcvUrl}}"><img ng-class="ng-hide" ng-show="jcvUrl"
+			alt="#label('NOT_UPLOADED')" ng-src="{{jcvUrl}}"></a> <input type="file" class="upload" ng-if="!audited" upload-photo="uploadJcv" />
+	</div>
+	<div style="width: 500px; text-align: center;">
+		<button ng-click="back()">#button("BACK")</button>
+		<button ng-if="!audited" ng-click="save()">#button("SAVE")</button>
+		<button ng-if="!audited" ng-click="apply()">#button("APPLY")</button>
+		<button ng-if="!audited" ng-click="cancel()">#button("CANCEL")</button>
+	</div>
+</div>
 
 <script src="/static/js/business/servicer/material.js"></script>

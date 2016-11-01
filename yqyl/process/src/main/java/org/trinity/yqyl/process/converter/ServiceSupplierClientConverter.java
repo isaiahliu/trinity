@@ -7,11 +7,13 @@ import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAccountDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
 import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
+import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAccount;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientMaterial;
@@ -21,7 +23,8 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
 
     private static enum ServiceSupplierClientRelationship {
         MATERIAL,
-        ACCOUNT
+        ACCOUNT,
+        SERVICE_INFOS
     }
 
     @Autowired
@@ -29,6 +32,9 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
 
     @Autowired
     private IObjectConverter<ServiceSupplierClientAccount, ServiceSupplierClientAccountDto> serviceSupplierClientAccountConverter;
+
+    @Autowired
+    private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
 
     @Autowired
     public ServiceSupplierClientConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
@@ -79,6 +85,9 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
             break;
         case MATERIAL:
             copyRelationship(source::getMaterial, target::setMaterial, serviceSupplierClientMaterialConverter, relationshipExpression);
+            break;
+        case SERVICE_INFOS:
+            copyRelationshipList(source::getServiceInfos, target::setServiceInfos, serviceInfoConverter, relationshipExpression);
             break;
         default:
             break;

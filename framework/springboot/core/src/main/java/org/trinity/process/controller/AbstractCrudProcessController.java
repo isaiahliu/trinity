@@ -115,7 +115,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     protected void addRelationship(final TEntity entity, final TDto dto) throws IException {
     }
 
-    protected void deleteRelationship(final TEntity entity) {
+    protected void deleteRelationship(final TEntity entity) throws IException {
     }
 
     protected abstract CrudRepository<TEntity, Long> getDomainEntityRepository();
@@ -130,7 +130,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
         return new PageImpl<>(Collections.emptyList());
     }
 
-    protected void updateRelationship(final TEntity entity, final TDto dto) {
+    protected void updateRelationship(final TEntity entity, final TDto dto) throws IException {
     }
 
     protected void validateDataPermission(final TDto dto) throws IException {

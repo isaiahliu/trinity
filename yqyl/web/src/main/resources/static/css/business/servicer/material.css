@@ -1,0 +1,31 @@
+div.material {
+	padding: 10px 0px 0px 280px;
+}
+
+div.material div.title {
+	background-color: rgba(215, 215, 215, 1);
+	padding: 5px 10px;
+}
+
+div.material div.line {
+	margin: 20px 0px;
+}
+
+div.material span.key {
+	display: inline-block;
+	width: 120px;
+}
+
+div.material input {
+	width: 300px;
+}
+
+div.material input.upload {
+	width: 68px;
+	display: inline;
+}
+
+div.material img {
+	max-width: 25px;
+	max-height: 25px;
+}

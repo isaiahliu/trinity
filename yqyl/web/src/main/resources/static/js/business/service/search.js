@@ -17,7 +17,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		if (category.children == undefined) {
 			$http({
 				method : "GET",
-				url : "/ajax/service/category?status=A&parentId=" + category.id
+				url : "/ajax/service/category?&status=A&parentId=" + category.id
 			}).success(function(response) {
 				category.children = response.data;
 			}).error(function(response) {
@@ -50,9 +50,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			}
 		}
 
-		var ajaxUrl = "/ajax/service/supplier";
+		var ajaxUrl = "/ajax/service/supplier?rsexp=serviceInfos[serviceCategory]";
 
-		ajaxUrl += "?pageIndex=" + (paging.pageIndex - 1);
+		ajaxUrl += "&pageIndex=" + (paging.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + paging.pageSize;
 
 		if ($scope.searchingCategory != undefined) {

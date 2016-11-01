@@ -1,6 +1,5 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
@@ -13,17 +12,18 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private String name;
     private String address;
     private String description;
-    private List<ServiceCategoryDto> serviceCategories;
-    private Double expectedPrice;
     private String logo;
     private String contact;
     private String contactPhone;
     private String region;
     private String categories;
     private String servicePhone;
+    private Double expectedPrice;
 
     private ServiceSupplierClientAccountDto account;
     private ServiceSupplierClientMaterialDto material;
+
+    private List<ServiceInfoDto> serviceInfos;
 
     public ServiceSupplierClientAccountDto getAccount() {
         return account;
@@ -73,11 +73,8 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         return region;
     }
 
-    public List<ServiceCategoryDto> getServiceCategories() {
-        if (serviceCategories == null) {
-            serviceCategories = new ArrayList<>();
-        }
-        return serviceCategories;
+    public List<ServiceInfoDto> getServiceInfos() {
+        return serviceInfos;
     }
 
     public String getServicePhone() {
@@ -140,8 +137,8 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         this.region = region;
     }
 
-    public void setServiceCategories(final List<ServiceCategoryDto> serviceCategories) {
-        this.serviceCategories = serviceCategories;
+    public void setServiceInfos(final List<ServiceInfoDto> serviceInfos) {
+        this.serviceInfos = serviceInfos;
     }
 
     public void setServicePhone(final String servicePhone) {

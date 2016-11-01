@@ -6,7 +6,7 @@
 				<div class="navBarItem" ng-mouseenter="showInfo=true" ng-mouseleave="showInfo=false">
 					<span>#button("SERVICER_INFO")</span>
 				</div>
-		</a></li>
+		</a></li> #if($security.hasAccessRightByName("SUPPLIER"))
 		<li><a href="/servicer/service">
 				<div class="navBarItem #if($currentPage=='SERVICE')selected #end">
 					<span>#button("SERVICER_SERVICE")</span>
@@ -23,7 +23,7 @@
 				</div></a></li>
 		<li><a href="/servicer/training"><div class="navBarItem #if($currentPage=='TRAINING')selected #end">
 					<span>#button("SERVICER_TRAINING")</span>
-				</div></a></li>
+				</div></a></li> #end
 	</ul>
 	<ul class="popList infoPopList ng-hide" ng-mouseenter="showInfo=true" ng-mouseleave="showInfo=false" ng-show="showInfo">
 		<li><a href="/servicer/info"><div>

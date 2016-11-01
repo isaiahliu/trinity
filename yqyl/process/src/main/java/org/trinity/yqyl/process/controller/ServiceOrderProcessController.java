@@ -234,10 +234,9 @@ public class ServiceOrderProcessController
     }
 
     @Override
-    protected void updateRelationship(final ServiceOrder entity, final ServiceOrderDto dto) {
+    protected void updateRelationship(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
         if (dto.getStaff() != null && dto.getStaff().getId() > 0) {
             entity.setServiceSupplierStaff(serviceSupplierStaffRepository.findOne(dto.getStaff().getId()));
         }
-        super.updateRelationship(entity, dto);
     }
 }

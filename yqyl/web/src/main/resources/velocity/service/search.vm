@@ -51,7 +51,7 @@
 						</div>
 						<div class="serviceInfoDetail">
 							<span class="key">#label("SERVICE_CATEGORIES")</span><span
-								ng-repeat="cat in result.serviceCategories" class="value">{{cat.name}}
+								ng-repeat="info in result.serviceInfos" class="value">{{info.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="serviceInfoDetail">
