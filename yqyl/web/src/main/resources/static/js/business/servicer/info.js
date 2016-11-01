@@ -30,7 +30,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			}).error(function(response) {
 	});
 
-	$scope.next = function() {
+	$scope.accept = function() {
 		$scope.step = "ANNOUNCEMENT2"
 	};
 
@@ -83,16 +83,18 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	};
 
 	$scope.next = function() {
-		$http({
-			method : "PUT",
-			url : "/ajax/service/supplier/propose",
-			data : {
-				data : [ $scope.serviceSupplierClient ]
-			}
-		}).success(function(response) {
-			$window.location.href = "/servicer/info/material";
-		}).error(function(response) {
-		});
+		if (!$scope.audited) {
+			$http({
+				method : "PUT",
+				url : "/ajax/service/supplier/propose",
+				data : {
+					data : [ $scope.serviceSupplierClient ]
+				}
+			}).success(function(response) {
+				$window.location.href = "/servicer/info/material";
+			}).error(function(response) {
+			});
+		}
 	};
 
 	$scope.uploadLogo =

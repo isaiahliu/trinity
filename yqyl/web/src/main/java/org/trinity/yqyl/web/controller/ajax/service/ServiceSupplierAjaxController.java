@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
@@ -43,15 +42,14 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
 
     @RequestMapping(value = "/audit/{id}", method = RequestMethod.PUT)
     @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public @ResponseBody ServiceSupplierClientResponse ajaxAuditServiceSupplier(@PathVariable("id") final Long id) throws IException {
+    public @ResponseBody DefaultResponse ajaxAuditServiceSupplier(@PathVariable("id") final Long id) throws IException {
         final ServiceSupplierClientDto serviceSupplierClientDto = new ServiceSupplierClientDto();
         serviceSupplierClientDto.setId(id);
-        serviceSupplierClientDto.setStatus(new LookupDto(ServiceSupplierClientStatus.ACTIVE));
 
         final ServiceSupplierClientRequest request = new ServiceSupplierClientRequest();
         request.getData().add(serviceSupplierClientDto);
 
-        return restfulServiceUtil.callRestService(Url.SUPPLIER_UPDATE, null, request, null, ServiceSupplierClientResponse.class);
+        return restfulServiceUtil.callRestService(Url.SUPPLIER_AUDIT, null, request, null, DefaultResponse.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -10,7 +10,7 @@
 			<input type="checkBox" ng-model="announcementAgreed1" /><span>#label("READ_AND_ACCEPT")</span>
 		</div>
 		<div class="next">
-			<button ng-show="announcementAgreed1" ng-click="next()">#button("NEXT")</button>
+			<button ng-show="announcementAgreed1" ng-click="accept()">#button("NEXT")</button>
 		</div>
 	</div>
 	<div class="applicationStep ng-hide" ng-if="!serviceSupplierClient" ng-show="step=='ANNOUNCEMENT2'">
@@ -61,6 +61,9 @@
 				<span>#label("EMAIL")</span> <input ng-model="serviceSupplierClient.email" ng-readonly="audited" /> <span>#label("SERVICE_PHONE_NO")</span>
 				<input ng-model="serviceSupplierClient.servicePhone" ng-readonly="audited" />
 			</div>
+			<div class="tabContent">
+				<span>#label("ADDRESS")</span> <input ng-model="serviceSupplierClient.address" ng-readonly="audited" />
+			</div>
 		</div>
 		<div class="tab">
 			<div class="tabTitle">
@@ -73,14 +76,14 @@
 			</div>
 			<div class="tabContent">
 				<span>#label("BANK_ACCOUNT")</span> <input ng-model="serviceSupplierClient.account.account" ng-readonly="audited" /> <span>#label("ACCOUNT_TYPE")</span>
-				<input ng-show="audited" ng-readonly="true" ng-model="serviceSupplierClient.account.type.message" /> <select
+				<input ng-show="audited" ng-readonly="true" ng-model="serviceSupplierClient.account.type.message" /> <select ng-if="!audited"
 					ng-model="serviceSupplierClient.account.type.code" ng-options="accountType.code as accountType.message for accountType in accountTypes"></select>
 			</div>
 		</div>
 
 		<div class="buttonGroup">
 			<button ng-if="!audited" ng-click="cancel()">#button("CANCEL")</button>
-			<button ng-click="next()">#button("NEXT")</button>
+			<button ng-if="!audited" ng-click="next()">#button("NEXT")</button>
 		</div>
 	</div>
 </div>

@@ -1,10 +1,12 @@
 package org.trinity.yqyl.rest.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
@@ -17,7 +19,14 @@ import org.trinity.yqyl.process.controller.base.IServiceSupplierClientProcessCon
 public class ServiceSupplierClientRestController extends
         AbstractApplicationAwareCrudRestController<ServiceSupplierClientDto, ServiceSupplierClientSearchingDto, IServiceSupplierClientProcessController, ServiceSupplierClientRequest, ServiceSupplierClientResponse> {
 
-    @RequestMapping(value = "register", method = RequestMethod.POST)
+    @RequestMapping(value = "/audit", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<DefaultResponse> audit(@RequestBody final ServiceSupplierClientRequest request) throws IException {
+        getDomainProcessController().audit(request.getData());
+
+        return createResponseEntity(new DefaultResponse());
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<ServiceSupplierClientResponse> register() throws IException {
         final ServiceSupplierClientResponse response = createResponseInstance();
 

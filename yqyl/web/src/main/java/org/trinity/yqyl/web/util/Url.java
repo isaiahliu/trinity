@@ -38,6 +38,7 @@ public enum Url implements IHttpUrl {
     SUPPLIER(HttpMethod.GET, Path.SUPPLIER),
     SUPPLIER_REGISTER(HttpMethod.POST, Path.SUPPLIER, "register"),
     SUPPLIER_UPDATE(HttpMethod.PUT, Path.SUPPLIER),
+    SUPPLIER_AUDIT(HttpMethod.POST, Path.SUPPLIER, "audit"),
 
     STAFF(HttpMethod.GET, Path.STAFF),
     STAFF_AVAILABLE(HttpMethod.GET, Path.STAFF, "available"),

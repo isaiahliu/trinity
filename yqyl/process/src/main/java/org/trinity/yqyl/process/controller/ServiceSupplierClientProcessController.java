@@ -20,18 +20,21 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientAccountProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientMaterialProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientProcessController;
+import org.trinity.yqyl.repository.business.dataaccess.IAccessrightRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceCategoryRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientAccountRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientMaterialRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.Accessright;
 import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
@@ -57,6 +60,9 @@ public class ServiceSupplierClientProcessController extends
     private IServiceSupplierClientAccountRepository serviceSupplierClientAccountRepository;
 
     @Autowired
+    private IAccessrightRepository accessrightRepository;
+
+    @Autowired
     private IServiceSupplierClientMaterialRepository serviceSupplierClientMaterialRepository;
 
     @Autowired
@@ -70,6 +76,25 @@ public class ServiceSupplierClientProcessController extends
 
     public ServiceSupplierClientProcessController() {
         super(ServiceSupplierClient.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_SUPPLIER_CLIENT);
+    }
+
+    @Override
+    @Transactional
+    public void audit(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
+        final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
+                .findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
+
+        final Accessright supplier = accessrightRepository.findOneByName(AccessRight.SERVICE_SUPPLIER);
+
+        entities.forEach(item -> {
+            item.getUser().getAccessrights().add(supplier);
+
+            userRepository.save(item.getUser());
+
+            item.setStatus(ServiceSupplierClientStatus.ACTIVE);
+        });
+
+        getDomainEntityRepository().save(entities);
     }
 
     @Override
@@ -248,5 +273,4 @@ public class ServiceSupplierClientProcessController extends
 
         super.updateRelationship(entity, dto);
     }
-
 }

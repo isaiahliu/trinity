@@ -5,16 +5,17 @@
 </script>
 <div class="info" ng-controller="contentController">
 	<div class="image">
-		<img />
+		<img alt="#label('NOT_UPLOADED')" ng-src="/ajax/content/image/{{serviceSupplierClient.logo}}"/>
 	</div>
 	<div class="card">
 		<div class="title">{{serviceSupplierClient.name}}</div>
 		<div class="cardItem">
-			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceSupplierClient.address}}</span>
+			<span class="key">#label("COMPANY_ADDRESS")</span><span ng-show="serviceSupplierClient.address" class="value">{{serviceSupplierClient.address}}</span><span
+				ng-hide="serviceSupplierClient.address" class="value">{{serviceSupplierClient.region}}</span>
 		</div>
 		<div class="cardItem category">
-			<span class="key">#label("SERVICE_CATEGORY")</span> <span
-				ng-repeat="serviceInfo in services" class="value">{{serviceInfo.serviceCategory.name}}</span>
+			<span class="key">#label("SERVICE_CATEGORY")</span> <span ng-show="services.length=>0" ng-repeat="serviceInfo in services" class="value">{{serviceInfo.serviceCategory.name}}</span>
+			<span ng-show="services.length==0">{{serviceSupplierClient.categories}}</span>
 		</div>
 		<div class="cardItem">
 			#if($platform=='ADMIN')
@@ -84,20 +85,15 @@
 					<tbody>
 						<tr ng-repeat="orderInfo in orders">
 							<td align="center"><span>{{orderInfo.username}}</span></td>
-							<td align="center"><span>{{orderInfo.serviceInfo.serviceCategory.name}}
-							</span></td>
+							<td align="center"><span>{{orderInfo.serviceInfo.serviceCategory.name}} </span></td>
 							<td align="center"><span>{{orderInfo.appraise.comment}}</span></td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="paging">
-					<pagination total-items="pagingData.itemCount"
-						ng-model="pagingData.pageIndex" max-size="10"
-						items-per-page="pagingData.pageSize" class="pagination-sm"
-						boundary-links="true" ng-change="searchOrders()"
-						first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
-						previous-text='#label("PREVIOUS_PAGE")'
-						next-text='#label("NEXT_PAGE")'></pagination>
+					<pagination total-items="pagingData.itemCount" ng-model="pagingData.pageIndex" max-size="10" items-per-page="pagingData.pageSize"
+						class="pagination-sm" boundary-links="true" ng-change="searchOrders()" first-text='#label("FIRST_PAGE")'
+						last-text='#label("LAST_PAGE")' previous-text='#label("PREVIOUS_PAGE")' next-text='#label("NEXT_PAGE")'></pagination>
 				</div>
 			</div>
 		</div>
