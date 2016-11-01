@@ -24,93 +24,92 @@ import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
 public class SecurityProcessController implements ISecurityProcessController {
-    @Autowired
-    private ITokenRepository tokenRepository;
-    @Autowired
-    private IUserRepository userRepository;
-    @Autowired
-    private IExceptionFactory exceptionFactory;
-    @Autowired
-    private IObjectConverter<User, SecurityDto> securityConverter;
+	@Autowired
+	private ITokenRepository tokenRepository;
+	@Autowired
+	private IUserRepository userRepository;
+	@Autowired
+	private IExceptionFactory exceptionFactory;
+	@Autowired
+	private IObjectConverter<User, SecurityDto> securityConverter;
 
-    @Autowired
-    private IOperatorClientRepository operatorClientRepository;
+	@Autowired
+	private IOperatorClientRepository operatorClientRepository;
 
-    @Override
-    @Transactional
-    public SecurityDto authenticate(final String tokenName, final String username, final String password) throws IException {
-        final User user = userRepository.findOneByUsername(username);
-        if (user == null) {
-            throw exceptionFactory.createException(ErrorMessage.UNABLE_TO_FIND_USER);
-        }
+	@Override
+	@Transactional
+	public SecurityDto authenticate(final String tokenName, final String username, final String password) throws IException {
+		final User user = userRepository.findOneByUsername(username);
+		if (user == null) {
+			throw exceptionFactory.createException(ErrorMessage.UNABLE_TO_FIND_USER);
+		}
 
-        if (!user.getPassword().equals(password)) {
-            throw exceptionFactory.createException(ErrorMessage.WRONG_PASSWORD);
-        }
+		if (!user.getPassword().equals(password)) {
+			throw exceptionFactory.createException(ErrorMessage.WRONG_PASSWORD);
+		}
 
-        final SecurityDto userDto = securityConverter.convert(user);
+		final SecurityDto userDto = securityConverter.convert(user);
 
-        final Token token = tokenRepository.findOneByToken(tokenName);
-        final Date now = new Date();
-        token.setUser(user);
-        token.setActiveTimestamp(now);
-        token.setLastActiveTimestamp(now);
-        token.setStatus(TokenStatus.AUTHENTICATED);
-        tokenRepository.save(token);
+		final Token token = tokenRepository.findOneByToken(tokenName);
+		final Date now = new Date();
+		token.setUser(user);
+		token.setActiveTimestamp(now);
+		token.setLastActiveTimestamp(now);
+		token.setStatus(TokenStatus.AUTHENTICATED);
+		tokenRepository.save(token);
 
-        // user.getTokens().forEach(item -> {
-        // if (!item.getToken().equals(tokenName) && item.getStatus() == TokenStatus.AUTHENTICATED) {
-        // item.setStatus(TokenStatus.LOGGED_BY_OTHERS);
-        // tokenRepository.save(item);
-        // }
-        // });
+		// user.getTokens().forEach(item -> {
+		// if (!item.getToken().equals(tokenName) && item.getStatus() ==
+		// TokenStatus.AUTHENTICATED) {
+		// item.setStatus(TokenStatus.LOGGED_BY_OTHERS);
+		// tokenRepository.save(item);
+		// }
+		// });
 
-        return userDto;
-    }
+		return userDto;
+	}
 
-    @Override
-    @Transactional
-    public SecurityDto logout(final String tokenName) throws IException {
-        final SecurityDto result = new SecurityDto();
-        final Token tokenItem = tokenRepository.findOneByToken(tokenName);
+	@Override
+	@Transactional
+	public SecurityDto logout(final String tokenName) throws IException {
+		final SecurityDto result = new SecurityDto();
+		final Token tokenItem = tokenRepository.findOneByToken(tokenName);
 
-        final User user = tokenItem.getUser();
-        if (user != null) {
-            result.setUsername(user.getUsername());
-        }
+		final User user = tokenItem.getUser();
+		if (user != null) {
+			result.setUsername(user.getUsername());
+		}
 
-        tokenItem.setUser(null);
-        tokenItem.setStatus(TokenStatus.UNAUTHENTICATED);
-        tokenItem.setActiveTimestamp(null);
-        tokenItem.setLastActiveTimestamp(null);
+		tokenItem.setStatus(TokenStatus.LOGGED_OUT);
+		tokenItem.setLastActiveTimestamp(new Date());
 
-        tokenRepository.save(tokenItem);
+		tokenRepository.save(tokenItem);
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    @Transactional
-    public void register(final String username, final String password) throws IException {
-        User user = userRepository.findOneByUsername(username);
-        if (user != null) {
-            throw exceptionFactory.createException(ErrorMessage.USERNAME_IS_REGISTERED);
-        }
+	@Override
+	@Transactional
+	public void register(final String username, final String password) throws IException {
+		User user = userRepository.findOneByUsername(username);
+		if (user != null) {
+			throw exceptionFactory.createException(ErrorMessage.USERNAME_IS_REGISTERED);
+		}
 
-        user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+		user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
 
-        user.setStatus(UserStatus.ACTIVE);
+		user.setStatus(UserStatus.ACTIVE);
 
-        userRepository.save(user);
+		userRepository.save(user);
 
-        final OperatorClient operatorClient = new OperatorClient();
-        operatorClient.setName("");
-        operatorClient.setStaffNo("");
-        operatorClient.setStatus(OperatorClientStatus.INACTIVE);
-        operatorClient.setUser(user);
+		final OperatorClient operatorClient = new OperatorClient();
+		operatorClient.setName("");
+		operatorClient.setStaffNo("");
+		operatorClient.setStatus(OperatorClientStatus.INACTIVE);
+		operatorClient.setUser(user);
 
-        operatorClientRepository.save(operatorClient);
-    }
+		operatorClientRepository.save(operatorClient);
+	}
 }

@@ -2,9 +2,12 @@ package org.trinity.yqyl.process.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,80 +22,96 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IUserProcessController;
+import org.trinity.yqyl.repository.business.dataaccess.IAccessrightRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.Accessright;
 import org.trinity.yqyl.repository.business.entity.User;
 import org.trinity.yqyl.repository.business.entity.User_;
 
 @Service
 public class UserProcessController extends AbstractAutowiredCrudProcessController<User, UserDto, UserSearchingDto, IUserRepository>
-        implements IUserProcessController {
-    public UserProcessController() {
-        super(User.class, ErrorMessage.UNABLE_TO_FIND_USER);
-    }
+		implements IUserProcessController {
+	@Autowired
+	private IAccessrightRepository accessrightRepository;
 
-    @Override
-    public void changePassword(final Long id, final String oldPassword, final String newPassword) throws IException {
-        final User user = getDomainEntityRepository().findOne(id);
+	public UserProcessController() {
+		super(User.class, ErrorMessage.UNABLE_TO_FIND_USER);
+	}
 
-        validateDataPermission(getDomainObjectConverter().convert(user));
+	@Override
+	public void changePassword(final Long id, final String oldPassword, final String newPassword) throws IException {
+		final User user = getDomainEntityRepository().findOne(id);
 
-        if (!user.getPassword().equals(oldPassword)) {
-            throw getExceptionFactory().createException(ErrorMessage.WRONG_PASSWORD);
-        }
+		validateDataPermission(getDomainObjectConverter().convert(user));
 
-        user.setPassword(newPassword);
+		if (!user.getPassword().equals(oldPassword)) {
+			throw getExceptionFactory().createException(ErrorMessage.WRONG_PASSWORD);
+		}
 
-        getDomainEntityRepository().save(user);
-    }
+		user.setPassword(newPassword);
 
-    @Override
-    public List<UserDto> getMe(final UserSearchingDto dto) throws IException {
-        final String username = getSecurityUtil().getCurrentToken().getUsername();
+		getDomainEntityRepository().save(user);
+	}
 
-        final User user = getDomainEntityRepository().findOneByUsername(username);
-        final UserDto userDto = getDomainObjectConverter().convert(user, dto.generateRelationship());
+	@Override
+	public List<UserDto> getMe(final UserSearchingDto dto) throws IException {
+		final String username = getSecurityUtil().getCurrentToken().getUsername();
 
-        final List<UserDto> result = new ArrayList<>();
-        result.add(userDto);
-        return result;
-    }
+		final User user = getDomainEntityRepository().findOneByUsername(username);
+		final UserDto userDto = getDomainObjectConverter().convert(user, dto.generateRelationship());
 
-    @Override
-    protected void addRelationship(final User entity, final UserDto dto) {
-        entity.setStatus(UserStatus.ACTIVE);
-    }
+		final List<UserDto> result = new ArrayList<>();
+		result.add(userDto);
+		return result;
+	}
 
-    @Override
-    protected Page<User> queryAll(final UserSearchingDto dto) throws IException {
-        final Pageable pagable = getPagingConverter().convert(dto);
+	@Override
+	protected void addRelationship(final User entity, final UserDto dto) {
+		entity.setStatus(UserStatus.ACTIVE);
+	}
 
-        final Specification<User> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
+	@Override
+	@Transactional
+	protected Page<User> queryAll(final UserSearchingDto dto) throws IException {
+		final Pageable pagable = getPagingConverter().convert(dto);
 
-            if (!StringUtils.isEmpty(dto.getUsername())) {
-                predicates.add(cb.like(root.get(User_.username), "%" + dto.getUsername() + "%"));
-            }
+		final List<Long> exceptUserIds = new ArrayList<>();
+		if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+			final Accessright superUser = accessrightRepository.findOneByName(AccessRight.SUPER_USER);
 
-            if (dto.getId() != null && dto.getId() > 0) {
-                predicates.add(cb.equal(root.get(User_.id), dto.getId()));
-            }
+			exceptUserIds.addAll(superUser.getUsers().stream().map(item -> item.getId()).collect(Collectors.toList()));
+		}
+		final Specification<User> specification = (root, query, cb) -> {
+			final List<Predicate> predicates = new ArrayList<>();
 
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
+			if (!StringUtils.isEmpty(dto.getUsername())) {
+				predicates.add(cb.like(root.get(User_.username), "%" + dto.getUsername() + "%"));
+			}
 
-        return getDomainEntityRepository().findAll(specification, pagable);
-    }
+			if (dto.getId() != null && dto.getId() > 0) {
+				predicates.add(cb.equal(root.get(User_.id), dto.getId()));
+			}
 
-    @Override
-    protected void validateDataPermission(final UserDto dto) throws IException {
-        final String currentUser = getSecurityUtil().getCurrentToken().getUsername();
+			if (!exceptUserIds.isEmpty()) {
+				predicates.add(root.get(User_.id).in(exceptUserIds).not());
+			}
 
-        final User user = getDomainEntityRepository().findOne(dto.getId());
+			return cb.and(predicates.toArray(new Predicate[0]));
+		};
 
-        if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
-            if (!currentUser.equals(user.getUsername())) {
-                throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_ACCESS_USER, user.getUsername());
-            }
-        }
-    }
+		return getDomainEntityRepository().findAll(specification, pagable);
+	}
+
+	@Override
+	protected void validateDataPermission(final UserDto dto) throws IException {
+		final String currentUser = getSecurityUtil().getCurrentToken().getUsername();
+
+		final User user = getDomainEntityRepository().findOne(dto.getId());
+
+		if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+			if (!currentUser.equals(user.getUsername())) {
+				throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_ACCESS_USER, user.getUsername());
+			}
+		}
+	}
 }

@@ -1,0 +1,18 @@
+#parse("/velocity/admin/navigation.vm")
+
+<link rel="stylesheet"
+	href="/static/css/business/admin/permissionEdit.css"></link>
+
+<script type="text/javascript">
+	layoutApp.value("userId",#if(${userId}) ${userId} #else 0 #end);
+</script>
+
+<div class="permissionEdit" ng-controller="contentController">
+	<div class="title">#label("PERMISSION_MANAGEMENT")</div>
+	<div>
+		<button ng-click="apply()">#button("APPLY")</button>
+		<button ng-click="back()">#button("CANCEL")</button>
+	</div>
+</div>
+
+<script src="/static/js/business/admin/permissionEdit.js"></script>

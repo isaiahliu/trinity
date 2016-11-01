@@ -12,81 +12,87 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 @RequestMapping("/admin")
 public class AdminWebController extends AbstractResourceWebController {
 
-    @RequestMapping("/supplier/audit/{id}")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView infoPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("service/info").addObject("serviceSupplierClientId", id);
-    }
+	@RequestMapping("/supplier/audit/{id}")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView infoPage(@PathVariable("id") final Long id) throws IException {
+		return createModelAndView("service/info").addObject("serviceSupplierClientId", id);
+	}
 
-    @RequestMapping({ "", "/news" })
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView newsPage() throws IException {
-        return createModelAndView("admin/news");
-    }
+	@RequestMapping({ "", "/news" })
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView newsPage() throws IException {
+		return createModelAndView("admin/news");
+	}
 
-    @RequestMapping("/permission")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView permissionPage() throws IException {
-        return createModelAndView("admin/permission");
-    }
+	@RequestMapping("/permission/edit/{id}")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView permissionEditPage(@PathVariable("id") final Long id) throws IException {
+		return createModelAndView("admin/permissionEdit").addObject("userId", id);
+	}
 
-    @RequestMapping("/receiver")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView receiverPage() throws IException {
-        return createModelAndView("admin/receiver");
-    }
+	@RequestMapping("/permission")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView permissionPage() throws IException {
+		return createModelAndView("admin/permission");
+	}
 
-    @RequestMapping("/role")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView rolePage() throws IException {
-        return createModelAndView("admin/role");
-    }
+	@RequestMapping("/receiver")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView receiverPage() throws IException {
+		return createModelAndView("admin/receiver");
+	}
 
-    @RequestMapping("/service/appraise")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView serviceAppraisePage() throws IException {
-        return createModelAndView("admin/service/appraise");
-    }
+	@RequestMapping("/role")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView rolePage() throws IException {
+		return createModelAndView("admin/role");
+	}
 
-    @RequestMapping("/service/category/edit")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView serviceCategoryEditPage() throws IException {
-        return createModelAndView("admin/service/categoryEdit");
-    }
+	@RequestMapping("/service/appraise")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView serviceAppraisePage() throws IException {
+		return createModelAndView("admin/service/appraise");
+	}
 
-    @RequestMapping("/service/category")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView serviceCategoryPage() throws IException {
-        return createModelAndView("admin/service/category");
-    }
+	@RequestMapping("/service/category/edit")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView serviceCategoryEditPage() throws IException {
+		return createModelAndView("admin/service/categoryEdit");
+	}
 
-    @RequestMapping("/service/order")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView serviceOrderPage() throws IException {
-        return createModelAndView("admin/service/order");
-    }
+	@RequestMapping("/service/category")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView serviceCategoryPage() throws IException {
+		return createModelAndView("admin/service/category");
+	}
 
-    @RequestMapping("/service/category/edit/{id}")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView serviceSubCategoryEditPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("admin/service/categoryEdit").addObject("categoryId", id);
-    }
+	@RequestMapping("/service/order")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView serviceOrderPage() throws IException {
+		return createModelAndView("admin/service/order");
+	}
 
-    @RequestMapping("/supplier")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView supplierPage() throws IException {
-        return createModelAndView("admin/supplier");
-    }
+	@RequestMapping("/service/category/edit/{id}")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView serviceSubCategoryEditPage(@PathVariable("id") final Long id) throws IException {
+		return createModelAndView("admin/service/categoryEdit").addObject("categoryId", id);
+	}
 
-    @RequestMapping("/training")
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public ModelAndView trainingPage() throws IException {
-        return createModelAndView("admin/training");
-    }
+	@RequestMapping("/supplier")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView supplierPage() throws IException {
+		return createModelAndView("admin/supplier");
+	}
 
-    @Override
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    protected ModelAndView createModelAndView(final String viewName) {
-        return super.createModelAndView(viewName).addObject("platform", "ADMIN");
-    }
+	@RequestMapping("/training")
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	public ModelAndView trainingPage() throws IException {
+		return createModelAndView("admin/training");
+	}
+
+	@Override
+	@Authorize(requireAny = AccessRight.ADMINISTRATOR)
+	protected ModelAndView createModelAndView(final String viewName) {
+		return super.createModelAndView(viewName).addObject("platform", "ADMIN");
+	}
 }

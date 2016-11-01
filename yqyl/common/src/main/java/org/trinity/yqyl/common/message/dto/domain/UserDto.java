@@ -1,5 +1,7 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.Date;
+
 import javax.validation.constraints.Null;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -25,12 +27,18 @@ public class UserDto extends AbstractBusinessDto {
     @Null(groups = { AddData.class, UpdateData.class })
     private LookupDto status;
 
+    private Date lastAccessDate;
+
     public String getCellphone() {
         return cellphone;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public Date getLastAccessDate() {
+        return lastAccessDate;
     }
 
     public String getPassword() {
@@ -55,6 +63,10 @@ public class UserDto extends AbstractBusinessDto {
 
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    public void setLastAccessDate(final Date lastAccessDate) {
+        this.lastAccessDate = lastAccessDate;
     }
 
     public void setPassword(final String password) {

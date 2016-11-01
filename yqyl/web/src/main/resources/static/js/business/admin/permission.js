@@ -32,4 +32,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).error(function(response) {
 		});
 	};
+	$scope.assignPermission = function(user) {
+		$window.location.href = "/admin/permission/edit/" + user.id;
+	};
 });

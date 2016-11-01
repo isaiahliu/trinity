@@ -8,5 +8,6 @@ public enum TokenAuthenticationStatus {
 	USER_IS_DISABLED,
 	PASSWORD_CHANGED,
 	NOT_EXISTS,
-	NOT_SUPPORTED
+	NOT_SUPPORTED,
+	LOGGED_OUT
 }

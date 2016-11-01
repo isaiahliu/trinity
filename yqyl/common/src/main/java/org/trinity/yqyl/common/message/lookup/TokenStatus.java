@@ -8,7 +8,8 @@ public enum TokenStatus implements ILookupMessage<LookupType> {
     EXPIRED("E", TokenAuthenticationStatus.TOKEN_IS_EXPIRED),
     UNAUTHENTICATED("U", TokenAuthenticationStatus.UNAUTHENTICATED),
     LOGGED_BY_OTHERS("L", TokenAuthenticationStatus.LOGGED_BY_OTHERS),
-    PASSWORD_CHANGED("C", TokenAuthenticationStatus.PASSWORD_CHANGED);
+    PASSWORD_CHANGED("C", TokenAuthenticationStatus.PASSWORD_CHANGED),
+    LOGGED_OUT("O", TokenAuthenticationStatus.LOGGED_OUT);
 
     private TokenAuthenticationStatus authenticationStatus;
     private final String messageCode;
