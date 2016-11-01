@@ -92,6 +92,7 @@ public final class CrudGeneratorUtil {
             writer.println(
                     String.format("public class %1$sConverter extends AbstractLookupSupportObjectConverter<%1$s, %1$sDto> {", entity));
             writer.println(String.format("private static enum %1$sRelationship {", entity));
+            writer.println(String.format("NA"));
             writer.println(String.format("}"));
             writer.println(String.format(""));
             writer.println(String.format("@Autowired"));
@@ -126,6 +127,7 @@ public final class CrudGeneratorUtil {
                     "protected void convertRelationshipInternal(final %1$s source, final %1$sDto target, final RelationshipExpression relationshipExpression) {",
                     entity));
             writer.println(String.format("switch (relationshipExpression.getName(%1$sRelationship.class)) {", entity));
+            writer.println(String.format("case NA:", entity));
             writer.println(String.format("default:", entity));
             writer.println(String.format("break;", entity));
             writer.println(String.format("}", entity));

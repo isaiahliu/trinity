@@ -49,7 +49,6 @@ public class SecurityProcessController implements ISecurityProcessController {
         }
 
         final SecurityDto userDto = securityConverter.convert(user);
-        userDto.setPassword("");
 
         final Token token = tokenRepository.findOneByToken(tokenName);
         final Date now = new Date();

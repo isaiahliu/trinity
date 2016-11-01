@@ -15,7 +15,8 @@ import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 public class ServiceCategoryConverter extends AbstractLookupSupportObjectConverter<ServiceCategory, ServiceCategoryDto> {
     private static enum ServiceCategoryRelationship {
         PARENT,
-        SERVICE_SUB_CATEGORIES
+        SERVICE_SUB_CATEGORIES,
+        NA
     }
 
     @Autowired

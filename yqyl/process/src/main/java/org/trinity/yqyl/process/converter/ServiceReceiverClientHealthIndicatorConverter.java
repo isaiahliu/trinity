@@ -18,6 +18,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthIn
 public class ServiceReceiverClientHealthIndicatorConverter
         extends AbstractLookupSupportObjectConverter<ServiceReceiverClientHealthIndicator, ServiceReceiverClientHealthIndicatorDto> {
     private static enum ServiceReceiverClientHealthIndicatorRelationship {
+        NA
     }
 
     @Autowired

@@ -25,7 +25,8 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
     private static enum ServiceOrderRelationship {
         SERVICE_INFO,
         APPRAISE,
-        STAFF
+        STAFF,
+        NA
     }
 
     @Autowired

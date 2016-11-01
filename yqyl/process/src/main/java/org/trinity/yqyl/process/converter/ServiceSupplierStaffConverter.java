@@ -22,7 +22,8 @@ import org.trinity.yqyl.repository.business.entity.ServiceSupplierStaff;
 public class ServiceSupplierStaffConverter extends AbstractLookupSupportObjectConverter<ServiceSupplierStaff, ServiceSupplierStaffDto> {
     private static enum ServiceSupplierStaffRelationship {
         SERVICE_SUPPLIER_CLIENT,
-        SERVICE_CATEGORIES
+        SERVICE_CATEGORIES,
+        NA
     }
 
     @Autowired

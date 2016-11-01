@@ -13,6 +13,7 @@ import org.trinity.yqyl.repository.business.entity.Content;
 @Component
 public class ContentConverter extends AbstractLookupSupportObjectConverter<Content, ContentDto> {
     private static enum AnnouncementRelationship {
+        NA
     }
 
     @Autowired

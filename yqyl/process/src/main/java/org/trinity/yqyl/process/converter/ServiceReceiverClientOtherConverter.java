@@ -14,6 +14,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientOther;
 public class ServiceReceiverClientOtherConverter
         extends AbstractLookupSupportObjectConverter<ServiceReceiverClientOther, ServiceReceiverClientOtherDto> {
     private static enum ServiceReceiverClientOtherRelationship {
+        NA
     }
 
     @Autowired

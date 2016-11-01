@@ -15,6 +15,7 @@ import org.trinity.yqyl.repository.business.entity.User;
 @Component
 public class TokenConverter extends AbstractLookupSupportObjectConverter<Token, TokenDto> {
     private static enum TokenRelationship {
+        NA
     }
 
     @Autowired

@@ -14,6 +14,7 @@ import org.trinity.yqyl.repository.business.entity.User;
 @Component
 public class UserConverter extends AbstractLookupSupportObjectConverter<User, UserDto> {
     private static enum UserRelationship {
+        NA
     }
 
     @Autowired
@@ -36,7 +37,7 @@ public class UserConverter extends AbstractLookupSupportObjectConverter<User, Us
     protected void convertInternal(final User source, final UserDto target, final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyObject(source::getUsername, target::getUsername, target::setUsername, copyPolicy);
-        copyObject(source::getPassword, target::getPassword, target::setPassword, copyPolicy);
+        copyObject(() -> "******", target::getPassword, target::setPassword, copyPolicy);
         copyObject(source::getCellphone, target::getCellphone, target::setCellphone, copyPolicy);
         copyObject(source::getEmail, target::getEmail, target::setEmail, copyPolicy);
         copyObject(source::getYiquanCode, target::getYiquanCode, target::setYiquanCode, copyPolicy);
@@ -47,6 +48,7 @@ public class UserConverter extends AbstractLookupSupportObjectConverter<User, Us
     protected void convertRelationshipInternal(final User source, final UserDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(UserRelationship.class)) {
+        case NA:
         default:
             break;
         }

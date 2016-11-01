@@ -15,6 +15,7 @@ import org.trinity.yqyl.repository.business.entity.UserRealname;
 @Component
 public class UserRealnameConverter extends AbstractLookupSupportObjectConverter<UserRealname, UserRealnameDto> {
     private static enum UserRealnameRelationship {
+        NA
     }
 
     @Autowired

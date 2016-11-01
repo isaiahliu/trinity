@@ -3,8 +3,8 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
-import org.trinity.message.ILookupMessage;
 import org.trinity.common.dto.object.RelationshipExpression;
+import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.AccountTransactionDto;
@@ -13,6 +13,7 @@ import org.trinity.yqyl.repository.business.entity.AccountTransaction;
 @Component
 public class AccountTransactionConverter extends AbstractLookupSupportObjectConverter<AccountTransaction, AccountTransactionDto> {
     private static enum AccountTransactionRelationship {
+        NA
     }
 
     @Autowired
@@ -31,6 +32,15 @@ public class AccountTransactionConverter extends AbstractLookupSupportObjectConv
     }
 
     @Override
+    protected void convertRelationshipInternal(final AccountTransaction source, final AccountTransactionDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(AccountTransactionRelationship.class)) {
+        default:
+            break;
+        }
+    }
+
+    @Override
     protected AccountTransaction createFromInstance() {
         return new AccountTransaction();
     }
@@ -38,14 +48,5 @@ public class AccountTransactionConverter extends AbstractLookupSupportObjectConv
     @Override
     protected AccountTransactionDto createToInstance() {
         return new AccountTransactionDto();
-    }
-
-    @Override
-    protected void convertRelationshipInternal(final AccountTransaction source, final AccountTransactionDto target,
-            final RelationshipExpression relationshipExpression) {
-        switch (relationshipExpression.getName(AccountTransactionRelationship.class)) {
-        default:
-            break;
-        }
     }
 }

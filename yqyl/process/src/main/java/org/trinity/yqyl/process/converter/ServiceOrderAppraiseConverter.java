@@ -14,6 +14,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise;
 @Component
 public class ServiceOrderAppraiseConverter extends AbstractLookupSupportObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> {
     private static enum ServiceOrderAppraiseRelationship {
+        NA
     }
 
     @Autowired

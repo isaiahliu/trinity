@@ -15,7 +15,8 @@ import org.trinity.yqyl.repository.business.entity.Accessright;
 @Component
 public class AccessrightConverter extends AbstractLookupSupportObjectConverter<Accessright, AccessrightDto> {
     private static enum AccessrightRelationship {
-        CHILDREN
+        CHILDREN,
+        NA
     }
 
     @Autowired

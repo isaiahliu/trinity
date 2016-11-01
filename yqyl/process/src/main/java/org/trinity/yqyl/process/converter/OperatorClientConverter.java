@@ -14,6 +14,7 @@ import org.trinity.yqyl.repository.business.entity.OperatorClient;
 @Component
 public class OperatorClientConverter extends AbstractLookupSupportObjectConverter<OperatorClient, OperatorClientDto> {
     private static enum AnnouncementRelationship {
+        NA
     }
 
     @Autowired

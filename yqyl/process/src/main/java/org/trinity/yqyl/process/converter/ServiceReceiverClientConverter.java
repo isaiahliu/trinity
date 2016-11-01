@@ -16,6 +16,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
 @Component
 public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectConverter<ServiceReceiverClient, ServiceReceiverClientDto> {
     private static enum ServiceReceiverClientRelationship {
+        NA
     }
 
     private static final String DATE_FORMAT = "yyyy/MM/dd";

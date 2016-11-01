@@ -14,6 +14,7 @@ import org.trinity.yqyl.repository.business.entity.Yiquan;
 @Component
 public class YiquanConverter extends AbstractLookupSupportObjectConverter<Yiquan, YiquanDto> {
     private static enum YiquanRelationship {
+        NA
     }
 
     @Autowired

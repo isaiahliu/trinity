@@ -10,13 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.trinity.common.dto.response.AbstractResponse;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
+import org.trinity.yqyl.common.accessright.Authorize;
 import org.trinity.yqyl.common.message.dto.domain.SecurityDto;
+import org.trinity.yqyl.common.message.dto.domain.UserSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.AuthenticateRequest;
 import org.trinity.yqyl.common.message.dto.request.ChangePasswordRequest;
 import org.trinity.yqyl.common.message.dto.request.TokenRequest;
@@ -24,6 +27,7 @@ import org.trinity.yqyl.common.message.dto.request.UserRequest;
 import org.trinity.yqyl.common.message.dto.response.SecurityResponse;
 import org.trinity.yqyl.common.message.dto.response.TokenResponse;
 import org.trinity.yqyl.common.message.dto.response.UserResponse;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.web.util.SessionFilter;
 import org.trinity.yqyl.web.util.Url;
 
@@ -39,6 +43,12 @@ public class UserAjaxController extends AbstractRestController {
                 DefaultResponse.class);
 
         return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
+    public @ResponseBody UserResponse ajaxGetServiceInfoMe(final UserSearchingDto dto) throws IException {
+        return restfulServiceUtil.callRestService(Url.USER, null, null, dto, UserResponse.class);
     }
 
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)

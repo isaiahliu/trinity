@@ -24,7 +24,8 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
     private static enum ServiceSupplierClientRelationship {
         MATERIAL,
         ACCOUNT,
-        SERVICE_INFOS
+        SERVICE_INFOS,
+        NA
     }
 
     @Autowired

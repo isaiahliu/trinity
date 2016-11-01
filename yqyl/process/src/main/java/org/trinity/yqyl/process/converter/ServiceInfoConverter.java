@@ -21,7 +21,8 @@ import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 public class ServiceInfoConverter extends AbstractLookupSupportObjectConverter<ServiceInfo, ServiceInfoDto> {
     private static enum ServiceInfoRelationship {
         SERVICE_SUPPLIER_CLIENT,
-        SERVICE_CATEGORY
+        SERVICE_CATEGORY,
+        NA
     }
 
     @Autowired

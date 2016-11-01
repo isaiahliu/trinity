@@ -30,7 +30,11 @@ public final class RelationshipExpression {
     }
 
     public <T extends Enum<T>> T getName(final Class<T> clazz) {
-        return Enum.valueOf(clazz, name.toUpperCase());
+        try {
+            return Enum.valueOf(clazz, name.toUpperCase());
+        } catch (final IllegalArgumentException e) {
+            return Enum.valueOf(clazz, "NA");
+        }
     }
 
     public void setChildren(final List<RelationshipExpression> children) {

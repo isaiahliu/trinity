@@ -13,6 +13,7 @@ public enum Url implements IHttpUrl {
     TOKEN_VERIFY(HttpMethod.GET, Path.TOKEN, "verify"),
     TOKEN_NEW(HttpMethod.POST, Path.TOKEN),
 
+    USER(HttpMethod.GET, Path.USER),
     USER_ME(HttpMethod.GET, Path.USER, "me"),
     USER_INFO(HttpMethod.PUT, Path.USER),
     USER_CHANGE_PASSWORD(HttpMethod.PUT, Path.USER, "password"),

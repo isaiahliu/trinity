@@ -13,6 +13,7 @@ import org.trinity.yqyl.repository.business.entity.Announcement;
 @Component
 public class AnnouncementConverter extends AbstractLookupSupportObjectConverter<Announcement, AnnouncementDto> {
     private static enum AnnouncementRelationship {
+        NA
     }
 
     @Autowired

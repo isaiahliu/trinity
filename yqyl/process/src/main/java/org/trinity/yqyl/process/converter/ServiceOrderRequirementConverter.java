@@ -20,7 +20,8 @@ import org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement;
 public class ServiceOrderRequirementConverter
         extends AbstractLookupSupportObjectConverter<ServiceOrderRequirement, ServiceOrderRequirementDto> {
     private static enum ServiceOrderRequirementRelationship {
-        SERVICE_ORDERS
+        SERVICE_ORDERS,
+        NA
     }
 
     @Autowired

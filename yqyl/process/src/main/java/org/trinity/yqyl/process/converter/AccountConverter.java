@@ -3,8 +3,8 @@ package org.trinity.yqyl.process.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
-import org.trinity.message.ILookupMessage;
 import org.trinity.common.dto.object.RelationshipExpression;
+import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.AccountDto;
@@ -13,6 +13,7 @@ import org.trinity.yqyl.repository.business.entity.Account;
 @Component
 public class AccountConverter extends AbstractLookupSupportObjectConverter<Account, AccountDto> {
     private static enum AccountRelationship {
+        NA
     }
 
     @Autowired
@@ -31,6 +32,15 @@ public class AccountConverter extends AbstractLookupSupportObjectConverter<Accou
     }
 
     @Override
+    protected void convertRelationshipInternal(final Account source, final AccountDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(AccountRelationship.class)) {
+        default:
+            break;
+        }
+    }
+
+    @Override
     protected Account createFromInstance() {
         return new Account();
     }
@@ -38,14 +48,5 @@ public class AccountConverter extends AbstractLookupSupportObjectConverter<Accou
     @Override
     protected AccountDto createToInstance() {
         return new AccountDto();
-    }
-
-    @Override
-    protected void convertRelationshipInternal(final Account source, final AccountDto target,
-            final RelationshipExpression relationshipExpression) {
-        switch (relationshipExpression.getName(AccountRelationship.class)) {
-        default:
-            break;
-        }
     }
 }

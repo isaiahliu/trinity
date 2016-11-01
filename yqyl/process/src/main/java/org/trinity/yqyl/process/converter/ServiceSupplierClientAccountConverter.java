@@ -17,6 +17,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAccount;
 public class ServiceSupplierClientAccountConverter
         extends AbstractLookupSupportObjectConverter<ServiceSupplierClientAccount, ServiceSupplierClientAccountDto> {
     private static enum ServiceSupplierClientAccountRelationship {
+        NA
     }
 
     @Autowired

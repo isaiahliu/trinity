@@ -15,6 +15,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientMaterial
 public class ServiceSupplierClientMaterialConverter
         extends AbstractLookupSupportObjectConverter<ServiceSupplierClientMaterial, ServiceSupplierClientMaterialDto> {
     private static enum ServiceSupplierClientMaterialRelationship {
+        NA
     }
 
     @Autowired

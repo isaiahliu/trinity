@@ -12,6 +12,7 @@ import org.trinity.yqyl.repository.business.entity.Lookup;
 @Component
 public class LookupConverter extends AbstractLookupSupportObjectConverter<Lookup, LookupDto> {
     private static enum LookupRelationship {
+        NA
     }
 
     @Autowired
