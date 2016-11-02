@@ -63,8 +63,8 @@ public class SecurityRestController extends AbstractRestController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<DefaultResponse> register(@RequestBody @OnValid final AuthenticateRequest request)
-            throws IException {
+    public @ResponseBody ResponseEntity<DefaultResponse> register(
+            @RequestBody @OnValid(IValidationScenario.IRegister.class) final AuthenticateRequest request) throws IException {
         final DefaultResponse response = new DefaultResponse();
         securityProcessController.register(request.getUser().getUsername(), request.getUser().getPassword());
 
