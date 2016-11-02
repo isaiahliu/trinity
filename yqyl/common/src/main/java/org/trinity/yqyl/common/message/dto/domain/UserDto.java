@@ -1,6 +1,7 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.Null;
 
@@ -28,6 +29,8 @@ public class UserDto extends AbstractBusinessDto {
     private LookupDto status;
 
     private Date lastAccessDate;
+
+    private List<AccessrightDto> accessrights;
 
     public String getCellphone() {
         return cellphone;
@@ -83,5 +86,13 @@ public class UserDto extends AbstractBusinessDto {
 
     public void setYiquanCode(final String yiquanCode) {
         this.yiquanCode = yiquanCode;
+    }
+
+    public List<AccessrightDto> getAccessrights() {
+        return accessrights;
+    }
+
+    public void setAccessrights(List<AccessrightDto> accessrights) {
+        this.accessrights = accessrights;
     }
 }

@@ -18,6 +18,10 @@ public final class RelationshipExpression {
         this.name = pattern.matcher(name).replaceAll("_$1").toUpperCase();
     }
 
+    public <T extends Enum<T>> RelationshipExpression(final T t) {
+        this.name = t.name();
+    }
+
     public List<RelationshipExpression> getChildren() {
         if (children == null) {
             children = new ArrayList<>();

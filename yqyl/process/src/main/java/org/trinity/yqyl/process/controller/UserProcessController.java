@@ -30,88 +30,98 @@ import org.trinity.yqyl.repository.business.entity.User_;
 
 @Service
 public class UserProcessController extends AbstractAutowiredCrudProcessController<User, UserDto, UserSearchingDto, IUserRepository>
-		implements IUserProcessController {
-	@Autowired
-	private IAccessrightRepository accessrightRepository;
+        implements IUserProcessController {
+    @Autowired
+    private IAccessrightRepository accessrightRepository;
 
-	public UserProcessController() {
-		super(User.class, ErrorMessage.UNABLE_TO_FIND_USER);
-	}
+    public UserProcessController() {
+        super(User.class, ErrorMessage.UNABLE_TO_FIND_USER);
+    }
 
-	@Override
-	public void changePassword(final Long id, final String oldPassword, final String newPassword) throws IException {
-		final User user = getDomainEntityRepository().findOne(id);
+    @Override
+    public void changePassword(final Long id, final String oldPassword, final String newPassword) throws IException {
+        final User user = getDomainEntityRepository().findOne(id);
 
-		validateDataPermission(getDomainObjectConverter().convert(user));
+        validateDataPermission(getDomainObjectConverter().convert(user));
 
-		if (!user.getPassword().equals(oldPassword)) {
-			throw getExceptionFactory().createException(ErrorMessage.WRONG_PASSWORD);
-		}
+        if (!user.getPassword().equals(oldPassword)) {
+            throw getExceptionFactory().createException(ErrorMessage.WRONG_PASSWORD);
+        }
 
-		user.setPassword(newPassword);
+        user.setPassword(newPassword);
 
-		getDomainEntityRepository().save(user);
-	}
+        getDomainEntityRepository().save(user);
+    }
 
-	@Override
-	public List<UserDto> getMe(final UserSearchingDto dto) throws IException {
-		final String username = getSecurityUtil().getCurrentToken().getUsername();
+    @Override
+    public List<UserDto> getMe(final UserSearchingDto dto) throws IException {
+        final String username = getSecurityUtil().getCurrentToken().getUsername();
 
-		final User user = getDomainEntityRepository().findOneByUsername(username);
-		final UserDto userDto = getDomainObjectConverter().convert(user, dto.generateRelationship());
+        final User user = getDomainEntityRepository().findOneByUsername(username);
+        final UserDto userDto = getDomainObjectConverter().convert(user, dto.generateRelationship());
 
-		final List<UserDto> result = new ArrayList<>();
-		result.add(userDto);
-		return result;
-	}
+        final List<UserDto> result = new ArrayList<>();
+        result.add(userDto);
+        return result;
+    }
 
-	@Override
-	protected void addRelationship(final User entity, final UserDto dto) {
-		entity.setStatus(UserStatus.ACTIVE);
-	}
+    @Override
+    protected void addRelationship(final User entity, final UserDto dto) {
+        entity.setStatus(UserStatus.ACTIVE);
+    }
 
-	@Override
-	@Transactional
-	protected Page<User> queryAll(final UserSearchingDto dto) throws IException {
-		final Pageable pagable = getPagingConverter().convert(dto);
+    @Override
+    @Transactional
+    protected Page<User> queryAll(final UserSearchingDto dto) throws IException {
+        final Pageable pagable = getPagingConverter().convert(dto);
 
-		final List<Long> exceptUserIds = new ArrayList<>();
-		if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
-			final Accessright superUser = accessrightRepository.findOneByName(AccessRight.SUPER_USER);
+        final Accessright superUser = accessrightRepository.findOneByName(AccessRight.SUPER_USER);
+        final List<Long> exceptUserIds = superUser.getUsers().stream().map(item -> item.getId()).collect(Collectors.toList());
 
-			exceptUserIds.addAll(superUser.getUsers().stream().map(item -> item.getId()).collect(Collectors.toList()));
-		}
-		final Specification<User> specification = (root, query, cb) -> {
-			final List<Predicate> predicates = new ArrayList<>();
+        final Specification<User> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
 
-			if (!StringUtils.isEmpty(dto.getUsername())) {
-				predicates.add(cb.like(root.get(User_.username), "%" + dto.getUsername() + "%"));
-			}
+            if (!StringUtils.isEmpty(dto.getUsername())) {
+                predicates.add(cb.like(root.get(User_.username), "%" + dto.getUsername() + "%"));
+            }
 
-			if (dto.getId() != null && dto.getId() > 0) {
-				predicates.add(cb.equal(root.get(User_.id), dto.getId()));
-			}
+            if (dto.getId() != null && dto.getId() > 0) {
+                predicates.add(cb.equal(root.get(User_.id), dto.getId()));
+            }
 
-			if (!exceptUserIds.isEmpty()) {
-				predicates.add(root.get(User_.id).in(exceptUserIds).not());
-			}
+            if (!exceptUserIds.isEmpty()) {
+                predicates.add(root.get(User_.id).in(exceptUserIds).not());
+            }
 
-			return cb.and(predicates.toArray(new Predicate[0]));
-		};
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
 
-		return getDomainEntityRepository().findAll(specification, pagable);
-	}
+        return getDomainEntityRepository().findAll(specification, pagable);
+    }
 
-	@Override
-	protected void validateDataPermission(final UserDto dto) throws IException {
-		final String currentUser = getSecurityUtil().getCurrentToken().getUsername();
+    @Override
+    protected void updateRelationship(final User entity, final UserDto dto) throws IException {
+        if (dto.getAccessrights() != null) {
+            if (getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR)) {
+                entity.getAccessrights().clear();
+                if (!dto.getAccessrights().isEmpty()) {
+                    accessrightRepository.findAll(dto.getAccessrights().stream().map(item -> item.getId()).collect(Collectors.toList()))
+                            .forEach(item -> entity.getAccessrights().add(item));
+                }
+            }
+        }
+    }
 
-		final User user = getDomainEntityRepository().findOne(dto.getId());
+    @Override
+    protected void validateDataPermission(final UserDto dto) throws IException {
+        final String currentUser = getSecurityUtil().getCurrentToken().getUsername();
 
-		if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
-			if (!currentUser.equals(user.getUsername())) {
-				throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_ACCESS_USER, user.getUsername());
-			}
-		}
-	}
+        final User user = getDomainEntityRepository().findOne(dto.getId());
+
+        if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+            if (!currentUser.equals(user.getUsername())) {
+                throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_ACCESS_USER, user.getUsername());
+            }
+        }
+    }
 }

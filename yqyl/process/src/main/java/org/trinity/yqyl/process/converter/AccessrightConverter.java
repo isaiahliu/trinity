@@ -16,6 +16,7 @@ import org.trinity.yqyl.repository.business.entity.Accessright;
 public class AccessrightConverter extends AbstractLookupSupportObjectConverter<Accessright, AccessrightDto> {
     private static enum AccessrightRelationship {
         CHILDREN,
+        DESCENDANTS,
         NA
     }
 
@@ -44,6 +45,13 @@ public class AccessrightConverter extends AbstractLookupSupportObjectConverter<A
     protected void convertRelationshipInternal(final Accessright source, final AccessrightDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(AccessrightRelationship.class)) {
+        case DESCENDANTS:
+            if (!relationshipExpression.getChildren().stream()
+                    .filter(item -> item.getName().equals(AccessrightRelationship.DESCENDANTS.name())).findFirst().isPresent()) {
+                relationshipExpression.getChildren().add(new RelationshipExpression(AccessrightRelationship.DESCENDANTS));
+            }
+            copyRelationshipList(source::getChildren, target::setChildren, this, relationshipExpression);
+            break;
         case CHILDREN:
             copyRelationshipList(source::getChildren, target::setChildren, this, relationshipExpression);
             break;

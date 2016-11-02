@@ -10,6 +10,8 @@ public enum Url implements IHttpUrl {
     REGISTER(HttpMethod.POST, Path.SECURITY, "register"),
     AUTHORITIES(HttpMethod.GET, Path.AUTHORITIES, ""),
 
+    ACCESSRIGHT(HttpMethod.GET, Path.ACCESSRIGHT),
+
     TOKEN_VERIFY(HttpMethod.GET, Path.TOKEN, "verify"),
     TOKEN_NEW(HttpMethod.POST, Path.TOKEN),
 
@@ -82,6 +84,7 @@ public enum Url implements IHttpUrl {
         SECURITY("security"),
         TOKEN(SECURITY, "token"),
         AUTHORITIES(SECURITY, "authorities"),
+        ACCESSRIGHT(SECURITY, "accessright"),
 
         USER("user"),
         ORDER(USER, "order"),

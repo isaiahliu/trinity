@@ -11,7 +11,11 @@ import org.trinity.common.exception.IException;
 import org.trinity.message.IMessageResolverChain;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
+import org.trinity.yqyl.common.accessright.Authorize;
+import org.trinity.yqyl.common.message.dto.domain.AccessrightSearchingDto;
+import org.trinity.yqyl.common.message.dto.response.AccessrightResponse;
 import org.trinity.yqyl.common.message.dto.response.LookupResponse;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.web.util.Url;
 
 @RestController
@@ -22,6 +26,12 @@ public class CommonAjaxController extends AbstractRestController {
 
     @Autowired
     protected IMessageResolverChain messageResolver;
+
+    @RequestMapping(value = "/accessright", method = RequestMethod.GET)
+    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
+    public @ResponseBody AccessrightResponse ajaxGetAccessrights(final AccessrightSearchingDto request) throws IException {
+        return restfulServiceUtil.callRestService(Url.ACCESSRIGHT, null, null, request, AccessrightResponse.class);
+    }
 
     @RequestMapping(value = "/lookup/{lookupType}", method = RequestMethod.GET)
     public @ResponseBody LookupResponse ajaxGetLookups(@PathVariable("lookupType") final String lookupType) throws IException {

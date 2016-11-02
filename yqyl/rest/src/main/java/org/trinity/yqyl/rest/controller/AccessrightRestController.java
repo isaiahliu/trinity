@@ -1,7 +1,5 @@
 package org.trinity.yqyl.rest.controller;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,18 +23,6 @@ import org.trinity.yqyl.process.controller.base.IAccessrightProcessController;
 @RequestMapping("/security/accessright")
 public class AccessrightRestController extends
         AbstractApplicationAwareCrudRestController<AccessrightDto, AccessrightSearchingDto, IAccessrightProcessController, AccessrightRequest, AccessrightResponse> {
-
-    @Override
-    public ResponseEntity<AccessrightResponse> getAll(final AccessrightSearchingDto request) throws IException {
-        final AccessrightResponse response = createResponseInstance();
-
-        final List<AccessrightDto> data = getDomainProcessController().getAccessRightTree();
-
-        response.addData(data);
-
-        return createResponseEntity(response);
-    }
-
     @RequestMapping(value = "/refresh", method = RequestMethod.PUT)
     @Authorize(requireAny = AccessRight.SUPER_USER)
     public @ResponseBody ResponseEntity<DefaultResponse> updateAll() throws IException {
