@@ -1,2 +1,2 @@
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 });

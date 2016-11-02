@@ -12,14 +12,14 @@ layoutApp.directive('receiptUpload', function() {
 	};
 });
 
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$http({
 		method : "GET",
 		url : "/ajax/common/lookup/ODSTAT"
 	}).success(function(response) {
 		$scope.statuses = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.pagingData = {
@@ -58,7 +58,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 
@@ -75,7 +75,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			data : fd
 		}).success(function(response) {
 			order.receipt = response.data[0];
-		})
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
 	};
 
 	$scope.assignPrepare = function(order) {
@@ -85,7 +87,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			order.availableStaffs = response.data;
 			order.assigning = true;
-		})
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
 	}
 
 	$scope.assignCancel = function(order) {
@@ -122,6 +126,8 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 					break;
 				}
 			}
+		}).error(function(response) {
+			errorHandler($scope, response);
 		});
 	};
 
@@ -142,6 +148,8 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 					break;
 				}
 			}
-		})
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
 	};
 });

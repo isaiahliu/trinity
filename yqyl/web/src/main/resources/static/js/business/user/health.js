@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$scope.viewMore = false;
 
 	$scope.healthDataMap = {};
@@ -9,7 +9,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.members = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.bookPhysicalExamination = function() {
@@ -31,7 +31,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 						$scope.healthDataMap[newValue] = {};
 					}
 				}).error(function(response) {
-					$scope.errorMessage = response.errors[0].message;
+					errorHandler($scope, response);
 				});
 			} else {
 				$scope.healthData = $scope.healthDataMap[newValue];

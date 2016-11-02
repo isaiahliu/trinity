@@ -8,80 +8,61 @@ layoutApp.directive('uploadPhoto', function() {
 	};
 });
 
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$scope.audited = true;
 
 	$http({
 		method : "GET",
 		url : "/ajax/service/supplier?searchScope=me&rsexp=material"
-	}).success(
-			function(response) {
-				if (response.data.length > 0) {
-					$scope.serviceSupplierClient = response.data[0];
-					$scope.licenseUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.licenseCopy;
-					$scope.corporateCheckingUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.corporateCheckingCopy;
-					$scope.contractUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.contractCopy;
-					$scope.applicationUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.applicationCopy;
-					$scope.businessLicenseUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.businessLicenseCopy;
-					$scope.jcvUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.jcv;
-					$scope.audited =
-							$scope.serviceSupplierClient.status.code == 'A'
-									|| $scope.serviceSupplierClient.status.code == 'D';
-				}
-			}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+	}).success(function(response) {
+		if (response.data.length > 0) {
+			$scope.serviceSupplierClient = response.data[0];
+			$scope.licenseUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.licenseCopy;
+			$scope.corporateCheckingUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.corporateCheckingCopy;
+			$scope.contractUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.contractCopy;
+			$scope.applicationUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.applicationCopy;
+			$scope.businessLicenseUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.businessLicenseCopy;
+			$scope.jcvUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.jcv;
+			$scope.audited = $scope.serviceSupplierClient.status.code == 'A' || $scope.serviceSupplierClient.status.code == 'D';
+		}
+	}).error(function(response) {
+		errorHandler($scope, response);
 	});
-	$scope.uploadLicense =
-			function(event) {
-				$scope.uploadPhoto(event, "license", function() {
-					$scope.licenseUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.licenseCopy + "?ticks="
-									+ new Date().getTime();
-				});
-			};
-	$scope.uploadCorporateChecking =
-			function(event) {
-				$scope.uploadPhoto(event, "corporateChecking", function() {
-					$scope.corporateCheckingUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.corporateCheckingCopy
-									+ "?ticks=" + new Date().getTime();
-				});
-			};
-	$scope.uploadContract =
-			function(event) {
-				$scope.uploadPhoto(event, "contract", function() {
-					$scope.contractUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.contractCopy + "?ticks="
-									+ new Date().getTime();
-				});
-			};
-	$scope.uploadApplication =
-			function(event) {
-				$scope.uploadPhoto(event, "application", function() {
-					$scope.applicationUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.applicationCopy + "?ticks="
-									+ new Date().getTime();
-				});
-			};
-	$scope.uploadBusinessLicense =
-			function(event) {
-				$scope.uploadPhoto(event, "businessLicense", function() {
-					$scope.businessLicenseUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.businessLicenseCopy
-									+ "?ticks=" + new Date().getTime();
-				});
-			};
-	$scope.uploadJcv =
-			function(event) {
-				$scope.uploadPhoto(event, "jcv", function() {
-					$scope.jcvUrl =
-							"/ajax/content/image/" + $scope.serviceSupplierClient.material.jcv + "?ticks="
-									+ new Date().getTime();
-				});
-			};
+	$scope.uploadLicense = function(event) {
+		$scope.uploadPhoto(event, "license", function() {
+			$scope.licenseUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.licenseCopy + "?ticks="
+					+ new Date().getTime();
+		});
+	};
+	$scope.uploadCorporateChecking = function(event) {
+		$scope.uploadPhoto(event, "corporateChecking", function() {
+			$scope.corporateCheckingUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.corporateCheckingCopy + "?ticks="
+					+ new Date().getTime();
+		});
+	};
+	$scope.uploadContract = function(event) {
+		$scope.uploadPhoto(event, "contract", function() {
+			$scope.contractUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.contractCopy + "?ticks="
+					+ new Date().getTime();
+		});
+	};
+	$scope.uploadApplication = function(event) {
+		$scope.uploadPhoto(event, "application", function() {
+			$scope.applicationUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.applicationCopy + "?ticks="
+					+ new Date().getTime();
+		});
+	};
+	$scope.uploadBusinessLicense = function(event) {
+		$scope.uploadPhoto(event, "businessLicense", function() {
+			$scope.businessLicenseUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.businessLicenseCopy + "?ticks="
+					+ new Date().getTime();
+		});
+	};
+	$scope.uploadJcv = function(event) {
+		$scope.uploadPhoto(event, "jcv", function() {
+			$scope.jcvUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.jcv + "?ticks=" + new Date().getTime();
+		});
+	};
 	$scope.uploadPhoto = function(event, file, urlHandler) {
 		if (event.target.files.length > 0) {
 			var fd = new FormData();
@@ -96,7 +77,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 				data : fd
 			}).success(function(response) {
 				urlHandler();
-			})
+			}).error(function(response) {
+				errorHandler($scope, response);
+			});
 		}
 	};
 
@@ -110,7 +93,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$scope.back();
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 

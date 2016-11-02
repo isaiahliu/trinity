@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window, $filter, serviceSupplierClientId,
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, $filter, serviceSupplierClientId,
 		selectedServiceInfos, orderId) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
@@ -21,7 +21,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			}).success(function(response) {
 				$scope.serviceSupplierClient = response.data[0];
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 
 			$http({
@@ -46,10 +46,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 				}
 
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	} else {
 		$http({
@@ -58,7 +58,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 		}).success(function(response) {
 			$scope.serviceSupplierClient = response.data[0];
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 
 		$http({
@@ -68,7 +68,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			$scope.services = response.data;
 			$scope.selectedServiceInfo = $scope.services[0];
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	}
 
@@ -78,7 +78,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 	}).success(function(response) {
 		$scope.members = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.apply = function() {
@@ -116,7 +116,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			}).success(function(response) {
 				$window.location.href = "/user/order/" + orderId;
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		} else {
 			$http({
@@ -128,7 +128,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			}).success(function(response) {
 				$window.location.href = "/user/order/" + response.data[0].id;
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		}
 	};

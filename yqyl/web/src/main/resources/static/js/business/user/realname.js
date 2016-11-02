@@ -8,7 +8,7 @@ layoutApp.directive('customOnChange', function() {
 	};
 });
 
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$scope.verified = true;
 
 	$http({
@@ -17,7 +17,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.credentialTypes = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$http({
@@ -31,7 +31,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			$scope.credentialCopyUrl = '/ajax/content/image/' + $scope.realnameData.credentialCopy;
 		}
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.apply = function() {
@@ -44,7 +44,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.reload();
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 
@@ -56,23 +56,21 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}
 	};
 
-	$scope.upload =
-			function() {
-				var fd = new FormData();
-				fd.append("CREDENTIAL_COPY", $scope.newCredentialCopy);
-				$http({
-					method : "POST",
-					url : "/ajax/user/realname/upload",
-					transformRequest : angular.identity,
-					headers : {
-						'Content-Type' : undefined
-					},
-					data : fd
-				}).success(
-						function(response) {
-							$scope.credentialCopyUrl =
-									'/ajax/content/image/' + $scope.realnameData.credentialCopy + "?ticks="
-											+ new Date().getTime();
-						})
-			};
+	$scope.upload = function() {
+		var fd = new FormData();
+		fd.append("CREDENTIAL_COPY", $scope.newCredentialCopy);
+		$http({
+			method : "POST",
+			url : "/ajax/user/realname/upload",
+			transformRequest : angular.identity,
+			headers : {
+				'Content-Type' : undefined
+			},
+			data : fd
+		}).success(function(response) {
+			$scope.credentialCopyUrl = '/ajax/content/image/' + $scope.realnameData.credentialCopy + "?ticks=" + new Date().getTime();
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
+	};
 });

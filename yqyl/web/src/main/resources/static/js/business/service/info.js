@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window, serviceSupplierClientId) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, serviceSupplierClientId) {
 	$scope.status = 'desc';
 
 	$http({
@@ -7,7 +7,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	}).success(function(response) {
 		$scope.serviceSupplierClient = response.data[0];
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$http({
@@ -16,7 +16,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	}).success(function(response) {
 		$scope.services = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.searchOrders =
@@ -36,7 +36,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 					response.meta.paging.pageIndex++;
 					$scope.pagingData = response.meta.paging;
 				}).error(function(response) {
-					$scope.errorMessage = response.errors[0].message;
+					errorHandler($scope, response);
 				});
 			};
 
@@ -58,7 +58,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 		}).success(function(response) {
 			$window.location.href = "/admin/supplier";
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 	$scope.denyAudit = function() {

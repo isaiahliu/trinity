@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window, userId) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, userId) {
 	$http({
 		method : "GET",
 		url : "/ajax/common/accessright?rsexp=descendants"
@@ -14,10 +14,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, userI
 			$scope.populateCheckState(allAccessrights, $scope.user.accessrights);
 			$scope.accessrights = allAccessrights;
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.initCheckState = function(accessrights) {
@@ -64,7 +64,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, userI
 		}).success(function(response) {
 			$scope.back();
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 

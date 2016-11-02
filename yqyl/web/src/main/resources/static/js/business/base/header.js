@@ -1,4 +1,4 @@
-layoutApp.controller('headerController', function($scope, $http, $window) {
+layoutApp.controller('headerController', function($scope, $http, $window, errorHandler) {
 	$scope.logout = function() {
 		$http({
 			method : "PUT",
@@ -10,7 +10,7 @@ layoutApp.controller('headerController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.href = "/home";
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 });

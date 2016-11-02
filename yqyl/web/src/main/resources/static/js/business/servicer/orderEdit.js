@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window, serviceOrderId) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, serviceOrderId) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
 	};
@@ -8,32 +8,29 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	$http({
 		method : "GET",
 		url : "/ajax/user/order/" + serviceOrderId + "?rsexp=serviceInfo[serviceCategory,serviceSupplierClient]"
-	}).success(
-			function(response) {
-				$scope.order = response.data[0];
-				$scope.order.serviceDate = new Date($scope.order.serviceDate);
+	}).success(function(response) {
+		$scope.order = response.data[0];
+		$scope.order.serviceDate = new Date($scope.order.serviceDate);
 
-				if ($scope.order.status.code == 'G') {
-					$http(
-							{
-								method : "GET",
-								url : "/ajax/service/supplier/" + $scope.order.serviceInfo.serviceSupplierClient.id
-										+ "/services?rsexp=serviceCategory"
-							}).success(function(response) {
-						$scope.services = response.data;
-						for (var i = 0; i < $scope.services.length; i++) {
-							if ($scope.services[i].id == $scope.order.serviceInfo.id) {
-								$scope.order.serviceInfo = $scope.services[i];
-								break;
-							}
-						}
-
-					}).error(function(response) {
-						$scope.errorMessage = response.errors[0].message;
-					});
+		if ($scope.order.status.code == 'G') {
+			$http({
+				method : "GET",
+				url : "/ajax/service/supplier/" + $scope.order.serviceInfo.serviceSupplierClient.id + "/services?rsexp=serviceCategory"
+			}).success(function(response) {
+				$scope.services = response.data;
+				for (var i = 0; i < $scope.services.length; i++) {
+					if ($scope.services[i].id == $scope.order.serviceInfo.id) {
+						$scope.order.serviceInfo = $scope.services[i];
+						break;
+					}
 				}
+
 			}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
+			});
+		}
+	}).error(function(response) {
+		errorHandler($scope, response);
 	});
 
 	$scope.back = function() {
@@ -49,7 +46,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 			}
 		}).success(function(response) {
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 
 		$window.location.href = "/servicer/order";

@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window, categoryId) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, categoryId) {
 	var url = "/ajax/service/category"
 
 	if (categoryId > 0) {
@@ -10,7 +10,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, categ
 	}).success(function(response) {
 		$scope.categories = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.editing = false;
@@ -63,7 +63,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, categ
 		}).success(function(response) {
 			$window.location.href = "/admin/service/category";
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 	$scope.back = function() {

@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$http({
 		method : "GET",
 		url : "/ajax/service/category?status=A"
@@ -9,7 +9,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}
 
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.selectCategory = function(category) {
@@ -22,7 +22,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			}).success(function(response) {
 				category.children = response.data;
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		}
 	};
@@ -73,7 +73,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 

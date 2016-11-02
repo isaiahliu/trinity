@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window, orderId) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, orderId) {
 	$http({
 		method : "GET",
 		url : "/ajax/user/order/" + orderId + "?rsexp=appraise"
@@ -28,7 +28,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, order
 		$scope.tempStaff = $scope.order.appraise.staffRate;
 
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.updateTempAttitude = function(rate) {
@@ -89,7 +89,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, order
 		}).success(function(response) {
 			$window.location.href = "/user/order";
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 	$scope.cancel = function() {

@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$scope.modeUpdate = false;
 
 	$http({
@@ -7,7 +7,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.relationships = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$http({
@@ -16,7 +16,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.members = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.addNew = function() {
@@ -33,7 +33,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.reload();
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	}
 });

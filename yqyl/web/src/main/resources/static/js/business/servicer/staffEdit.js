@@ -8,7 +8,7 @@ layoutApp.directive('customOnChange', function() {
 	};
 });
 
-layoutApp.controller('contentController', function($scope, $http, $window, staffId) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, staffId) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
 	};
@@ -42,10 +42,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 				$scope.categories = response.data;
 
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	} else {
 		$scope.staff = {
@@ -62,9 +62,8 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			url : "/ajax/service/category?status=A&rsexp=serviceSubCategories"
 		}).success(function(response) {
 			$scope.categories = response.data;
-
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	}
 
@@ -89,7 +88,9 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			data : fd
 		}).success(function(response) {
 			$scope.imageUrl = '/ajax/content/image/' + $scope.staff.photo + "?ticks=" + new Date().getTime();
-		})
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
 	};
 
 	$scope.apply = function() {
@@ -114,7 +115,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			}).success(function(response) {
 				$window.location.href = "/servicer/staff"
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		} else {
 			$http({
@@ -126,7 +127,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			}).success(function(response) {
 				$window.location.href = "/servicer/staff"
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		}
 	};

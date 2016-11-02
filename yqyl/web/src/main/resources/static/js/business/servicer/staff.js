@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$scope.pagingData = {
 		pageIndex : 1,
 		pageSize : 10
@@ -31,7 +31,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 	$scope.newStaff = function() {
@@ -44,7 +44,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			staff.status.code = 'F';
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 
@@ -55,7 +55,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			staff.status.code = 'A';
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 });

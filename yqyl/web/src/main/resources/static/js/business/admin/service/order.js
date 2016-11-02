@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window, $filter) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, $filter) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
 	};
@@ -14,7 +14,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 	}).success(function(response) {
 		$scope.orderStatusLookups = response.data;
 	}).error(function(response) {
-		$scope.errorMessage = response.errors[0].message;
+		errorHandler($scope, response);
 	});
 
 	$scope.searchOrders = function() {
@@ -51,7 +51,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 });

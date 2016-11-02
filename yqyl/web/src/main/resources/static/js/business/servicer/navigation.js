@@ -1,2 +1,2 @@
-layoutApp.controller('subNavigatorController', function($scope, $http, $window) {
+layoutApp.controller('subNavigatorController', function($scope, $http, $window, errorHandler) {
 });

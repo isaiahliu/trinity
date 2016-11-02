@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window, $filter) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, $filter) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
 	};
@@ -16,7 +16,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			}).success(function(response) {
 				order.appraise.status.code = 'D';
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		} else {
 			$http({
@@ -25,7 +25,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			}).success(function(response) {
 				order.appraise.status.code = 'A';
 			}).error(function(response) {
-				$scope.errorMessage = response.errors[0].message;
+				errorHandler($scope, response);
 			});
 		}
 	};
@@ -61,7 +61,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 });

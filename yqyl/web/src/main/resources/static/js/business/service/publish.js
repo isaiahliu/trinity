@@ -1,4 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window) {
+layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
 	};
@@ -22,7 +22,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.href = "/service";
 		}).error(function(response) {
-			$scope.errorMessage = response.errors[0].message;
+			errorHandler($scope, response);
 		});
 	};
 });
