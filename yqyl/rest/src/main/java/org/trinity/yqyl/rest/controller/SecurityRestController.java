@@ -18,6 +18,7 @@ import org.trinity.yqyl.common.message.dto.domain.SecurityDto;
 import org.trinity.yqyl.common.message.dto.request.AuthenticateRequest;
 import org.trinity.yqyl.common.message.dto.response.SecurityResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.validation.IValidationScenario;
 import org.trinity.yqyl.process.controller.base.ISecurityProcessController;
 
 @RestController
@@ -30,8 +31,8 @@ public class SecurityRestController extends AbstractRestController {
     private ISecurityUtil<AccessRight> securityUtil;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.PUT)
-    public @ResponseBody ResponseEntity<SecurityResponse> authenticate(@RequestBody @OnValid final AuthenticateRequest request)
-            throws IException {
+    public @ResponseBody ResponseEntity<SecurityResponse> authenticate(
+            @RequestBody @OnValid(IValidationScenario.IAuthenticate.class) final AuthenticateRequest request) throws IException {
         final SecurityResponse response = new SecurityResponse();
         final SecurityDto user = securityProcessController.authenticate(securityUtil.getCurrentToken().getToken(),
                 request.getUser().getUsername(), request.getUser().getPassword());
