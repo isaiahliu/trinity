@@ -7,7 +7,7 @@
 	layoutApp.value("categoryId",#if(${categoryId}) ${categoryId} #else 0 #end);
 </script>
 
-<div class="categoryEdit" ng-controller="contentController">
+<div class="categoryEdit">
 	<div class="title">#label("SERVICE_CATEGORY")</div>
 	<ul>
 		<li ng-repeat="category in categories">

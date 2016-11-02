@@ -16,6 +16,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$scope.services = response.data;
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 

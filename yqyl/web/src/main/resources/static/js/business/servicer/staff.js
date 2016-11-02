@@ -31,6 +31,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 	$scope.newStaff = function() {
@@ -43,6 +44,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			staff.status.code = 'F';
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 
@@ -53,6 +55,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			staff.status.code = 'A';
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 });

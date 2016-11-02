@@ -2,44 +2,35 @@
 
 <link rel="stylesheet" href="/static/css/business/user/realname.css"></link>
 
-<div class="realname" ng-controller="contentController">
+<div class="realname">
 	<table>
 		<tbody>
 			<tr>
 				<td class="key"><span>#label("NAME")</span></td>
-				<td class="value"><span class="ng-hide"
-					ng-show="verified">{{realnameData.name}}</span> <input
-					class="ng-hide" ng-show="!verified" ng-model="realnameData.name" /></td>
+				<td class="value"><span class="ng-hide" ng-show="verified">{{realnameData.name}}</span> <input class="ng-hide" ng-show="!verified"
+					ng-model="realnameData.name" /></td>
 			</tr>
 			<tr>
 				<td class="key"><span>#label("CREDENTICAL_TYPE")</span></td>
-				<td class="value"><span class="ng-hide"
-					ng-show="verified">{{realnameData.credentialType.message}}</span><select
-					class="ng-hide" ng-show="!verified"
-					ng-model="realnameData.credentialType.code">
-						<option ng-repeat="credentialType in credentialTypes"
-							value="{{credentialType.code}}">{{credentialType.message}}</option>
+				<td class="value"><span class="ng-hide" ng-show="verified">{{realnameData.credentialType.message}}</span><select class="ng-hide"
+					ng-show="!verified" ng-model="realnameData.credentialType.code">
+						<option ng-repeat="credentialType in credentialTypes" value="{{credentialType.code}}">{{credentialType.message}}</option>
 				</select></td>
 			</tr>
 			<tr>
 				<td class="key"><span>#label("CREDENTIAL_NO")</span></td>
-				<td class="value"><span class="ng-hide"
-					ng-show="verified">{{realnameData.credentialNo}}</span><input
-					class="ng-hide" ng-show="!verified"
-					ng-model="realnameData.credentialNo" /></td>
+				<td class="value"><span class="ng-hide" ng-show="verified">{{realnameData.credentialNo}}</span><input class="ng-hide"
+					ng-show="!verified" ng-model="realnameData.credentialNo" /></td>
 			</tr>
 			<tr>
 				<td class="key"><span>#label("UPLOAD_CREDENTIAL_COPY")</span></td>
-				<td class="value"><img class="ng-hide"
-					ng-show="realnameData.credentialCopy"
-					ng-src="{{credentialCopyUrl}}" /> <input type="file"
+				<td class="value"><img class="ng-hide" ng-show="realnameData.credentialCopy" ng-src="{{credentialCopyUrl}}" /> <input type="file"
 					ng-show="!verified" custom-on-change="selectCredentialCopy" />
 					<button ng-show="!verified" ng-click="upload()">#button("UPLOAD")</button></td>
 			</tr>
 			<tr>
 				<td class="key"><span>#label("VERIFY_STATUS")</span></td>
-				<td class="value"><span class="ng-hide"
-					ng-show="realnameData.status.message">{{realnameData.status.message}}</span></td>
+				<td class="value"><span class="ng-hide" ng-show="realnameData.status.message">{{realnameData.status.message}}</span></td>
 			</tr>
 		</tbody>
 	</table>

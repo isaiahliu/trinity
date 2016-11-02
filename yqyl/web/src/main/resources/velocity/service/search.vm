@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/static/css/business/service/search.css"></link>
 
-<div class="search" ng-controller="contentController">
+<div class="search">
 	<div class="city">
 		<select>
 			<option value="370900">泰安</option>

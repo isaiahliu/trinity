@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	layoutApp.value("staffId", ${staffId});
 </script>
-<div class="staffEdit" ng-controller="contentController">
+<div class="staffEdit">
 	<div class="left">
 		<div class="image">
 			<img ng-src="{{imageUrl}}" />

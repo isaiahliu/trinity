@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/user/health.css"></link>
 
-<div class="health" ng-controller="contentController">
+<div class="health">
 	<div class="members">
 		<span>家庭成员</span> <select ng-model="selectedMember">
 			<option ng-repeat="member in members" value="{{member.id}}">{{member.name}}</option>
@@ -12,18 +12,15 @@
 		<tbody>
 			<tr>
 				<td align="center" class="key"><span>#label("HEIGHT")</span></td>
-				<td align="center" class="value"><span>{{healthData.height}}</span>
-					<span ng-show="healthData.height">cm</span></td>
+				<td align="center" class="value"><span>{{healthData.height}}</span> <span ng-show="healthData.height">cm</span></td>
 			</tr>
 			<tr>
 				<td align="center" class="key"><span>#label("WEIGHT")</span></td>
-				<td align="center" class="value"><span>{{healthData.weight}}</span>
-					<span ng-show="healthData.height">kg</span></td>
+				<td align="center" class="value"><span>{{healthData.weight}}</span> <span ng-show="healthData.height">kg</span></td>
 			</tr>
 			<tr>
 				<td align="center" class="key"><span>#label("BLOOD_PRESSURE")</span></td>
-				<td align="center" class="value"><span>{{healthData.systolicPressure}}</span><span
-					ng-show="healthData.height">/</span><span>{{healthData.diastolicPressure}}
+				<td align="center" class="value"><span>{{healthData.systolicPressure}}</span><span ng-show="healthData.height">/</span><span>{{healthData.diastolicPressure}}
 						<span ng-show="healthData.height">mmHg</span></td>
 			</tr>
 			<tr>

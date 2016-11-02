@@ -8,6 +8,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		$scope.email = response.data[0].email;
 		$scope.cellphone = response.data[0].cellphone;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.apply = function() {
@@ -24,6 +25,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.reload();
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 
 		});
 	};

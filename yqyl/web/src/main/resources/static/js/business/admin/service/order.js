@@ -1,5 +1,4 @@
-layoutApp.controller('contentController', function($scope, $http, $window,
-		$filter) {
+layoutApp.controller('contentController', function($scope, $http, $window, $filter) {
 	$scope.dateOptions = {
 		dateFormat : 'yy/mm/dd',
 	};
@@ -15,6 +14,7 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 	}).success(function(response) {
 		$scope.orderStatusLookups = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.searchOrders = function() {
@@ -23,32 +23,24 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
 
-		if ($scope.filterData.username != undefined
-				&& $scope.filterData.username != "") {
+		if ($scope.filterData.username != undefined && $scope.filterData.username != "") {
 			ajaxUrl += "&receiverUserName=" + $scope.filterData.username;
 		}
 
-		if ($scope.filterData.supplierId != undefined
-				&& $scope.filterData.supplierId != "") {
-			ajaxUrl += "&serviceSupplierClientId="
-					+ $scope.filterData.supplierId;
+		if ($scope.filterData.supplierId != undefined && $scope.filterData.supplierId != "") {
+			ajaxUrl += "&serviceSupplierClientId=" + $scope.filterData.supplierId;
 		}
 
-		if ($scope.filterData.orderId != undefined
-				&& $scope.filterData.orderId != "") {
+		if ($scope.filterData.orderId != undefined && $scope.filterData.orderId != "") {
 			ajaxUrl += "&serviceOrderId=" + $scope.filterData.orderId;
 		}
 
-		if ($scope.filterData.status != undefined
-				&& $scope.filterData.status != "") {
+		if ($scope.filterData.status != undefined && $scope.filterData.status != "") {
 			ajaxUrl += "&status=" + $scope.filterData.status;
 		}
 
-		if ($scope.filterData.serviceTime != undefined
-				&& $scope.filterData.serviceTime != "") {
-			ajaxUrl += "&serviceDate="
-					+ $filter('date')
-							($scope.filterData.serviceTime, "yyyyMMdd");
+		if ($scope.filterData.serviceTime != undefined && $scope.filterData.serviceTime != "") {
+			ajaxUrl += "&serviceDate=" + $filter('date')($scope.filterData.serviceTime, "yyyyMMdd");
 		}
 
 		$http({
@@ -59,6 +51,7 @@ layoutApp.controller('contentController', function($scope, $http, $window,
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 });

@@ -2,6 +2,6 @@
 
 <link rel="stylesheet" href="/static/css/business/admin/training.css"></link>
 
-<div class="training" ng-controller="contentController">training</div>
+<div class="training">training</div>
 
 <script src="/static/js/business/admin/training.js"></script>

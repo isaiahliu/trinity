@@ -5,6 +5,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 	}).success(function(response) {
 		$scope.serviceOrder = response.data[0];
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.orderMore = function() {
@@ -25,6 +26,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 		}).success(function(response) {
 			$window.location.href = "/user";
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 });

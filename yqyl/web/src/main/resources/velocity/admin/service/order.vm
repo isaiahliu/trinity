@@ -3,7 +3,7 @@
 <link rel="stylesheet"
 	href="/static/css/business/admin/service/order.css"></link>
 
-<div class="order" ng-controller="contentController">
+<div class="order">
 	<div class="title">#label("SERVICE_ORDER_MANAGEMENT")</div>
 	<div class="filter">
 		<span>#label("TIME")<input type="text" placeholder="YYYY/MM/DD"

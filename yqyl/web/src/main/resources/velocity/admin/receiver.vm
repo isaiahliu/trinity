@@ -2,6 +2,6 @@
 
 <link rel="stylesheet" href="/static/css/business/admin/receiver.css"></link>
 
-<div class="receiver" ng-controller="contentController">receiver</div>
+<div class="receiver">receiver</div>
 
 <script src="/static/js/business/admin/receiver.js"></script>

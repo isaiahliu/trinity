@@ -6,9 +6,8 @@
 </head>
 <script src="/static/js/business/base/layout.js"></script>
 <body ng-app="layoutApp">
-	#parse("/velocity/base/header.vm") #if(!$platform)
-	#parse("/velocity/base/navigator.vm") #end
-	<div class="content">$screen_content</div>
+	#parse("/velocity/base/header.vm") #if(!$platform) #parse("/velocity/base/navigator.vm") #end
+	<div class="content" ng-controller="contentController">#parse("/velocity/base/errorBar.vm") $screen_content</div>
 
 	#parse("/velocity/base/footer.vm")
 </body>

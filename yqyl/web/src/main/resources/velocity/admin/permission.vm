@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/admin/permission.css"></link>
 
-<div class="permission" ng-controller="contentController">
+<div class="permission">
 	<div class="title">#label("PERMISSION_MANAGEMENT")</div>
 	<div class="filter">
 		<span>#label("USER_ID")<input style="width: 80px;"

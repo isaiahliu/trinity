@@ -16,25 +16,23 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		url : "/ajax/service/supplier?searchScope=me&rsexp=material"
 	}).success(
 			function(response) {
-				if (response.errors.length == 0) {
-					if (response.data.length > 0) {
-						$scope.serviceSupplierClient = response.data[0];
-						$scope.licenseUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.licenseCopy;
-						$scope.corporateCheckingUrl =
-								"/ajax/content/image/" + $scope.serviceSupplierClient.material.corporateCheckingCopy;
-						$scope.contractUrl =
-								"/ajax/content/image/" + $scope.serviceSupplierClient.material.contractCopy;
-						$scope.applicationUrl =
-								"/ajax/content/image/" + $scope.serviceSupplierClient.material.applicationCopy;
-						$scope.businessLicenseUrl =
-								"/ajax/content/image/" + $scope.serviceSupplierClient.material.businessLicenseCopy;
-						$scope.jcvUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.jcv;
-						$scope.audited =
-								$scope.serviceSupplierClient.status.code == 'A'
-										|| $scope.serviceSupplierClient.status.code == 'D';
-					}
+				if (response.data.length > 0) {
+					$scope.serviceSupplierClient = response.data[0];
+					$scope.licenseUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.licenseCopy;
+					$scope.corporateCheckingUrl =
+							"/ajax/content/image/" + $scope.serviceSupplierClient.material.corporateCheckingCopy;
+					$scope.contractUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.contractCopy;
+					$scope.applicationUrl =
+							"/ajax/content/image/" + $scope.serviceSupplierClient.material.applicationCopy;
+					$scope.businessLicenseUrl =
+							"/ajax/content/image/" + $scope.serviceSupplierClient.material.businessLicenseCopy;
+					$scope.jcvUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.jcv;
+					$scope.audited =
+							$scope.serviceSupplierClient.status.code == 'A'
+									|| $scope.serviceSupplierClient.status.code == 'D';
 				}
 			}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 	$scope.uploadLicense =
 			function(event) {
@@ -112,6 +110,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$scope.back();
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 

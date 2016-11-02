@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/user/yiquan/topup.css"></link>
 
-<div class="topup" ng-controller="contentController">
+<div class="topup">
 	<table>
 		<tr>
 			<td>#label("YIQUAN_NO")</td>

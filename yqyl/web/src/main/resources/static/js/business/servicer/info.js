@@ -16,18 +16,17 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		url : "/ajax/service/supplier?searchScope=me&rsexp=account"
 	}).success(
 			function(response) {
-				if (response.errors.length == 0) {
-					if (response.data.length > 0) {
-						$scope.serviceSupplierClient = response.data[0];
-						$scope.logoUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.logo;
-						$scope.audited =
-								$scope.serviceSupplierClient.status.code == 'A'
-										|| $scope.serviceSupplierClient.status.code == 'D';
-					} else {
-						$scope.step = "ANNOUNCEMENT1";
-					}
+				if (response.data.length > 0) {
+					$scope.serviceSupplierClient = response.data[0];
+					$scope.logoUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.logo;
+					$scope.audited =
+							$scope.serviceSupplierClient.status.code == 'A'
+									|| $scope.serviceSupplierClient.status.code == 'D';
+				} else {
+					$scope.step = "ANNOUNCEMENT1";
 				}
 			}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.accept = function() {
@@ -40,6 +39,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.banks = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$http({
@@ -48,6 +48,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.companyTypes = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$http({
@@ -56,6 +57,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.accountTypes = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.registerSupplier =
@@ -65,16 +67,15 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 					url : "/ajax/service/supplier/register"
 				}).success(
 						function(response) {
-							if (response.errors.length == 0) {
-								if (response.data.length > 0) {
-									$scope.serviceSupplierClient = response.data[0];
-									$scope.logoUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.logo;
-									$scope.audited =
-											$scope.serviceSupplierClient.status.code == 'A'
-													|| $scope.serviceSupplierClient.status.code == 'D';
-								}
+							if (response.data.length > 0) {
+								$scope.serviceSupplierClient = response.data[0];
+								$scope.logoUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.logo;
+								$scope.audited =
+										$scope.serviceSupplierClient.status.code == 'A'
+												|| $scope.serviceSupplierClient.status.code == 'D';
 							}
 						}).error(function(response) {
+					$scope.errorMessage = response.errors[0].message;
 				});
 			}
 
@@ -93,6 +94,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			}).success(function(response) {
 				$window.location.href = "/servicer/info/material";
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		}
 	};

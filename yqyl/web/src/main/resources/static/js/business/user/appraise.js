@@ -28,6 +28,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, order
 		$scope.tempStaff = $scope.order.appraise.staffRate;
 
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.updateTempAttitude = function(rate) {
@@ -88,6 +89,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, order
 		}).success(function(response) {
 			$window.location.href = "/user/order";
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 	$scope.cancel = function() {

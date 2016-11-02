@@ -5,6 +5,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.yiquan = response.data[0].code;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.apply = function() {
@@ -19,6 +20,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.reload();
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 
 		});
 	};

@@ -17,6 +17,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.credentialTypes = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$http({
@@ -30,6 +31,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			$scope.credentialCopyUrl = '/ajax/content/image/' + $scope.realnameData.credentialCopy;
 		}
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.apply = function() {
@@ -42,6 +44,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.reload();
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 

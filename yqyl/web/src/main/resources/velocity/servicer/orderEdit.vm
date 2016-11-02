@@ -6,7 +6,7 @@
 	layoutApp.value("serviceOrderId", ${serviceOrderId});
 </script>
 
-<div class="orderEdit" ng-controller="contentController">
+<div class="orderEdit">
 	<table>
 		<tr>
 			<td align="center" class="key"><span>#label("SERVICE_ORDER_ID")</span></td>

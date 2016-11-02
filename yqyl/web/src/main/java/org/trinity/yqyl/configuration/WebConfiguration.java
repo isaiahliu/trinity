@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
+import org.trinity.common.exception.factory.IExceptionFactory;
 import org.trinity.common.locale.AbstractLocaleInterceptor;
 import org.trinity.rest.util.IRestServer;
 import org.trinity.rest.util.IRestfulServiceUtil;
@@ -53,8 +54,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public IRestfulServiceUtil getRestfulServiceUtil(final IRestServer restServer) {
-        return new RestfulServiceUtil(restServer);
+    public IRestfulServiceUtil getRestfulServiceUtil(final IRestServer restServer, final IExceptionFactory exceptionFactory) {
+        return new RestfulServiceUtil(restServer, exceptionFactory);
     }
 
     @Bean

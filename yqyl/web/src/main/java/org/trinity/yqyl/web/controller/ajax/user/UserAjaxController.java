@@ -59,7 +59,8 @@ public class UserAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.PUT)
-    public ResponseEntity<AbstractResponse<?>> ajaxLogin(@RequestBody final SecurityDto dto, final HttpServletResponse httpResponse) {
+    public ResponseEntity<AbstractResponse<?>> ajaxLogin(@RequestBody final SecurityDto dto, final HttpServletResponse httpResponse)
+            throws IException {
         final AuthenticateRequest authenticateRequest = new AuthenticateRequest();
         authenticateRequest.setUser(dto);
         final TokenRequest tokenRequest = new TokenRequest();

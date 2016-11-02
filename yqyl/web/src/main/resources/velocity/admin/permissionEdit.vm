@@ -17,7 +17,7 @@
 	</li>
 </ol>
 </script>
-<div class="permissionEdit" ng-controller="contentController">
+<div class="permissionEdit">
 	<div class="title">#label("PERMISSION_MANAGEMENT")</div>
 	<div class="ng-hide accessrightTree" ng-show="accessrights" ui-tree>
 		<ol class="root" ui-tree-nodes="" ng-model="accessrights">

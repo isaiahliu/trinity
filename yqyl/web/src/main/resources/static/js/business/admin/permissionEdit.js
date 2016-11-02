@@ -14,8 +14,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, userI
 			$scope.populateCheckState(allAccessrights, $scope.user.accessrights);
 			$scope.accessrights = allAccessrights;
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.initCheckState = function(accessrights) {
@@ -62,6 +64,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, userI
 		}).success(function(response) {
 			$scope.back();
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 

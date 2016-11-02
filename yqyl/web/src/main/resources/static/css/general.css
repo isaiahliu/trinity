@@ -43,7 +43,6 @@ div.navBar {
 	text-align: center;
 	height: 40px;
 	margin-top: 10px;
-	margin-bottom: 30px;
 	width: 1200px;
 }
 
@@ -119,4 +118,11 @@ div.subNavBar li div.navBarItem {
 div.subNavBar li div span {
 	line-height: 35px;
 	color: black;
+}
+
+div.errorBar {
+	text-align: center;
+	background: #d0d0d0;
+	padding: 3px 0;
+	margin-bottom: 5px;
 }

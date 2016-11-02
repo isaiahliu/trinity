@@ -5,7 +5,7 @@
 	layoutApp.value("serviceSupplierClientId", #if(${serviceSupplierClientId})${serviceSupplierClientId} #else 0 #end);
 	layoutApp.value("orderId", #if(${orderId})${orderId}#else 0 #end);
 </script>
-<div class="proposal" ng-controller="contentController">
+<div class="proposal">
 	<div class="image">
 		<img />
 	</div>

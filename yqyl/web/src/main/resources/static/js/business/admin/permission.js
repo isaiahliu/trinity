@@ -30,6 +30,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			response.meta.paging.pageIndex++;
 			$scope.pagingData = response.meta.paging;
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 	$scope.assignPermission = function(user) {

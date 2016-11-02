@@ -2,6 +2,6 @@
 
 <link rel="stylesheet" href="/static/css/business/user/yiquan/branch.css"></link>
 
-<div class="branch" ng-controller="contentController">branch</div>
+<div class="branch">branch</div>
 
 <script src="/static/js/business/user/yiquan/branch.js"></script>

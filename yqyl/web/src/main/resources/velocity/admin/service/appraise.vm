@@ -3,7 +3,7 @@
 <link rel="stylesheet"
 	href="/static/css/business/admin/service/appraise.css"></link>
 
-<div class="appraise" ng-controller="contentController">
+<div class="appraise">
 	<div class="title">#label("SERVICE_ORDER_APPRAISE_MANAGEMENT")</div>
 	<div class="filter">
 		<span>#label("TIME")<input type="text" placeholder="YYYY/MM/DD"

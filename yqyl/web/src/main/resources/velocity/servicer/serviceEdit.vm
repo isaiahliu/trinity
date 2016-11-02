@@ -7,7 +7,7 @@
 	layoutApp.value("serviceInfoId", ${serviceInfoId});
 </script>
 
-<div class="serviceEdit" ng-controller="contentController">
+<div class="serviceEdit">
 	<div class="left">
 		<div class="image">
 			<img ng-src="{{imageUrl}}" />

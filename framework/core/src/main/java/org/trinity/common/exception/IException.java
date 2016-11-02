@@ -52,12 +52,12 @@ public abstract class IException extends Exception {
      * @param params
      */
     public void addMessage(final IErrorMessage exceptionMessage, final String... params) {
-        getErrorMessages().add(new Tuple2<IErrorMessage, String[]>(exceptionMessage, params));
+        getErrorMessages().add(new Tuple2<>(exceptionMessage, params));
     }
 
     public List<Tuple2<IErrorMessage, String[]>> getErrorMessages() {
         if (errorMessages == null) {
-            errorMessages = new ArrayList<Tuple2<IErrorMessage, String[]>>();
+            errorMessages = new ArrayList<>();
         }
         return errorMessages;
     }

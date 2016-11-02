@@ -9,7 +9,7 @@ spring:
   profiles: 
     active: '@profileActive@'
   messages:
-    basename: message/resource
+    basename: message/resource,message/error
     cache-seconds: ${args.messages.cache-seconds:5}
   velocity: 
     resourceLoaderPath: classpath:/velocity/

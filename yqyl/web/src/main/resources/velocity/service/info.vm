@@ -3,7 +3,7 @@
 <script type="text/javascript">
 	layoutApp.value("serviceSupplierClientId", ${serviceSupplierClientId});
 </script>
-<div class="info" ng-controller="contentController">
+<div class="info">
 	<div class="image">
 		<img alt="#label('NOT_UPLOADED')" ng-src="/ajax/content/image/{{serviceSupplierClient.logo}}"/>
 	</div>

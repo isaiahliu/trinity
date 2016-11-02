@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.StringUtils;
 import org.trinity.common.accessright.AuthToken;
 import org.trinity.common.accessright.TokenAuthenticationStatus;
+import org.trinity.common.exception.IException;
 import org.trinity.rest.security.AbstractPreAuthenticationFilter;
 import org.trinity.rest.util.IRestfulServiceUtil;
 import org.trinity.yqyl.common.message.dto.response.TokenResponse;
@@ -32,21 +33,21 @@ public class SessionFilter extends AbstractPreAuthenticationFilter {
             return null;
         }
 
-        final Map<String, String> map = new HashMap<>();
-        map.put("tokenName", token);
+        try {
+            final Map<String, String> map = new HashMap<>();
+            map.put("tokenName", token);
 
-        final TokenResponse tokenResponse = restfulServiceUtil.callRestService(null, Url.TOKEN_VERIFY, null, null, map,
-                TokenResponse.class);
+            final TokenResponse tokenResponse = restfulServiceUtil.callRestService(null, Url.TOKEN_VERIFY, null, null, map,
+                    TokenResponse.class);
 
-        if (!tokenResponse.getErrors().isEmpty()) {
+            final AuthToken result = new AuthToken(token);
+            result.setStatus(TokenAuthenticationStatus.AUTHENTICATED);
+            result.setUsername(tokenResponse.getData().get(0).getUsername());
+            result.setUserDetailKey(token);
+            return result;
+        } catch (final IException e) {
             return null;
         }
-
-        final AuthToken result = new AuthToken(token);
-        result.setStatus(TokenAuthenticationStatus.AUTHENTICATED);
-        result.setUsername(tokenResponse.getData().get(0).getUsername());
-        result.setUserDetailKey(token);
-        return result;
     }
 
     @Override

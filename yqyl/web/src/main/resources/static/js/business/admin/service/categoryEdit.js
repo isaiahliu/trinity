@@ -10,6 +10,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, categ
 	}).success(function(response) {
 		$scope.categories = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.editing = false;
@@ -62,6 +63,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, categ
 		}).success(function(response) {
 			$window.location.href = "/admin/service/category";
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 	$scope.back = function() {

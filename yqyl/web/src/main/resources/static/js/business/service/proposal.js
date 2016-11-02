@@ -21,6 +21,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			}).success(function(response) {
 				$scope.serviceSupplierClient = response.data[0];
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 
 			$http({
@@ -45,8 +46,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 				}
 
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	} else {
 		$http({
@@ -55,6 +58,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 		}).success(function(response) {
 			$scope.serviceSupplierClient = response.data[0];
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 
 		$http({
@@ -64,6 +68,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			$scope.services = response.data;
 			$scope.selectedServiceInfo = $scope.services[0];
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	}
 
@@ -73,6 +78,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 	}).success(function(response) {
 		$scope.members = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.apply = function() {
@@ -110,6 +116,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			}).success(function(response) {
 				$window.location.href = "/user/order/" + orderId;
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		} else {
 			$http({
@@ -121,6 +128,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 			}).success(function(response) {
 				$window.location.href = "/user/order/" + response.data[0].id;
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		}
 	};

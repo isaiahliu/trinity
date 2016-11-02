@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/user/userinfo.css"></link>
 
-<div class="userinfo" ng-controller="contentController">
+<div class="userinfo">
 	<table>
 		<tr>
 			<td>#label("USER_ID")</td>

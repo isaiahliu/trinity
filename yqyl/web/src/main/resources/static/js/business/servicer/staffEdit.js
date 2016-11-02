@@ -42,8 +42,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 				$scope.categories = response.data;
 
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	} else {
 		$scope.staff = {
@@ -62,6 +64,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			$scope.categories = response.data;
 
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	}
 
@@ -111,6 +114,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			}).success(function(response) {
 				$window.location.href = "/servicer/staff"
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		} else {
 			$http({
@@ -122,6 +126,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, staff
 			}).success(function(response) {
 				$window.location.href = "/servicer/staff"
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		}
 	};

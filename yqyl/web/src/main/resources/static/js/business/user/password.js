@@ -5,6 +5,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.id = response.data[0].id;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.oldPassword = "";
@@ -12,8 +13,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	$scope.newPasswordAgain = "";
 
 	$scope.apply = function() {
-		if ($scope.newPassword == ""
-				|| $scope.newPassword != $scope.newPasswordAgain) {
+		if ($scope.newPassword == "" || $scope.newPassword != $scope.newPasswordAgain) {
 
 		} else {
 			$http({
@@ -25,13 +25,9 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 					newPassword : $scope.newPassword
 				}
 			}).success(function(response) {
-				if (response.errors.length == 0) {
-					$window.location.reload();
-				} else {
-					alert(response.errors[0].message);
-				}
+				$window.location.reload();
 			}).error(function(response) {
-
+				$scope.errorMessage = response.errors[0].message;
 			});
 		}
 	};

@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/servicer/material.css"></link>
 
-<div class="material" ng-controller="contentController">
+<div class="material">
 	<div class="title">
 		<span>#label("SERVICER_MARTERIAL")</span>
 	</div>

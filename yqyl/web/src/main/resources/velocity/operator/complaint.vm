@@ -2,6 +2,6 @@
 
 <link rel="stylesheet" href="/static/css/business/operator/complaint.css"></link>
 
-<div class="complaint" ng-controller="contentController">complaint</div>
+<div class="complaint">complaint</div>
 
 <script src="/static/js/business/operator/complaint.js"></script>

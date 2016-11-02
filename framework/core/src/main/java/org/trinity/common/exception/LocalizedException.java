@@ -5,7 +5,7 @@ import org.trinity.message.exception.IErrorMessage;
 
 /**
  * A message class which supports multi locale.
- * 
+ *
  * @author Isaiah Liu
  *
  * @see IException
@@ -48,8 +48,10 @@ public class LocalizedException extends IException {
 
     @Override
     public String getMessage() {
-        return String.join("\r\n", getErrorMessages().stream().map(item -> {
-            return messageResolver.getMessage(item.getItem1(), item.getItem2());
-        }).toArray(String[]::new));
+        if (getErrorMessages().isEmpty()) {
+            return super.getMessage();
+        }
+        return String.join("\r\n", getErrorMessages().stream().map(item -> messageResolver.getMessage(item.getItem1(), item.getItem2()))
+                .toArray(String[]::new));
     }
 }

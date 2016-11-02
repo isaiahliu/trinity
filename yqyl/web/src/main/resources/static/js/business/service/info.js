@@ -7,6 +7,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	}).success(function(response) {
 		$scope.serviceSupplierClient = response.data[0];
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$http({
@@ -15,6 +16,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	}).success(function(response) {
 		$scope.services = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.searchOrders =
@@ -34,6 +36,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 					response.meta.paging.pageIndex++;
 					$scope.pagingData = response.meta.paging;
 				}).error(function(response) {
+					$scope.errorMessage = response.errors[0].message;
 				});
 			};
 
@@ -55,6 +58,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 		}).success(function(response) {
 			$window.location.href = "/admin/supplier";
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 	$scope.denyAudit = function() {

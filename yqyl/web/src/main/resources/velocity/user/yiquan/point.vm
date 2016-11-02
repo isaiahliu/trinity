@@ -2,6 +2,6 @@
 
 <link rel="stylesheet" href="/static/css/business/user/yiquan/point.css"></link>
 
-<div class="point" ng-controller="contentController">point</div>
+<div class="point">point</div>
 
 <script src="/static/js/business/user/yiquan/point.js"></script>

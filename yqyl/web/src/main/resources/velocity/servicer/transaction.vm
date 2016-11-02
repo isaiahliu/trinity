@@ -2,6 +2,6 @@
 
 <link rel="stylesheet" href="/static/css/business/servicer/transaction.css"></link>
 
-<div class="transaction" ng-controller="contentController">transaction</div>
+<div class="transaction">transaction</div>
 
 <script src="/static/js/business/servicer/transaction.js"></script>

@@ -13,7 +13,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.href = "/home";
 		}).error(function(response) {
-
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 
@@ -35,7 +35,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	};
 
 	$scope.repeatPassword = "";
-	
+
 	$scope.register = function() {
 		if ($scope.registerData.password != $scope.repeatPassword) {
 			return;
@@ -48,6 +48,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 		}).success(function(response) {
 			$window.location.href = "/login";
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	};
 });

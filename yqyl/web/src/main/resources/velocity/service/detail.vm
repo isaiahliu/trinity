@@ -3,7 +3,7 @@
 <script type="text/javascript">
 	layoutApp.value("serviceOrderId", ${orderId});
 </script>
-<div class="detail" ng-controller="contentController">
+<div class="detail">
 	<div class="image">
 		<img />
 	</div>

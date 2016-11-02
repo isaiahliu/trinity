@@ -29,9 +29,11 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 						}
 
 					}).error(function(response) {
+						$scope.errorMessage = response.errors[0].message;
 					});
 				}
 			}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.back = function() {
@@ -47,6 +49,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 			}
 		}).success(function(response) {
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 
 		$window.location.href = "/servicer/order";

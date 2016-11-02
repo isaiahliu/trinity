@@ -2,21 +2,18 @@
 
 <link rel="stylesheet" href="/static/css/business/user/order.css"></link>
 
-<div class="order" ng-controller="contentController">
+<div class="order">
 	<table class="tab">
 		<tr>
-			<td align="center"><a href="javascript:void(0)"
-				ng-click="status='unprocessedOrder'"><div
+			<td align="center"><a href="javascript:void(0)" ng-click="status='unprocessedOrder'"><div
 						ng-class="{true: 'tabSelected', false: 'tabUnselected'}[status=='unprocessedOrder']">
 						<span>#button("UNPROCESSED_ORDER")</span>
 					</div></a></td>
-			<td align="center"><a href="javascript:void(0)"
-				ng-click="status='processingOrder'"><div
+			<td align="center"><a href="javascript:void(0)" ng-click="status='processingOrder'"><div
 						ng-class="{true: 'tabSelected', false: 'tabUnselected'}[status=='processingOrder']">
 						<span>#button("PROCESSING_ORDER")</span>
 					</div></a></td>
-			<td align="center"><a href="javascript:void(0)"
-				ng-click="status='processedOrder'"><div
+			<td align="center"><a href="javascript:void(0)" ng-click="status='processedOrder'"><div
 						ng-class="{true: 'tabSelected', false: 'tabUnselected'}[status=='processedOrder']">
 						<span>#button("PROCESSED_ORDER")</span>
 					</div></a></td>
@@ -32,17 +29,13 @@
 					</div>
 					<div class="orderInfo">
 						<div>
-							<span class="key">#label("ORDER_ID")</span><a
-								href="/user/order/{{unprocessedOrder.id}}"><span
-								class="value">{{unprocessedOrder.id}}</span></a> <span class="key">#label("SERVICE_TIME")</span><span
-								class="value">{{unprocessedOrder.serviceDate |
-								date:'yyyy-MM-dd'}} {{unprocessedOrder.serviceHour}}:00</span> <span
-								class="key">#label("SERVICE_CATEGORY")</span><span>{{unprocessedOrder.serviceInfo.serviceCategory.name}}
+							<span class="key">#label("ORDER_ID")</span><a href="/user/order/{{unprocessedOrder.id}}"><span class="value">{{unprocessedOrder.id}}</span></a>
+							<span class="key">#label("SERVICE_TIME")</span><span class="value">{{unprocessedOrder.serviceDate | date:'yyyy-MM-dd'}}
+								{{unprocessedOrder.serviceHour}}:00</span> <span class="key">#label("SERVICE_CATEGORY")</span><span>{{unprocessedOrder.serviceInfo.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="orderCompany">
-							<span class="key">{{unprocessedOrder.serviceInfo.serviceSupplierClient.name}}</span><span
-								class="value">{{unprocessedOrder.serviceInfo.serviceSupplierClient.address}}</span>
+							<span class="key">{{unprocessedOrder.serviceInfo.serviceSupplierClient.name}}</span><span class="value">{{unprocessedOrder.serviceInfo.serviceSupplierClient.address}}</span>
 						</div>
 						<button>#button("ORDER_CANCEL")</button>
 					</div>
@@ -50,13 +43,9 @@
 			</li>
 		</ul>
 		<div class="orderPaging">
-			<pagination total-items="unprocessedOrderPaging.itemCount"
-				ng-model="unprocessedOrderPaging.pageIndex" max-size="10"
-				items-per-page="unprocessedOrderPaging.pageSize"
-				class="pagination-sm" boundary-links="true"
-				ng-change="populateUnprocessedOrders()"
-				first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
-				previous-text='#label("PREVIOUS_PAGE")'
+			<pagination total-items="unprocessedOrderPaging.itemCount" ng-model="unprocessedOrderPaging.pageIndex" max-size="10"
+				items-per-page="unprocessedOrderPaging.pageSize" class="pagination-sm" boundary-links="true" ng-change="populateUnprocessedOrders()"
+				first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")' previous-text='#label("PREVIOUS_PAGE")'
 				next-text='#label("NEXT_PAGE")'></pagination>
 		</div>
 	</div>
@@ -69,17 +58,13 @@
 					</div>
 					<div class="orderInfo">
 						<div>
-							<span class="key">#label("ORDER_ID")</span><a
-								href="/user/order/{{processingOrder.id}}"><span
-								class="value">{{processingOrder.id}}</span></a> <span class="key">#label("SERVICE_TIME")</span><span
-								class="value">{{processingOrder.serviceDate |
-								date:'yyyy-MM-dd'}} {{processingOrder.serviceHour}}:00</span><span
-								class="key">#label("SERVICE_CATEGORY")</span><span>{{processingOrder.serviceInfo.serviceCategory.name}}
+							<span class="key">#label("ORDER_ID")</span><a href="/user/order/{{processingOrder.id}}"><span class="value">{{processingOrder.id}}</span></a>
+							<span class="key">#label("SERVICE_TIME")</span><span class="value">{{processingOrder.serviceDate | date:'yyyy-MM-dd'}}
+								{{processingOrder.serviceHour}}:00</span><span class="key">#label("SERVICE_CATEGORY")</span><span>{{processingOrder.serviceInfo.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="orderCompany">
-							<span class="key">{{processingOrder.serviceInfo.serviceSupplierClient.name}}</span><span
-								class="value">{{processingOrder.serviceInfo.serviceSupplierClient.address}}</span>
+							<span class="key">{{processingOrder.serviceInfo.serviceSupplierClient.name}}</span><span class="value">{{processingOrder.serviceInfo.serviceSupplierClient.address}}</span>
 						</div>
 						<button>#button("ORDER_CANCEL")</button>
 					</div>
@@ -87,13 +72,9 @@
 			</li>
 		</ul>
 		<div class="orderPaging">
-			<pagination total-items="processingOrderPaging.itemCount"
-				ng-model="processingOrderPaging.pageIndex" max-size="10"
-				items-per-page="processingOrderPaging.pageSize"
-				class="pagination-sm" boundary-links="true"
-				ng-change="populateProcessingOrders()"
-				first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
-				previous-text='#label("PREVIOUS_PAGE")'
+			<pagination total-items="processingOrderPaging.itemCount" ng-model="processingOrderPaging.pageIndex" max-size="10"
+				items-per-page="processingOrderPaging.pageSize" class="pagination-sm" boundary-links="true" ng-change="populateProcessingOrders()"
+				first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")' previous-text='#label("PREVIOUS_PAGE")'
 				next-text='#label("NEXT_PAGE")'></pagination>
 		</div>
 	</div>
@@ -106,31 +87,23 @@
 					</div>
 					<div class="orderInfo">
 						<div>
-							<span class="key">#label("ORDER_ID")</span><a
-								href="/user/order/{{processedOrder.id}}"><span class="value">{{processedOrder.id}}</span></a>
-							<span class="key">#label("SERVICE_TIME")</span><span
-								class="value">{{processedOrder.serviceDate |
-								date:'yyyy-MM-dd'}} {{processedOrder.serviceHour}}:00</span> <span
-								class="key">#label("SERVICE_CATEGORY")</span><span>{{processedOrder.serviceInfo.serviceCategory.name}}
+							<span class="key">#label("ORDER_ID")</span><a href="/user/order/{{processedOrder.id}}"><span class="value">{{processedOrder.id}}</span></a>
+							<span class="key">#label("SERVICE_TIME")</span><span class="value">{{processedOrder.serviceDate | date:'yyyy-MM-dd'}}
+								{{processedOrder.serviceHour}}:00</span> <span class="key">#label("SERVICE_CATEGORY")</span><span>{{processedOrder.serviceInfo.serviceCategory.name}}
 							</span>
 						</div>
 						<div class="orderCompany">
-							<span class="key">{{processedOrder.serviceInfo.serviceSupplierClient.name}}</span><span
-								class="value">{{processedOrder.serviceInfo.serviceSupplierClient.address}}</span>
+							<span class="key">{{processedOrder.serviceInfo.serviceSupplierClient.name}}</span><span class="value">{{processedOrder.serviceInfo.serviceSupplierClient.address}}</span>
 						</div>
-						<button class="ng-hide" ng-show="processedOrder.status.code=='P'"
-							ng-click="appraise(processedOrder.id)">#button("ORDER_APPRAISE")</button>
+						<button class="ng-hide" ng-show="processedOrder.status.code=='P'" ng-click="appraise(processedOrder.id)">#button("ORDER_APPRAISE")</button>
 					</div>
 				</div>
 			</li>
 		</ul>
 		<div class="orderPaging">
-			<pagination total-items="processedOrderPaging.itemCount"
-				ng-model="processedOrderPaging.pageIndex" max-size="10"
-				items-per-page="processedOrderPaging.pageSize" class="pagination-sm"
-				boundary-links="true" ng-change="populateProcessedOrders()"
-				first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
-				previous-text='#label("PREVIOUS_PAGE")'
+			<pagination total-items="processedOrderPaging.itemCount" ng-model="processedOrderPaging.pageIndex" max-size="10"
+				items-per-page="processedOrderPaging.pageSize" class="pagination-sm" boundary-links="true" ng-change="populateProcessedOrders()"
+				first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")' previous-text='#label("PREVIOUS_PAGE")'
 				next-text='#label("NEXT_PAGE")'></pagination>
 		</div>
 	</div>

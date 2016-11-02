@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/servicer/service.css"></link>
 
-<div class="service" ng-controller="contentController">
+<div class="service">
 	<div class="title">#label("SERVICE_MANAGEMENT")</div>
 	<div class="filter" style="text-align: center;">
 		<input style="width: 400px;" ng-model="filterData.name" />

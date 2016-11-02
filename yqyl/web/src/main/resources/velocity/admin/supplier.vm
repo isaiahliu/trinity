@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/admin/supplier.css"></link>
 
-<div class="supplier" ng-controller="contentController">
+<div class="supplier">
 	<div class="title">#label("SERVICE_SUPPLIER_MANAGEMENT")</div>
 	<div class="filter">
 		<span>#label("SERVICE_SUPPLIER_CLIENT_NAME")<input style="width: 80px;" ng-model="filterData.supplierName" /></span> <span>#label("SERVICE_SUPPLIER_ID")<input

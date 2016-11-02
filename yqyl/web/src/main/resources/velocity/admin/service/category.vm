@@ -3,7 +3,7 @@
 <link rel="stylesheet"
 	href="/static/css/business/admin/service/category.css"></link>
 
-<div class="category" ng-controller="contentController">
+<div class="category">
 	<div class="title">#label("SERVICE_CATEGORY_MANAGEMENT")</div>
 	<div class="filter">
 		<span style="margin-right: 20px">#label("CATEGORY_NAME")</span><input

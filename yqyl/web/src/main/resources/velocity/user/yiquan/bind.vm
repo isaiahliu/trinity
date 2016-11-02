@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/user/yiquan/bind.css"></link>
 
-<div class="bind" ng-controller="contentController">
+<div class="bind">
 	<table>
 		<tr>
 			<td>#label("YIQUAN_NO")</td>

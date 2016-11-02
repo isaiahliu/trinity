@@ -31,6 +31,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			response.meta.paging.pageIndex++;
 			$scope.unprocessedOrderPaging = response.meta.paging;
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	}
 
@@ -49,6 +50,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			response.meta.paging.pageIndex++;
 			$scope.processedOrderPaging = response.meta.paging;
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	}
 	$scope.populateProcessingOrders = function() {
@@ -66,6 +68,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 			response.meta.paging.pageIndex++;
 			$scope.processingOrderPaging = response.meta.paging;
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	}
 

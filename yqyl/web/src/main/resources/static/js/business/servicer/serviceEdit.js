@@ -15,6 +15,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	}).success(function(response) {
 		$scope.paymentMethods = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$http({
@@ -23,6 +24,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	}).success(function(response) {
 		$scope.paymentTypes = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$http({
@@ -31,6 +33,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 	}).success(function(response) {
 		$scope.categories = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 	var subCategoryMapping = {};
 
@@ -44,6 +47,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 				subCategoryMapping[$scope.serviceInfo.serviceCategory.parent.id] = response.data;
 				$scope.subCategories = subCategoryMapping[$scope.serviceInfo.serviceCategory.parent.id];
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		} else {
 			$scope.subCategories = subCategoryMapping[$scope.serviceInfo.serviceCategory.parent.id];
@@ -62,6 +66,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 				$scope.imageUrl = "/ajax/content/image/" + $scope.serviceInfo.image;
 			}
 		}).error(function(response) {
+			$scope.errorMessage = response.errors[0].message;
 		});
 	} else {
 		$scope.serviceInfo = {
@@ -118,6 +123,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 			}).success(function(response) {
 				$window.location.href = "/servicer/service"
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		} else {
 			$http({
@@ -129,6 +135,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, servi
 			}).success(function(response) {
 				$window.location.href = "/servicer/service"
 			}).error(function(response) {
+				$scope.errorMessage = response.errors[0].message;
 			});
 		}
 	};

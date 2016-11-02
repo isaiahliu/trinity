@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="/static/css/business/servicer/order.css"></link>
 
-<div class="order" ng-controller="contentController">
+<div class="order">
 	<div class="title">#label("SERVICE_MANAGEMENT")</div>
 	<div class="filter">
 		<span>#label("SERVICE_ORDER_ID")</span><input ng-model="filterData.id" />

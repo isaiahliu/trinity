@@ -9,6 +9,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 	}).success(function(response) {
 		$scope.members = response.data;
 	}).error(function(response) {
+		$scope.errorMessage = response.errors[0].message;
 	});
 
 	$scope.bookPhysicalExamination = function() {
@@ -30,6 +31,7 @@ layoutApp.controller('contentController', function($scope, $http, $window) {
 						$scope.healthDataMap[newValue] = {};
 					}
 				}).error(function(response) {
+					$scope.errorMessage = response.errors[0].message;
 				});
 			} else {
 				$scope.healthData = $scope.healthDataMap[newValue];

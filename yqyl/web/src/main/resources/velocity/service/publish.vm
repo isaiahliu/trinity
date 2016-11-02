@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/static/css/business/service/publish.css"></link>
 
-<div class="publish" ng-controller="contentController">
+<div class="publish">
 	<table>
 		<tbody>
 			<tr>
