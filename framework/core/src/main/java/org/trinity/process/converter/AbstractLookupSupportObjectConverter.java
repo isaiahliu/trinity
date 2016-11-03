@@ -1,7 +1,9 @@
 package org.trinity.process.converter;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.message.ILookupMessage;
@@ -36,6 +38,18 @@ public abstract class AbstractLookupSupportObjectConverter<T1, T2> extends Abstr
         }
     }
 
+    protected <T extends ILookupMessage<?>> void copyLookupList(final Supplier<List<LookupDto>> sourceGetter,
+            final Supplier<List<T>> targetGetter, final Consumer<List<T>> targetSetter, final Class<T> targetType,
+            final CopyPolicy copyPolicy) {
+        final List<LookupDto> source = sourceGetter.get();
+        if (source == null) {
+            copyObject(() -> null, targetGetter, targetSetter, copyPolicy);
+        } else {
+            copyObject(() -> source.stream().map(item -> parseLookup(targetType, item)).collect(Collectors.toList()), targetGetter,
+                    targetSetter, copyPolicy);
+        }
+    }
+
     protected <T extends ILookupMessage<?>> void copyMessage(final Supplier<T> sourceGetter, final Supplier<LookupDto> targetGetter,
             final Consumer<LookupDto> targetSetter, final CopyPolicy copyPolicy) {
         final T source = sourceGetter.get();
@@ -43,6 +57,17 @@ public abstract class AbstractLookupSupportObjectConverter<T1, T2> extends Abstr
             copyObject(() -> null, targetGetter, targetSetter, copyPolicy);
         } else {
             copyObject(() -> convertLookup(source), targetGetter, targetSetter, copyPolicy);
+        }
+    }
+
+    protected <T extends ILookupMessage<?>> void copyMessageList(final Supplier<List<T>> sourceGetter,
+            final Supplier<List<LookupDto>> targetGetter, final Consumer<List<LookupDto>> targetSetter, final CopyPolicy copyPolicy) {
+        final List<T> source = sourceGetter.get();
+        if (source == null) {
+            copyObject(() -> null, targetGetter, targetSetter, copyPolicy);
+        } else {
+            copyObject(() -> source.stream().map(item -> convertLookup(item)).collect(Collectors.toList()), targetGetter, targetSetter,
+                    copyPolicy);
         }
     }
 }

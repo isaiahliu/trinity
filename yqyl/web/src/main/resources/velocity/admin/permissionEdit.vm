@@ -10,7 +10,7 @@
 <div ui-tree-handle>
 	<input type="checkbox" ng-model="accessright.checked" ng-change="change(accessright, false)" ng-hide="accessright.hide"/>
 	<input type="checkbox" disabled="disabled" checked="checked" ng-show="accessright.hide"/>
-	<span>{{accessright.name.message}}</span>
+	<span>{{accessright.message}}</span>
 </div>
 <ol ui-tree-nodes="" ng-model="accessright.children" >
 	<li ng-repeat="accessright in accessright.children" ui-tree-node ng-include="'tree_render'" ng-readonly="$parent.accessright.checked">

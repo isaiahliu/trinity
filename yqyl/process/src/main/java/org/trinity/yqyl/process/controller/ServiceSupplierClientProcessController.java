@@ -23,14 +23,12 @@ import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessCont
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientAccountProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientMaterialProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientProcessController;
-import org.trinity.yqyl.repository.business.dataaccess.IAccessrightRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceCategoryRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientAccountRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientMaterialRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
-import org.trinity.yqyl.repository.business.entity.Accessright;
 import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
@@ -50,9 +48,6 @@ public class ServiceSupplierClientProcessController extends
 
     @Autowired
     private IServiceSupplierClientAccountRepository serviceSupplierClientAccountRepository;
-
-    @Autowired
-    private IAccessrightRepository accessrightRepository;
 
     @Autowired
     private IServiceSupplierClientMaterialRepository serviceSupplierClientMaterialRepository;
@@ -76,10 +71,8 @@ public class ServiceSupplierClientProcessController extends
         final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
                 .findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
 
-        final Accessright supplier = accessrightRepository.findOneByName(AccessRight.SERVICE_SUPPLIER);
-
         entities.forEach(item -> {
-            item.getUser().getAccessrights().add(supplier);
+            item.getUser().getAccessrights().add(AccessRight.SERVICE_SUPPLIER);
 
             userRepository.save(item.getUser());
 

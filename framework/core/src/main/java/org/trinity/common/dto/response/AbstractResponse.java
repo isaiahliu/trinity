@@ -12,19 +12,19 @@ import org.trinity.common.dto.object.MetaDto;
 /**
  * @author Isaiah Liu
  *
- * @param <T>
+ * @param <TDto>
  */
-public abstract class AbstractResponse<T> implements IResponse {
+public abstract class AbstractResponse<TDto> implements IResponse {
     private List<ErrorDto> errors;
-    private List<T> data;
+    private List<TDto> data;
     private MetaDto meta;
     private Map<String, Object> extraData;
 
-    public void addData(final List<T> data) {
+    public <T extends TDto> void addData(final List<T> data) {
         getData().addAll(data);
     }
 
-    public void addData(final T data) {
+    public void addData(final TDto data) {
         getData().add(data);
     }
 
@@ -36,13 +36,14 @@ public abstract class AbstractResponse<T> implements IResponse {
         getExtraData().put(key, value);
     }
 
-    public List<T> getData() {
+    public List<TDto> getData() {
         if (data == null) {
             data = new ArrayList<>();
         }
         return data;
     }
 
+    @Override
     public List<ErrorDto> getErrors() {
         if (errors == null) {
             errors = new ArrayList<>();
@@ -64,7 +65,7 @@ public abstract class AbstractResponse<T> implements IResponse {
         return meta;
     }
 
-    public void setData(final List<T> data) {
+    public void setData(final List<TDto> data) {
         this.data = data;
     }
 

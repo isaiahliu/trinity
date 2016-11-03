@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
             return null;
         }
 
-        final List<GrantedAuthority> authorities = userEntity.getAccessrights().stream().map(item -> (GrantedAuthority) (item.getName()))
+        final List<GrantedAuthority> authorities = userEntity.getAccessrights().stream().map(item -> (GrantedAuthority) item)
                 .collect(Collectors.toList());
 
         authorities.add(new SimpleGrantedAuthority(AbstractPreAuthenticationFilter.ROLE_ANONYMOUS_WITH_TOKEN));

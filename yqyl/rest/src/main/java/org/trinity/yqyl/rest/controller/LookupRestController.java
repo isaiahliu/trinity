@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.trinity.common.dto.object.LookupResponse;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.yqyl.common.accessright.Authorize;
-import org.trinity.yqyl.common.message.dto.response.LookupResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.process.controller.base.ILookupProcessController;
 

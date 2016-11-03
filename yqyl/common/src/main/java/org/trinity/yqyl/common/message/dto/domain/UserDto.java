@@ -30,7 +30,11 @@ public class UserDto extends AbstractBusinessDto {
 
     private Date lastAccessDate;
 
-    private List<AccessrightDto> accessrights;
+    private List<LookupDto> accessrights;
+
+    public List<LookupDto> getAccessrights() {
+        return accessrights;
+    }
 
     public String getCellphone() {
         return cellphone;
@@ -60,6 +64,10 @@ public class UserDto extends AbstractBusinessDto {
         return yiquanCode;
     }
 
+    public void setAccessrights(final List<LookupDto> accessrights) {
+        this.accessrights = accessrights;
+    }
+
     public void setCellphone(final String cellphone) {
         this.cellphone = cellphone;
     }
@@ -86,13 +94,5 @@ public class UserDto extends AbstractBusinessDto {
 
     public void setYiquanCode(final String yiquanCode) {
         this.yiquanCode = yiquanCode;
-    }
-
-    public List<AccessrightDto> getAccessrights() {
-        return accessrights;
-    }
-
-    public void setAccessrights(List<AccessrightDto> accessrights) {
-        this.accessrights = accessrights;
     }
 }

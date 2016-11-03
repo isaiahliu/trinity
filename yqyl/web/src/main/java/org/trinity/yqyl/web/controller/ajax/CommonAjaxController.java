@@ -6,15 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.trinity.common.dto.object.AccessrightResponse;
+import org.trinity.common.dto.object.LookupResponse;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.message.IMessageResolverChain;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
 import org.trinity.yqyl.common.accessright.Authorize;
-import org.trinity.yqyl.common.message.dto.domain.AccessrightSearchingDto;
-import org.trinity.yqyl.common.message.dto.response.AccessrightResponse;
-import org.trinity.yqyl.common.message.dto.response.LookupResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.web.util.Url;
 
@@ -29,8 +28,8 @@ public class CommonAjaxController extends AbstractRestController {
 
     @RequestMapping(value = "/accessright", method = RequestMethod.GET)
     @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public @ResponseBody AccessrightResponse ajaxGetAccessrights(final AccessrightSearchingDto request) throws IException {
-        return restfulServiceUtil.callRestService(Url.ACCESSRIGHT, null, null, request, AccessrightResponse.class);
+    public @ResponseBody AccessrightResponse ajaxGetAccessrights() throws IException {
+        return restfulServiceUtil.callRestService(Url.ACCESSRIGHT, null, null, null, AccessrightResponse.class);
     }
 
     @RequestMapping(value = "/lookup/{lookupType}", method = RequestMethod.GET)

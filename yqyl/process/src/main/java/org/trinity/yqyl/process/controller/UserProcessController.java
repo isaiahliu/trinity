@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.criteria.Predicate;
+
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
+import org.trinity.message.LookupParser;
 import org.trinity.yqyl.common.message.dto.domain.UserDto;
 import org.trinity.yqyl.common.message.dto.domain.UserSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
@@ -16,16 +19,13 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IUserProcessController;
-import org.trinity.yqyl.repository.business.dataaccess.IAccessrightRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
-import org.trinity.yqyl.repository.business.entity.Accessright;
 import org.trinity.yqyl.repository.business.entity.User;
+import org.trinity.yqyl.repository.business.entity.User_;
 
 @Service
 public class UserProcessController extends AbstractAutowiredCrudProcessController<User, UserDto, UserSearchingDto, IUserRepository>
         implements IUserProcessController {
-    @Autowired
-    private IAccessrightRepository accessrightRepository;
 
     public UserProcessController() {
         super(User.class, ErrorMessage.UNABLE_TO_FIND_USER);
@@ -65,10 +65,20 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
 
     @Override
     protected Pageable prepareSearch(final UserSearchingDto data) {
-        final Accessright superUser = accessrightRepository.findOneByName(AccessRight.SUPER_USER);
-        data.setExceptUserIds(superUser.getUsers().stream().map(item -> item.getId()).collect(Collectors.toList()));
+
+        final Specification<User> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(cb.equal(root.join(User_.accessrights), AccessRight.SUPER_USER));
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        data.setExceptUserIds(
+                getDomainEntityRepository().findAll(specification).stream().map(item -> item.getId()).collect(Collectors.toList()));
 
         return super.prepareSearch(data);
+
     }
 
     @Override
@@ -77,8 +87,8 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
             if (getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR)) {
                 entity.getAccessrights().clear();
                 if (!dto.getAccessrights().isEmpty()) {
-                    accessrightRepository.findAll(dto.getAccessrights().stream().map(item -> item.getId()).collect(Collectors.toList()))
-                            .forEach(item -> entity.getAccessrights().add(item));
+                    dto.getAccessrights()
+                            .forEach(item -> entity.getAccessrights().add(LookupParser.parse(AccessRight.class, item.getCode())));
                 }
             }
         }

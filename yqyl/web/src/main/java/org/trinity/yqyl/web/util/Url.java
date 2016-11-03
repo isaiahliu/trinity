@@ -84,7 +84,6 @@ public enum Url implements IHttpUrl {
         SECURITY("security"),
         TOKEN(SECURITY, "token"),
         AUTHORITIES(SECURITY, "authorities"),
-        ACCESSRIGHT(SECURITY, "accessright"),
 
         USER("user"),
         ORDER(USER, "order"),
@@ -114,7 +113,8 @@ public enum Url implements IHttpUrl {
         COMMON("common"),
         LOOKUP(COMMON, "lookup"),
         RESOURCE(COMMON, "resource"),
-        SERVICE_CATEGORY(COMMON, "servicecategory");
+        SERVICE_CATEGORY(COMMON, "servicecategory"),
+        ACCESSRIGHT(COMMON, "accessright");
 
         private IUrl parent;
 

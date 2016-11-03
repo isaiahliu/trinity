@@ -1,7 +1,7 @@
 layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, userId) {
 	$http({
 		method : "GET",
-		url : "/ajax/common/accessright?rsexp=descendants"
+		url : "/ajax/common/accessright"
 	}).success(function(response) {
 		var allAccessrights = response.data;
 		$scope.initCheckState(allAccessrights);
@@ -31,7 +31,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 	$scope.populateCheckState = function(accessrights, ownedAccessrights) {
 		for (var i = 0; i < accessrights.length; i++) {
 			for (var j = 0; j < ownedAccessrights.length; j++) {
-				if (accessrights[i].name.code == ownedAccessrights[j].name.code) {
+				if (accessrights[i].code == ownedAccessrights[j].code) {
 					accessrights[i].checked = true;
 					$scope.change(accessrights[i], false);
 					break;

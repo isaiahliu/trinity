@@ -4,14 +4,14 @@ package org.trinity.yqyl.repository.business.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 
 /**
@@ -70,10 +71,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
     private List<Token> tokens;
 
     // bi-directional many-to-many association to UserGroup
-    @ManyToMany
-    @JoinTable(name = "user_accessright", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "accessright_id") })
-    private List<Accessright> accessrights;
+    @ElementCollection
+    @CollectionTable(name = "user_accessright", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "accessright")
+    private List<AccessRight> accessrights;
 
     // bi-directional many-to-one association to Order
     @OneToMany(mappedBy = "user")
@@ -147,7 +148,7 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return token;
     }
 
-    public List<Accessright> getAccessrights() {
+    public List<AccessRight> getAccessrights() {
         return this.accessrights;
     }
 
@@ -268,6 +269,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return token;
     }
 
+    public void setAccessrights(final List<AccessRight> accessrights) {
+        this.accessrights = accessrights;
+    }
+
     public void setAccounts(final List<Account> accounts) {
         this.accounts = accounts;
     }
@@ -302,10 +307,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public void setRealname(final UserRealname realname) {
         this.realname = realname;
-    }
-
-    public void setRoles(final List<Accessright> accessrights) {
-        this.accessrights = accessrights;
     }
 
     public void setServiceOrderRequirements(final List<ServiceOrderRequirement> serviceOrderRequirements) {
