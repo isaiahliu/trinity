@@ -10,7 +10,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 	};
 
 	$scope.searchStaffs = function() {
-		var ajaxUrl = "/ajax/service/supplier/staff?rsexp=serviceCategories";
+		var ajaxUrl = "/ajax/service/supplier/staff?rsexp=serviceCategories&searchScope=ME";
 
 		ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;

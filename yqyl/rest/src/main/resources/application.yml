@@ -18,7 +18,7 @@ spring:
     sqlScriptEncoding: utf-8
   jpa:
     database: MYSQL
-    show-sql: true
+    show-sql: false
     hibernate:
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
