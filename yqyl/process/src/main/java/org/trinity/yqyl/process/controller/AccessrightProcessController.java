@@ -1,18 +1,15 @@
 package org.trinity.yqyl.process.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
@@ -26,7 +23,6 @@ import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessCont
 import org.trinity.yqyl.process.controller.base.IAccessrightProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IAccessrightRepository;
 import org.trinity.yqyl.repository.business.entity.Accessright;
-import org.trinity.yqyl.repository.business.entity.Accessright_;
 
 @Service
 public class AccessrightProcessController
@@ -37,25 +33,6 @@ public class AccessrightProcessController
 
     public AccessrightProcessController() {
         super(Accessright.class, ErrorMessage.UNABLE_TO_FIND_ACCESSRIGHT);
-    }
-
-    @Override
-    public Page<Accessright> queryAll(final AccessrightSearchingDto data) throws IException {
-        if (data.isIncludeSuper() && !getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
-            data.setIncludeSuper(false);
-        }
-        final Specification<Accessright> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
-
-            if (data.isIncludeSuper()) {
-                predicates.add(cb.equal(root.get(Accessright_.name), AccessRight.SUPER_USER));
-            } else {
-                predicates.add(cb.equal(root.join(Accessright_.parent).get(Accessright_.name), AccessRight.SUPER_USER));
-            }
-
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-        return getDomainEntityRepository().findAll(specification, getPagingConverter().convert(data));
     }
 
     @Override
@@ -95,5 +72,13 @@ public class AccessrightProcessController
         for (final AccessRight child : children) {
             processAccessRight(entity, child, allAccessrights, allExistingEntities);
         }
+    }
+
+    @Override
+    protected Pageable prepareSearch(final AccessrightSearchingDto data) {
+        if (data.isIncludeSuper() && !getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+            data.setIncludeSuper(false);
+        }
+        return super.prepareSearch(data);
     }
 }

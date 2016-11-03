@@ -10,13 +10,10 @@ import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
-import org.trinity.message.LookupParser;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
@@ -151,36 +148,6 @@ public class ServiceSupplierStaffProcessController extends
             return cb.and(predicates.toArray(new Predicate[0]));
         };
         return getDomainObjectConverter().convert(getDomainEntityRepository().findAll(specification), searchingData.generateRelationship());
-    }
-
-    @Override
-    public Page<ServiceSupplierStaff> queryAll(final ServiceSupplierStaffSearchingDto searchingData) throws IException {
-        final String username = getSecurityUtil().getCurrentToken().getUsername();
-        final Specification<ServiceSupplierStaff> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
-
-            if (!searchingData.isSearchAll()) {
-                predicates.add(cb.equal(
-                        root.join(ServiceSupplierStaff_.serviceSupplierClient).join(ServiceSupplierClient_.user).get(User_.username),
-                        username));
-            }
-
-            if (!StringUtils.isEmpty(searchingData.getName())) {
-                predicates.add(cb.like(root.get(ServiceSupplierStaff_.name), "%" + searchingData.getName() + "%"));
-            }
-
-            if (!searchingData.getStatus().isEmpty()) {
-                final In<StaffStatus> in = cb.in(root.get(ServiceSupplierStaff_.status));
-                searchingData.getStatus().forEach(item -> in.value(LookupParser.parse(StaffStatus.class, item)));
-                predicates.add(in);
-            }
-
-            if (searchingData.getId() != null && searchingData.getId() != 0) {
-                predicates.add(cb.equal(root.get(ServiceSupplierStaff_.id), searchingData.getId()));
-            }
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-        return getDomainEntityRepository().findAll(specification, getPagingConverter().convert(searchingData));
     }
 
     @Override

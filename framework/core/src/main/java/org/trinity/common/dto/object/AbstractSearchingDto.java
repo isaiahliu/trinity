@@ -9,18 +9,21 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     private String searchScope = SEARCH_ALL;
     private Long id;
     private List<String> status;
+    private String currentUsername;
 
     private String rsexp;
 
     private RelationshipExpression relationshipExpression;
 
     private final String SPLITTER = ",";
-    private final String START_TAG = "[";
-    private final String END_TAG = "]";
 
+    private final String START_TAG = "[";
+
+    private final String END_TAG = "]";
     private final Pattern namePattern = Pattern.compile("^([A-Za-z0-9_]+)(.*)$");
     private final Pattern splitterPattern = Pattern.compile("^(\\" + SPLITTER + ")(.*)$");
-    private final Pattern startPattern = Pattern.compile("^(\\" + START_TAG + ")(.*)$");;
+
+    private final Pattern startPattern = Pattern.compile("^(\\" + START_TAG + ")(.*)$");
     private final Pattern endPattern = Pattern.compile("^(\\" + END_TAG + ")(.*)$");
 
     @Override
@@ -37,6 +40,11 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
         relationshipExpression = node;
 
         return relationshipExpression;
+    };
+
+    @Override
+    public String getCurrentUsername() {
+        return currentUsername;
     }
 
     @Override
@@ -60,6 +68,11 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
             status = new ArrayList<>();
         }
         return status;
+    }
+
+    @Override
+    public void setCurrentUsername(final String currentUsername) {
+        this.currentUsername = currentUsername;
     }
 
     @Override

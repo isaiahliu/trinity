@@ -1,10 +1,48 @@
 package org.trinity.yqyl.repository.business.dataaccess;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface IServiceSupplierClientRepository extends CrudRepository<ServiceSupplierClient, Long>,
-        PagingAndSortingRepository<ServiceSupplierClient, Long>, JpaSpecificationExecutor<ServiceSupplierClient> {
+import javax.persistence.criteria.Predicate;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
+import org.trinity.repository.repository.IJpaRepository;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
+import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
+import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
+import org.trinity.yqyl.repository.business.entity.User_;
+
+public interface IServiceSupplierClientRepository extends IJpaRepository<ServiceSupplierClient, ServiceSupplierClientSearchingDto> {
+    @Override
+    default Page<ServiceSupplierClient> query(final ServiceSupplierClientSearchingDto searchingDto, final Pageable pagable) {
+        final Specification<ServiceSupplierClient> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            if (!searchingDto.getCategoryChildren().isEmpty()) {
+                predicates.add(root.join(ServiceSupplierClient_.serviceInfos).join(ServiceInfo_.serviceCategory).get(ServiceCategory_.id)
+                        .in(searchingDto.getCategoryChildren()));
+                query.distinct(true);
+            }
+
+            if (!searchingDto.isSearchAll()) {
+                predicates.add(cb.equal(root.join(ServiceSupplierClient_.user).get(User_.username), searchingDto.getCurrentUsername()));
+            }
+
+            if (!StringUtils.isEmpty(searchingDto.getName())) {
+                predicates.add(cb.like(root.get(ServiceSupplierClient_.name), "%" + searchingDto.getName() + "%"));
+            }
+
+            if (searchingDto.getId() != null && searchingDto.getId() != 0) {
+                predicates.add(cb.equal(root.get(ServiceSupplierClient_.userId), searchingDto.getId()));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return findAll(specification, pagable);
+    }
 }

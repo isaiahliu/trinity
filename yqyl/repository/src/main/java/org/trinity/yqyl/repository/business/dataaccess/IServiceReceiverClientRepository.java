@@ -1,10 +1,49 @@
 package org.trinity.yqyl.repository.business.dataaccess;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface IServiceReceiverClientRepository extends CrudRepository<ServiceReceiverClient, Long>,
-        PagingAndSortingRepository<ServiceReceiverClient, Long>, JpaSpecificationExecutor<ServiceReceiverClient> {
+import javax.persistence.criteria.CriteriaBuilder.In;
+import javax.persistence.criteria.Predicate;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
+import org.trinity.message.LookupParser;
+import org.trinity.repository.repository.IJpaRepository;
+import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
+import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
+import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
+import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient_;
+
+public interface IServiceReceiverClientRepository extends IJpaRepository<ServiceReceiverClient, ServiceReceiverClientSearchingDto> {
+    @Override
+    default Page<ServiceReceiverClient> query(final ServiceReceiverClientSearchingDto searchingDto, final Pageable pagable) {
+        final Specification<ServiceReceiverClient> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            if (!StringUtils.isEmpty(searchingDto.getId())) {
+                predicates.add(cb.equal(root.get(ServiceReceiverClient_.id), searchingDto.getId()));
+            }
+
+            if (!StringUtils.isEmpty(searchingDto.getName())) {
+                predicates.add(cb.like(root.get(ServiceReceiverClient_.name), "%" + searchingDto.getName() + "%"));
+            }
+
+            if (!StringUtils.isEmpty(searchingDto.getIdentity())) {
+                predicates.add(cb.like(root.get(ServiceReceiverClient_.identityCard), "%" + searchingDto.getIdentity() + "%"));
+            }
+
+            if (!searchingDto.getStatus().isEmpty()) {
+                final In<ServiceReceiverClientStatus> in = cb.in(root.get(ServiceReceiverClient_.status));
+                searchingDto.getStatus().forEach(item -> in.value(LookupParser.parse(ServiceReceiverClientStatus.class, item)));
+                predicates.add(in);
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return findAll(specification, pagable);
+    }
 }

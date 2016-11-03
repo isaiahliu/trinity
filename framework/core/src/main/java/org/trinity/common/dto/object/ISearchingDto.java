@@ -8,6 +8,8 @@ public interface ISearchingDto extends IPagingDto {
 
     RelationshipExpression generateRelationship();
 
+    String getCurrentUsername();
+
     Long getId();
 
     String getRsexp();
@@ -19,6 +21,8 @@ public interface ISearchingDto extends IPagingDto {
     default boolean isSearchAll() {
         return SEARCH_ALL.equals(getSearchScope());
     }
+
+    void setCurrentUsername(String currentUsername);
 
     void setId(final Long id);
 

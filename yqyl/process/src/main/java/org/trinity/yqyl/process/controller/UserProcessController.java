@@ -4,15 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.criteria.Predicate;
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.UserDto;
@@ -26,7 +20,6 @@ import org.trinity.yqyl.repository.business.dataaccess.IAccessrightRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.Accessright;
 import org.trinity.yqyl.repository.business.entity.User;
-import org.trinity.yqyl.repository.business.entity.User_;
 
 @Service
 public class UserProcessController extends AbstractAutowiredCrudProcessController<User, UserDto, UserSearchingDto, IUserRepository>
@@ -71,32 +64,11 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
     }
 
     @Override
-    @Transactional
-    protected Page<User> queryAll(final UserSearchingDto dto) throws IException {
-        final Pageable pagable = getPagingConverter().convert(dto);
-
+    protected Pageable prepareSearch(final UserSearchingDto data) {
         final Accessright superUser = accessrightRepository.findOneByName(AccessRight.SUPER_USER);
-        final List<Long> exceptUserIds = superUser.getUsers().stream().map(item -> item.getId()).collect(Collectors.toList());
+        data.setExceptUserIds(superUser.getUsers().stream().map(item -> item.getId()).collect(Collectors.toList()));
 
-        final Specification<User> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
-
-            if (!StringUtils.isEmpty(dto.getUsername())) {
-                predicates.add(cb.like(root.get(User_.username), "%" + dto.getUsername() + "%"));
-            }
-
-            if (dto.getId() != null && dto.getId() > 0) {
-                predicates.add(cb.equal(root.get(User_.id), dto.getId()));
-            }
-
-            if (!exceptUserIds.isEmpty()) {
-                predicates.add(root.get(User_.id).in(exceptUserIds).not());
-            }
-
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-
-        return getDomainEntityRepository().findAll(specification, pagable);
+        return super.prepareSearch(data);
     }
 
     @Override

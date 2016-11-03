@@ -47,21 +47,6 @@ public final class EntityCleanupUtil {
                         entities.remove(entityClass);
                     }
                 }
-
-                for (final String c : entities) {
-                    try (final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                            new FileOutputStream(dataaccessFolder.getAbsolutePath() + "/I" + c + "Repository.java")))) {
-
-                        writer.write("package " + packageName + "." + subFolder.getName() + ".dataaccess;\r\n");
-                        writer.write("import org.springframework.data.repository.CrudRepository;\r\n");
-                        writer.write("import org.springframework.data.repository.PagingAndSortingRepository;\r\n");
-                        writer.write("import " + packageName + "." + subFolder.getName() + ".entity." + c + ";\r\n");
-                        writer.write("\r\n");
-                        writer.write("public interface I" + c + "Repository extends CrudRepository<" + c
-                                + ", Long>, PagingAndSortingRepository<" + c + ", Long> {");
-                        writer.write("}");
-                    }
-                }
             }
         }
     }

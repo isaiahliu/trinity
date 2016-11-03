@@ -283,6 +283,58 @@ public final class CrudGeneratorUtil {
 
     }
 
+    private static class RepositoryGenerator extends AbstractGenerator {
+        public RepositoryGenerator(final File projectFolder, final String entitySchema, final List<String> entities) {
+            super(projectFolder, entitySchema, entities,
+                    "repository/src/main/java/org/trinity/" + projectFolder.getName() + "/repository/" + entitySchema + "/dataaccess");
+        }
+
+        @Override
+        protected String getFileNameForEntity(final String entity) {
+            return "I" + entity + "Repository.java";
+        }
+
+        @Override
+        protected void write(final PrintWriter writer, final String projectName, final String entitySchema, final String entity) {
+            writer.println(String.format("package org.trinity.%2$s.repository.business.dataaccess;", entity, projectName, entitySchema));
+            writer.println(String.format("", entity, projectName, entitySchema));
+            writer.println(String.format("import java.util.ArrayList;", entity, projectName, entitySchema));
+            writer.println(String.format("import java.util.List;", entity, projectName, entitySchema));
+            writer.println(String.format("", entity, projectName, entitySchema));
+            writer.println(String.format("import javax.persistence.criteria.Predicate;", entity, projectName, entitySchema));
+            writer.println(String.format("import org.springframework.data.domain.Page;", entity, projectName, entitySchema));
+            writer.println(String.format("import org.springframework.data.domain.Pageable;", entity, projectName, entitySchema));
+            writer.println(String.format("import org.springframework.data.jpa.domain.Specification;", entity, projectName, entitySchema));
+            writer.println(String.format("import org.trinity.repository.repository.IJpaRepository;", entity, projectName, entitySchema));
+            writer.println(String.format("import org.trinity.%2$s.common.message.dto.domain.%1$sSearchingDto;", entity, projectName,
+                    entitySchema));
+            writer.println(String.format("import org.trinity.%2$s.repository.business.entity.%1$s;", entity, projectName, entitySchema));
+            writer.println(String.format("import org.trinity.%2$s.repository.business.entity.%1$s_;", entity, projectName, entitySchema));
+            writer.println(String.format("", entity, projectName, entitySchema));
+            writer.println(String.format("public interface I%1$sRepository extends IJpaRepository<%1$s, %1$sSearchingDto> {", entity,
+                    projectName, entitySchema));
+            writer.println(String.format("    @Override", entity, projectName, entitySchema));
+            writer.println(String.format("    default Page<%1$s> query(final %1$sSearchingDto searchingDto, final Pageable pagable) {",
+                    entity, projectName, entitySchema));
+            writer.println(String.format("        final Specification<%1$s> specification = (root, query, cb) -> {", entity, projectName,
+                    entitySchema));
+            writer.println(
+                    String.format("            final List<Predicate> predicates = new ArrayList<>();", entity, projectName, entitySchema));
+            writer.println(String.format("            if (!searchingDto.isSearchAll()) {", entity, projectName, entitySchema));
+            writer.println(String.format("            }", entity, projectName, entitySchema));
+            writer.println(String.format("            if (searchingDto.getId() != null) {", entity, projectName, entitySchema));
+            writer.println(String.format("                predicates.add(cb.equal(root.get(%1$s_.id), searchingDto.getId()));", entity,
+                    projectName, entitySchema));
+            writer.println(String.format("            }", entity, projectName, entitySchema));
+            writer.println(
+                    String.format("            return cb.and(predicates.toArray(new Predicate[0]));", entity, projectName, entitySchema));
+            writer.println(String.format("        };", entity, projectName, entitySchema));
+            writer.println(String.format("        return findAll(specification, pagable);", entity, projectName, entitySchema));
+            writer.println(String.format("    }", entity, projectName, entitySchema));
+            writer.println(String.format("}", entity, projectName, entitySchema));
+        }
+    }
+
     private static class RequestGenerator extends AbstractGenerator {
 
         public RequestGenerator(final File projectFolder, final String entitySchema, final List<String> entities) {
@@ -339,7 +391,6 @@ public final class CrudGeneratorUtil {
     }
 
     private static class RestControllerGenerator extends AbstractGenerator {
-
         public RestControllerGenerator(final File projectFolder, final String entitySchema, final List<String> entities) {
             super(projectFolder, entitySchema, entities, "rest/src/main/java/org/trinity/" + projectFolder.getName() + "/rest/controller");
         }
@@ -385,7 +436,6 @@ public final class CrudGeneratorUtil {
     }
 
     private static class SearchRequestGenerator extends AbstractGenerator {
-
         public SearchRequestGenerator(final File projectFolder, final String entitySchema, final List<String> entities) {
             super(projectFolder, entitySchema, entities,
                     "common/src/main/java/org/trinity/" + projectFolder.getName() + "/common/message/dto/domain");
@@ -436,6 +486,7 @@ public final class CrudGeneratorUtil {
         generators.add(new SearchRequestGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
         generators.add(new ResponseGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
         generators.add(new RestControllerGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
+        generators.add(new RepositoryGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
 
         generators.forEach(item -> item.generate());
     }

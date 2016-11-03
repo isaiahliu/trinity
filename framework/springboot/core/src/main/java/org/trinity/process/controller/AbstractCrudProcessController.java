@@ -1,14 +1,12 @@
 package org.trinity.process.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Pageable;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.ISearchingDto;
 import org.trinity.common.exception.IException;
@@ -16,6 +14,7 @@ import org.trinity.common.util.SelfAware;
 import org.trinity.message.exception.IErrorMessage;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
+import org.trinity.repository.repository.IRepository;
 
 public abstract class AbstractCrudProcessController<TEntity, TDto extends AbstractBusinessDto, TSearchingDto extends ISearchingDto>
         extends AbstractProcessController
@@ -61,7 +60,10 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     @Override
     @Transactional
     public Page<TDto> getAll(final TSearchingDto data) throws IException {
-        return queryAll(data).map(item -> getDomainObjectConverter().convert(item, data.generateRelationship()));
+        final Pageable pageable = prepareSearch(data);
+
+        return getDomainEntityRepository().query(data, pageable)
+                .map(item -> getDomainObjectConverter().convert(item, data.generateRelationship()));
     }
 
     @Override
@@ -118,7 +120,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     protected void deleteRelationship(final TEntity entity) throws IException {
     }
 
-    protected abstract CrudRepository<TEntity, Long> getDomainEntityRepository();
+    protected abstract IRepository<TEntity, TSearchingDto> getDomainEntityRepository();
 
     protected abstract Class<TEntity> getDomainEntityType();
 
@@ -126,9 +128,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
 
     protected abstract IErrorMessage getNoInstanceFoundError();
 
-    protected Page<TEntity> queryAll(final TSearchingDto data) throws IException {
-        return new PageImpl<>(Collections.emptyList());
-    }
+    protected abstract Pageable prepareSearch(TSearchingDto data);
 
     protected void updateRelationship(final TEntity entity, final TDto dto) throws IException {
     }

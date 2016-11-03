@@ -12,17 +12,18 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.trinity.common.dto.object.IPagingDto;
 import org.trinity.common.dto.object.PagingDto;
 import org.trinity.common.dto.object.RelationshipExpression;
 import org.trinity.process.converter.IObjectConverter;
 
 @Component
-public class PagingConverter implements IObjectConverter<PagingDto, Pageable> {
+public class PagingConverter implements IObjectConverter<IPagingDto, Pageable> {
     private static final String SORTING_PATTERN = "(.+?)(_(asc|desc)){0,1}";
     private static final String SORTING_SPLITTER = ",";
 
     @Override
-    public Pageable convert(PagingDto source) {
+    public Pageable convert(IPagingDto source) {
         if (source == null) {
             source = new PagingDto();
         }
@@ -56,18 +57,18 @@ public class PagingConverter implements IObjectConverter<PagingDto, Pageable> {
     }
 
     @Override
-    public Pageable convert(final PagingDto source, final Pageable target, final CopyPolicy copyPolicy) {
+    public Pageable convert(final IPagingDto source, final Pageable target, final CopyPolicy copyPolicy) {
         return null;
     }
 
     @Override
-    public Pageable convert(final PagingDto source, final Pageable target, final CopyPolicy copyPolicy,
+    public Pageable convert(final IPagingDto source, final Pageable target, final CopyPolicy copyPolicy,
             final RelationshipExpression relationshipExpression) {
         return null;
     }
 
     @Override
-    public Pageable convert(final PagingDto source, final RelationshipExpression relationshipExpression) {
+    public Pageable convert(final IPagingDto source, final RelationshipExpression relationshipExpression) {
         return null;
     }
 
@@ -77,7 +78,7 @@ public class PagingConverter implements IObjectConverter<PagingDto, Pageable> {
     }
 
     @Override
-    public PagingDto convertBack(final Pageable source, final PagingDto target, final CopyPolicy copyPolicy) {
+    public IPagingDto convertBack(final Pageable source, final IPagingDto target, final CopyPolicy copyPolicy) {
         return null;
     }
 }

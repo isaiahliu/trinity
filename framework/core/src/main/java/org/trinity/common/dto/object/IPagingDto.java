@@ -1,6 +1,6 @@
 package org.trinity.common.dto.object;
 
-interface IPagingDto extends IDto {
+public interface IPagingDto extends IDto {
     long getItemCount();
 
     int getPageCount();

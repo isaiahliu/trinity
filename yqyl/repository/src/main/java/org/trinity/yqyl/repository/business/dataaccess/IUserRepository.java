@@ -1,9 +1,42 @@
 package org.trinity.yqyl.repository.business.dataaccess;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
-import org.trinity.yqyl.repository.business.entity.User;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface IUserRepository extends CrudRepository<User, Long>, JpaSpecificationExecutor<User> {
+import javax.persistence.criteria.Predicate;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
+import org.trinity.repository.repository.IJpaRepository;
+import org.trinity.yqyl.common.message.dto.domain.UserSearchingDto;
+import org.trinity.yqyl.repository.business.entity.User;
+import org.trinity.yqyl.repository.business.entity.User_;
+
+public interface IUserRepository extends IJpaRepository<User, UserSearchingDto> {
     User findOneByUsername(String username);
+
+    @Override
+    default Page<User> query(final UserSearchingDto searchingDto, final Pageable pagable) {
+        final Specification<User> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+
+            if (!StringUtils.isEmpty(searchingDto.getUsername())) {
+                predicates.add(cb.like(root.get(User_.username), "%" + searchingDto.getUsername() + "%"));
+            }
+
+            if (searchingDto.getId() != null && searchingDto.getId() > 0) {
+                predicates.add(cb.equal(root.get(User_.id), searchingDto.getId()));
+            }
+
+            if (!searchingDto.getExceptUserIds().isEmpty()) {
+                predicates.add(root.get(User_.id).in(searchingDto.getExceptUserIds()).not());
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return findAll(specification, pagable);
+    }
 }

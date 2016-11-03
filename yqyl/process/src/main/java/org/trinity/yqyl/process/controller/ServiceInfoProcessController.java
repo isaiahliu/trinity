@@ -7,18 +7,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
-import org.trinity.message.LookupParser;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
@@ -184,30 +180,6 @@ public class ServiceInfoProcessController
             result.setServiceCategory(subCategoryDto);
             return result;
         }).collect(Collectors.toList());
-    }
-
-    @Override
-    public Page<ServiceInfo> queryAll(final ServiceInfoSearchingDto dto) throws IException {
-        final Pageable pagable = getPagingConverter().convert(dto);
-
-        final Specification<ServiceInfo> specification = (root, query, cb) -> {
-            final List<Predicate> predicates = new ArrayList<>();
-
-            if (dto.getServiceSupplierClientId() != null) {
-                predicates.add(cb.equal(root.join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
-                        dto.getServiceSupplierClientId()));
-            }
-
-            if (!dto.getStatus().isEmpty()) {
-                final In<ServiceStatus> in = cb.in(root.get(ServiceInfo_.status));
-                dto.getStatus().forEach(item -> in.value(LookupParser.parse(ServiceStatus.class, item)));
-                predicates.add(in);
-            }
-
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-
-        return getDomainEntityRepository().findAll(specification, pagable);
     }
 
     @Override

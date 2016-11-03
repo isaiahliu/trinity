@@ -1,8 +1,30 @@
 package org.trinity.yqyl.repository.business.dataaccess;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.trinity.yqyl.repository.business.entity.Announcement;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface IAnnouncementRepository extends CrudRepository<Announcement, Long>, PagingAndSortingRepository<Announcement, Long> {
+import javax.persistence.criteria.Predicate;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.trinity.repository.repository.IJpaRepository;
+import org.trinity.yqyl.common.message.dto.domain.AnnouncementSearchingDto;
+import org.trinity.yqyl.repository.business.entity.Announcement;
+import org.trinity.yqyl.repository.business.entity.Announcement_;
+
+public interface IAnnouncementRepository extends IJpaRepository<Announcement, AnnouncementSearchingDto> {
+    @Override
+    default Page<Announcement> query(final AnnouncementSearchingDto searchingDto, final Pageable pagable) {
+        final Specification<Announcement> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+            if (!searchingDto.isSearchAll()) {
+            }
+            if (searchingDto.getId() != null) {
+                predicates.add(cb.equal(root.get(Announcement_.id), searchingDto.getId()));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return findAll(specification, pagable);
+    }
 }
