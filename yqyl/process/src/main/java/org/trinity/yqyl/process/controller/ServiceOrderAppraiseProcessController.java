@@ -6,10 +6,12 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
@@ -50,5 +52,10 @@ public class ServiceOrderAppraiseProcessController extends
         }
 
         return data;
+    }
+
+    @Override
+    protected boolean canAccessAllStatus() {
+        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR, AccessRight.SERVICE_SUPPLIER);
     }
 }

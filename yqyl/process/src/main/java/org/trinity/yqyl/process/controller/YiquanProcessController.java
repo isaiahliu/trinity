@@ -75,4 +75,9 @@ public class YiquanProcessController
 
         return result;
     }
+
+    @Override
+    protected boolean canAccessAllStatus() {
+        return true;
+    }
 }

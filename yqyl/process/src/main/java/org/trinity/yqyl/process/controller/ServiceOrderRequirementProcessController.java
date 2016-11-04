@@ -31,4 +31,10 @@ public class ServiceOrderRequirementProcessController extends
 
         entity.setUser(user);
     }
+
+    @Override
+    protected boolean canAccessAllStatus() {
+        return true;
+    }
+
 }

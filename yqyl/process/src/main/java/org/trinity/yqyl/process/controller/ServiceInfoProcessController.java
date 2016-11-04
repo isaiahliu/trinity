@@ -178,6 +178,11 @@ public class ServiceInfoProcessController
     }
 
     @Override
+    protected boolean canAccessAllStatus() {
+        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SERVICE_SUPPLIER, AccessRight.ADMINISTRATOR);
+    }
+
+    @Override
     protected void updateRelationship(final ServiceInfo entity, final ServiceInfoDto dto) {
         if (dto.getServiceCategory() != null && dto.getServiceCategory().getId() != null && dto.getServiceCategory().getId() > 0) {
             entity.setServiceCategory(serviceCategoryRepository.findOne(dto.getServiceCategory().getId()));

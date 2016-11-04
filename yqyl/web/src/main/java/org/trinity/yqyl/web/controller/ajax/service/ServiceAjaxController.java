@@ -30,15 +30,15 @@ public class ServiceAjaxController extends AbstractRestController {
     @Autowired
     private IRestfulServiceUtil restfulServiceUtil;
 
-    @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
-    public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
+    @RequestMapping(value = "/{entityId}/upload", method = RequestMethod.POST)
+    public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("entityId") final Long entityId, final MultipartHttpServletRequest request)
             throws IException {
 
         final DefaultResponse response = new DefaultResponse();
         if (request.getFileNames().hasNext()) {
             try {
                 final ServiceInfoSearchingDto searchingDto = new ServiceInfoSearchingDto();
-                searchingDto.setId(id);
+                searchingDto.setId(entityId);
                 final ServiceInfoResponse serviceSupplierClientResponse = restfulServiceUtil.callRestService(Url.SERVICE_INFO_ME, null,
                         null, searchingDto, ServiceInfoResponse.class);
 

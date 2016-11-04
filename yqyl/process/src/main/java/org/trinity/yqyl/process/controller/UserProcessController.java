@@ -58,6 +58,11 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
     }
 
     @Override
+    protected boolean canAccessAllStatus() {
+        return true;
+    }
+
+    @Override
     protected void prepareSearch(final UserSearchingDto data) {
         super.prepareSearch(data);
 

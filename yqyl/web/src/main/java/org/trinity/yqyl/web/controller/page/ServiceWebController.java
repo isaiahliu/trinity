@@ -13,15 +13,15 @@ import org.trinity.common.exception.IException;
 @RestController
 @RequestMapping("/service")
 public class ServiceWebController extends AbstractResourceWebController {
-    @RequestMapping("/info/{id}")
-    public ModelAndView infoPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("service/info").addObject("serviceSupplierClientId", id);
+    @RequestMapping("/info/{entityId}")
+    public ModelAndView infoPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("service/info").addObject("serviceSupplierClientId", entityId);
     }
 
-    @RequestMapping("/proposal/{id}")
-    public ModelAndView proposalPage(@PathVariable("id") final Long id,
+    @RequestMapping("/proposal/{entityId}")
+    public ModelAndView proposalPage(@PathVariable("entityId") final Long entityId,
             @RequestParam(value = "selected", required = false) final List<Long> selectedServiceInfos) throws IException {
-        return createModelAndView("service/proposal").addObject("serviceSupplierClientId", id).addObject("selectedServiceInfos",
+        return createModelAndView("service/proposal").addObject("serviceSupplierClientId", entityId).addObject("selectedServiceInfos",
                 (selectedServiceInfos != null) ? selectedServiceInfos : Collections.emptyList());
     }
 

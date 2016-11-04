@@ -35,16 +35,16 @@ public class ServiceSupplierStaffAjaxController extends AbstractRestController {
     @Autowired
     private IRestfulServiceUtil restfulServiceUtil;
 
-    @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/{entityId}/upload", method = RequestMethod.POST)
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
-            throws IException {
+    public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("entityId") final Long entityId,
+            final MultipartHttpServletRequest request) throws IException {
 
         final DefaultResponse response = new DefaultResponse();
         if (request.getFileNames().hasNext()) {
             try {
                 final ServiceSupplierStaffSearchingDto searchingDto = new ServiceSupplierStaffSearchingDto();
-                searchingDto.setId(id);
+                searchingDto.setId(entityId);
                 final ServiceSupplierStaffResponse serviceSupplierStaffResponse = restfulServiceUtil.callRestService(Url.STAFF, null, null,
                         searchingDto, ServiceSupplierStaffResponse.class);
 
@@ -96,11 +96,11 @@ public class ServiceSupplierStaffAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.STAFF, null, null, request, ServiceSupplierStaffResponse.class);
     }
 
-    @RequestMapping(value = "/away/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/away/{entityId}", method = RequestMethod.DELETE)
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public @ResponseBody DefaultResponse ajaxStaffAway(@PathVariable("id") final Long id) throws IException {
+    public @ResponseBody DefaultResponse ajaxStaffAway(@PathVariable("entityId") final Long entityId) throws IException {
         final ServiceSupplierStaffDto serviceSupplierStaffDto = new ServiceSupplierStaffDto();
-        serviceSupplierStaffDto.setId(id);
+        serviceSupplierStaffDto.setId(entityId);
         serviceSupplierStaffDto.setStatus(new LookupDto(StaffStatus.FIRED));
 
         final ServiceSupplierStaffRequest request = new ServiceSupplierStaffRequest();
@@ -109,11 +109,11 @@ public class ServiceSupplierStaffAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.STAFF_UPDATE, null, request, null, DefaultResponse.class);
     }
 
-    @RequestMapping(value = "/return/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/return/{entityId}", method = RequestMethod.POST)
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public @ResponseBody DefaultResponse ajaxStaffReturn(@PathVariable("id") final Long id) throws IException {
+    public @ResponseBody DefaultResponse ajaxStaffReturn(@PathVariable("entityId") final Long entityId) throws IException {
         final ServiceSupplierStaffDto serviceSupplierStaffDto = new ServiceSupplierStaffDto();
-        serviceSupplierStaffDto.setId(id);
+        serviceSupplierStaffDto.setId(entityId);
         serviceSupplierStaffDto.setStatus(new LookupDto(StaffStatus.ACTIVE));
 
         final ServiceSupplierStaffRequest request = new ServiceSupplierStaffRequest();

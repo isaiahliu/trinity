@@ -21,10 +21,10 @@ public class ServicerWebController extends AbstractResourceWebController {
         return createModelAndView("servicer/material");
     }
 
-    @RequestMapping("/order/{id}")
+    @RequestMapping("/order/{entityId}")
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public ModelAndView orderEditPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("servicer/orderEdit").addObject("serviceOrderId", id);
+    public ModelAndView orderEditPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("servicer/orderEdit").addObject("serviceOrderId", entityId);
     }
 
     @RequestMapping("/order")
@@ -33,10 +33,10 @@ public class ServicerWebController extends AbstractResourceWebController {
         return createModelAndView("servicer/order");
     }
 
-    @RequestMapping("/service/edit/{id}")
+    @RequestMapping("/service/edit/{entityId}")
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public ModelAndView serviceEditPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("servicer/serviceEdit").addObject("serviceInfoId", id);
+    public ModelAndView serviceEditPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("servicer/serviceEdit").addObject("serviceInfoId", entityId);
     }
 
     @RequestMapping("/service/new")
@@ -51,10 +51,10 @@ public class ServicerWebController extends AbstractResourceWebController {
         return createModelAndView("servicer/service");
     }
 
-    @RequestMapping("/staff/edit/{id}")
+    @RequestMapping("/staff/edit/{entityId}")
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public ModelAndView staffEditPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("servicer/staffEdit").addObject("staffId", id);
+    public ModelAndView staffEditPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("servicer/staffEdit").addObject("staffId", entityId);
     }
 
     @RequestMapping("/staff/new")

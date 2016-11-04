@@ -20,16 +20,16 @@ import org.trinity.yqyl.process.controller.base.IServiceReceiverClientProcessCon
 @RequestMapping("/client/receiver/info")
 public class ServiceReceiverClientRestController extends
         AbstractApplicationAwareCrudRestController<ServiceReceiverClientDto, ServiceReceiverClientSearchingDto, IServiceReceiverClientProcessController, ServiceReceiverClientRequest, ServiceReceiverClientResponse> {
-    @RequestMapping(value = "/audit/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<DefaultResponse> auditReceiver(@PathVariable("id") final Long id) throws IException {
+    @RequestMapping(value = "/audit/{entityId}", method = RequestMethod.PUT)
+    public ResponseEntity<DefaultResponse> auditReceiver(@PathVariable("entityId") final Long entityId) throws IException {
 
-        getDomainProcessController().audit(id);
+        getDomainProcessController().audit(entityId);
         return createResponseEntity(new DefaultResponse());
     }
 
-    @RequestMapping(value = "/cancel/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<DefaultResponse> cancelReceiver(@PathVariable("id") final Long id) throws IException {
-        getDomainProcessController().cancel(id);
+    @RequestMapping(value = "/cancel/{entityId}", method = RequestMethod.DELETE)
+    public ResponseEntity<DefaultResponse> cancelReceiver(@PathVariable("entityId") final Long entityId) throws IException {
+        getDomainProcessController().cancel(entityId);
         return createResponseEntity(new DefaultResponse());
     }
 

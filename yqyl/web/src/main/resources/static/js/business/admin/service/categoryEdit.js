@@ -1,8 +1,8 @@
 layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, categoryId) {
-	var url = "/ajax/service/category"
+	var url = "/ajax/service/category?searchAllStatus=true"
 
 	if (categoryId > 0) {
-		url += "?parentId=" + categoryId;
+		url += "&parentId=" + categoryId;
 	}
 	$http({
 		method : "GET",

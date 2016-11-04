@@ -40,11 +40,11 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
     @Autowired
     private IRestfulServiceUtil restfulServiceUtil;
 
-    @RequestMapping(value = "/audit/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/audit/{entityId}", method = RequestMethod.PUT)
     @Authorize(requireAny = AccessRight.ADMINISTRATOR)
-    public @ResponseBody DefaultResponse ajaxAuditServiceSupplier(@PathVariable("id") final Long id) throws IException {
+    public @ResponseBody DefaultResponse ajaxAuditServiceSupplier(@PathVariable("entityId") final Long entityId) throws IException {
         final ServiceSupplierClientDto serviceSupplierClientDto = new ServiceSupplierClientDto();
-        serviceSupplierClientDto.setId(id);
+        serviceSupplierClientDto.setId(entityId);
 
         final ServiceSupplierClientRequest request = new ServiceSupplierClientRequest();
         request.getData().add(serviceSupplierClientDto);
@@ -52,10 +52,11 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.SUPPLIER_AUDIT, null, request, null, DefaultResponse.class);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody ServiceSupplierClientResponse ajaxGetServiceSupplier(@PathVariable("id") final Long id,
+    @RequestMapping(value = "/{entityId}", method = RequestMethod.GET)
+    public @ResponseBody ServiceSupplierClientResponse ajaxGetServiceSupplier(@PathVariable("entityId") final Long entityId,
             final ServiceSupplierClientSearchingDto request) throws IException {
-        return restfulServiceUtil.callRestService(Url.SUPPLIER, String.valueOf(id), null, request, ServiceSupplierClientResponse.class);
+        return restfulServiceUtil.callRestService(Url.SUPPLIER, String.valueOf(entityId), null, request,
+                ServiceSupplierClientResponse.class);
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
@@ -65,10 +66,10 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.ORDER, null, null, request, ServiceOrderResponse.class);
     }
 
-    @RequestMapping(value = "/{id}/services", method = RequestMethod.GET)
-    public @ResponseBody ServiceInfoResponse ajaxGetServiceSupplierServices(@PathVariable("id") final Long id,
+    @RequestMapping(value = "/{entityId}/services", method = RequestMethod.GET)
+    public @ResponseBody ServiceInfoResponse ajaxGetServiceSupplierServices(@PathVariable("entityId") final Long entityId,
             final ServiceInfoSearchingDto request) throws IException {
-        request.setServiceSupplierClientId(id);
+        request.setServiceSupplierClientId(entityId);
         request.getStatus().add(ServiceStatus.ACTIVE.getMessageCode());
 
         return restfulServiceUtil.callRestService(Url.SERVICE_INFO, null, null, request, ServiceInfoResponse.class);
@@ -94,15 +95,15 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.SUPPLIER, null, null, request, ServiceSupplierClientResponse.class);
     }
 
-    @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
-    public ResponseEntity<DefaultResponse> ajaxUploadLogo(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
-            throws IException {
+    @RequestMapping(value = "/{entityId}/upload", method = RequestMethod.POST)
+    public ResponseEntity<DefaultResponse> ajaxUploadLogo(@PathVariable("entityId") final Long entityId,
+            final MultipartHttpServletRequest request) throws IException {
 
         final DefaultResponse response = new DefaultResponse();
         if (request.getFileNames().hasNext()) {
             try {
                 final ServiceSupplierClientSearchingDto searchingDto = new ServiceSupplierClientSearchingDto();
-                searchingDto.setId(id);
+                searchingDto.setId(entityId);
                 final ServiceSupplierClientResponse serviceSupplierClientResponse = restfulServiceUtil.callRestService(Url.SUPPLIER, null,
                         null, searchingDto, ServiceSupplierClientResponse.class);
 
@@ -127,15 +128,15 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
         return createResponseEntity(response);
     }
 
-    @RequestMapping(value = "/{id}/material/upload", method = RequestMethod.POST)
-    public ResponseEntity<DefaultResponse> ajaxUploadMaterial(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
-            throws IException {
+    @RequestMapping(value = "/{entityId}/material/upload", method = RequestMethod.POST)
+    public ResponseEntity<DefaultResponse> ajaxUploadMaterial(@PathVariable("entityId") final Long entityId,
+            final MultipartHttpServletRequest request) throws IException {
 
         final DefaultResponse response = new DefaultResponse();
         if (request.getFileNames().hasNext()) {
             try {
                 final ServiceSupplierClientSearchingDto searchingDto = new ServiceSupplierClientSearchingDto();
-                searchingDto.setId(id);
+                searchingDto.setId(entityId);
                 searchingDto.setRsexp("material");
                 final ServiceSupplierClientResponse serviceSupplierClientResponse = restfulServiceUtil.callRestService(Url.SUPPLIER, null,
                         null, searchingDto, ServiceSupplierClientResponse.class);

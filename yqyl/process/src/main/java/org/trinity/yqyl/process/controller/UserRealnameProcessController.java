@@ -67,4 +67,9 @@ public class UserRealnameProcessController
         result.add(userRealnameDto);
         return result;
     }
+
+    @Override
+    protected boolean canAccessAllStatus() {
+        return true;
+    }
 }

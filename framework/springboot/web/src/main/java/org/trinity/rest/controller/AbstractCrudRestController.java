@@ -41,13 +41,13 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
         return createResponseEntity(response);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody ResponseEntity<DefaultResponse> deleteAll(@PathVariable("id") final Long id) throws IException {
+    @RequestMapping(value = "/{entityId}", method = RequestMethod.DELETE)
+    public @ResponseBody ResponseEntity<DefaultResponse> deleteAll(@PathVariable("entityId") final Long entityId) throws IException {
         selfProxy.validateDelete();
 
         final DefaultResponse response = new DefaultResponse();
 
-        getDomainProcessController().delete(id);
+        getDomainProcessController().delete(entityId);
 
         return createResponseEntity(response);
     }
@@ -81,10 +81,10 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
         return createResponseEntity(response);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<TResponse> getOne(@PathVariable("id") final Long id, final TSearchingDto request)
+    @RequestMapping(value = "/{entityId}", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<TResponse> getOne(@PathVariable("entityId") final Long entityId, final TSearchingDto request)
             throws IException {
-        request.setId(id);
+        request.setId(entityId);
 
         final TResponse response = createResponseInstance();
 

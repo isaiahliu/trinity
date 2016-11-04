@@ -43,10 +43,10 @@ public class ServiceReceiverClientAjaxController extends AbstractRestController 
         return createResponseEntity(response);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<DefaultResponse> ajaxDeleteUserinfo(@PathVariable("id") final Long id) throws IException {
-        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_CANCEL_PROPOSAL, String.valueOf(id), null, null,
-                DefaultResponse.class);
+    @RequestMapping(value = "/{entityId}", method = RequestMethod.DELETE)
+    public ResponseEntity<DefaultResponse> ajaxDeleteUserinfo(@PathVariable("entityId") final Long entityId) throws IException {
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_CANCEL_PROPOSAL, String.valueOf(entityId), null,
+                null, DefaultResponse.class);
 
         return createResponseEntity(response);
     }
@@ -59,19 +59,19 @@ public class ServiceReceiverClientAjaxController extends AbstractRestController 
         return createResponseEntity(response);
     }
 
-    @RequestMapping(value = "/healthindicator/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/healthindicator/{entityId}", method = RequestMethod.GET)
     public ResponseEntity<ServiceReceiverClientHealthIndicatorResponse> ajaxGetServiceReceiverClientHealthIndicator(
-            @PathVariable("id") final Long id) throws IException {
+            @PathVariable("entityId") final Long entityId) throws IException {
         final ServiceReceiverClientHealthIndicatorResponse response = restfulServiceUtil.callRestService(Url.HEALTH_INDICATOR,
-                String.valueOf(id), null, null, ServiceReceiverClientHealthIndicatorResponse.class);
+                String.valueOf(entityId), null, null, ServiceReceiverClientHealthIndicatorResponse.class);
 
         return createResponseEntity(response);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ServiceReceiverClientResponse> ajaxGetUserinfo(@PathVariable("id") final Long id) throws IException {
-        final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER, String.valueOf(id), null, null,
-                ServiceReceiverClientResponse.class);
+    @RequestMapping(value = "/{entityId}", method = RequestMethod.GET)
+    public ResponseEntity<ServiceReceiverClientResponse> ajaxGetUserinfo(@PathVariable("entityId") final Long entityId) throws IException {
+        final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER, String.valueOf(entityId), null,
+                null, ServiceReceiverClientResponse.class);
 
         return createResponseEntity(response);
     }

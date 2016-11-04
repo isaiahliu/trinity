@@ -146,6 +146,11 @@ public class ServiceSupplierStaffProcessController extends
     }
 
     @Override
+    protected boolean canAccessAllStatus() {
+        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR, AccessRight.SERVICE_SUPPLIER);
+    }
+
+    @Override
     protected void updateRelationship(final ServiceSupplierStaff entity, final ServiceSupplierStaffDto dto) {
         final List<ServiceCategoryDto> serviceCategories = dto.getServiceCategories();
         if (serviceCategories != null) {

@@ -43,10 +43,10 @@ public class OrderAjaxController extends AbstractRestController {
     @Autowired
     private IRestfulServiceUtil restfulServiceUtil;
 
-    @RequestMapping(value = "/appraise/active/{id}", method = RequestMethod.PUT)
-    public @ResponseBody DefaultResponse ajaxActiveOrderAppraise(@PathVariable("id") final Long id) throws IException {
+    @RequestMapping(value = "/appraise/active/{entityId}", method = RequestMethod.PUT)
+    public @ResponseBody DefaultResponse ajaxActiveOrderAppraise(@PathVariable("entityId") final Long entityId) throws IException {
         final ServiceOrderAppraiseDto dto = new ServiceOrderAppraiseDto();
-        dto.setId(id);
+        dto.setId(entityId);
         dto.setStatus(new LookupDto(RecordStatus.ACTIVE));
         final ServiceOrderAppraiseRequest request = new ServiceOrderAppraiseRequest();
         request.getData().add(dto);
@@ -64,10 +64,10 @@ public class OrderAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
     }
 
-    @RequestMapping(value = "/appraise/disable/{id}", method = RequestMethod.PUT)
-    public @ResponseBody DefaultResponse ajaxDisableOrderAppraise(@PathVariable("id") final Long id) throws IException {
+    @RequestMapping(value = "/appraise/disable/{entityId}", method = RequestMethod.PUT)
+    public @ResponseBody DefaultResponse ajaxDisableOrderAppraise(@PathVariable("entityId") final Long entityId) throws IException {
         final ServiceOrderAppraiseDto dto = new ServiceOrderAppraiseDto();
-        dto.setId(id);
+        dto.setId(entityId);
         dto.setStatus(new LookupDto(RecordStatus.DISABLED));
         final ServiceOrderAppraiseRequest request = new ServiceOrderAppraiseRequest();
         request.getData().add(dto);
@@ -80,10 +80,10 @@ public class OrderAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ServiceOrderResponse> ajaxGetOrderDetail(@PathVariable("id") final Long id,
+    @RequestMapping(value = "/{entityId}", method = RequestMethod.GET)
+    public ResponseEntity<ServiceOrderResponse> ajaxGetOrderDetail(@PathVariable("entityId") final Long entityId,
             final ServiceOrderSearchingDto request) throws IException {
-        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, String.valueOf(id), null, request,
+        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, String.valueOf(entityId), null, request,
                 ServiceOrderResponse.class);
 
         return createResponseEntity(response);
@@ -163,10 +163,10 @@ public class OrderAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.APPRAISE_NEW, null, request, null, ServiceOrderAppraiseResponse.class);
     }
 
-    @RequestMapping(value = "/{id}/receipt", method = RequestMethod.POST)
+    @RequestMapping(value = "/{entityId}/receipt", method = RequestMethod.POST)
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public ResponseEntity<DefaultResponse> ajaxUploadReceipt(@PathVariable("id") final Long id, final MultipartHttpServletRequest request)
-            throws IException {
+    public ResponseEntity<DefaultResponse> ajaxUploadReceipt(@PathVariable("entityId") final Long entityId,
+            final MultipartHttpServletRequest request) throws IException {
         if (request.getFileNames().hasNext()) {
             try {
                 final ServiceOrderRequest contentRequest = new ServiceOrderRequest();
@@ -176,7 +176,7 @@ public class OrderAjaxController extends AbstractRestController {
                 stream.read(bytes);
 
                 final ServiceOrderDto dto = new ServiceOrderDto();
-                dto.setId(id);
+                dto.setId(entityId);
                 dto.setReceiptContent(bytes);
                 contentRequest.getData().add(dto);
 

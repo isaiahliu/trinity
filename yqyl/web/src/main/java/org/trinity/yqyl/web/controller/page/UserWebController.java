@@ -21,19 +21,19 @@ public class UserWebController extends AbstractResourceWebController {
         return createModelAndView("user/health");
     }
 
-    @RequestMapping(value = "/order/appraise/{id}", method = RequestMethod.GET)
-    public ModelAndView orderAppraisePage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("user/appraise").addObject("orderId", id);
+    @RequestMapping(value = "/order/appraise/{entityId}", method = RequestMethod.GET)
+    public ModelAndView orderAppraisePage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("user/appraise").addObject("orderId", entityId);
     }
 
-    @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-    public ModelAndView orderDetailPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("service/detail").addObject("orderId", id);
+    @RequestMapping(value = "/order/{entityId}", method = RequestMethod.GET)
+    public ModelAndView orderDetailPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("service/detail").addObject("orderId", entityId);
     }
 
-    @RequestMapping(value = "/order/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView orderEditPage(@PathVariable("id") final Long id) throws IException {
-        return createModelAndView("service/proposal").addObject("orderId", id);
+    @RequestMapping(value = "/order/edit/{entityId}", method = RequestMethod.GET)
+    public ModelAndView orderEditPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("service/proposal").addObject("orderId", entityId);
     }
 
     @RequestMapping(value = { "", "/order" }, method = RequestMethod.GET)
