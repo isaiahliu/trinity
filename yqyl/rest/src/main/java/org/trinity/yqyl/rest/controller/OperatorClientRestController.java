@@ -35,14 +35,8 @@ public class OperatorClientRestController extends
 
     @Override
     @Authorize(requireAny = AccessRight.SUPER_USER)
-    protected void validateGetAll() throws IException {
-        super.validateGetAll();
-    }
-
-    @Override
-    @Authorize(requireAny = AccessRight.SUPER_USER)
-    protected void validateGetOne() throws IException {
-        super.validateGetOne();
+    protected void validateGet() throws IException {
+        super.validateGet();
     }
 
     @Override

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.trinity.yqyl.common.message.dto.domain.ContentDto;
 import org.trinity.yqyl.common.message.dto.domain.ContentSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IContentProcessController;
@@ -21,9 +20,6 @@ import org.trinity.yqyl.repository.business.entity.Content;
 public class ContentProcessController
         extends AbstractAutowiredCrudProcessController<Content, ContentDto, ContentSearchingDto, IContentRepository>
         implements IContentProcessController {
-    public ContentProcessController() {
-        super(Content.class, ErrorMessage.UNABLE_TO_FIND_CONTENT);
-    }
 
     @Override
     @Transactional
@@ -56,7 +52,7 @@ public class ContentProcessController
 
     @Override
     public ContentDto getOneByUuid(final String uuid) {
-        Content content = getDomainEntityRepository().findOneByUuid(uuid);
+        final Content content = getDomainEntityRepository().findOneByUuid(uuid);
         return getDomainObjectConverter().convert(content);
     }
 }

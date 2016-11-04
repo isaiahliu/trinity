@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.trinity.common.exception.IException;
 import org.trinity.message.MessageUtils;
+import org.trinity.message.exception.GeneralErrorMessage;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
@@ -26,16 +27,12 @@ public class ServiceReceiverClientProcessController extends
     @Autowired
     private IUserRepository userRepository;
 
-    public ServiceReceiverClientProcessController() {
-        super(ServiceReceiverClient.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_RECEIVER_CLIENT);
-    }
-
     @Override
     @Transactional
     public void audit(final Long id) throws IException {
         final ServiceReceiverClient client = getDomainEntityRepository().findOne(id);
         if (client == null) {
-            throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_FIND_SERVICE_RECEIVER_CLIENT);
+            throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE);
         }
         if (client.getStatus() != ServiceReceiverClientStatus.PROPOSAL) {
             throw getExceptionFactory().createException(ErrorMessage.SERVICE_RECEIVER_CLIENT_MUST_BE_PROPOSAL);
@@ -50,7 +47,7 @@ public class ServiceReceiverClientProcessController extends
     public void cancel(final Long id) throws IException {
         final ServiceReceiverClient entity = getDomainEntityRepository().findOne(id);
         if (entity == null) {
-            throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
+            throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE, String.valueOf(id));
         }
 
         if (!MessageUtils.in(entity.getStatus(), ServiceReceiverClientStatus.INACTIVE, ServiceReceiverClientStatus.PROPOSAL)) {

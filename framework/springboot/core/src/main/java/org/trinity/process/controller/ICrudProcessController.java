@@ -12,7 +12,5 @@ public interface ICrudProcessController<TDto, TSearchingDto> extends IProcessCon
 
     Page<TDto> getAll(TSearchingDto searchingData) throws IException;
 
-    TDto getOne(Long id, TSearchingDto searchingData) throws IException;
-
     void updateAll(List<TDto> dtos) throws IException;
 }

@@ -6,16 +6,12 @@ import org.trinity.yqyl.repository.business.entity.Message;
 
 @Component
 public class MessageDataPermissionValidator extends AbstractDataPermissionValidator<Message> {
-	@Override
-	public void checkSpecialPermission() throws IException {
-	}
+    @Override
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	public Class<Message> getEntityType() {
-		return Message.class;
-	}
-
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+    }
 }

@@ -28,59 +28,59 @@ import org.trinity.yqyl.repository.business.entity.User_;
 
 public interface IServiceOrderRepository extends IJpaRepository<ServiceOrder, ServiceOrderSearchingDto> {
     @Override
-    default Page<ServiceOrder> query(final ServiceOrderSearchingDto dto, final Pageable pagable) {
+    default Page<ServiceOrder> query(final ServiceOrderSearchingDto searchingDto, final Pageable pagable) {
         final Specification<ServiceOrder> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
-            switch (dto.getSearchScope()) {
+            switch (searchingDto.getSearchScope()) {
             case ISearchingDto.SEARCH_ALL:
                 break;
-            case "supplier":
+            case "SUPPLIER":
                 predicates.add(cb.equal(root.join(ServiceOrder_.serviceInfo).join(ServiceInfo_.serviceSupplierClient)
-                        .join(ServiceSupplierClient_.user).get(User_.username), dto.getCurrentUsername()));
+                        .join(ServiceSupplierClient_.user).get(User_.username), searchingDto.getCurrentUsername()));
                 break;
-            case "me":
+            case ISearchingDto.SEARCH_ME:
             default:
-                predicates.add(cb.equal(root.join(ServiceOrder_.user).get(User_.username), dto.getCurrentUsername()));
+                predicates.add(cb.equal(root.join(ServiceOrder_.user).get(User_.username), searchingDto.getCurrentUsername()));
                 break;
             }
 
-            if (!StringUtils.isEmpty(dto.getReceiverUserName())) {
-                predicates.add(cb.like(root.join(ServiceOrder_.user).get(User_.username), "%" + dto.getReceiverUserName() + "%"));
+            if (!StringUtils.isEmpty(searchingDto.getReceiverUserName())) {
+                predicates.add(cb.like(root.join(ServiceOrder_.user).get(User_.username), "%" + searchingDto.getReceiverUserName() + "%"));
             }
 
-            if (dto.getId() != null && dto.getId() > 0) {
-                predicates.add(cb.equal(root.get(ServiceOrder_.id), dto.getId()));
+            if (searchingDto.getId() != null && searchingDto.getId() > 0) {
+                predicates.add(cb.equal(root.get(ServiceOrder_.id), searchingDto.getId()));
             }
 
-            if (!StringUtils.isEmpty(dto.getCategory())) {
+            if (!StringUtils.isEmpty(searchingDto.getCategory())) {
                 predicates.add(cb.equal(root.join(ServiceOrder_.serviceInfo).join(ServiceInfo_.serviceCategory).get(ServiceCategory_.name),
-                        dto.getCategory()));
+                        searchingDto.getCategory()));
             }
 
-            if (!dto.getStatus().isEmpty()) {
+            if (!searchingDto.getStatus().isEmpty()) {
                 final In<OrderStatus> in = cb.in(root.get(ServiceOrder_.status));
-                dto.getStatus().forEach(item -> in.value(LookupParser.parse(OrderStatus.class, item)));
+                searchingDto.getStatus().forEach(item -> in.value(LookupParser.parse(OrderStatus.class, item)));
                 predicates.add(in);
             }
 
-            if (dto.getServiceSupplierClientId() != null) {
+            if (searchingDto.getServiceSupplierClientId() != null) {
                 predicates.add(cb.equal(
                         root.join(ServiceOrder_.serviceInfo).join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
-                        dto.getServiceSupplierClientId()));
+                        searchingDto.getServiceSupplierClientId()));
 
                 query.distinct(true);
             }
 
-            if (!StringUtils.isEmpty(dto.getSupplierUserName())) {
+            if (!StringUtils.isEmpty(searchingDto.getSupplierUserName())) {
                 predicates.add(cb.like(root.join(ServiceOrder_.serviceInfo).join(ServiceInfo_.serviceSupplierClient)
-                        .join(ServiceSupplierClient_.user).get(User_.username), "%" + dto.getSupplierUserName() + "%"));
+                        .join(ServiceSupplierClient_.user).get(User_.username), "%" + searchingDto.getSupplierUserName() + "%"));
             }
 
-            if (!StringUtils.isEmpty(dto.getServiceDate())) {
+            if (!StringUtils.isEmpty(searchingDto.getServiceDate())) {
                 final DateFormat format = new SimpleDateFormat("yyyyMMdd");
                 try {
                     final Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(format.parse(dto.getServiceDate()));
+                    calendar.setTime(format.parse(searchingDto.getServiceDate()));
                     predicates.add(cb.greaterThanOrEqualTo(root.get(ServiceOrder_.serviceTime), calendar.getTime()));
 
                     calendar.add(Calendar.DATE, 1);
@@ -89,11 +89,11 @@ public interface IServiceOrderRepository extends IJpaRepository<ServiceOrder, Se
                 }
             }
 
-            if (!StringUtils.isEmpty(dto.getSettledDate())) {
+            if (!StringUtils.isEmpty(searchingDto.getSettledDate())) {
                 final DateFormat format = new SimpleDateFormat("yyyyMMdd");
                 try {
                     final Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(format.parse(dto.getSettledDate()));
+                    calendar.setTime(format.parse(searchingDto.getSettledDate()));
                     predicates.add(cb.greaterThanOrEqualTo(root.get(ServiceOrder_.settledTime), calendar.getTime()));
 
                     calendar.add(Calendar.DATE, 1);

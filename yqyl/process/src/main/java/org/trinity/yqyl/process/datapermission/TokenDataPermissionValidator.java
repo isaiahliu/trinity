@@ -6,16 +6,12 @@ import org.trinity.yqyl.repository.business.entity.Token;
 
 @Component
 public class TokenDataPermissionValidator extends AbstractDataPermissionValidator<Token> {
-	@Override
-	public void checkSpecialPermission() throws IException {
-	}
+    @Override
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	public Class<Token> getEntityType() {
-		return Token.class;
-	}
-
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+    }
 }

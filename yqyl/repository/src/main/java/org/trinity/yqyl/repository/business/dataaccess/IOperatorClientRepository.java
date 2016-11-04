@@ -24,6 +24,10 @@ public interface IOperatorClientRepository extends IJpaRepository<OperatorClient
         final Specification<OperatorClient> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
 
+            if (searchingDto.getId() != null) {
+                predicates.add(cb.equal(root.get(OperatorClient_.id), searchingDto.getId()));
+            }
+
             if (!StringUtils.isEmpty(searchingDto.getUsername())) {
                 predicates.add(cb.like(root.join(OperatorClient_.user).get(User_.username), "%" + searchingDto.getUsername() + "%"));
             }
@@ -36,9 +40,14 @@ public interface IOperatorClientRepository extends IJpaRepository<OperatorClient
                 predicates.add(cb.like(root.get(OperatorClient_.staffNo), "%" + searchingDto.getStaffNo() + "%"));
             }
 
-            if (!searchingDto.getStatus().isEmpty()) {
+            if (searchingDto.getStatus().isEmpty()) {
+                if (!searchingDto.isSearchAllStatus()) {
+                    predicates.add(cb.equal(root.get(OperatorClient_.status), OperatorClientStatus.ACTIVE));
+                }
+            } else {
                 final In<OperatorClientStatus> in = cb.in(root.get(OperatorClient_.status));
-                searchingDto.getStatus().forEach(item -> in.value(LookupParser.parse(OperatorClientStatus.class, item)));
+                searchingDto.getStatus().stream().map(item -> LookupParser.parse(OperatorClientStatus.class, item))
+                        .forEach(item -> in.value(item));
                 predicates.add(in);
             }
 

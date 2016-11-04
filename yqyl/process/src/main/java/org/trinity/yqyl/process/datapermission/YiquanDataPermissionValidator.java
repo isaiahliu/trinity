@@ -5,19 +5,13 @@ import org.trinity.common.exception.IException;
 import org.trinity.yqyl.repository.business.entity.Yiquan;
 
 @Component
-public class YiquanDataPermissionValidator
-        extends AbstractDataPermissionValidator<Yiquan> {
+public class YiquanDataPermissionValidator extends AbstractDataPermissionValidator<Yiquan> {
     @Override
     public void checkSpecialPermission() throws IException {
-    }
-
-    @Override
-    public Class<Yiquan> getEntityType() {
-        return Yiquan.class;
+        super.checkSpecialPermission();
     }
 
     @Override
     protected void validateData(final String username, final Long id) throws IException {
     }
 }
-

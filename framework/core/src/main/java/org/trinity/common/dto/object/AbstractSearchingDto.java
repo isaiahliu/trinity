@@ -26,6 +26,8 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     private final Pattern startPattern = Pattern.compile("^(\\" + START_TAG + ")(.*)$");
     private final Pattern endPattern = Pattern.compile("^(\\" + END_TAG + ")(.*)$");
 
+    private boolean searchAllStatus = false;
+
     @Override
     public RelationshipExpression generateRelationship() {
         if (relationshipExpression != null) {
@@ -40,7 +42,7 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
         relationshipExpression = node;
 
         return relationshipExpression;
-    };
+    }
 
     @Override
     public String getCurrentUsername() {
@@ -50,7 +52,7 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     @Override
     public Long getId() {
         return id;
-    }
+    };
 
     @Override
     public String getRsexp() {
@@ -71,6 +73,11 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     }
 
     @Override
+    public boolean isSearchAllStatus() {
+        return searchAllStatus;
+    }
+
+    @Override
     public void setCurrentUsername(final String currentUsername) {
         this.currentUsername = currentUsername;
     }
@@ -87,7 +94,15 @@ public abstract class AbstractSearchingDto extends PagingDto implements ISearchi
     }
 
     @Override
-    public void setSearchScope(final String searchScope) {
+    public void setSearchAllStatus(final boolean searchAllStatus) {
+        this.searchAllStatus = searchAllStatus;
+    }
+
+    @Override
+    public void setSearchScope(String searchScope) {
+        if (searchScope != null) {
+            searchScope = searchScope.toUpperCase();
+        }
         this.searchScope = searchScope;
     }
 

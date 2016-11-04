@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.trinity.yqyl.repository.business.entity.Token;
 
 public interface ITokenRepository extends CrudRepository<Token, Long> {
-	Token findOneByDeviceIdentity(String deviceIdentity);
+    Token findOneByDeviceIdentity(String deviceIdentity);
 
-	Token findOneByToken(String token);
+    Token findOneByToken(String token);
 }

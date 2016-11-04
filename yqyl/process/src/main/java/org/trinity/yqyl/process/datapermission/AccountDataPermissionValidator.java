@@ -6,16 +6,12 @@ import org.trinity.yqyl.repository.business.entity.Account;
 
 @Component
 public class AccountDataPermissionValidator extends AbstractDataPermissionValidator<Account> {
-	@Override
-	public void checkSpecialPermission() throws IException {
-	}
+    @Override
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	public Class<Account> getEntityType() {
-		return Account.class;
-	}
-
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+    }
 }

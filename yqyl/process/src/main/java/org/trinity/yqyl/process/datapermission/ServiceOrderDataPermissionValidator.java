@@ -6,12 +6,12 @@ import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 
 @Component
 public class ServiceOrderDataPermissionValidator extends AbstractDataPermissionValidator<ServiceOrder> {
-	@Override
-	public Class<ServiceOrder> getEntityType() {
-		return ServiceOrder.class;
-	}
+    @Override
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+    }
 }

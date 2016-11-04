@@ -15,7 +15,6 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAccountDt
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
@@ -60,10 +59,6 @@ public class ServiceSupplierClientProcessController extends
 
     @Autowired
     private IServiceSupplierClientMaterialProcessController supplierClientMaterialProcessController;
-
-    public ServiceSupplierClientProcessController() {
-        super(ServiceSupplierClient.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_SUPPLIER_CLIENT);
-    }
 
     @Override
     @Transactional

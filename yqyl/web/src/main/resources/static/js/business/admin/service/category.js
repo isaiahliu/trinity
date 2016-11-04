@@ -2,7 +2,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 	$scope.name = "";
 
 	$scope.search = function() {
-		var url = "/ajax/service/category?rsexp=serviceSubCategories";
+		var url = "/ajax/service/category?rsexp=serviceSubCategories&searchAllStatus=true";
 
 		if ($scope.name != "") {
 			url += "&name=" + $scope.name;

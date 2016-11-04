@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.UserRealnameDto;
 import org.trinity.yqyl.common.message.dto.domain.UserRealnameSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.CredentialType;
 import org.trinity.yqyl.common.message.lookup.RealnameStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
@@ -33,10 +32,6 @@ public class UserRealnameProcessController
 
     @Autowired
     private IContentRepository contentRepository;
-
-    public UserRealnameProcessController() {
-        super(UserRealname.class, ErrorMessage.UNABLE_TO_FIND_USER_REALNAME);
-    }
 
     @Override
     @Transactional

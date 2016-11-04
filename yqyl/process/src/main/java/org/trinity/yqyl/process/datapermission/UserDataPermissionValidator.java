@@ -12,28 +12,24 @@ import org.trinity.yqyl.repository.business.entity.User;
 
 @Component
 public class UserDataPermissionValidator extends AbstractDataPermissionValidator<User> {
-	@Autowired
-	private IUserRepository userRepository;
+    @Autowired
+    private IUserRepository userRepository;
 
-	@Autowired
-	private IExceptionFactory exceptionFactory;
+    @Autowired
+    private IExceptionFactory exceptionFactory;
 
-	@Override
-	@Authorize(requireAny = { AccessRight.SUPER_USER })
-	public void checkSpecialPermission() throws IException {
-	}
+    @Override
+    @Authorize(requireAny = { AccessRight.SUPER_USER })
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	public Class<User> getEntityType() {
-		return User.class;
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+        final User u = userRepository.findOne(id);
 
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-		final User u = userRepository.findOne(id);
-
-		if (u != null && !u.getUsername().equals(username)) {
-			throw exceptionFactory.createException(ErrorMessage.UNABLE_TO_ACCESS_USER);
-		}
-	}
+        if (u != null && !u.getUsername().equals(username)) {
+            throw exceptionFactory.createException(ErrorMessage.UNABLE_TO_ACCESS_USER);
+        }
+    }
 }

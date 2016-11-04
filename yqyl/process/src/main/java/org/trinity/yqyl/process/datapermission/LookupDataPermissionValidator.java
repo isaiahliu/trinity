@@ -6,16 +6,12 @@ import org.trinity.yqyl.repository.business.entity.Lookup;
 
 @Component
 public class LookupDataPermissionValidator extends AbstractDataPermissionValidator<Lookup> {
-	@Override
-	public void checkSpecialPermission() throws IException {
-	}
+    @Override
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	public Class<Lookup> getEntityType() {
-		return Lookup.class;
-	}
-
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+    }
 }

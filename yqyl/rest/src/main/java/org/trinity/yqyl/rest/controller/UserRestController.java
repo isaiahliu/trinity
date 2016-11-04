@@ -66,8 +66,8 @@ public class UserRestController
     }
 
     @Override
-    protected void validateGetAll() throws IException {
-        super.validateGetAll();
+    protected void validateGet() throws IException {
+        super.validateGet();
 
         securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
     }

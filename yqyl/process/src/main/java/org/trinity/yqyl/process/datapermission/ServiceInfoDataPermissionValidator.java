@@ -8,11 +8,7 @@ import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 public class ServiceInfoDataPermissionValidator extends AbstractDataPermissionValidator<ServiceInfo> {
     @Override
     public void checkSpecialPermission() throws IException {
-    }
-
-    @Override
-    public Class<ServiceInfo> getEntityType() {
-        return ServiceInfo.class;
+        super.checkSpecialPermission();
     }
 
     @Override

@@ -9,15 +9,10 @@ public class ServiceReceiverClientHealthIndicatorDataPermissionValidator
         extends AbstractDataPermissionValidator<ServiceReceiverClientHealthIndicator> {
     @Override
     public void checkSpecialPermission() throws IException {
-    }
-
-    @Override
-    public Class<ServiceReceiverClientHealthIndicator> getEntityType() {
-        return ServiceReceiverClientHealthIndicator.class;
+        super.checkSpecialPermission();
     }
 
     @Override
     protected void validateData(final String username, final Long id) throws IException {
     }
 }
-

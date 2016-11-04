@@ -56,7 +56,7 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
     public @ResponseBody ResponseEntity<TResponse> getAll(final TSearchingDto request) throws IException {
         if (request.isSearchAll()) {
             try {
-                selfProxy.validateGetAll();
+                selfProxy.validateGet();
             } catch (final IException e) {
                 request.setSearchScope(ISearchingDto.SEARCH_ME);
                 selfProxy.validateGetMe();
@@ -84,13 +84,11 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<TResponse> getOne(@PathVariable("id") final Long id, final TSearchingDto request)
             throws IException {
-        selfProxy.validateGetOne();
+        request.setId(id);
 
         final TResponse response = createResponseInstance();
 
-        final TDto data = getDomainProcessController().getOne(id, request);
-
-        response.addData(data);
+        response.addData(getDomainProcessController().getAll(request).getContent());
 
         return createResponseEntity(response);
     }
@@ -122,13 +120,10 @@ public abstract class AbstractCrudRestController<TDto extends AbstractBusinessDt
     protected void validateDelete() throws IException {
     }
 
-    protected void validateGetAll() throws IException {
+    protected void validateGet() throws IException {
     }
 
     protected void validateGetMe() throws IException {
-    }
-
-    protected void validateGetOne() throws IException {
     }
 
     protected void validateUpdate() throws IException {

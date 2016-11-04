@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
 
 /**
  * The persistent class for the service_receiver_client_health_information database table.
@@ -64,7 +65,7 @@ public class ServiceReceiverClientHealthInformation extends AbstractAuditableEnt
     @Column(name = "self_care_status")
     private String selfCareStatus;
 
-    private String status;
+    private RecordStatus status;
 
     @Column(name = "visual_acuity")
     private String visualAcuity;
@@ -137,7 +138,7 @@ public class ServiceReceiverClientHealthInformation extends AbstractAuditableEnt
         return this.serviceReceiverClientId;
     }
 
-    public String getStatus() {
+    public RecordStatus getStatus() {
         return this.status;
     }
 
@@ -205,7 +206,7 @@ public class ServiceReceiverClientHealthInformation extends AbstractAuditableEnt
         this.serviceReceiverClientId = serviceReceiverClientId;
     }
 
-    public void setStatus(final String status) {
+    public void setStatus(final RecordStatus status) {
         this.status = status;
     }
 

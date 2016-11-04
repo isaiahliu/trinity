@@ -13,7 +13,6 @@ import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.YiquanDto;
 import org.trinity.yqyl.common.message.dto.domain.YiquanSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IYiquanProcessController;
@@ -28,10 +27,6 @@ public class YiquanProcessController
         implements IYiquanProcessController {
     @Autowired
     private IUserRepository userRepository;
-
-    public YiquanProcessController() {
-        super(Yiquan.class, ErrorMessage.UNABLE_TO_FIND_YIQUAN);
-    }
 
     @Override
     @Transactional

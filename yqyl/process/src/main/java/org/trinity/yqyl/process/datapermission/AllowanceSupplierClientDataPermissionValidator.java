@@ -6,16 +6,12 @@ import org.trinity.yqyl.repository.business.entity.AllowanceSupplierClient;
 
 @Component
 public class AllowanceSupplierClientDataPermissionValidator extends AbstractDataPermissionValidator<AllowanceSupplierClient> {
-	@Override
-	public void checkSpecialPermission() throws IException {
-	}
+    @Override
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	public Class<AllowanceSupplierClient> getEntityType() {
-		return AllowanceSupplierClient.class;
-	}
-
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+    }
 }

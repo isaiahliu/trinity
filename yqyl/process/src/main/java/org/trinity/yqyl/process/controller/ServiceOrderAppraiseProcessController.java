@@ -26,10 +26,6 @@ public class ServiceOrderAppraiseProcessController extends
     @Autowired
     private IServiceOrderRepository serviceOrderRepository;
 
-    public ServiceOrderAppraiseProcessController() {
-        super(ServiceOrderAppraise.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER_APPRAISE);
-    }
-
     @Override
     @Transactional
     public List<ServiceOrderAppraiseDto> addAll(final List<ServiceOrderAppraiseDto> data) throws IException {

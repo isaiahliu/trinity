@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderRequirementDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderRequirementSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceOrderRequirementProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRequirementRepository;
@@ -19,10 +18,6 @@ public class ServiceOrderRequirementProcessController extends
         implements IServiceOrderRequirementProcessController {
     @Autowired
     private IUserRepository userRepository;
-
-    public ServiceOrderRequirementProcessController() {
-        super(ServiceOrderRequirement.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER_REQUIREMENT);
-    }
 
     @Override
     protected void addRelationship(final ServiceOrderRequirement entity, final ServiceOrderRequirementDto dto) throws IException {

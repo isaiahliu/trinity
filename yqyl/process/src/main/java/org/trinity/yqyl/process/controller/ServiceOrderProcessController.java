@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.trinity.common.exception.IException;
+import org.trinity.message.exception.GeneralErrorMessage;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
@@ -50,10 +51,6 @@ public class ServiceOrderProcessController
 
     @Autowired
     private IServiceSupplierStaffRepository serviceSupplierStaffRepository;
-
-    public ServiceOrderProcessController() {
-        super(ServiceOrder.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
-    }
 
     @Override
     @Transactional
@@ -106,7 +103,7 @@ public class ServiceOrderProcessController
     public String uploadReceipt(final ServiceOrderDto serviceOrderDto) throws IException {
         final ServiceOrder order = getDomainEntityRepository().findOne(serviceOrderDto.getId());
         if (order == null) {
-            throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_FIND_SERVICE_ORDER);
+            throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE);
         }
 
         Content content;
@@ -129,6 +126,11 @@ public class ServiceOrderProcessController
         getDomainEntityRepository().save(order);
 
         return order.getReceipt();
+    }
+
+    @Override
+    protected boolean canAccessAllStatus() {
+        return true;
     }
 
     @Override

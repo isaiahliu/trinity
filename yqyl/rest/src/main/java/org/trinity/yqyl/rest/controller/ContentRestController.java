@@ -59,12 +59,7 @@ public class ContentRestController extends
     }
 
     @Override
-    protected void validateGetAll() throws IException {
-        securityUtil.deny();
-    }
-
-    @Override
-    protected void validateGetOne() throws IException {
+    protected void validateGet() throws IException {
         securityUtil.deny();
     }
 

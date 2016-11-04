@@ -35,9 +35,14 @@ public interface IServiceReceiverClientRepository extends IJpaRepository<Service
                 predicates.add(cb.like(root.get(ServiceReceiverClient_.identityCard), "%" + searchingDto.getIdentity() + "%"));
             }
 
-            if (!searchingDto.getStatus().isEmpty()) {
+            if (searchingDto.getStatus().isEmpty()) {
+                if (!searchingDto.isSearchAllStatus()) {
+                    predicates.add(cb.equal(root.get(ServiceReceiverClient_.status), ServiceReceiverClientStatus.ACTIVE));
+                }
+            } else {
                 final In<ServiceReceiverClientStatus> in = cb.in(root.get(ServiceReceiverClient_.status));
-                searchingDto.getStatus().forEach(item -> in.value(LookupParser.parse(ServiceReceiverClientStatus.class, item)));
+                searchingDto.getStatus().stream().map(item -> LookupParser.parse(ServiceReceiverClientStatus.class, item))
+                        .forEach(item -> in.value(item));
                 predicates.add(in);
             }
 

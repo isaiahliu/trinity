@@ -11,7 +11,8 @@ public enum GeneralErrorMessage implements IErrorMessage {
     NONE_ACCESS_IS_GRANTED,
     TOKEN_IS_MISSING,
     SUPER_USER_IS_REQUIRED,
-    AUTHERIZATION_DISABLED;
+    AUTHERIZATION_DISABLED,
+    UNABLE_TO_FIND_INSTANCE;
 
     @Override
     public String getMessageCode() {

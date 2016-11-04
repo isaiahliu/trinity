@@ -23,6 +23,10 @@ public interface IServiceInfoRepository extends IJpaRepository<ServiceInfo, Serv
         final Specification<ServiceInfo> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
 
+            if (searchingDto.getId() != null) {
+                predicates.add(cb.equal(root.get(ServiceInfo_.id), searchingDto.getId()));
+            }
+
             if (searchingDto.getServiceSupplierClientId() != null) {
                 predicates.add(cb.equal(root.join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
                         searchingDto.getServiceSupplierClientId()));

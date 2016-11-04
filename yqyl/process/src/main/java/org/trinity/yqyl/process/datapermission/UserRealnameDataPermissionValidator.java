@@ -5,19 +5,13 @@ import org.trinity.common.exception.IException;
 import org.trinity.yqyl.repository.business.entity.UserRealname;
 
 @Component
-public class UserRealnameDataPermissionValidator
-        extends AbstractDataPermissionValidator<UserRealname> {
+public class UserRealnameDataPermissionValidator extends AbstractDataPermissionValidator<UserRealname> {
     @Override
     public void checkSpecialPermission() throws IException {
-    }
-
-    @Override
-    public Class<UserRealname> getEntityType() {
-        return UserRealname.class;
+        super.checkSpecialPermission();
     }
 
     @Override
     protected void validateData(final String username, final Long id) throws IException {
     }
 }
-

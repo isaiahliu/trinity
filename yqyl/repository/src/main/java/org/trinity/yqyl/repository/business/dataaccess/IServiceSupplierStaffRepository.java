@@ -44,6 +44,17 @@ public interface IServiceSupplierStaffRepository extends IJpaRepository<ServiceS
             if (searchingDto.getId() != null && searchingDto.getId() != 0) {
                 predicates.add(cb.equal(root.get(ServiceSupplierStaff_.id), searchingDto.getId()));
             }
+
+            if (searchingDto.getStatus().isEmpty()) {
+                if (!searchingDto.isSearchAllStatus()) {
+                    predicates.add(cb.equal(root.get(ServiceSupplierStaff_.status), StaffStatus.ACTIVE));
+                }
+            } else {
+                final In<StaffStatus> in = cb.in(root.get(ServiceSupplierStaff_.status));
+                searchingDto.getStatus().stream().map(item -> LookupParser.parse(StaffStatus.class, item)).forEach(item -> in.value(item));
+                predicates.add(in);
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
         return findAll(specification, pagable);

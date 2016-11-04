@@ -3,24 +3,20 @@ package org.trinity.yqyl.process.controller.base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.trinity.common.accessright.ISecurityUtil;
+import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.IPagingDto;
 import org.trinity.common.dto.object.ISearchingDto;
 import org.trinity.common.exception.IException;
 import org.trinity.common.exception.factory.IExceptionFactory;
-import org.trinity.message.exception.IErrorMessage;
 import org.trinity.process.controller.AbstractCrudProcessController;
 import org.trinity.process.converter.IObjectConverter;
-import org.trinity.process.datapermission.IDataPermissionValidatorProvider;
+import org.trinity.process.datapermission.IDataPermissionValidator;
 import org.trinity.repository.repository.IJpaRepository;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 
 public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto extends AbstractBusinessDto, TSearchingDto extends ISearchingDto, TRepository extends IJpaRepository<TEntity, TSearchingDto>>
         extends AbstractCrudProcessController<TEntity, TDto, TSearchingDto> {
-
-    private final Class<TEntity> domainEntityType;
-    private final IErrorMessage noInstanceFoundError;
-
     @Autowired
     private ISecurityUtil<AccessRight> securityUtil;
 
@@ -34,15 +30,14 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
     private IObjectConverter<TEntity, TDto> domainObjectConverter;
 
     @Autowired
-    private IDataPermissionValidatorProvider dataPermissionValidatorProvider;
+    private IDataPermissionValidator<TEntity> domainDataPermissionValidator;
 
     @Autowired
     private IExceptionFactory exceptionFactory;
 
-    protected AbstractAutowiredCrudProcessController(final Class<TEntity> domainEntityType, final IErrorMessage noInstanceFoundError) {
-        super();
-        this.domainEntityType = domainEntityType;
-        this.noInstanceFoundError = noInstanceFoundError;
+    @Override
+    public IDataPermissionValidator<TEntity> getDomainDataPermissionValidator() {
+        return domainDataPermissionValidator;
     }
 
     public ISecurityUtil<AccessRight> getSecurityUtil() {
@@ -53,7 +48,18 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
         this.pagingConverter = pagingConverter;
     }
 
-    private String getCurrentUsername() {
+    @Override
+    protected boolean canAccessAllStatus() {
+        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+    }
+
+    @Override
+    protected Pageable createPageable(final TSearchingDto data) {
+        return getPagingConverter().convert(data);
+    }
+
+    @Override
+    protected String getCurrentUsername() {
         try {
             return getSecurityUtil().getCurrentToken().getUsername();
         } catch (final IException e) {
@@ -62,18 +68,8 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
     }
 
     @Override
-    protected IDataPermissionValidatorProvider getDataPermissionValidatorProvider() {
-        return dataPermissionValidatorProvider;
-    }
-
-    @Override
     protected TRepository getDomainEntityRepository() {
         return domainEntityRepository;
-    }
-
-    @Override
-    protected Class<TEntity> getDomainEntityType() {
-        return domainEntityType;
     }
 
     @Override
@@ -86,20 +82,13 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
         return exceptionFactory;
     }
 
-    @Override
-    protected IErrorMessage getNoInstanceFoundError() {
-        return noInstanceFoundError;
-    }
-
     protected IObjectConverter<IPagingDto, Pageable> getPagingConverter() {
         return pagingConverter;
     }
 
     @Override
-    protected Pageable prepareSearch(final TSearchingDto data) {
-        data.setCurrentUsername(getCurrentUsername());
-
-        return getPagingConverter().convert(data);
+    protected void prepareSearch(final TSearchingDto data) {
+        super.prepareSearch(data);
     }
 
     protected void setSecurityUtil(final ISecurityUtil<AccessRight> securityUtil) {

@@ -6,16 +6,12 @@ import org.trinity.yqyl.repository.business.entity.Announcement;
 
 @Component
 public class AnnouncementDataPermissionValidator extends AbstractDataPermissionValidator<Announcement> {
-	@Override
-	public void checkSpecialPermission() throws IException {
-	}
+    @Override
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	public Class<Announcement> getEntityType() {
-		return Announcement.class;
-	}
-
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+    }
 }

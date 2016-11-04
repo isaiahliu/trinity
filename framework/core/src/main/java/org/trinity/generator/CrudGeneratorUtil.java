@@ -55,10 +55,6 @@ public final class CrudGeneratorUtil {
 
         protected abstract String getFileNameForEntity(String entity);
 
-        protected String getUpperFormatString(final String str) {
-            return str.replaceAll("([A-Z])", "_$1").toUpperCase().substring(1);
-        }
-
         protected abstract void write(PrintWriter writer, String projectName, String entitySchema, String entity);
     }
 
@@ -162,11 +158,7 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("    @Override", entity, projectName, entitySchema));
             writer.println(
                     String.format("    public void checkSpecialPermission() throws IException {", entity, projectName, entitySchema));
-            writer.println(String.format("    }", entity, projectName, entitySchema));
-            writer.println(String.format("", entity, projectName, entitySchema));
-            writer.println(String.format("    @Override", entity, projectName, entitySchema));
-            writer.println(String.format("    public Class<%1$s> getEntityType() {", entity, projectName, entitySchema));
-            writer.println(String.format("        return %1$s.class;", entity, projectName, entitySchema));
+            writer.println(String.format("    super.checkSpecialPermission();", entity, projectName, entitySchema));
             writer.println(String.format("    }", entity, projectName, entitySchema));
             writer.println(String.format("", entity, projectName, entitySchema));
             writer.println(String.format("    @Override", entity, projectName, entitySchema));
@@ -242,10 +234,6 @@ public final class CrudGeneratorUtil {
                     String.format("      extends AbstractAutowiredCrudProcessController<%1$s, %1$sDto, %1$sSearchingDto, I%1$sRepository>",
                             entity, projectName, entitySchema));
             writer.println(String.format("      implements I%1$sProcessController {", entity, projectName, entitySchema));
-            writer.println(String.format("  public %1$sProcessController() {", entity, projectName, entitySchema));
-            writer.println(String.format("      super(%1$s.class, ErrorMessage.UNABLE_TO_FIND_%4$s);", entity, projectName, entitySchema,
-                    getUpperFormatString(entity)));
-            writer.println(String.format("  }", entity, projectName, entitySchema));
             writer.println(String.format("}", entity, projectName, entitySchema));
             writer.println(String.format("", entity, projectName, entitySchema));
         }
@@ -322,10 +310,27 @@ public final class CrudGeneratorUtil {
                     String.format("            final List<Predicate> predicates = new ArrayList<>();", entity, projectName, entitySchema));
             writer.println(String.format("            if (!searchingDto.isSearchAll()) {", entity, projectName, entitySchema));
             writer.println(String.format("            }", entity, projectName, entitySchema));
+            writer.println(String.format("", entity, projectName, entitySchema));
             writer.println(String.format("            if (searchingDto.getId() != null) {", entity, projectName, entitySchema));
             writer.println(String.format("                predicates.add(cb.equal(root.get(%1$s_.id), searchingDto.getId()));", entity,
                     projectName, entitySchema));
             writer.println(String.format("            }", entity, projectName, entitySchema));
+            writer.println(String.format("", entity, projectName, entitySchema));
+            writer.println(String.format("            if (searchingDto.getStatus().isEmpty()) {", entity, projectName, entitySchema));
+            writer.println(String.format("                if (!searchingDto.isSearchAllStatus()) {", entity, projectName, entitySchema));
+            writer.println(String.format("                    predicates.add(cb.equal(root.get(%1$s_.status), RecordStatus.ACTIVE));",
+                    entity, projectName, entitySchema));
+            writer.println(String.format("                }", entity, projectName, entitySchema));
+            writer.println(String.format("            } else {", entity, projectName, entitySchema));
+            writer.println(String.format("                final In<RecordStatus> in = cb.in(root.get(%1$s_.status));", entity, projectName,
+                    entitySchema));
+            writer.println(String.format(
+                    "                searchingDto.getStatus().stream().map(item -> LookupParser.parse(RecordStatus.class, item))", entity,
+                    projectName, entitySchema));
+            writer.println(String.format("                        .forEach(item -> in.value(item));", entity, projectName, entitySchema));
+            writer.println(String.format("                predicates.add(in);", entity, projectName, entitySchema));
+            writer.println(String.format("            }", entity, projectName, entitySchema));
+            writer.println(String.format("", entity, projectName, entitySchema));
             writer.println(
                     String.format("            return cb.and(predicates.toArray(new Predicate[0]));", entity, projectName, entitySchema));
             writer.println(String.format("        };", entity, projectName, entitySchema));

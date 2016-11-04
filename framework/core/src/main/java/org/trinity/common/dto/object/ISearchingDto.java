@@ -3,8 +3,8 @@ package org.trinity.common.dto.object;
 import java.util.List;
 
 public interface ISearchingDto extends IPagingDto {
-    public final String SEARCH_ALL = "all";
-    public final String SEARCH_ME = "me";
+    public final String SEARCH_ALL = "ALL";
+    public final String SEARCH_ME = "ME";
 
     RelationshipExpression generateRelationship();
 
@@ -22,11 +22,15 @@ public interface ISearchingDto extends IPagingDto {
         return SEARCH_ALL.equals(getSearchScope());
     }
 
+    boolean isSearchAllStatus();
+
     void setCurrentUsername(String currentUsername);
 
     void setId(final Long id);
 
     void setRsexp(final String rsexp);
+
+    void setSearchAllStatus(boolean searchAllStatus);
 
     void setSearchScope(String searchScope);
 

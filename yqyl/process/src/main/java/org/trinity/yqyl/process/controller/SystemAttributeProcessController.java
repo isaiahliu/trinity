@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.SystemAttributeDto;
 import org.trinity.yqyl.common.message.dto.domain.SystemAttributeSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.SystemAttributeKey;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
@@ -22,9 +21,6 @@ import org.trinity.yqyl.repository.business.entity.SystemAttribute;
 public class SystemAttributeProcessController extends
         AbstractAutowiredCrudProcessController<SystemAttribute, SystemAttributeDto, SystemAttributeSearchingDto, ISystemAttributeRepository>
         implements ISystemAttributeProcessController {
-    public SystemAttributeProcessController() {
-        super(SystemAttribute.class, ErrorMessage.UNABLE_TO_FIND_SYSTEM_ATTRIBUTE);
-    }
 
     @Override
     @Transactional

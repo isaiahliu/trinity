@@ -36,9 +36,14 @@ public interface IServiceCategoryRepository extends IJpaRepository<ServiceCatego
             } else {
                 predicates.add(cb.equal(root.join(ServiceCategory_.parent).get(ServiceCategory_.id), searchingDto.getParentId()));
             }
-            if (!searchingDto.getStatus().isEmpty()) {
+
+            if (searchingDto.getStatus().isEmpty()) {
+                if (!searchingDto.isSearchAllStatus()) {
+                    predicates.add(cb.equal(root.get(ServiceCategory_.status), RecordStatus.ACTIVE));
+                }
+            } else {
                 final In<RecordStatus> in = cb.in(root.get(ServiceCategory_.status));
-                searchingDto.getStatus().forEach(item -> in.value(LookupParser.parse(RecordStatus.class, item)));
+                searchingDto.getStatus().stream().map(item -> LookupParser.parse(RecordStatus.class, item)).forEach(item -> in.value(item));
                 predicates.add(in);
             }
 

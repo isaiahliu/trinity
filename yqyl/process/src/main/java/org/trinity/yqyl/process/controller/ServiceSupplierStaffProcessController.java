@@ -18,7 +18,6 @@ import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
@@ -55,10 +54,6 @@ public class ServiceSupplierStaffProcessController extends
 
     @Autowired
     private IServiceCategoryRepository serviceCategoryRepository;
-
-    public ServiceSupplierStaffProcessController() {
-        super(ServiceSupplierStaff.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_SUPPLIER_STAFF);
-    }
 
     @Override
     @Transactional

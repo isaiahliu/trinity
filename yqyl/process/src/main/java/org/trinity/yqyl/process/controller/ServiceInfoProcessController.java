@@ -20,7 +20,6 @@ import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
@@ -64,10 +63,6 @@ public class ServiceInfoProcessController
 
     @Autowired
     private IContentRepository contentRepository;
-
-    public ServiceInfoProcessController() {
-        super(ServiceInfo.class, ErrorMessage.UNABLE_TO_FIND_SERVICE_INFO);
-    }
 
     @Override
     @Transactional

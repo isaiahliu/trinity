@@ -11,9 +11,10 @@ import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.ISearchingDto;
 import org.trinity.common.exception.IException;
 import org.trinity.common.util.SelfAware;
-import org.trinity.message.exception.IErrorMessage;
+import org.trinity.message.exception.GeneralErrorMessage;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
+import org.trinity.process.datapermission.IDataPermissionValidator;
 import org.trinity.repository.repository.IRepository;
 
 public abstract class AbstractCrudProcessController<TEntity, TDto extends AbstractBusinessDto, TSearchingDto extends ISearchingDto>
@@ -45,7 +46,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
 
         final TEntity entity = getDomainEntityRepository().findOne(id);
         if (entity == null) {
-            throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
+            throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE, String.valueOf(id));
         }
 
         final TDto dto = getDomainObjectConverter().convert(entity);
@@ -60,24 +61,12 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     @Override
     @Transactional
     public Page<TDto> getAll(final TSearchingDto data) throws IException {
-        final Pageable pageable = prepareSearch(data);
+        prepareSearch(data);
+
+        final Pageable pageable = createPageable(data);
 
         return getDomainEntityRepository().query(data, pageable)
                 .map(item -> getDomainObjectConverter().convert(item, data.generateRelationship()));
-    }
-
-    @Override
-    public TDto getOne(final Long id, final TSearchingDto data) throws IException {
-        final TEntity entity = getDomainEntityRepository().findOne(id);
-        if (entity == null) {
-            throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
-        }
-
-        final TDto dto = getDomainObjectConverter().convert(entity, data.generateRelationship());
-
-        selfProxy.validateDataPermission(dto);
-
-        return dto;
     }
 
     @Override
@@ -99,7 +88,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
             if (id != null && id != 0) {
                 entity = getDomainEntityRepository().findOne(id);
                 if (entity == null) {
-                    throw getExceptionFactory().createException(getNoInstanceFoundError(), String.valueOf(id));
+                    throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE, String.valueOf(id));
                 }
                 selfProxy.updateRelationship(entity, dto);
             } else {
@@ -117,23 +106,34 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     protected void addRelationship(final TEntity entity, final TDto dto) throws IException {
     }
 
+    protected abstract boolean canAccessAllStatus();
+
+    protected abstract Pageable createPageable(final TSearchingDto data);
+
     protected void deleteRelationship(final TEntity entity) throws IException {
     }
 
-    protected abstract IRepository<TEntity, TSearchingDto> getDomainEntityRepository();
+    protected abstract String getCurrentUsername();
 
-    protected abstract Class<TEntity> getDomainEntityType();
+    protected abstract IDataPermissionValidator<TEntity> getDomainDataPermissionValidator();
+
+    protected abstract IRepository<TEntity, TSearchingDto> getDomainEntityRepository();
 
     protected abstract IObjectConverter<TEntity, TDto> getDomainObjectConverter();
 
-    protected abstract IErrorMessage getNoInstanceFoundError();
+    protected void prepareSearch(final TSearchingDto data) {
+        data.setCurrentUsername(getCurrentUsername());
 
-    protected abstract Pageable prepareSearch(TSearchingDto data);
+        if (!canAccessAllStatus()) {
+            data.setSearchAllStatus(false);
+            data.getStatus().clear();
+        }
+    }
 
     protected void updateRelationship(final TEntity entity, final TDto dto) throws IException {
     }
 
     protected void validateDataPermission(final TDto dto) throws IException {
-        getDataPermissionValidatorProvider().getValidator(getDomainEntityType()).validate(dto.getId());
+        getDomainDataPermissionValidator().validate(dto.getId());
     }
 }

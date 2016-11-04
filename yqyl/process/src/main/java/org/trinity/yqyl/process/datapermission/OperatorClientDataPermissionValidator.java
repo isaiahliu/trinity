@@ -6,16 +6,12 @@ import org.trinity.yqyl.repository.business.entity.OperatorClient;
 
 @Component
 public class OperatorClientDataPermissionValidator extends AbstractDataPermissionValidator<OperatorClient> {
-	@Override
-	public void checkSpecialPermission() throws IException {
-	}
+    @Override
+    public void checkSpecialPermission() throws IException {
+        super.checkSpecialPermission();
+    }
 
-	@Override
-	public Class<OperatorClient> getEntityType() {
-		return OperatorClient.class;
-	}
-
-	@Override
-	protected void validateData(final String username, final Long id) throws IException {
-	}
+    @Override
+    protected void validateData(final String username, final Long id) throws IException {
+    }
 }
