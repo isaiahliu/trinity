@@ -28,128 +28,129 @@ import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
 public class TokenProcessController implements ITokenProcessController {
-    @Autowired
-    private ITokenRepository tokenRepository;
+	@Autowired
+	private ITokenRepository tokenRepository;
 
-    @Autowired
-    private IExceptionFactory exceptionFactory;
+	@Autowired
+	private IExceptionFactory exceptionFactory;
 
-    @Autowired
-    private IObjectConverter<Token, TokenDto> tokenConverter;
+	@Autowired
+	private IObjectConverter<Token, TokenDto> tokenConverter;
 
-    @Autowired
-    private ISystemAttributeRepository systemAttributeRepository;
+	@Autowired
+	private ISystemAttributeRepository systemAttributeRepository;
 
-    @Override
-    public TokenDto getToken(final String tokenName) throws IException {
-        final Token token = tokenRepository.findOneByToken(tokenName);
+	@Override
+	public TokenDto getToken(final String tokenName) throws IException {
+		final Token token = tokenRepository.findOneByToken(tokenName);
 
-        if (token == null) {
-            throw exceptionFactory.createException(GeneralErrorMessage.TOKEN_IS_MISSING);
-        } else if (token.getStatus() != TokenStatus.AUTHENTICATED) {
-            throw exceptionFactory.createException(ErrorMessage.TOKEN_IS_NOT_AUTHENTICATED);
-        }
+		if (token == null) {
+			throw exceptionFactory.createException(GeneralErrorMessage.TOKEN_IS_MISSING);
+		} else if (token.getStatus() != TokenStatus.AUTHENTICATED) {
+			throw exceptionFactory.createException(ErrorMessage.TOKEN_IS_NOT_AUTHENTICATED);
+		}
 
-        return tokenConverter.convert(token);
-    }
+		return tokenConverter.convert(token);
+	}
 
-    @Override
-    public AuthToken preAuth(final String token) {
-        if (StringUtils.isEmpty(token)) {
-            return null;
-        }
+	@Override
+	public AuthToken preAuth(final String token) {
+		if (StringUtils.isEmpty(token)) {
+			return null;
+		}
 
-        final Token tokenEntity = tokenRepository.findOneByToken(token);
+		final Token tokenEntity = tokenRepository.findOneByToken(token);
 
-        final AuthToken result = new AuthToken(token);
+		final AuthToken result = new AuthToken(token);
 
-        try {
-            if (tokenEntity == null) {
-                result.setStatus(TokenAuthenticationStatus.NOT_EXISTS);
-            }
+		try {
+			if (tokenEntity == null) {
+				result.setStatus(TokenAuthenticationStatus.NOT_EXISTS);
+			}
 
-            result.setFirstActiveTimestamp(tokenEntity.getActiveTimestamp());
-            result.setLastActiveTimestamp(tokenEntity.getLastActiveTimestamp());
+			result.setFirstActiveTimestamp(tokenEntity.getActiveTimestamp());
+			result.setLastActiveTimestamp(tokenEntity.getLastActiveTimestamp());
 
-            final User user = tokenEntity.getUser();
-            if (user != null) {
-                result.setUsername(user.getUsername());
-                result.setUserDetailKey(user.getUsername());
-            }
+			final User user = tokenEntity.getUser();
+			if (user != null) {
+				result.setUsername(user.getUsername());
+				result.setUserDetailKey(user.getUsername());
+			}
 
-            switch (tokenEntity.getStatus()) {
-            case AUTHENTICATED:
-                result.setStatus(TokenAuthenticationStatus.AUTHENTICATED);
-                final SystemAttribute attribute = systemAttributeRepository.findOneByKey(SystemAttributeKey.TOKEN_EXPIRE_DAYS);
+			switch (tokenEntity.getStatus()) {
+				case AUTHENTICATED:
+					result.setStatus(TokenAuthenticationStatus.AUTHENTICATED);
+					final SystemAttribute attribute = systemAttributeRepository.findOneByKey(SystemAttributeKey.TOKEN_EXPIRE_DAYS);
 
-                if (attribute != null) {
-                    final int expireDays = Integer.parseInt(attribute.getValue());
+					if (attribute != null) {
+						final int expireDays = Integer.parseInt(attribute.getValue());
 
-                    final Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(tokenEntity.getLastActiveTimestamp());
+						final Calendar calendar = Calendar.getInstance();
+						calendar.setTime(tokenEntity.getLastActiveTimestamp());
 
-                    calendar.add(Calendar.DATE, expireDays);
+						calendar.add(Calendar.DATE, expireDays);
 
-                    final Date expireDate = calendar.getTime();
+						final Date expireDate = calendar.getTime();
 
-                    if (new Date().after(expireDate)) {
-                        result.setStatus(TokenAuthenticationStatus.TOKEN_IS_EXPIRED);
-                    }
-                }
+						if (new Date().after(expireDate)) {
+							result.setStatus(TokenAuthenticationStatus.TOKEN_IS_EXPIRED);
+						}
+					}
 
-                if (result.getStatus() == TokenAuthenticationStatus.AUTHENTICATED) {
-                    try {
-                        tokenEntity.setLastActiveTimestamp(new Date());
+					break;
+				case EXPIRED:
+					result.setStatus(TokenAuthenticationStatus.TOKEN_IS_EXPIRED);
+					break;
+				case LOGGED_BY_OTHERS:
+					result.setStatus(TokenAuthenticationStatus.LOGGED_BY_OTHERS);
+					break;
+				case PASSWORD_CHANGED:
+					result.setStatus(TokenAuthenticationStatus.PASSWORD_CHANGED);
+					break;
+				case UNAUTHENTICATED:
+					result.setStatus(TokenAuthenticationStatus.UNAUTHENTICATED);
+					break;
+				case LOGGED_OUT:
+					result.setStatus(TokenAuthenticationStatus.LOGGED_OUT);
+					break;
+			}
+		} catch (final Throwable e) {
+			result.setStatus(TokenAuthenticationStatus.NOT_EXISTS);
+			result.setUsername(null);
+		}
+		return result;
+	}
 
-                        tokenRepository.save(tokenEntity);
-                    } catch (final Throwable e) {
-                    }
-                }
+	@Override
+	@Transactional
+	public TokenDto refreshToken(final String identity, final String originalToken) {
+		Token token = tokenRepository.findOneByDeviceIdentity(identity);
 
-                break;
-            case EXPIRED:
-                result.setStatus(TokenAuthenticationStatus.TOKEN_IS_EXPIRED);
-                break;
-            case LOGGED_BY_OTHERS:
-                result.setStatus(TokenAuthenticationStatus.LOGGED_BY_OTHERS);
-                break;
-            case PASSWORD_CHANGED:
-                result.setStatus(TokenAuthenticationStatus.PASSWORD_CHANGED);
-                break;
-            case UNAUTHENTICATED:
-                result.setStatus(TokenAuthenticationStatus.UNAUTHENTICATED);
-                break;
-            case LOGGED_OUT:
-                result.setStatus(TokenAuthenticationStatus.LOGGED_OUT);
-                break;
-            }
-        } catch (final Throwable e) {
-            result.setStatus(TokenAuthenticationStatus.NOT_EXISTS);
-            result.setUsername(null);
-        }
-        return result;
-    }
+		if (token == null) {
+			token = new Token();
+			token.setDeviceIdentity(identity);
+			token.setStatus(TokenStatus.UNAUTHENTICATED);
 
-    @Override
-    @Transactional
-    public TokenDto refreshToken(final String identity, final String originalToken) {
-        Token token = tokenRepository.findOneByDeviceIdentity(identity);
+		} else {
+			if (!token.getToken().equals(originalToken)) {
+				token.setStatus(TokenStatus.UNAUTHENTICATED);
+				token.setUser(null);
+			}
+		}
 
-        if (token == null) {
-            token = new Token();
-            token.setDeviceIdentity(identity);
-            token.setStatus(TokenStatus.UNAUTHENTICATED);
+		token.setToken(UUID.randomUUID().toString());
+		tokenRepository.save(token);
 
-        } else {
-            if (!token.getToken().equals(originalToken)) {
-                token.setStatus(TokenStatus.UNAUTHENTICATED);
-                token.setUser(null);
-            }
-        }
+		return tokenConverter.convert(token);
+	}
 
-        token.setToken(UUID.randomUUID().toString());
-        tokenRepository.save(token);
+	@Override
+	@Transactional
+	public void updateAccessTime(final String token) throws IException {
+		final Token tokenEntity = tokenRepository.findOneByToken(token);
 
-        return tokenConverter.convert(token);
-    }
+		tokenEntity.setLastActiveTimestamp(new Date());
+
+		tokenRepository.save(tokenEntity);
+	}
 }

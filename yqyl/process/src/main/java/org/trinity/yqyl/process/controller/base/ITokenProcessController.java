@@ -7,9 +7,11 @@ import org.trinity.yqyl.common.message.dto.domain.TokenDto;
 
 public interface ITokenProcessController extends IProcessController {
 
-    TokenDto getToken(String tokenName) throws IException;
+	TokenDto getToken(String tokenName) throws IException;
 
-    AuthToken preAuth(String token);
+	AuthToken preAuth(String token);
 
-    TokenDto refreshToken(String identity, String originalToken);
+	TokenDto refreshToken(String identity, String originalToken);
+
+	void updateAccessTime(String token) throws IException;
 }
