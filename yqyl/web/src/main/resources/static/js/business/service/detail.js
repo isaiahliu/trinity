@@ -1,7 +1,7 @@
 layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, $filter, serviceOrderId) {
 	$http({
 		method : "GET",
-		url : "/ajax/user/order/" + serviceOrderId + "?rsexp=serviceInfo[serviceSupplierClient,serviceCategory]"
+		url : "/ajax/user/order/" + serviceOrderId + "?rsexp=serviceInfo[serviceSupplierClient,serviceCategory],operations"
 	}).success(function(response) {
 		$scope.serviceOrder = response.data[0];
 	}).error(function(response) {

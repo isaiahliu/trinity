@@ -41,7 +41,7 @@
 			<thead>
 				<tr>
 					<td><span>#label("OPERATION_TIME")</span></td>
-					<td><span>#label("OPERATION")</span></td>
+					<td><span>#label("SERVICE_ORDER_OPERATION")</span></td>
 					<td><span>#label("OPERATOR")</span></td>
 				</tr>
 			</thead>

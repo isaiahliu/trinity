@@ -14,6 +14,7 @@ import org.trinity.message.exception.GeneralErrorMessage;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.OrderOperation;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.PaymentMethod;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
@@ -22,6 +23,7 @@ import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessCont
 import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderOperationRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRequirementRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepository;
@@ -29,6 +31,7 @@ import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
+import org.trinity.yqyl.repository.business.entity.ServiceOrderOperation;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement;
 import org.trinity.yqyl.repository.business.entity.User;
 
@@ -52,6 +55,9 @@ public class ServiceOrderProcessController
     @Autowired
     private IServiceSupplierStaffRepository serviceSupplierStaffRepository;
 
+    @Autowired
+    private IServiceOrderOperationRepository serviceOrderOperationRepository;
+
     @Override
     @Transactional
     public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
@@ -72,6 +78,16 @@ public class ServiceOrderProcessController
         serviceOrder.setServiceInfo(serviceInfo);
 
         getDomainEntityRepository().save(serviceOrder);
+
+        final ServiceOrderOperation operation = new ServiceOrderOperation();
+        operation.setOperation(OrderOperation.PROPOSAL);
+        operation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+        operation.setOrderStatus(OrderStatus.UNPROCESSED);
+        operation.setStatus(RecordStatus.ACTIVE);
+        operation.setServiceOrder(serviceOrder);
+        operation.setTimestamp(new Date());
+
+        serviceOrderOperationRepository.save(operation);
 
         return getDomainObjectConverter().convert(serviceOrder);
     }

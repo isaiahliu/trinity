@@ -3,7 +3,7 @@ package org.trinity.yqyl.common.message.lookup;
 import org.trinity.message.ILookupMessage;
 
 public enum OrderOperation implements ILookupMessage<LookupType> {
-    ;
+    PROPOSAL("1");
 
     private final String messageCode;
 

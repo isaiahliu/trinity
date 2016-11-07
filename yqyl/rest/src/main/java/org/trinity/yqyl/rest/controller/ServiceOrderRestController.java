@@ -15,41 +15,12 @@ import org.trinity.yqyl.common.message.dto.request.OrderRequest;
 import org.trinity.yqyl.common.message.dto.request.ServiceOrderRequest;
 import org.trinity.yqyl.common.message.dto.response.ServiceOrderResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
-import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
 
 @RestController
 @RequestMapping("/user/order")
 public class ServiceOrderRestController extends
         AbstractApplicationAwareCrudRestController<ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderProcessController, OrderRequest, ServiceOrderResponse> {
-
-    @RequestMapping(value = "/processed", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessedOrders(final ServiceOrderSearchingDto request)
-            throws IException {
-        request.getStatus().add(OrderStatus.AWAITING_APPRAISE.getMessageCode());
-        request.getStatus().add(OrderStatus.SETTLED.getMessageCode());
-        request.getStatus().add(OrderStatus.REQUEST_FAILED.getMessageCode());
-
-        return getAll(request);
-    }
-
-    @RequestMapping(value = "/processing", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllProcessingOrders(final ServiceOrderSearchingDto request)
-            throws IException {
-        request.getStatus().add(OrderStatus.IN_PROGRESS.getMessageCode());
-        request.getStatus().add(OrderStatus.AWAITING_PAYMENT.getMessageCode());
-
-        return getAll(request);
-    }
-
-    @RequestMapping(value = "/unprocessed", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<ServiceOrderResponse> getAllUnprocessedOrders(final ServiceOrderSearchingDto request)
-            throws IException {
-        request.getStatus().add(OrderStatus.REQUEST_GRABBED.getMessageCode());
-        request.getStatus().add(OrderStatus.UNPROCESSED.getMessageCode());
-
-        return getAll(request);
-    }
 
     @RequestMapping(value = "/proposal", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<ServiceOrderResponse> proposeOrder(@RequestBody final ServiceOrderRequest request)
