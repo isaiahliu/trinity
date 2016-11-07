@@ -6,15 +6,15 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		url : "/ajax/service/supplier/" + serviceSupplierClientId
 	}).success(function(response) {
 		$scope.serviceSupplierClient = response.data[0];
-	}).error(function(response) {
-		errorHandler($scope, response);
-	});
-
-	$http({
-		method : "GET",
-		url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services?rsexp=serviceCategory"
-	}).success(function(response) {
-		$scope.services = response.data;
+		$http({
+			method : "GET",
+			url : "/ajax/service/supplier/" + serviceSupplierClientId + "/services?rsexp=serviceCategory"
+		}).success(function(response) {
+			$scope.services = response.data;
+			$scope.searchOrders();
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
 	}).error(function(response) {
 		errorHandler($scope, response);
 	});
@@ -44,8 +44,6 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		pageIndex : 1,
 		pageSize : 10
 	};
-
-	$scope.searchOrders();
 
 	$scope.apply = function() {
 		$window.location.href = "/service/proposal/" + serviceSupplierClientId;

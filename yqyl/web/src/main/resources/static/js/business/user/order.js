@@ -61,12 +61,20 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 
 	$scope.$watch('filter.selectedStatus', function(newValue, oldValue) {
 		if (newValue != oldValue) {
+			$scope.orderPaging = {
+				pageIndex : 1,
+				pageSize : 10
+			};
 			$scope.populateOrders();
 		}
 	});
 
 	$scope.$watch('filter.selectedPaymentMethod', function(newValue, oldValue) {
 		if (newValue != oldValue) {
+			$scope.orderPaging = {
+				pageIndex : 1,
+				pageSize : 10
+			};
 			$scope.populateOrders();
 		}
 	});

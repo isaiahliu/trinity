@@ -4,34 +4,51 @@
 	layoutApp.value("serviceOrderId", ${orderId});
 </script>
 <div class="detail">
-	<div class="image">
-		<img />
+	<div class="title">
+		<span>#label("SERVICE_ORDER_DETAIL")</span>
 	</div>
-	<div class="card">
-		<div class="title ng-hide" ng-show="serviceOrder.serviceInfo">{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</div>
-		<div class="cardItem ng-hide" ng-show="serviceOrder.serviceInfo">
-			<span class="key">#label("COMPANY_ADDRESS")</span><span class="value">{{serviceOrder.serviceInfo.serviceSupplierClient.address}}</span>
-		</div>
+	<div class="level1">
+		<span>#label("SERVICE_ORDER_PREVIEW")</span>
 	</div>
-	<table>
-		<thead>
-			<tr>
-				<td align="center"><span>#label("SERVICE_NAME")</span></td>
-				<td align="center"><span>#label("SERVICE_TIME")</span></td>
-				<td align="center"><span>#label("SERVICE_ADDRESS")</span></td>
-				<td align="center"><span>#label("PHONE_NO")</span></td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr class="ng-hide" ng-show="serviceOrder.serviceInfo">
-				<td align="center"><span>{{serviceOrder.serviceInfo.serviceCategory.name}}</span></td>
-				<td align="center"><span>{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}
-						{{serviceOrder.serviceHour}}:00</span></td>
-				<td align="center"><span>{{serviceOrder.address}}</span></td>
-				<td align="center"><span>{{serviceOrder.phone}}</span></td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="level2">
+		<span>#label("ORDER_ID"):</span> <span>{{serviceOrder.id}}</span>
+	</div>
+	<div class="level2">
+		<span>#label("STATUS"): </span> <span>{{serviceOrder.status.message}}</span>
+	</div>
+	<div class="level2">
+		<span>#label("SERVICE_CATEGORY"): </span> <span>{{serviceOrder.serviceInfo.name}}</span>
+	</div>
+	<div class="level2">
+		<span>#label("SERVICE_SUPPLIER_CLIENT_NAME"): </span> <span>{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</span>
+	</div>
+	<div class="level2">
+		<span>#label("SERVICE_ADDRESS"): </span> <span>{{serviceOrder.address}}</span>
+	</div>
+	<div class="level2">
+		<span>#label("SERVICE_TIME"): </span> <span>{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}</span><br /> <span>
+			{{serviceOrder.serviceHour}}:00</span>
+	</div>
+	<div class="level2">
+		<span>#label("PAYMENT_METHOD"): </span> <span>{{serviceOrder.paymentMethod}}</span>
+	</div>
+	<div class="level1">
+		<span>#label("SERVICE_ORDER_TRACING")</span>
+	</div>
+	<div class="level2">
+		<span>#label(""): </span> <span>{{}}</span>
+	</div>
+	<div class="level2">
+		<span>#label(""): </span> <span>{{}}</span>
+	</div>
+	<div class="level2">
+		<span>#label(""): </span> <span>{{}}</span>
+	</div>
+	<div class="level2">
+		<span>#label(""): </span> <span>{{}}</span>
+	</div>
+
+
 	<div class="submit">
 		<button ng-click="edit()">#button("EDIT")</button>
 		<button ng-if="serviceOrder.status.code=='I'" ng-click="pay()">#button("ONLINE_PAY")</button>

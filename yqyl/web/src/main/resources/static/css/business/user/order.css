@@ -10,6 +10,10 @@ div.order table td {
 	border: solid 1px;
 }
 
+div.order table thead td {
+	background-color: rgba(215, 215, 215, 1);
+}
+
 div.order table thead td span {
 	font-weight: bold;
 }
