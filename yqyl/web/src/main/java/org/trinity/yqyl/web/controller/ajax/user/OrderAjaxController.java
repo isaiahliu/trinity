@@ -68,6 +68,8 @@ public class OrderAjaxController extends AbstractRestController {
 			operation.getParams().add(item.getStaff().getName());
 			operation.getParams().add(item.getStaff().getPhoneNo());
 
+			item.getOperations().add(operation);
+
 			operation = new ServiceOrderOperationDto();
 			operation.setOperation(new LookupDto(OrderOperation.PROCESSING));
 			operation.getParams().add(item.getStaff().getName());
