@@ -67,6 +67,8 @@ public class ServiceOrderProcessController
         final ServiceInfo serviceInfo = serviceInfoRepository.findOne(serviceOrderDto.getServiceInfo().getId());
 
         serviceOrder.setPrice(serviceInfo.getPrice());
+        serviceOrder.setPaymentMethod(serviceInfo.getPaymentMethod());
+        serviceOrder.setPaymentType(serviceInfo.getPaymentType());
         serviceOrder.setServiceInfo(serviceInfo);
 
         getDomainEntityRepository().save(serviceOrder);

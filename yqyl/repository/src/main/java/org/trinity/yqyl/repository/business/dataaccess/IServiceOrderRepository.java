@@ -19,6 +19,7 @@ import org.trinity.message.LookupParser;
 import org.trinity.repository.repository.IJpaRepository;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
+import org.trinity.yqyl.common.message.lookup.PaymentMethod;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
@@ -100,6 +101,11 @@ public interface IServiceOrderRepository extends IJpaRepository<ServiceOrder, Se
                     predicates.add(cb.lessThan(root.get(ServiceOrder_.settledTime), calendar.getTime()));
                 } catch (final ParseException e) {
                 }
+            }
+
+            if (!StringUtils.isEmpty(searchingDto.getPaymentMethod())) {
+                predicates.add(cb.equal(root.get(ServiceOrder_.paymentMethod),
+                        LookupParser.parse(PaymentMethod.class, searchingDto.getPaymentMethod())));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

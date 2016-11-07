@@ -46,6 +46,7 @@ public class ServiceInfo extends AbstractAuditableEntity implements Serializable
     private String image;
 
     private ServiceStatus status;
+
     @Column(name = "payment_method")
     private PaymentMethod paymentMethod;
 

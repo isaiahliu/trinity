@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.trinity.common.accessright.ISecurityUtil;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
@@ -37,9 +36,6 @@ import org.trinity.yqyl.web.util.Url;
 @RestController
 @RequestMapping("/ajax/user/order")
 public class OrderAjaxController extends AbstractRestController {
-    @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
-
     @Autowired
     private IRestfulServiceUtil restfulServiceUtil;
 
@@ -92,36 +88,6 @@ public class OrderAjaxController extends AbstractRestController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<ServiceOrderResponse> ajaxGetOrders(final ServiceOrderSearchingDto request) throws IException {
         final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, null, null, request,
-                ServiceOrderResponse.class);
-
-        return createResponseEntity(response);
-    }
-
-    @RequestMapping(value = "/processed", method = RequestMethod.GET)
-    public ResponseEntity<ServiceOrderResponse> ajaxGetProcessedOrders(final ServiceOrderSearchingDto request) throws IException {
-        request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());
-
-        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER_PROCESSED, null, null, request,
-                ServiceOrderResponse.class);
-
-        return createResponseEntity(response);
-    }
-
-    @RequestMapping(value = "/processing", method = RequestMethod.GET)
-    public ResponseEntity<ServiceOrderResponse> ajaxGetProcessingOrders(final ServiceOrderSearchingDto request) throws IException {
-        request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());
-
-        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER_PROCESSING, null, null, request,
-                ServiceOrderResponse.class);
-
-        return createResponseEntity(response);
-    }
-
-    @RequestMapping(value = "/unprocessed", method = RequestMethod.GET)
-    public ResponseEntity<ServiceOrderResponse> ajaxGetUnprocessedOrders(final ServiceOrderSearchingDto request) throws IException {
-        request.setReceiverUserName(securityUtil.getCurrentToken().getUsername());
-
-        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER_UNPROCESSED, null, null, request,
                 ServiceOrderResponse.class);
 
         return createResponseEntity(response);

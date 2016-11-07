@@ -6,87 +6,29 @@ div.order table {
 	width: 840px;
 }
 
-div.order table.tab td {
-	height: 50px;
-	width: 280px;
+div.order table td {
 	border: solid 1px;
-	padding: 0px;
 }
 
-div.order table.tab td a {
-	text-decoration: none;
-}
-
-div.order table.tab td div {
-	height: 50px;
-	width: 280px;
-	line-height: 50px;
-}
-
-div.order div.result ul {
-	padding-left: 0px;
-}
-
-div.order div.result ul.data li {
-	border: solid 1px;
-	width: 840px;
-	list-style-type: none;
-}
-
-div.order div.tabSelected {
-	background-color: rgba(121, 121, 121, 1);
-	color: white;
-}
-
-div.order ul.data li {
-	margin: 7px 0px;
-}
-
-div.order div.orderItem {
-	height: 110px;
+div.order table thead td span {
+	font-weight: bold;
 }
 
 div.order div.orderItem div.orderPic {
 	float: left;
-	width: 100px;
-	height: 100px;
-	margin: 5px;
+	width: 70px;
+	height: 70px;
+	margin-right: 5px;
 }
 
 div.order div.orderItem div.orderPic img {
 	border: solid 1px;
-	width: 100px;
-	height: 100px;
+	width: 70px;
+	height: 70px;
 }
 
 div.order div.orderItem div.orderInfo {
 	padding: 5px;
-}
-
-div.order div.orderItem div.orderInfo span.key {
-	display: inline-block;
-	width: 70px;
-	font-weight: bold;
-}
-
-div.order div.orderItem div.orderInfo div.orderCompany span.key {
-	font-size: large;
-	width: 200px;
-}
-
-div.order div.orderItem div.orderInfo span.value {
-	display: inline-block;
-	width: 140px;
-}
-
-div.order div.orderItem div.orderInfo div.orderCompany {
-	padding-top: 10px;
-	height: 40px;
-}
-
-div.order div.orderItem div.orderInfo button {
-	float: right;
-	margin-right: 5px;
 }
 
 div.order div.orderPaging {

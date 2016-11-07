@@ -17,9 +17,14 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private String phone;
     private String address;
     private String receipt;
+    private LookupDto paymentMethod;
+    private LookupDto paymentType;
     private ServiceInfoDto serviceInfo;
+
     private ServiceOrderAppraiseDto appraise;
+
     private ServiceSupplierStaffDto staff;
+
     private byte[] receiptContent;
 
     public String getAddress() {
@@ -32,6 +37,14 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public Date getApprovalTime() {
         return approvalTime;
+    }
+
+    public LookupDto getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public LookupDto getPaymentType() {
+        return paymentType;
     }
 
     public String getPhone() {
@@ -95,6 +108,14 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setApprovalTime(final Date approvalTime) {
         this.approvalTime = approvalTime;
+    }
+
+    public void setPaymentMethod(final LookupDto paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void setPaymentType(final LookupDto paymentType) {
+        this.paymentType = paymentType;
     }
 
     public void setPhone(final String phone) {

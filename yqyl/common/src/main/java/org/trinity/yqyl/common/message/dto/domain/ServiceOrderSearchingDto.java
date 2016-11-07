@@ -9,9 +9,14 @@ public class ServiceOrderSearchingDto extends AbstractSearchingDto {
     private String settledDate;
     private String supplierUserName;
     private String category;
+    private String paymentMethod;
 
     public String getCategory() {
         return category;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
     public String getReceiverUserName() {
@@ -36,6 +41,10 @@ public class ServiceOrderSearchingDto extends AbstractSearchingDto {
 
     public void setCategory(final String category) {
         this.category = category;
+    }
+
+    public void setPaymentMethod(final String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public void setReceiverUserName(final String receiverUserName) {

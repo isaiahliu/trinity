@@ -15,6 +15,8 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierStaffDto;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
+import org.trinity.yqyl.common.message.lookup.PaymentMethod;
+import org.trinity.yqyl.common.message.lookup.PaymentType;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise;
@@ -54,6 +56,8 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
         copyObject(source::getAddress, target::getAddress, target::setAddress, copyPolicy);
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);
         copyObject(source::getReceipt, target::getReceipt, target::setReceipt, copyPolicy);
+        copyLookup(source::getPaymentMethod, target::getPaymentMethod, target::setPaymentMethod, PaymentMethod.class, copyPolicy);
+        copyLookup(source::getPaymentType, target::getPaymentType, target::setPaymentType, PaymentType.class, copyPolicy);
         copyObject(() -> {
             final Date serviceDate = source.getServiceDate();
             if (serviceDate == null) {
@@ -85,7 +89,8 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
         copyObject(source::getReceipt, target::getReceipt, target::setReceipt, copyPolicy);
         copyObject(source::getServiceTime, target::getServiceDate, target::setServiceDate, copyPolicy);
         copyObject(() -> source.getUser().getUsername(), target::getUsername, target::setUsername, copyPolicy);
-
+        copyMessage(source::getPaymentMethod, target::getPaymentMethod, target::setPaymentMethod, copyPolicy);
+        copyMessage(source::getPaymentType, target::getPaymentType, target::setPaymentType, copyPolicy);
         copyObject(() -> {
             final Date serviceTime = source.getServiceTime();
             if (serviceTime == null) {

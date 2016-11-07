@@ -20,6 +20,8 @@ import javax.persistence.TemporalType;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
+import org.trinity.yqyl.common.message.lookup.PaymentMethod;
+import org.trinity.yqyl.common.message.lookup.PaymentType;
 
 /**
  * The persistent class for the order database table.
@@ -84,6 +86,12 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     @ManyToOne
     private User user;
 
+    @Column(name = "payment_method")
+    private PaymentMethod paymentMethod;
+
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
+
     public ServiceOrder() {
     }
 
@@ -101,6 +109,14 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public Long getId() {
         return this.id;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
     }
 
     public String getPhone() {
@@ -161,6 +177,14 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setPaymentMethod(final PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void setPaymentType(final PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 
     public void setPhone(final String phone) {
