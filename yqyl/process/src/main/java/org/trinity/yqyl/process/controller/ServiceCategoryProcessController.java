@@ -17,7 +17,7 @@ public class ServiceCategoryProcessController extends
         implements IServiceCategoryProcessController {
 
     @Override
-    protected void addRelationship(final ServiceCategory entity, final ServiceCategoryDto dto) throws IException {
+    protected void addRelationshipFields(final ServiceCategory entity, final ServiceCategoryDto dto) throws IException {
         if (dto.getParent() != null && dto.getParent().getId() != null && dto.getParent().getId() != 0) {
             entity.setParent(getDomainEntityRepository().findOne(dto.getParent().getId()));
         }

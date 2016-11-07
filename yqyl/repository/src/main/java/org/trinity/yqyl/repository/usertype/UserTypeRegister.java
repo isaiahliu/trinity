@@ -27,6 +27,7 @@ import org.trinity.yqyl.common.message.lookup.Language;
 import org.trinity.yqyl.common.message.lookup.LookupType;
 import org.trinity.yqyl.common.message.lookup.MessageStatus;
 import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
+import org.trinity.yqyl.common.message.lookup.OrderOperation;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.PaymentMethod;
 import org.trinity.yqyl.common.message.lookup.PaymentType;
@@ -63,6 +64,7 @@ import org.trinity.yqyl.common.message.lookup.ValueType;
         @TypeDef(name = "Language", defaultForType = Language.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.Language")),
         @TypeDef(name = "MessageStatus", defaultForType = MessageStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.MessageStatus")),
         @TypeDef(name = "OrderStatus", defaultForType = OrderStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.OrderStatus")),
+        @TypeDef(name = "OrderOperation", defaultForType = OrderOperation.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.OrderOperation")),
         @TypeDef(name = "Bank", defaultForType = Bank.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.Bank")),
         @TypeDef(name = "AccountType", defaultForType = AccountType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.AccountType")),
         @TypeDef(name = "CompanyType", defaultForType = CompanyType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.CompanyType")),

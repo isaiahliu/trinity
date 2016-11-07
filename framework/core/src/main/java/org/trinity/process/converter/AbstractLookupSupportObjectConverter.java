@@ -6,18 +6,23 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.util.Tuple2;
 import org.trinity.message.ILookupMessage;
 import org.trinity.message.LookupParser;
 
 public abstract class AbstractLookupSupportObjectConverter<T1, T2> extends AbstractObjectConverter<T1, T2> {
-    private final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter;
+    private final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter;
 
-    public AbstractLookupSupportObjectConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
+    public AbstractLookupSupportObjectConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
         this.lookupConverter = lookupConverter;
     }
 
-    private LookupDto convertLookup(final ILookupMessage<?> lookup) {
-        return lookupConverter.convert(lookup);
+    private LookupDto convertLookup(final ILookupMessage<?> lookup, final String[] params) {
+        if (params == null) {
+            return lookupConverter.convert(new Tuple2<>(lookup, new String[0]));
+        } else {
+            return lookupConverter.convert(new Tuple2<>(lookup, params));
+        }
     }
 
     private <T extends ILookupMessage<?>> T parseLookup(final Class<T> type, final LookupDto lookupDto) {
@@ -52,11 +57,16 @@ public abstract class AbstractLookupSupportObjectConverter<T1, T2> extends Abstr
 
     protected <T extends ILookupMessage<?>> void copyMessage(final Supplier<T> sourceGetter, final Supplier<LookupDto> targetGetter,
             final Consumer<LookupDto> targetSetter, final CopyPolicy copyPolicy) {
+        copyMessage(sourceGetter, () -> null, targetGetter, targetSetter, copyPolicy);
+    }
+
+    protected <T extends ILookupMessage<?>> void copyMessage(final Supplier<T> sourceGetter, final Supplier<String[]> paramsGetter,
+            final Supplier<LookupDto> targetGetter, final Consumer<LookupDto> targetSetter, final CopyPolicy copyPolicy) {
         final T source = sourceGetter.get();
         if (source == null) {
             copyObject(() -> null, targetGetter, targetSetter, copyPolicy);
         } else {
-            copyObject(() -> convertLookup(source), targetGetter, targetSetter, copyPolicy);
+            copyObject(() -> convertLookup(source, paramsGetter.get()), targetGetter, targetSetter, copyPolicy);
         }
     }
 
@@ -66,8 +76,8 @@ public abstract class AbstractLookupSupportObjectConverter<T1, T2> extends Abstr
         if (source == null) {
             copyObject(() -> null, targetGetter, targetSetter, copyPolicy);
         } else {
-            copyObject(() -> source.stream().map(item -> convertLookup(item)).collect(Collectors.toList()), targetGetter, targetSetter,
-                    copyPolicy);
+            copyObject(() -> source.stream().map(item -> convertLookup(item, null)).collect(Collectors.toList()), targetGetter,
+                    targetSetter, copyPolicy);
         }
     }
 }

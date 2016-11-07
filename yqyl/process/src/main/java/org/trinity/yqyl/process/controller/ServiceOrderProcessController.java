@@ -131,14 +131,30 @@ public class ServiceOrderProcessController
     }
 
     @Override
+    protected void addRelatedTables(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
+        super.addRelatedTables(entity, dto);
+    }
+
+    @Override
+    protected void addRelationshipFields(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
+        super.addRelationshipFields(entity, dto);
+    }
+
+    @Override
     protected boolean canAccessAllStatus() {
         return true;
     }
 
     @Override
-    protected void updateRelationship(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
+    protected void updateRelatedTables(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
+        super.updateRelatedTables(entity, dto);
+    }
+
+    @Override
+    protected void updateRelationshipFields(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
         if (dto.getStaff() != null && dto.getStaff().getId() > 0) {
             entity.setServiceSupplierStaff(serviceSupplierStaffRepository.findOne(dto.getStaff().getId()));
         }
     }
+
 }

@@ -2,6 +2,7 @@ package org.trinity.process.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -30,11 +31,13 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
 
             selfProxy.validateDataPermission(dto);
 
-            selfProxy.addRelationship(entity, dto);
+            selfProxy.addRelationshipFields(entity, dto);
 
             getDomainEntityRepository().save(entity);
 
             getDomainObjectConverter().convert(entity, dto, CopyPolicy.TARGET_IS_NULL);
+
+            selfProxy.addRelatedTables(entity, dto);
         }
 
         return data;
@@ -53,7 +56,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
 
         selfProxy.validateDataPermission(dto);
 
-        selfProxy.deleteRelationship(entity);
+        selfProxy.deleteRelatedTables(entity);
 
         getDomainEntityRepository().delete(entity);
     }
@@ -78,39 +81,44 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     @Transactional
     public void updateAll(final List<TDto> data) throws IException {
         final List<TEntity> entities = new ArrayList<>();
-        for (final TDto dto : data) {
+        for (final TDto dto : data.stream().filter(item -> item.getId() != null && item.getId() != 0).collect(Collectors.toList())) {
             final Long id = dto.getId();
 
             selfProxy.validateDataPermission(dto);
 
             TEntity entity = null;
 
-            if (id != null && id != 0) {
-                entity = getDomainEntityRepository().findOne(id);
-                if (entity == null) {
-                    throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE, String.valueOf(id));
-                }
-                selfProxy.updateRelationship(entity, dto);
-            } else {
-                dto.setId(null);
-                entity = getDomainObjectConverter().convertBack(dto);
-                selfProxy.addRelationship(entity, dto);
+            entity = getDomainEntityRepository().findOne(id);
+            if (entity == null) {
+                throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE, String.valueOf(id));
             }
+            selfProxy.updateRelationshipFields(entity, dto);
+            selfProxy.updateRelatedTables(entity, dto);
 
             entities.add(getDomainObjectConverter().convertBack(dto, entity, CopyPolicy.SOURCE_IS_NOT_NULL));
         }
 
         getDomainEntityRepository().save(entities);
+
+        final List<TDto> newItems = data.stream().filter(item -> item.getId() == null || item.getId() == 0).collect(Collectors.toList());
+        if (!newItems.isEmpty()) {
+            newItems.forEach(item -> item.setId(null));
+
+            addAll(newItems);
+        }
     }
 
-    protected void addRelationship(final TEntity entity, final TDto dto) throws IException {
+    protected void addRelatedTables(final TEntity entity, final TDto dto) throws IException {
+    }
+
+    protected void addRelationshipFields(final TEntity entity, final TDto dto) throws IException {
     }
 
     protected abstract boolean canAccessAllStatus();
 
     protected abstract Pageable createPageable(final TSearchingDto data);
 
-    protected void deleteRelationship(final TEntity entity) throws IException {
+    protected void deleteRelatedTables(final TEntity entity) throws IException {
     }
 
     protected abstract String getCurrentUsername();
@@ -130,7 +138,10 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
         }
     }
 
-    protected void updateRelationship(final TEntity entity, final TDto dto) throws IException {
+    protected void updateRelatedTables(final TEntity entity, final TDto dto) throws IException {
+    }
+
+    protected void updateRelationshipFields(final TEntity entity, final TDto dto) throws IException {
     }
 
     protected void validateDataPermission(final TDto dto) throws IException {

@@ -183,7 +183,7 @@ public class ServiceInfoProcessController
     }
 
     @Override
-    protected void updateRelationship(final ServiceInfo entity, final ServiceInfoDto dto) {
+    protected void updateRelationshipFields(final ServiceInfo entity, final ServiceInfoDto dto) {
         if (dto.getServiceCategory() != null && dto.getServiceCategory().getId() != null && dto.getServiceCategory().getId() > 0) {
             entity.setServiceCategory(serviceCategoryRepository.findOne(dto.getServiceCategory().getId()));
         }

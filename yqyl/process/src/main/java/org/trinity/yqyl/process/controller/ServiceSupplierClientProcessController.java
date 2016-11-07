@@ -205,7 +205,7 @@ public class ServiceSupplierClientProcessController extends
     }
 
     @Override
-    protected void updateRelationship(final ServiceSupplierClient entity, final ServiceSupplierClientDto dto) throws IException {
+    protected void updateRelationshipFields(final ServiceSupplierClient entity, final ServiceSupplierClientDto dto) throws IException {
         if (dto.getAccount() != null) {
             final List<ServiceSupplierClientAccountDto> supplierClientAccountDtos = new ArrayList<>();
 
@@ -224,6 +224,6 @@ public class ServiceSupplierClientProcessController extends
             supplierClientMaterialProcessController.updateAll(supplierClientMaterialDtos);
         }
 
-        super.updateRelationship(entity, dto);
+        super.updateRelationshipFields(entity, dto);
     }
 }

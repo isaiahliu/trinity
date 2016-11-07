@@ -32,5 +32,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAccount</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceSupplierClientMaterial</class>
+		<class>org.trinity.yqyl.repository.business.entity.ServiceOrderOperation</class>
 	</persistence-unit>
 </persistence>

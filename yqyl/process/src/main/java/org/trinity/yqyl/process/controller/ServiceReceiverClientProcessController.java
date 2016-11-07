@@ -65,7 +65,7 @@ public class ServiceReceiverClientProcessController extends
     }
 
     @Override
-    protected void addRelationship(final ServiceReceiverClient entity, final ServiceReceiverClientDto dto) throws IException {
+    protected void addRelationshipFields(final ServiceReceiverClient entity, final ServiceReceiverClientDto dto) throws IException {
         final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
         entity.setUser(user);
     }

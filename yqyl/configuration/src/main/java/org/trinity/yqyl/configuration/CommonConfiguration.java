@@ -16,6 +16,7 @@ import org.trinity.common.exception.factory.IExceptionFactory;
 import org.trinity.common.exception.factory.LocalizedExceptionFactory;
 import org.trinity.common.message.MessageResolverChain;
 import org.trinity.common.message.ResourceMessageResolver;
+import org.trinity.common.util.Tuple2;
 import org.trinity.message.ILookupMessage;
 import org.trinity.message.IMessageResolver;
 import org.trinity.message.IMessageResolverChain;
@@ -45,6 +46,7 @@ import org.trinity.yqyl.common.message.lookup.Language;
 import org.trinity.yqyl.common.message.lookup.LookupType;
 import org.trinity.yqyl.common.message.lookup.MessageStatus;
 import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
+import org.trinity.yqyl.common.message.lookup.OrderOperation;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.PaymentMethod;
 import org.trinity.yqyl.common.message.lookup.PaymentType;
@@ -73,7 +75,7 @@ public class CommonConfiguration {
                 SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class, FavoriteCategory.class, AccessRight.class,
                 FamilyRelationship.class, FrequencyStatus.class, FlagStatus.class, SmokerAge.class, CredentialType.class,
                 RealnameStatus.class, PaymentType.class, PaymentMethod.class, StaffStatus.class, ServiceOrderRequirementStatus.class,
-                Bank.class, AccountType.class);
+                Bank.class, AccountType.class, OrderOperation.class);
     }
 
     @Bean
@@ -114,7 +116,8 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public IObjectConverter<ILookupMessage<?>, LookupDto> getLookupConverter(final IMessageResolverChain messageResolver) {
+    public IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> getLookupConverter(
+            final IMessageResolverChain messageResolver) {
         return new LookupConverter(messageResolver);
     }
 

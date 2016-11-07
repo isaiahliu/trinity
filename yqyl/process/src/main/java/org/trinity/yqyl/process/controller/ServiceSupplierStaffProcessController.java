@@ -151,7 +151,7 @@ public class ServiceSupplierStaffProcessController extends
     }
 
     @Override
-    protected void updateRelationship(final ServiceSupplierStaff entity, final ServiceSupplierStaffDto dto) {
+    protected void updateRelationshipFields(final ServiceSupplierStaff entity, final ServiceSupplierStaffDto dto) {
         final List<ServiceCategoryDto> serviceCategories = dto.getServiceCategories();
         if (serviceCategories != null) {
             entity.getServiceCategories().clear();

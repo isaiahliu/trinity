@@ -53,7 +53,7 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
     }
 
     @Override
-    protected void addRelationship(final User entity, final UserDto dto) {
+    protected void addRelationshipFields(final User entity, final UserDto dto) {
         entity.setStatus(UserStatus.ACTIVE);
     }
 
@@ -79,7 +79,7 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
     }
 
     @Override
-    protected void updateRelationship(final User entity, final UserDto dto) throws IException {
+    protected void updateRelationshipFields(final User entity, final UserDto dto) throws IException {
         if (dto.getAccessrights() != null) {
             if (getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR)) {
                 entity.getAccessrights().clear();

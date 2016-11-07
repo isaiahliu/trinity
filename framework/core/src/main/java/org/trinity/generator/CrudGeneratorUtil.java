@@ -78,6 +78,7 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("import org.springframework.stereotype.Component;"));
             writer.println(String.format("import org.trinity.common.dto.object.LookupDto;"));
             writer.println(String.format("import org.trinity.message.ILookupMessage;"));
+            writer.println(String.format("import org.trinity.common.util.Tuple2;"));
             writer.println(String.format("import org.trinity.common.dto.object.RelationshipExpression;"));
             writer.println(String.format("import org.trinity.process.converter.AbstractLookupSupportObjectConverter;"));
             writer.println(String.format("import org.trinity.process.converter.IObjectConverter;"));
@@ -92,8 +93,9 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("}"));
             writer.println(String.format(""));
             writer.println(String.format("@Autowired"));
-            writer.println(
-                    String.format("public %1$sConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {", entity));
+            writer.println(String.format(
+                    "public %1$sConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {",
+                    entity));
             writer.println(String.format("super(lookupConverter);"));
             writer.println(String.format("}"));
             writer.println(String.format(""));
@@ -217,8 +219,6 @@ public final class CrudGeneratorUtil {
             writer.println(String.format("import org.trinity.%2$s.common.message.dto.domain.%1$sDto;", entity, projectName, entitySchema));
             writer.println(String.format("import org.trinity.%2$s.common.message.dto.domain.%1$sSearchingDto;", entity, projectName,
                     entitySchema));
-            writer.println(
-                    String.format("import org.trinity.%2$s.common.message.exception.ErrorMessage;", entity, projectName, entitySchema));
             writer.println(String.format("import org.trinity.%2$s.process.controller.base.AbstractAutowiredCrudProcessController;", entity,
                     projectName, entitySchema));
             writer.println(String.format("import org.trinity.%2$s.process.controller.base.I%1$sProcessController;", entity, projectName,

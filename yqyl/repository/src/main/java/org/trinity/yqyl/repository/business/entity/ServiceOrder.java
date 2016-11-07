@@ -3,6 +3,7 @@ package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -44,6 +46,9 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "service_time")
     private Date serviceTime;
+    // bi-directional many-to-one association to ServiceOrderOperation
+    @OneToMany(mappedBy = "serviceOrder")
+    private List<ServiceOrderOperation> operations;
 
     // bi-directional many-to-one association to ServiceInfo
     @ManyToOne
@@ -61,7 +66,6 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     private Long id;
 
     private Double price;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "proposal_time")
     private Date proposalTime;
@@ -69,6 +73,7 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "approval_time")
     private Date approvalTime;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "settled_time")
     private Date settledTime;
@@ -81,7 +86,6 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     // bi-directional one-to-one association to ServiceOrderAppraise
     @OneToOne(mappedBy = "serviceOrder")
     private ServiceOrderAppraise appraise;
-
     // bi-directional many-to-one association to User
     @ManyToOne
     private User user;
@@ -93,6 +97,13 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     private PaymentType paymentType;
 
     public ServiceOrder() {
+    }
+
+    public ServiceOrderOperation addOperation(final ServiceOrderOperation operation) {
+        getOperations().add(operation);
+        operation.setServiceOrder(this);
+
+        return operation;
     }
 
     public String getAddress() {
@@ -109,6 +120,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public Long getId() {
         return this.id;
+    }
+
+    public List<ServiceOrderOperation> getOperations() {
+        return this.operations;
     }
 
     public PaymentMethod getPaymentMethod() {
@@ -163,6 +178,13 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
         return this.user;
     }
 
+    public ServiceOrderOperation removeOperation(final ServiceOrderOperation operation) {
+        getOperations().remove(operation);
+        operation.setServiceOrder(null);
+
+        return operation;
+    }
+
     public void setAddress(final String address) {
         this.address = address;
     }
@@ -177,6 +199,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setOperations(final List<ServiceOrderOperation> operations) {
+        this.operations = operations;
     }
 
     public void setPaymentMethod(final PaymentMethod paymentMethod) {

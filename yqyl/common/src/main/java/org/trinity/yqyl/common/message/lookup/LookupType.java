@@ -29,6 +29,7 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     LANGUAGE("LANGUAGE"),
     MESSAGE_STATUS("MSGSTAT"),
     ORDER_STATUS("ODSTAT"),
+    ORDER_OPERATION("ODOPRT"),
     SERVICE_STATUS("SVSTAT"),
     SERVICE_SUPPLIER_CLIENT_STATUS("SSCSTAT"),
     GENDER("GENDER"),

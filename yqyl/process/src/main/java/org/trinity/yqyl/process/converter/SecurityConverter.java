@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.object.RelationshipExpression;
+import org.trinity.common.util.Tuple2;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
@@ -13,7 +14,7 @@ import org.trinity.yqyl.repository.business.entity.User;
 @Component
 public class SecurityConverter extends AbstractLookupSupportObjectConverter<User, SecurityDto> {
     @Autowired
-    public SecurityConverter(final IObjectConverter<ILookupMessage<?>, LookupDto> lookupConverter) {
+    public SecurityConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
         super(lookupConverter);
     }
 

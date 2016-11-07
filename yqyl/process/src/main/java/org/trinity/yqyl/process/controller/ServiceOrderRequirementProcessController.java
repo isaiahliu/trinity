@@ -20,7 +20,7 @@ public class ServiceOrderRequirementProcessController extends
     private IUserRepository userRepository;
 
     @Override
-    protected void addRelationship(final ServiceOrderRequirement entity, final ServiceOrderRequirementDto dto) throws IException {
+    protected void addRelationshipFields(final ServiceOrderRequirement entity, final ServiceOrderRequirementDto dto) throws IException {
         final String username = getSecurityUtil().getCurrentToken().getUsername();
         User user;
         if (dto.getUser() == null || dto.getUser().getId() == null) {

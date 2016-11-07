@@ -1,9 +1,11 @@
+#parse("/velocity/user/navigation.vm")
+
 <link rel="stylesheet" href="/static/css/business/service/detail.css"></link>
 
 <script type="text/javascript">
 	layoutApp.value("serviceOrderId", ${orderId});
 </script>
-<div class="detail">
+<div class="detail ng-hide" ng-show="serviceOrder">
 	<div class="title">
 		<span>#label("SERVICE_ORDER_DETAIL")</span>
 	</div>
@@ -11,43 +13,70 @@
 		<span>#label("SERVICE_ORDER_PREVIEW")</span>
 	</div>
 	<div class="level2">
-		<span>#label("ORDER_ID"):</span> <span>{{serviceOrder.id}}</span>
+		<span class="key">#label("ORDER_ID"):</span> <span class="value">{{serviceOrder.id}}</span>
 	</div>
 	<div class="level2">
-		<span>#label("STATUS"): </span> <span>{{serviceOrder.status.message}}</span>
+		<span class="key">#label("STATUS"): </span> <span class="value">{{serviceOrder.status.message}}</span>
 	</div>
 	<div class="level2">
-		<span>#label("SERVICE_CATEGORY"): </span> <span>{{serviceOrder.serviceInfo.name}}</span>
+		<span class="key">#label("SERVICE_CATEGORY"): </span> <span class="value">{{serviceOrder.serviceInfo.name}}</span>
 	</div>
 	<div class="level2">
-		<span>#label("SERVICE_SUPPLIER_CLIENT_NAME"): </span> <span>{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</span>
+		<span class="key">#label("SERVICE_SUPPLIER_CLIENT_NAME"): </span> <span class="value">{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</span>
 	</div>
 	<div class="level2">
-		<span>#label("SERVICE_ADDRESS"): </span> <span>{{serviceOrder.address}}</span>
+		<span class="key">#label("SERVICE_ADDRESS"): </span> <span class="value">{{serviceOrder.address}}</span>
 	</div>
 	<div class="level2">
-		<span>#label("SERVICE_TIME"): </span> <span>{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}</span><br /> <span>
-			{{serviceOrder.serviceHour}}:00</span>
+		<span class="key">#label("SERVICE_TIME"): </span> <span class="value">{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}</span> <span>{{serviceOrder.serviceHour}}:00</span>
 	</div>
 	<div class="level2">
-		<span>#label("PAYMENT_METHOD"): </span> <span>{{serviceOrder.paymentMethod}}</span>
+		<span class="key">#label("PAYMENT_METHOD"): </span> <span class="value">{{serviceOrder.paymentMethod.message}}</span>
 	</div>
 	<div class="level1">
 		<span>#label("SERVICE_ORDER_TRACING")</span>
 	</div>
 	<div class="level2">
-		<span>#label(""): </span> <span>{{}}</span>
+		<table>
+			<thead>
+				<tr>
+					<td><span>#label("OPERATION_TIME")</span></td>
+					<td><span>#label("OPERATION")</span></td>
+					<td><span>#label("OPERATOR")</span></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="operation in serviceOrder.operations">
+					<td>{{operation.timestamp|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+					<td>{{operation.operation.message}}</td>
+					<td>{{operation.operator}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="level1">
+		<span>#label("SERVICE_ORDER_LIST")</span>
 	</div>
 	<div class="level2">
-		<span>#label(""): </span> <span>{{}}</span>
+		<table>
+			<thead>
+				<tr>
+					<td><span>#label("SERVICE_CATEGORY")</span></td>
+					<td><span>#label("PRICE")</span></td>
+					<td><span>#label("DISCOUNT")</span></td>
+					<td><span>#label("PAYMENT_AMOUNT")</span></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{serviceOrder.serviceInfo.name}}</td>
+					<td>{{serviceOrder.price|currency:"￥"}}</td>
+					<td>{{0|currency:"￥"}}</td>
+					<td>{{serviceOrder.price|currency:"￥"}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
-	<div class="level2">
-		<span>#label(""): </span> <span>{{}}</span>
-	</div>
-	<div class="level2">
-		<span>#label(""): </span> <span>{{}}</span>
-	</div>
-
 
 	<div class="submit">
 		<button ng-click="edit()">#button("EDIT")</button>

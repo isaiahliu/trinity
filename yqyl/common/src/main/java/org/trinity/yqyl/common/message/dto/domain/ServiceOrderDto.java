@@ -1,6 +1,8 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.LookupDto;
@@ -25,6 +27,7 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     private ServiceSupplierStaffDto staff;
 
+    private List<ServiceOrderOperationDto> operations;
     private byte[] receiptContent;
 
     public String getAddress() {
@@ -37,6 +40,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public Date getApprovalTime() {
         return approvalTime;
+    }
+
+    public List<ServiceOrderOperationDto> getOperations() {
+        return operations;
     }
 
     public LookupDto getPaymentMethod() {
@@ -108,6 +115,13 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setApprovalTime(final Date approvalTime) {
         this.approvalTime = approvalTime;
+    }
+
+    public void setOperations(List<ServiceOrderOperationDto> operations) {
+        if (operations == null) {
+            operations = new ArrayList<>();
+        }
+        this.operations = operations;
     }
 
     public void setPaymentMethod(final LookupDto paymentMethod) {
