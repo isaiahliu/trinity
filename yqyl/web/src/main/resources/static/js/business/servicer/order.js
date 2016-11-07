@@ -102,8 +102,17 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			return;
 		}
 
+		var staff = {};
+
 		if (order.selectedStaff == undefined || order.selectedStaff == "") {
-			order.selectedStaff = order.availableStaffs[Math.floor(Math.random() * order.availableStaffs.length)].id
+			staff = order.availableStaffs[Math.floor(Math.random() * order.availableStaffs.length)];
+		} else {
+			for (var i = 0; i < order.availableStaffs.length; i++) {
+				if (order.availableStaffs[i].id == order.selectedStaff) {
+					staff = order.availableStaffs[i];
+					break;
+				}
+			}
 		}
 
 		$http({
@@ -112,9 +121,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			data : {
 				data : [ {
 					id : order.id,
-					staff : {
-						id : order.selectedStaff
-					}
+					staff : staff
 				} ]
 			}
 		}).success(function(response) {

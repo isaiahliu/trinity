@@ -13,7 +13,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 
 	$http({
 		method : "GET",
-		url : "/ajax/service/supplier?searchScope=me&rsexp=account"
+		url : "/ajax/service/supplier?searchScope=me&rsexp=account&searchAllStatus=true"
 	}).success(
 			function(response) {
 				if (response.data.length > 0) {

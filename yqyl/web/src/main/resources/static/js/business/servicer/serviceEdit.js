@@ -14,27 +14,26 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		url : "/ajax/common/lookup/PMMTHD"
 	}).success(function(response) {
 		$scope.paymentMethods = response.data;
+		$http({
+			method : "GET",
+			url : "/ajax/common/lookup/PMTYPE"
+		}).success(function(response) {
+			$scope.paymentTypes = response.data;
+			$http({
+				method : "GET",
+				url : "/ajax/service/category?status=A"
+			}).success(function(response) {
+				$scope.categories = response.data;
+			}).error(function(response) {
+				errorHandler($scope, response);
+			});
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
 	}).error(function(response) {
 		errorHandler($scope, response);
 	});
 
-	$http({
-		method : "GET",
-		url : "/ajax/common/lookup/PMTYPE"
-	}).success(function(response) {
-		$scope.paymentTypes = response.data;
-	}).error(function(response) {
-		errorHandler($scope, response);
-	});
-
-	$http({
-		method : "GET",
-		url : "/ajax/service/category?status=A"
-	}).success(function(response) {
-		$scope.categories = response.data;
-	}).error(function(response) {
-		errorHandler($scope, response);
-	});
 	var subCategoryMapping = {};
 
 	$scope.populateSubCategory = function() {

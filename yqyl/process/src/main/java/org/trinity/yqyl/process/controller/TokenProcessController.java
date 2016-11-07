@@ -147,10 +147,6 @@ public class TokenProcessController implements ITokenProcessController {
 	@Override
 	@Transactional
 	public void updateAccessTime(final String token) throws IException {
-		final Token tokenEntity = tokenRepository.findOneByToken(token);
-
-		tokenEntity.setLastActiveTimestamp(new Date());
-
-		tokenRepository.save(tokenEntity);
+		tokenRepository.updateLastActiveTimestampByToken(token, new Date());
 	}
 }

@@ -43,6 +43,9 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     }
 
     public List<ServiceOrderOperationDto> getOperations() {
+        if (operations == null) {
+            operations = new ArrayList<>();
+        }
         return operations;
     }
 

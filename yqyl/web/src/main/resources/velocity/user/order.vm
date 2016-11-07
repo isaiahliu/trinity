@@ -43,7 +43,7 @@
 									<span class="key">#label("SERVICE_CATEGORY"):</span> <span>{{order.serviceInfo.serviceCategory.name}} </span>
 								</div>
 								<div class="orderCompany">
-									<a ng-href="/service/info/{{order.serviceInfo.id}}"><span class="key">{{order.serviceInfo.serviceSupplierClient.name}}</span></a>
+									<a ng-href="/service/info/{{order.serviceInfo.serviceSupplierClient.id}}"><span class="key">{{order.serviceInfo.serviceSupplierClient.name}}</span></a>
 								</div>
 							</div>
 						</div></td>

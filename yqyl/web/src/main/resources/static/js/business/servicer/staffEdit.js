@@ -15,7 +15,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 	if (staffId > 0) {
 		$http({
 			method : "GET",
-			url : "/ajax/service/supplier/staff?rsexp=serviceCategories&id=" + staffId
+			url : "/ajax/service/supplier/staff?rsexp=serviceCategories&searchAllStatus=true&id=" + staffId
 		}).success(function(response) {
 			var temp = new Date(response.data[0].dob);
 			$scope.staff = response.data[0];

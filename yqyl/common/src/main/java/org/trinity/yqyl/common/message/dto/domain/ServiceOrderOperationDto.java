@@ -1,6 +1,8 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.LookupDto;
@@ -14,6 +16,8 @@ public class ServiceOrderOperationDto extends AbstractBusinessDto {
 
     private Date timestamp;
 
+    private List<String> params;
+
     public LookupDto getOperation() {
         return operation;
     }
@@ -24,6 +28,13 @@ public class ServiceOrderOperationDto extends AbstractBusinessDto {
 
     public LookupDto getOrderStatus() {
         return orderStatus;
+    }
+
+    public List<String> getParams() {
+        if (params == null) {
+            params = new ArrayList<>();
+        }
+        return params;
     }
 
     public Date getTimestamp() {
@@ -40,6 +51,10 @@ public class ServiceOrderOperationDto extends AbstractBusinessDto {
 
     public void setOrderStatus(final LookupDto orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public void setParams(final List<String> params) {
+        this.params = params;
     }
 
     public void setTimestamp(final Date timestamp) {

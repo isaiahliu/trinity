@@ -9,9 +9,9 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 	};
 
 	$scope.searchSuppliers = function() {
-		var ajaxUrl = "/ajax/service/supplier";
+		var ajaxUrl = "/ajax/service/supplier?searchAllStatus=true";
 
-		ajaxUrl += "?pageIndex=" + ($scope.pagingData.pageIndex - 1);
+		ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
 
 		if ($scope.filterData.supplierName != undefined
