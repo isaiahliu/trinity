@@ -96,6 +96,9 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     @Column(name = "payment_type")
     private PaymentType paymentType;
 
+    @Column(name = "transaction_code")
+    private String transactionCode;
+
     public ServiceOrder() {
     }
 
@@ -255,5 +258,13 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public void setUser(final User user) {
         this.user = user;
+    }
+
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
     }
 }

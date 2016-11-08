@@ -21,6 +21,8 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private String receipt;
     private LookupDto paymentMethod;
     private LookupDto paymentType;
+    private String transactionCode;
+
     private ServiceInfoDto serviceInfo;
 
     private ServiceOrderAppraiseDto appraise;
@@ -100,6 +102,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return staff;
     }
 
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -169,6 +175,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setStaff(final ServiceSupplierStaffDto staff) {
         this.staff = staff;
+    }
+
+    public void setTransactionCode(final String transactionCode) {
+        this.transactionCode = transactionCode;
     }
 
     public void setUsername(final String username) {

@@ -72,7 +72,7 @@
 			<td align="center" class="key"><span>#label("PRICE")</span></td>
 			<td align="center" class="value"><div class="ng-hide" ng-show="order">
 					<span ng-show="order.status.code=='P'||order.status.code=='S'">{{order.price}}</span><input
-						ng-hide="order.status.code=='P'||order.status.code=='S'" ng-model="order.price" />
+						ng-hide="order.paymentMethod.code=='F'||order.status.code=='P'||order.status.code=='S'" ng-model="order.price" />
 				</div></td>
 		</tr>
 		<tr class="ng-hide" ng-show="order.status.code=='I'||order.status.code=='P'||order.status.code=='S'">

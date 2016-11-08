@@ -1,8 +1,10 @@
 layoutApp.controller('contentController', function($scope, $http, $window, errorHandler, $filter, serviceOrderId) {
-	$http({
-		method : "GET",
-		url : "/ajax/user/order/" + serviceOrderId + "?rsexp=serviceInfo[serviceSupplierClient,serviceCategory],operations"
-	}).success(function(response) {
+	$http(
+			{
+				method : "GET",
+				url : "/ajax/user/order/" + serviceOrderId
+						+ "?rsexp=serviceInfo[serviceSupplierClient,serviceCategory],operations"
+			}).success(function(response) {
 		$scope.serviceOrder = response.data[0];
 	}).error(function(response) {
 		errorHandler($scope, response);
@@ -10,6 +12,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 
 	$scope.orderMore = function() {
 		$window.location.href = "/service";
+	};
+
+	$scope.back = function() {
+		$window.location.href = "/user";
 	};
 
 	$scope.edit = function() {

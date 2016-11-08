@@ -78,4 +78,33 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			$scope.populateOrders();
 		}
 	});
+
+	$scope.cancel = function(order) {
+		order.cancelling = true;
+	};
+
+	$scope.giveUpCancel = function(order) {
+		order.cancelReason = "";
+		order.cancelling = false;
+	};
+
+	$scope.applyCancel = function(order) {
+		$http({
+			method : "POST",
+			url : "/ajax/user/order/cancel",
+			data : {
+				data : [ {
+					id : order.id,
+					operations : [ {
+						params : [ order.cancelReason ]
+					} ]
+				} ]
+			}
+		}).success(function(response) {
+			order.status = response.data[0].status;
+			$scope.giveUpCancel(order);
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
+	};
 });

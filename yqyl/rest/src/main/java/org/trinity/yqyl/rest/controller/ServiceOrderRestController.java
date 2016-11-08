@@ -22,6 +22,15 @@ import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
 public class ServiceOrderRestController extends
         AbstractApplicationAwareCrudRestController<ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderProcessController, OrderRequest, ServiceOrderResponse> {
 
+    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<ServiceOrderResponse> cancelOrder(@RequestBody final ServiceOrderRequest request)
+            throws IException {
+        final ServiceOrderResponse response = new ServiceOrderResponse();
+        response.addData(getDomainProcessController().cancelOrder(request.getData()));
+
+        return createResponseEntity(response);
+    }
+
     @RequestMapping(value = "/proposal", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<ServiceOrderResponse> proposeOrder(@RequestBody final ServiceOrderRequest request)
             throws IException {
@@ -39,6 +48,15 @@ public class ServiceOrderRestController extends
         getDomainProcessController().releaseOrder(request.getData());
 
         return createResponseEntity(new DefaultResponse());
+    }
+
+    @RequestMapping(value = "/transaction", method = RequestMethod.POST)
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public @ResponseBody ResponseEntity<ServiceOrderResponse> sendTxCode(@RequestBody final ServiceOrderRequest request) throws IException {
+        final ServiceOrderResponse response = new ServiceOrderResponse();
+        response.addData(getDomainProcessController().sendTxCode(request.getData()));
+
+        return createResponseEntity(response);
     }
 
     @RequestMapping(value = "/receipt", method = RequestMethod.PUT)

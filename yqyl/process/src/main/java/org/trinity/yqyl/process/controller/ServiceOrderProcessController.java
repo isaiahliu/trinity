@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.message.exception.GeneralErrorMessage;
 import org.trinity.process.converter.IObjectConverter;
@@ -17,6 +18,7 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderOperationDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.OrderOperation;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.PaymentMethod;
@@ -40,169 +42,269 @@ import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
 public class ServiceOrderProcessController
-		extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
-		implements IServiceOrderProcessController {
+        extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
+        implements IServiceOrderProcessController {
 
-	@Autowired
-	private IUserRepository userRepository;
+    @Autowired
+    private IUserRepository userRepository;
 
-	@Autowired
-	private IServiceInfoRepository serviceInfoRepository;
+    @Autowired
+    private IServiceInfoRepository serviceInfoRepository;
 
-	@Autowired
-	private IObjectConverter<ServiceOrderOperation, ServiceOrderOperationDto> serviceOrderOperationConverter;
+    @Autowired
+    private IObjectConverter<ServiceOrderOperation, ServiceOrderOperationDto> serviceOrderOperationConverter;
 
-	@Autowired
-	private IContentRepository contentRepository;
+    @Autowired
+    private IContentRepository contentRepository;
 
-	@Autowired
-	private IServiceOrderRequirementRepository serviceOrderRequirementRepository;
+    @Autowired
+    private IServiceOrderRequirementRepository serviceOrderRequirementRepository;
 
-	@Autowired
-	private IServiceSupplierStaffRepository serviceSupplierStaffRepository;
+    @Autowired
+    private IServiceSupplierStaffRepository serviceSupplierStaffRepository;
 
-	@Autowired
-	private IServiceOrderOperationRepository serviceOrderOperationRepository;
+    @Autowired
+    private IServiceOrderOperationRepository serviceOrderOperationRepository;
 
-	@Override
-	@Transactional
-	public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
-		final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
+    @Override
+    public List<ServiceOrderDto> cancelOrder(final List<ServiceOrderDto> data) {
+        final List<ServiceOrder> entities = data.stream().map(item -> {
+            final ServiceOrder entity = getDomainEntityRepository().findOne(item.getId());
 
-		final ServiceOrder serviceOrder = getDomainObjectConverter().convertBack(serviceOrderDto);
-		serviceOrder.setId(null);
-		serviceOrder.setPrice(0d);
-		serviceOrder.setProposalTime(new Date());
-		serviceOrder.setStatus(OrderStatus.UNPROCESSED);
-		serviceOrder.setUser(user);
+            String username = null;
+            try {
+                username = getSecurityUtil().getCurrentToken().getUsername();
+            } catch (final IException e1) {
+                return entity;
+            }
 
-		final ServiceInfo serviceInfo = serviceInfoRepository.findOne(serviceOrderDto.getServiceInfo().getId());
+            final boolean isSupplier = entity.getServiceInfo().getServiceSupplierClient().getUser().getUsername().equals(username);
+            final boolean isReceiver = entity.getUser().getUsername().equals(username);
+            final boolean isAdmin = getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
 
-		serviceOrder.setPrice(serviceInfo.getPrice());
-		serviceOrder.setPaymentMethod(serviceInfo.getPaymentMethod());
-		serviceOrder.setPaymentType(serviceInfo.getPaymentType());
-		serviceOrder.setServiceInfo(serviceInfo);
+            if (!isSupplier && !isReceiver && !isAdmin) {
+                return entity;
+            }
 
-		getDomainEntityRepository().save(serviceOrder);
+            switch (entity.getStatus()) {
+            case UNPROCESSED:
+                entity.setStatus(OrderStatus.CANCELLED);
+                break;
+            case IN_PROGRESS:
+                if (isSupplier) {
+                    entity.setStatus(OrderStatus.CANCELLED);
+                }
+                break;
+            default:
+                if (isAdmin) {
+                    entity.setStatus(OrderStatus.CANCELLED);
+                } else {
+                    return entity;
+                }
+                break;
+            }
 
-		final ServiceOrderOperation operation = new ServiceOrderOperation();
-		operation.setOperation(OrderOperation.PROPOSAL);
-		operation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
-		operation.setOrderStatus(OrderStatus.UNPROCESSED);
-		operation.setStatus(RecordStatus.ACTIVE);
-		operation.setServiceOrder(serviceOrder);
-		operation.setTimestamp(new Date());
+            final ServiceOrderOperation serviceOrderOperation = new ServiceOrderOperation();
+            serviceOrderOperation.setOperation(OrderOperation.CANCELLED);
+            serviceOrderOperation.setParams(item.getOperations().get(0).getParams().get(0));
+            try {
+                serviceOrderOperation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+            } catch (final IException e) {
+            }
+            serviceOrderOperation.setOrderStatus(OrderStatus.CANCELLED);
+            serviceOrderOperation.setServiceOrder(entity);
+            serviceOrderOperation.setStatus(RecordStatus.ACTIVE);
+            serviceOrderOperation.setTimestamp(new Date());
 
-		serviceOrderOperationRepository.save(operation);
+            serviceOrderOperationRepository.save(serviceOrderOperation);
 
-		return getDomainObjectConverter().convert(serviceOrder);
-	}
+            return entity;
+        }).collect(Collectors.toList());
 
-	@Override
-	@Transactional
-	public void releaseOrder(final List<ServiceOrderDto> data) throws IException {
-		for (final ServiceOrderDto serviceOrderDto : data) {
-			final ServiceOrder serviceOrder = getDomainEntityRepository().findOne(serviceOrderDto.getId());
+        return getDomainObjectConverter().convert(getDomainEntityRepository().save(entities));
+    }
 
-			if (serviceOrder.getStatus() != OrderStatus.REQUEST_GRABBED) {
-				throw getExceptionFactory().createException(ErrorMessage.INCORRECT_SERVICE_ORDER_STATUS);
-			}
-			final ServiceOrderRequirement serviceOrderRequirement = serviceOrder.getServiceOrderRequirement();
+    @Override
+    @Transactional
+    public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
+        final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
 
-			serviceOrder.setStatus(OrderStatus.REQUEST_FAILED);
-			if (serviceOrderRequirement != null) {
-				serviceOrderRequirement.setStatus(ServiceOrderRequirementStatus.ACTIVE);
+        final ServiceOrder serviceOrder = getDomainObjectConverter().convertBack(serviceOrderDto);
+        serviceOrder.setId(null);
+        serviceOrder.setPrice(0d);
+        serviceOrder.setProposalTime(new Date());
+        serviceOrder.setStatus(OrderStatus.UNPROCESSED);
+        serviceOrder.setUser(user);
 
-				serviceOrderRequirementRepository.save(serviceOrderRequirement);
-			}
+        final ServiceInfo serviceInfo = serviceInfoRepository.findOne(serviceOrderDto.getServiceInfo().getId());
 
-			serviceOrder.setServiceOrderRequirement(null);
+        serviceOrder.setPrice(serviceInfo.getPrice());
+        serviceOrder.setPaymentMethod(serviceInfo.getPaymentMethod());
+        serviceOrder.setPaymentType(serviceInfo.getPaymentType());
+        serviceOrder.setServiceInfo(serviceInfo);
 
-			getDomainEntityRepository().save(serviceOrder);
-		}
-	}
+        getDomainEntityRepository().save(serviceOrder);
 
-	@Override
-	@Transactional
-	public String uploadReceipt(final ServiceOrderDto serviceOrderDto) throws IException {
-		final ServiceOrder order = getDomainEntityRepository().findOne(serviceOrderDto.getId());
-		if (order == null) {
-			throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE);
-		}
+        final ServiceOrderOperation operation = new ServiceOrderOperation();
+        operation.setOperation(OrderOperation.PROPOSAL);
+        operation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+        operation.setOrderStatus(OrderStatus.UNPROCESSED);
+        operation.setStatus(RecordStatus.ACTIVE);
+        operation.setServiceOrder(serviceOrder);
+        operation.setTimestamp(new Date());
 
-		Content content;
-		if (StringUtils.isEmpty(order.getReceipt())) {
-			content = new Content();
-			content.setUuid(UUID.randomUUID().toString());
-			content.setStatus(RecordStatus.ACTIVE);
-			order.setReceipt(content.getUuid());
-		} else {
-			content = contentRepository.findOneByUuid(order.getReceipt());
-		}
+        serviceOrderOperationRepository.save(operation);
 
-		if (order.getServiceInfo().getPaymentMethod() == PaymentMethod.POS) {
-			order.setStatus(OrderStatus.AWAITING_APPRAISE);
-		}
+        return getDomainObjectConverter().convert(serviceOrder);
+    }
 
-		content.setContent(serviceOrderDto.getReceiptContent());
+    @Override
+    @Transactional
+    public void releaseOrder(final List<ServiceOrderDto> data) throws IException {
+        for (final ServiceOrderDto serviceOrderDto : data) {
+            final ServiceOrder serviceOrder = getDomainEntityRepository().findOne(serviceOrderDto.getId());
 
-		final ServiceOrderOperation serviceOrderOperation = new ServiceOrderOperation();
-		serviceOrderOperation.setOperation(OrderOperation.RECEIPT_UPLOADED);
-		serviceOrderOperation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
-		serviceOrderOperation.setOrderStatus(OrderStatus.AWAITING_APPRAISE);
-		serviceOrderOperation.setServiceOrder(order);
-		serviceOrderOperation.setStatus(RecordStatus.ACTIVE);
-		serviceOrderOperation.setTimestamp(new Date());
+            if (serviceOrder.getStatus() != OrderStatus.REQUEST_GRABBED) {
+                throw getExceptionFactory().createException(ErrorMessage.INCORRECT_SERVICE_ORDER_STATUS);
+            }
+            final ServiceOrderRequirement serviceOrderRequirement = serviceOrder.getServiceOrderRequirement();
 
-		contentRepository.save(content);
-		getDomainEntityRepository().save(order);
-		serviceOrderOperationRepository.save(serviceOrderOperation);
+            serviceOrder.setStatus(OrderStatus.REQUEST_FAILED);
+            if (serviceOrderRequirement != null) {
+                serviceOrderRequirement.setStatus(ServiceOrderRequirementStatus.ACTIVE);
 
-		return order.getReceipt();
-	}
+                serviceOrderRequirementRepository.save(serviceOrderRequirement);
+            }
 
-	@Override
-	protected void addRelatedTables(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
-		super.addRelatedTables(entity, dto);
-	}
+            serviceOrder.setServiceOrderRequirement(null);
 
-	@Override
-	protected void addRelationshipFields(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
-		super.addRelationshipFields(entity, dto);
-	}
+            getDomainEntityRepository().save(serviceOrder);
+        }
+    }
 
-	@Override
-	protected boolean canAccessAllStatus() {
-		return true;
-	}
+    @Override
+    @Transactional
+    public List<ServiceOrderDto> sendTxCode(final List<ServiceOrderDto> data) throws IException {
+        final List<ServiceOrder> entities = data.stream().map(item -> {
+            final ServiceOrder entity = getDomainEntityRepository().findOne(item.getId());
 
-	@Override
-	protected void updateRelatedTables(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
-		super.updateRelatedTables(entity, dto);
+            if (entity.getStatus() != OrderStatus.IN_PROGRESS) {
+                if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+                    return entity;
+                }
+            } else {
+                entity.setStatus(OrderStatus.AWAITING_APPRAISE);
+            }
 
-		if (!dto.getOperations().isEmpty()) {
-			serviceOrderOperationRepository.save(dto.getOperations().stream().map(item -> {
-				final ServiceOrderOperation serviceOrderOperation = serviceOrderOperationConverter.convertBack(item);
-				serviceOrderOperation.setServiceOrder(entity);
-				serviceOrderOperation.setStatus(RecordStatus.ACTIVE);
-				serviceOrderOperation.setTimestamp(new Date());
-				serviceOrderOperation.setOrderStatus(entity.getStatus());
-				try {
-					serviceOrderOperation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
-				} catch (final IException e) {
-				}
+            // TODO Pick up tx amount by txCode from POS API.
+            // final PaymentMethod paymentMethod = item.getPaymentMethod();
+            // final String txCode = item.getTransactionCode();
+            final double amount = 20d;
 
-				return serviceOrderOperation;
-			}).collect(Collectors.toList()));
+            entity.setPrice(amount);
+            entity.setTransactionCode(item.getTransactionCode());
 
-		}
-	}
+            final ServiceOrderOperation serviceOrderOperation = new ServiceOrderOperation();
+            serviceOrderOperation.setOperation(OrderOperation.PAYED);
+            serviceOrderOperation.setParams(item.getTransactionCode());
+            try {
+                serviceOrderOperation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+            } catch (final IException e) {
+            }
+            serviceOrderOperation.setOrderStatus(OrderStatus.AWAITING_APPRAISE);
+            serviceOrderOperation.setServiceOrder(entity);
+            serviceOrderOperation.setStatus(RecordStatus.ACTIVE);
+            serviceOrderOperation.setTimestamp(new Date());
 
-	@Override
-	protected void updateRelationshipFields(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
-		if (dto.getStaff() != null && dto.getStaff().getId() > 0) {
-			entity.setServiceSupplierStaff(serviceSupplierStaffRepository.findOne(dto.getStaff().getId()));
-		}
-	}
+            serviceOrderOperationRepository.save(serviceOrderOperation);
+
+            return entity;
+        }).collect(Collectors.toList());
+
+        return getDomainObjectConverter().convert(getDomainEntityRepository().save(entities));
+    }
+
+    @Override
+    @Transactional
+    public String uploadReceipt(final ServiceOrderDto serviceOrderDto) throws IException {
+        final ServiceOrder order = getDomainEntityRepository().findOne(serviceOrderDto.getId());
+        if (order == null) {
+            throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE);
+        }
+
+        Content content;
+        if (StringUtils.isEmpty(order.getReceipt())) {
+            content = new Content();
+            content.setUuid(UUID.randomUUID().toString());
+            content.setStatus(RecordStatus.ACTIVE);
+            order.setReceipt(content.getUuid());
+        } else {
+            content = contentRepository.findOneByUuid(order.getReceipt());
+        }
+
+        if (order.getServiceInfo().getPaymentMethod() == PaymentMethod.POS) {
+            order.setStatus(OrderStatus.AWAITING_APPRAISE);
+        }
+
+        content.setContent(serviceOrderDto.getReceiptContent());
+
+        final ServiceOrderOperation serviceOrderOperation = new ServiceOrderOperation();
+        serviceOrderOperation.setOperation(OrderOperation.RECEIPT_UPLOADED);
+        serviceOrderOperation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+        serviceOrderOperation.setOrderStatus(OrderStatus.AWAITING_APPRAISE);
+        serviceOrderOperation.setServiceOrder(order);
+        serviceOrderOperation.setStatus(RecordStatus.ACTIVE);
+        serviceOrderOperation.setTimestamp(new Date());
+
+        contentRepository.save(content);
+        getDomainEntityRepository().save(order);
+        serviceOrderOperationRepository.save(serviceOrderOperation);
+
+        return order.getReceipt();
+    }
+
+    @Override
+    protected void addRelatedTables(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
+        super.addRelatedTables(entity, dto);
+    }
+
+    @Override
+    protected void addRelationshipFields(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
+        super.addRelationshipFields(entity, dto);
+    }
+
+    @Override
+    protected boolean canAccessAllStatus() {
+        return true;
+    }
+
+    @Override
+    protected void updateRelatedTables(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
+        super.updateRelatedTables(entity, dto);
+
+        if (!dto.getOperations().isEmpty()) {
+            serviceOrderOperationRepository.save(dto.getOperations().stream().map(item -> {
+                final ServiceOrderOperation serviceOrderOperation = serviceOrderOperationConverter.convertBack(item);
+                serviceOrderOperation.setServiceOrder(entity);
+                serviceOrderOperation.setStatus(RecordStatus.ACTIVE);
+                serviceOrderOperation.setTimestamp(new Date());
+                serviceOrderOperation.setOrderStatus(entity.getStatus());
+                try {
+                    serviceOrderOperation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+                } catch (final IException e) {
+                }
+
+                return serviceOrderOperation;
+            }).collect(Collectors.toList()));
+
+        }
+    }
+
+    @Override
+    protected void updateRelationshipFields(final ServiceOrder entity, final ServiceOrderDto dto) throws IException {
+        if (dto.getStaff() != null && dto.getStaff().getId() > 0) {
+            entity.setServiceSupplierStaff(serviceSupplierStaffRepository.findOne(dto.getStaff().getId()));
+        }
+    }
 
 }

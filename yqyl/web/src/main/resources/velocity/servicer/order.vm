@@ -5,11 +5,9 @@
 <div class="order">
 	<div class="title">#label("SERVICE_MANAGEMENT")</div>
 	<div class="filter">
-		<span>#label("SERVICE_ORDER_ID")</span><input ng-model="filterData.id" />
-		<span>#label("SERVICE_CATEGORY")</span><input
-			ng-model="filterData.category" /> <span>#label("SERVICE_ORDER_STATUS")</span><select
-			style="min-width: 130px;" ng-model="filterData.status"
-			ng-options="status.code as status.message for status in statuses">
+		<span>#label("SERVICE_ORDER_ID")</span><input ng-model="filterData.id" /> <span>#label("SERVICE_CATEGORY")</span><input
+			ng-model="filterData.category" /> <span>#label("SERVICE_ORDER_STATUS")</span><select style="min-width: 130px;"
+			ng-model="filterData.status" ng-options="status.code as status.message for status in statuses">
 			<option value="">#label("ALL")</option>
 		</select>
 		<button ng-click="searchOrders()">#button("SEARCH")</button>
@@ -34,65 +32,56 @@
 			<tr class="ng-hide" ng-show="orders" ng-repeat="order in orders">
 				<td align="center"><a ng-href="/servicer/order/{{order.id}}"><span>{{order.id}}</span></a></td>
 				<td align="center"><div ng-hide="order.status.code=='F'">
-						<div class="ng-hide"
-							ng-show="order.status.code=='U'||order.status.code=='G'">
-							<button ng-hide="order.assigning"
-								ng-click="$parent.assignPrepare(order)">#button("ASSIGNMENT")</button>
-							<button ng-show="order.assigning"
-								ng-click="$parent.assignCancel(order)">#button("CANCEL")</button>
+						<div class="ng-hide" ng-show="order.status.code=='U'||order.status.code=='G'">
+							<button ng-hide="order.assigning" ng-click="$parent.assignPrepare(order)">#button("ASSIGNMENT")</button>
+							<button ng-show="order.assigning" ng-click="$parent.assignCancel(order)">#button("CANCEL")</button>
 						</div>
-						<div class="ng-hide"
-							ng-hide="order.status.code=='U'||order.status.code=='G'">
+						<div class="ng-hide" ng-hide="order.status.code=='U'||order.status.code=='G'">
 							<span>#label("ASSIGNED")</span>
 						</div>
 					</div></td>
-				<td class="ng-hide" ng-show="order.assigning" colspan="9"><select
-					ng-model="order.selectedStaff" style="min-width: 400px;">
+				<td class="ng-hide" ng-show="order.assigning" colspan="9"><select ng-model="order.selectedStaff" style="min-width: 400px;">
 						<option value="" ng-if="order.availableStaffs.length>0">(#label("RANDOM"))</option>
 						<option value="" ng-if="order.availableStaffs.length==0">(#label("NO_AVAILABLE_STAFF"))</option>
-						<option ng-repeat="staff in order.availableStaffs"
-							value="{{staff.id}}">{{staff.name}} (Id: {{staff.id}})</option>
+						<option ng-repeat="staff in order.availableStaffs" value="{{staff.id}}">{{staff.name}} (Id: {{staff.id}})</option>
 				</select>
 					<button ng-click="$parent.assign(order)">#button("OK")</button></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.username}}</span></td>
-				<td align="center" ng-hide="order.assigning"><span>{{order.serviceDate|date:'yyyy/MM/dd'}}</span><br />
-					<span> {{order.serviceHour}}:00</span></td>
+				<td align="center" ng-hide="order.assigning"><span>{{order.serviceDate|date:'yyyy/MM/dd'}}</span><br /> <span>
+						{{order.serviceHour}}:00</span></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.address}}</span></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.serviceInfo.name}}</span></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.phone}}</span></td>
 				<td align="center" ng-hide="order.assigning"><span>{{order.price}}</span></td>
-				<td align="center" ng-hide="order.assigning"><div
-						class="ng-hide"
+
+				<td align="center" ng-hide="order.assigning"><div class="ng-hide"
 						ng-show="order.status.code=='A'||order.status.code=='I'||order.status.code=='P'||order.status.code=='S'">
-						<div class="ng-hide" ng-show="!order.receipt&&order.status.code=='I'">
-							<span class="uploadControl"><input type="file" size="1"
-								receipt-upload="$parent.uploadReceipt"> <a
-								href="javascript:void(0);">#button("UPLOAD")</a></span>
+						<div class="ng-hide" ng-show="!order.transactionCode&&order.status.code=='I'">
+							<button ng-hide="order.txCodeInputing" ng-click="$parent.txCodeInput(order)">#button("INPUT")</button>
+							<button ng-show="order.txCodeInputing" ng-click="$parent.txCodeInputCancel(order)">#button("CANCEL")</button>
 						</div>
-						<div class="ng-hide" ng-show="order.receipt&&(order.status.code=='P'||order.status.code=='S')">
-							<a ng-href="/ajax/content/image/{{order.receipt}}"
-								target="_blank"><span>#label("RECEIPT_UPLOADED")</span></a>
+						<div class="ng-hide" ng-show="order.transactionCode&&(order.status.code=='P'||order.status.code=='S')">
+							<span>{{order.transactionCode}}</span>
 						</div>
 					</div></td>
-				<td align="center" ng-hide="order.assigning"><span>{{order.status.message}}</span></td>
-				<td align="center" ng-hide="order.assigning"><button
-						ng-click="release(order)" class="ng-hide"
+				<td class="ng-hide" ng-show="order.txCodeInputing" colspan="2">
+					<div>
+						<input ng-model="order.inputTxCode" />
+						<button ng-click="$parent.sendTxCode(order)">#button("APPLY")</button>
+					</div>
+				</td>
+				<td align="center" ng-hide="order.assigning||order.txCodeInputing"><span>{{order.status.message}}</span></td>
+				<td align="center" ng-hide="order.assigning||order.txCodeInputing"><button ng-click="release(order)" class="ng-hide"
 						ng-show="order.status.code=='G'">#button("RELEASE")</button>
-					<button ng-click="appraise(order)" class="ng-hide"
-						ng-show="order.status.code=='S'">#button("ORDER_APPRAISE")</button>
-					<button ng-click="drawback(order)" class="ng-hide"
-						ng-show="order.status.code=='P'||order.status.code=='S'">#button("DRAWBACK")</button></td>
+					<button ng-click="appraise(order)" class="ng-hide" ng-show="order.status.code=='S'">#button("ORDER_APPRAISE")</button>
+					<button ng-click="drawback(order)" class="ng-hide" ng-show="order.status.code=='P'||order.status.code=='S'">#button("DRAWBACK")</button></td>
 			</tr>
 		</tbody>
 	</table>
 	<div class="paging" style="text-align: center;">
-		<pagination total-items="pagingData.itemCount"
-			ng-model="pagingData.pageIndex" max-size="10"
-			items-per-page="pagingData.pageSize" class="pagination-sm"
-			boundary-links="true" ng-change="searchOrders()"
-			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
-			previous-text='#label("PREVIOUS_PAGE")'
-			next-text='#label("NEXT_PAGE")'></pagination>
+		<pagination total-items="pagingData.itemCount" ng-model="pagingData.pageIndex" max-size="10" items-per-page="pagingData.pageSize"
+			class="pagination-sm" boundary-links="true" ng-change="searchOrders()" first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+			previous-text='#label("PREVIOUS_PAGE")' next-text='#label("NEXT_PAGE")'></pagination>
 	</div>
 </div>
 

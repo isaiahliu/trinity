@@ -25,12 +25,11 @@ public enum Url implements IHttpUrl {
 
     ORDER(HttpMethod.GET, Path.ORDER),
     ORDER_UPDATE(HttpMethod.PUT, Path.ORDER),
-    ORDER_UNPROCESSED(HttpMethod.GET, Path.ORDER, "unprocessed"),
-    ORDER_PROCESSING(HttpMethod.GET, Path.ORDER, "processing"),
-    ORDER_PROCESSED(HttpMethod.GET, Path.ORDER, "processed"),
     ORDER_PROPOSAL(HttpMethod.POST, Path.ORDER, "proposal"),
     ORDER_RECEIPT(HttpMethod.PUT, Path.ORDER, "receipt"),
     ORDER_RELEASE(HttpMethod.POST, Path.ORDER, "release"),
+    ORDER_TRANSACTION(HttpMethod.POST, Path.ORDER, "transaction"),
+    ORDER_CANCEL(HttpMethod.POST, Path.ORDER, "cancel"),
 
     APPRAISE_NEW(HttpMethod.POST, Path.APPRAISE),
     APPRAISE_UPDATE(HttpMethod.PUT, Path.APPRAISE),

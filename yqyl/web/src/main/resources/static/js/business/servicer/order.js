@@ -86,15 +86,45 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			url : "/ajax/service/supplier/staff/available?serviceCategoryId=" + order.serviceInfo.serviceCategory.id
 		}).success(function(response) {
 			order.availableStaffs = response.data;
+			$scope.txCodeInputCancel(order);
 			order.assigning = true;
 		}).error(function(response) {
 			errorHandler($scope, response);
 		});
-	}
+	};
 
 	$scope.assignCancel = function(order) {
 		order.assigning = false;
-	}
+	};
+
+	$scope.txCodeInputCancel = function(order) {
+		order.txCodeInputing = false;
+	};
+	$scope.txCodeInput = function(order) {
+		$scope.assignCancel(order);
+
+		order.txCodeInputing = true;
+	};
+
+	$scope.sendTxCode = function(order) {
+		$http({
+			method : "POST",
+			url : "/ajax/user/order/transaction",
+			data : {
+				data : [ {
+					id : order.id,
+					transactionCode : order.inputTxCode
+				} ]
+			}
+		}).success(function(response) {
+			order.status = response.data[0].status;
+			order.price = response.data[0].price;
+			order.transactionCode = order.inputTxCode;
+			$scope.txCodeInputCancel(order);
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
+	};
 
 	$scope.assign = function(order) {
 		if (order.availableStaffs.length == 0) {

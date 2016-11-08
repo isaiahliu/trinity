@@ -31,7 +31,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="order in orders">
-					<td><div class="orderItem">
+					<td width="180px"><div class="orderItem">
 							<div class="orderPic">
 								<img alt="#label('NOT_UPLOADED')" ng-src="/ajax/content/image/{{order.serviceInfo.image}}" />
 							</div>
@@ -47,17 +47,28 @@
 								</div>
 							</div>
 						</div></td>
-					<td align="center"><div>
+					<td width="100px" align="center"><div>
 							<span>{{order.price}}</span>
 						</div>
 						<div>
 							<span>{{order.paymentMethod.message}}</span>
 						</div></td>
-					<td align="center"><span>{{order.status.message}}</span></td>
-					<td align="center"><button class="ng-hide" ng-show="order.status.code=='P'" ng-click="appraise(order.id)">#button("ORDER_APPRAISE")</button></td>
+					<td width="100px" align="center"><span>{{order.status.message}}</span></td>
+					<td ng-show="order.cancelling">
+						<div>
+							<span>#label("CANCEL_REASON")</span> <input ng-model="order.cancelReason"/>
+						</div>
+						<div>
+							<button ng-click="applyCancel(order)">#button("APPLY")</button>
+							<button ng-click="giveUpCancel(order)">#button("GIVE_UP")</button>
+						</div>
+					</td>
+					<td ng-hide="order.cancelling" align="center">
+						<button class="ng-hide" ng-show="order.status.code=='P'" ng-click="appraise(order.id)">#button("ORDER_APPRAISE")</button>
+						<button ng-show="order.status.code=='I'||order.status.code=='U'" ng-click="cancel(order)">#button("ORDER_CANCEL")</button>
+					</td>
 				</tr>
 			</tbody>
-
 		</table>
 		<div class="orderPaging">
 			<pagination total-items="orderPaging.itemCount" ng-model="orderPaging.pageIndex" max-size="10" items-per-page="orderPaging.pageSize"

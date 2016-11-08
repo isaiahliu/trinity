@@ -7,9 +7,11 @@ public enum OrderOperation implements ILookupMessage<LookupType> {
     TAKEN("20"),
     ASSIGNMENT("30"),
     PROCESSING("40"),
-    RECEIPT_UPLOADED("50"),
+    PAYED("50"),
+    RECEIPT_UPLOADED("55"),
     APPRAISED("60"),
-    SETTLED("100");
+    SETTLED("100"),
+    CANCELLED("110");
 
     private final String messageCode;
 
