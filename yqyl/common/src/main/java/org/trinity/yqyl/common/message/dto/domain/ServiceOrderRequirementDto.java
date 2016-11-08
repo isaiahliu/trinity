@@ -5,14 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
-import org.trinity.common.dto.object.LookupDto;
 
 public class ServiceOrderRequirementDto extends AbstractBusinessDto {
     private String address;
 
     private Date announceTime;
-
-    private LookupDto status;
 
     private String comment;
 
@@ -63,10 +60,6 @@ public class ServiceOrderRequirementDto extends AbstractBusinessDto {
         return serviceOrders;
     }
 
-    public LookupDto getStatus() {
-        return status;
-    }
-
     public UserDto getUser() {
         return user;
     }
@@ -101,10 +94,6 @@ public class ServiceOrderRequirementDto extends AbstractBusinessDto {
 
     public void setServiceOrders(final List<ServiceOrderDto> serviceOrders) {
         this.serviceOrders = serviceOrders;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 
     public void setUser(final UserDto user) {

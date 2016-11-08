@@ -24,6 +24,11 @@
 		<li><a href="/servicer/training"><div class="navBarItem #if($currentPage=='TRAINING')selected #end">
 					<span>#button("SERVICER_TRAINING")</span>
 				</div></a></li> #end
+		<li><a href="/servicer/auditing">
+				<div class="navBarItem">
+					<span>#button("AUDITING_SEARCH")</span>
+				</div>
+		</a></li>
 	</ul>
 	<ul class="popList infoPopList ng-hide" ng-mouseenter="showInfo=true" ng-mouseleave="showInfo=false" ng-show="showInfo">
 		<li><a href="/servicer/info"><div>

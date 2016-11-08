@@ -21,8 +21,6 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private String name;
 
-    private LookupDto status;
-
     private LookupDto familyRelationship;
 
     public String getAddress() {
@@ -61,10 +59,6 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         return name;
     }
 
-    public LookupDto getStatus() {
-        return status;
-    }
-
     public void setAddress(final String address) {
         this.address = address;
     }
@@ -99,9 +93,5 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 }

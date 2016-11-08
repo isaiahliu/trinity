@@ -37,6 +37,13 @@ public class ServiceSupplierClientRestController extends
         return createResponseEntity(response);
     }
 
+    @RequestMapping(value = "/reject", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<DefaultResponse> reject(@RequestBody final ServiceSupplierClientRequest request) throws IException {
+        getDomainProcessController().audit(request.getData());
+
+        return createResponseEntity(new DefaultResponse());
+    }
+
     @Override
     protected ServiceSupplierClientResponse createResponseInstance() {
         return new ServiceSupplierClientResponse();

@@ -1,11 +1,9 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
-import org.trinity.common.dto.object.LookupDto;
 
 public class OperatorClientDto extends AbstractBusinessDto {
     private String username;
-    private LookupDto status;
     private String staffNo;
     private String name;
 
@@ -15,10 +13,6 @@ public class OperatorClientDto extends AbstractBusinessDto {
 
     public String getStaffNo() {
         return staffNo;
-    }
-
-    public LookupDto getStatus() {
-        return status;
     }
 
     public String getUsername() {
@@ -31,10 +25,6 @@ public class OperatorClientDto extends AbstractBusinessDto {
 
     public void setStaffNo(final String staffNo) {
         this.staffNo = staffNo;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 
     public void setUsername(final String username) {

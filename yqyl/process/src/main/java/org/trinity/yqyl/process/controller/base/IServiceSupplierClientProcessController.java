@@ -13,4 +13,6 @@ public interface IServiceSupplierClientProcessController
     void audit(List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException;
 
     ServiceSupplierClientDto register() throws IException;
+
+    void reject(List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException;
 }

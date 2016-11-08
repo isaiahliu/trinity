@@ -9,7 +9,7 @@ import org.trinity.common.dto.object.LookupDto;
 
 public class ServiceOrderDto extends AbstractBusinessDto {
     private Double price;
-    private LookupDto status;
+
     private String username;
     private Date proposalTime;
     private Date approvalTime;
@@ -100,10 +100,6 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return staff;
     }
 
-    public LookupDto getStatus() {
-        return status;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -173,10 +169,6 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setStaff(final ServiceSupplierStaffDto staff) {
         this.staff = staff;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 
     public void setUsername(final String username) {

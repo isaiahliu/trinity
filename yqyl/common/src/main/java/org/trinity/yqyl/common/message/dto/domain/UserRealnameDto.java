@@ -12,8 +12,6 @@ public class UserRealnameDto extends AbstractBusinessDto {
 
     private String name;
 
-    private LookupDto status;
-
     public String getCredentialCopy() {
         return credentialCopy;
     }
@@ -30,10 +28,6 @@ public class UserRealnameDto extends AbstractBusinessDto {
         return name;
     }
 
-    public LookupDto getStatus() {
-        return status;
-    }
-
     public void setCredentialCopy(final String credentialCopy) {
         this.credentialCopy = credentialCopy;
     }
@@ -48,9 +42,5 @@ public class UserRealnameDto extends AbstractBusinessDto {
 
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 }

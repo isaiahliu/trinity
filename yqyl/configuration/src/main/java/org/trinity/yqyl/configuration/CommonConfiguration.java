@@ -32,6 +32,7 @@ import org.trinity.yqyl.common.message.lookup.AccountPostingStatus;
 import org.trinity.yqyl.common.message.lookup.AccountStatus;
 import org.trinity.yqyl.common.message.lookup.AccountType;
 import org.trinity.yqyl.common.message.lookup.AnnouncementStatus;
+import org.trinity.yqyl.common.message.lookup.AuditingType;
 import org.trinity.yqyl.common.message.lookup.Bank;
 import org.trinity.yqyl.common.message.lookup.ClientType;
 import org.trinity.yqyl.common.message.lookup.CompanyType;
@@ -68,14 +69,14 @@ import org.trinity.yqyl.common.message.lookup.ValueType;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class CommonConfiguration {
     static {
-        LookupParser.addEnumLookups(RecordStatus.class, Gender.class, AccountBalanceCategory.class, AccountBalanceStatus.class,
-                AccountPostingStatus.class, AccountStatus.class, AnnouncementStatus.class, OperatorClientStatus.class, ClientType.class,
-                Currency.class, Language.class, MessageStatus.class, OrderStatus.class, CompanyType.class, ServiceStatus.class,
-                ServiceSupplierClientStatus.class, ServiceReceiverClientStatus.class, TransactionCategory.class, LookupType.class,
-                SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class, FavoriteCategory.class, AccessRight.class,
-                FamilyRelationship.class, FrequencyStatus.class, FlagStatus.class, SmokerAge.class, CredentialType.class,
-                RealnameStatus.class, PaymentType.class, PaymentMethod.class, StaffStatus.class, ServiceOrderRequirementStatus.class,
-                Bank.class, AccountType.class, OrderOperation.class);
+        LookupParser.addEnumLookups(AuditingType.class, RecordStatus.class, Gender.class, AccountBalanceCategory.class,
+                AccountBalanceStatus.class, AccountPostingStatus.class, AccountStatus.class, AnnouncementStatus.class,
+                OperatorClientStatus.class, ClientType.class, Currency.class, Language.class, MessageStatus.class, OrderStatus.class,
+                CompanyType.class, ServiceStatus.class, ServiceSupplierClientStatus.class, ServiceReceiverClientStatus.class,
+                TransactionCategory.class, LookupType.class, SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class,
+                FavoriteCategory.class, AccessRight.class, FamilyRelationship.class, FrequencyStatus.class, FlagStatus.class,
+                SmokerAge.class, CredentialType.class, RealnameStatus.class, PaymentType.class, PaymentMethod.class, StaffStatus.class,
+                ServiceOrderRequirementStatus.class, Bank.class, AccountType.class, OrderOperation.class);
     }
 
     @Bean

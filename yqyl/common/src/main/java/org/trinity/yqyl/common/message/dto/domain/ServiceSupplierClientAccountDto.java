@@ -10,8 +10,6 @@ public class ServiceSupplierClientAccountDto extends AbstractBusinessDto {
 
     private String clientName;
 
-    private LookupDto status;
-
     private LookupDto type;
 
     public String getAccount() {
@@ -24,10 +22,6 @@ public class ServiceSupplierClientAccountDto extends AbstractBusinessDto {
 
     public String getClientName() {
         return clientName;
-    }
-
-    public LookupDto getStatus() {
-        return status;
     }
 
     public LookupDto getType() {
@@ -44,10 +38,6 @@ public class ServiceSupplierClientAccountDto extends AbstractBusinessDto {
 
     public void setClientName(final String clientName) {
         this.clientName = clientName;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 
     public void setType(final LookupDto type) {

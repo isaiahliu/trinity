@@ -76,7 +76,17 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
     @OneToOne(mappedBy = "serviceSupplierClient")
     private ServiceSupplierClientMaterial material;
 
+    @OneToMany(mappedBy = "serviceSupplierClient")
+    private List<ServiceSupplierClientAuditing> auditings;
+
     public ServiceSupplierClient() {
+    }
+
+    public ServiceSupplierClientAuditing addAuditing(final ServiceSupplierClientAuditing auditing) {
+        getAuditings().add(auditing);
+        auditing.setServiceSupplierClient(this);
+
+        return auditing;
     }
 
     public ServiceInfo addServiceInfo(final ServiceInfo serviceInfo) {
@@ -99,6 +109,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public String getAddress() {
         return this.address;
+    }
+
+    public List<ServiceSupplierClientAuditing> getAuditings() {
+        return this.auditings;
     }
 
     public String getContact() {
@@ -165,6 +179,13 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return this.userId;
     }
 
+    public ServiceSupplierClientAuditing removeAuditing(final ServiceSupplierClientAuditing auditing) {
+        getAuditings().remove(auditing);
+        auditing.setServiceSupplierClient(null);
+
+        return auditing;
+    }
+
     public ServiceInfo removeServiceInfo(final ServiceInfo serviceInfo) {
         getServiceInfos().remove(serviceInfo);
         serviceInfo.setServiceSupplierClient(null);
@@ -185,6 +206,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public void setAddress(final String address) {
         this.address = address;
+    }
+
+    public void setAuditings(final List<ServiceSupplierClientAuditing> auditings) {
+        this.auditings = auditings;
     }
 
     public void setContact(final String contact) {
@@ -249,5 +274,5 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public void setUserId(final Long userId) {
         this.userId = userId;
-    }
+    } // bi-directional many-to-one association to ServiceSupplierClientAuditing
 }

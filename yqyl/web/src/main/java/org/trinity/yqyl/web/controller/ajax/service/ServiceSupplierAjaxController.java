@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
@@ -19,6 +20,8 @@ import org.trinity.yqyl.common.accessright.Authorize;
 import org.trinity.yqyl.common.message.dto.domain.ContentDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoSearchingDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAuditingDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAuditingSearchingDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
@@ -27,8 +30,10 @@ import org.trinity.yqyl.common.message.dto.request.ServiceSupplierClientRequest;
 import org.trinity.yqyl.common.message.dto.response.ContentResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceInfoResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceOrderResponse;
+import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientAuditingResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceSupplierClientResponse;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.AuditingType;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
@@ -59,6 +64,12 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
                 ServiceSupplierClientResponse.class);
     }
 
+    @RequestMapping(value = "/auditing", method = RequestMethod.GET)
+    public @ResponseBody ServiceSupplierClientAuditingResponse ajaxGetServiceSupplierAuditings(
+            final ServiceSupplierClientAuditingSearchingDto request) throws IException {
+        return restfulServiceUtil.callRestService(Url.AUDITING, null, null, request, ServiceSupplierClientAuditingResponse.class);
+    }
+
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public @ResponseBody ServiceOrderResponse ajaxGetServiceSupplierOrders(final ServiceOrderSearchingDto request) throws IException {
         request.getStatus().add(OrderStatus.SETTLED.getMessageCode());
@@ -78,8 +89,14 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
     @RequestMapping(value = "/propose", method = RequestMethod.PUT)
     public @ResponseBody DefaultResponse ajaxProposeInfo(@RequestBody final ServiceSupplierClientRequest request) throws IException {
         request.getData().forEach(item -> {
-            if (!ServiceSupplierClientStatus.PROPOSAL.getMessageCode().equals(item.getStatus().getCode())) {
+            final ServiceSupplierClientAuditingDto serviceSupplierClientAuditingDto = new ServiceSupplierClientAuditingDto();
+
+            item.getAuditings().add(serviceSupplierClientAuditingDto);
+            if (ServiceSupplierClientStatus.PROPOSAL.getMessageCode().equals(item.getStatus().getCode())) {
+                serviceSupplierClientAuditingDto.setType(new LookupDto(AuditingType.PROPOSAL_UPDATE));
+            } else {
                 item.setStatus(null);
+                serviceSupplierClientAuditingDto.setType(new LookupDto(AuditingType.PROPOSAL));
             }
         });
         return restfulServiceUtil.callRestService(Url.SUPPLIER_UPDATE, null, request, null, DefaultResponse.class);

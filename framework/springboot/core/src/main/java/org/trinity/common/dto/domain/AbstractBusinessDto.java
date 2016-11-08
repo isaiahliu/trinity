@@ -5,57 +5,68 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import org.trinity.common.dto.object.IDto;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.request.AbstractDataRequest.DeleteData;
 
 public abstract class AbstractBusinessDto implements IDto {
-	@NotNull(groups = { DeleteData.class })
-	private Long id;
+    @NotNull(groups = { DeleteData.class })
+    private Long id;
 
-	private String createdBy;
+    private LookupDto status;
 
-	private Date createdDate;
+    private String createdBy;
 
-	private String lastModifiedBy;
+    private Date createdDate;
 
-	private Date lastModifiedDate;
+    private String lastModifiedBy;
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
+    private Date lastModifiedDate;
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 
-	public String getLastModifiedBy() {
-		return lastModifiedBy;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Date getLastModifiedDate() {
-		return lastModifiedDate;
-	}
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
 
-	public void setCreatedBy(final String createdBy) {
-		this.createdBy = createdBy;
-	}
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
 
-	public void setCreatedDate(final Date createdDate) {
-		this.createdDate = createdDate;
-	}
+    public LookupDto getStatus() {
+        return status;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public void setCreatedBy(final String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public void setLastModifiedBy(final String lastModifiedBy) {
-		this.lastModifiedBy = lastModifiedBy;
-	}
+    public void setCreatedDate(final Date createdDate) {
+        this.createdDate = createdDate;
+    }
 
-	public void setLastModifiedDate(final Date lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setLastModifiedBy(final String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public void setLastModifiedDate(final Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public void setStatus(final LookupDto status) {
+        this.status = status;
+    }
 }

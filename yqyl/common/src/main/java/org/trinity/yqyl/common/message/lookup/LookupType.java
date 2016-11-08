@@ -46,7 +46,8 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     STAFF_STATUS("STSTAT"),
     SERVICE_ORDER_REQUIREMENT_STATUS("SORSTAT"),
     BANK("BANK"),
-    ACCOUNT_TYPE("ACCTYPE");
+    ACCOUNT_TYPE("ACCTYPE"),
+    AUDITING_TYPE("AUDTYPE");
 
     private String typeName;
 

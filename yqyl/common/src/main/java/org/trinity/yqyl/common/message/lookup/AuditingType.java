@@ -2,17 +2,15 @@ package org.trinity.yqyl.common.message.lookup;
 
 import org.trinity.message.ILookupMessage;
 
-public enum ServiceSupplierClientStatus implements ILookupMessage<LookupType> {
-    INACTIVE("I"),
-    ACTIVE("A"),
-    DISABLED("D"),
+public enum AuditingType implements ILookupMessage<LookupType> {
     PROPOSAL("P"),
-    REJECTED("R"),
-    AWAITING_PAYMENT("W");
+    PROPOSAL_UPDATE("U"),
+    APPLY("A"),
+    REJECT("R");
 
     private final String messageCode;
 
-    private ServiceSupplierClientStatus(final String messageCode) {
+    private AuditingType(final String messageCode) {
         this.messageCode = messageCode;
     }
 
@@ -23,7 +21,7 @@ public enum ServiceSupplierClientStatus implements ILookupMessage<LookupType> {
 
     @Override
     public LookupType getMessageType() {
-        return LookupType.SERVICE_SUPPLIER_CLIENT_STATUS;
+        return LookupType.AUDITING_TYPE;
     }
 
 }

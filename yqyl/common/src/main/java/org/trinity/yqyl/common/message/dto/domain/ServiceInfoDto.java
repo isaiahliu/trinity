@@ -7,7 +7,7 @@ public class ServiceInfoDto extends AbstractBusinessDto {
     private String name;
     private String description;
     private Double price;
-    private LookupDto status;
+
     private String image;
     private LookupDto paymentMethod;
     private LookupDto paymentType;
@@ -58,10 +58,6 @@ public class ServiceInfoDto extends AbstractBusinessDto {
         return serviceSupplierClient;
     }
 
-    public LookupDto getStatus() {
-        return status;
-    }
-
     public void setDescription(final String description) {
         this.description = description;
     }
@@ -100,9 +96,5 @@ public class ServiceInfoDto extends AbstractBusinessDto {
 
     public void setServiceSupplierClient(final ServiceSupplierClientDto serviceSupplierClient) {
         this.serviceSupplierClient = serviceSupplierClient;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 }

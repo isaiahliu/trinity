@@ -10,6 +10,7 @@ import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAccountDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAuditingDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
 import org.trinity.yqyl.common.message.lookup.CompanyType;
@@ -17,6 +18,7 @@ import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAccount;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAuditing;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientMaterial;
 
 @Component
@@ -26,6 +28,7 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
         MATERIAL,
         ACCOUNT,
         SERVICE_INFOS,
+        AUDITINGS,
         NA
     }
 
@@ -37,6 +40,9 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
 
     @Autowired
     private IObjectConverter<ServiceInfo, ServiceInfoDto> serviceInfoConverter;
+
+    @Autowired
+    private IObjectConverter<ServiceSupplierClientAuditing, ServiceSupplierClientAuditingDto> serviceSupplierClientAuditingConverter;
 
     @Autowired
     public ServiceSupplierClientConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -90,6 +96,10 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
             break;
         case SERVICE_INFOS:
             copyRelationshipList(source::getServiceInfos, target::setServiceInfos, serviceInfoConverter, relationshipExpression);
+            break;
+        case AUDITINGS:
+            copyRelationshipList(source::getAuditings, target::setAuditings, serviceSupplierClientAuditingConverter,
+                    relationshipExpression);
             break;
         default:
             break;

@@ -26,7 +26,6 @@ public class UserDto extends AbstractBusinessDto {
     private String yiquanCode;
 
     @Null(groups = { AddData.class, UpdateData.class })
-    private LookupDto status;
 
     private Date lastAccessDate;
 
@@ -50,10 +49,6 @@ public class UserDto extends AbstractBusinessDto {
 
     public String getPassword() {
         return password;
-    }
-
-    public LookupDto getStatus() {
-        return status;
     }
 
     public String getUsername() {
@@ -82,10 +77,6 @@ public class UserDto extends AbstractBusinessDto {
 
     public void setPassword(final String password) {
         this.password = password;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 
     public void setUsername(final String username) {

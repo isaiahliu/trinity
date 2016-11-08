@@ -32,8 +32,6 @@ public class ServiceReceiverClientHealthIndicatorDto extends AbstractBusinessDto
 
     private String other;
 
-    private LookupDto status;
-
     private String systolicPressure;
 
     private String tripMode;
@@ -116,10 +114,6 @@ public class ServiceReceiverClientHealthIndicatorDto extends AbstractBusinessDto
 
     public LookupDto getSmokerAge() {
         return smokerAge;
-    }
-
-    public LookupDto getStatus() {
-        return status;
     }
 
     public String getSystolicPressure() {
@@ -208,10 +202,6 @@ public class ServiceReceiverClientHealthIndicatorDto extends AbstractBusinessDto
 
     public void setSmokerAge(final LookupDto smokerAge) {
         this.smokerAge = smokerAge;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 
     public void setSystolicPressure(final String systolicPressure) {

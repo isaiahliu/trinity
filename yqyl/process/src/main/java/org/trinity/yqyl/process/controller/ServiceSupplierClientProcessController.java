@@ -1,6 +1,7 @@
 package org.trinity.yqyl.process.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -10,21 +11,25 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAccountDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.AuditingType;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceSupplierClientStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientAccountProcessController;
+import org.trinity.yqyl.process.controller.base.IServiceSupplierClientAuditingProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientMaterialProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceSupplierClientProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceCategoryRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientAccountRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientAuditingRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientMaterialRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierClientRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
@@ -32,6 +37,7 @@ import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAccount;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientAuditing;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClientMaterial;
 import org.trinity.yqyl.repository.business.entity.User;
 
@@ -52,6 +58,9 @@ public class ServiceSupplierClientProcessController extends
     private IServiceSupplierClientMaterialRepository serviceSupplierClientMaterialRepository;
 
     @Autowired
+    private IServiceSupplierClientAuditingRepository serviceSupplierClientAuditingRepository;
+
+    @Autowired
     private IContentRepository contentRepository;
 
     @Autowired
@@ -60,6 +69,9 @@ public class ServiceSupplierClientProcessController extends
     @Autowired
     private IServiceSupplierClientMaterialProcessController supplierClientMaterialProcessController;
 
+    @Autowired
+    private IServiceSupplierClientAuditingProcessController serviceSupplierClientAuditingProcessController;
+
     @Override
     @Transactional
     public void audit(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
@@ -67,11 +79,27 @@ public class ServiceSupplierClientProcessController extends
                 .findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
 
         entities.forEach(item -> {
-            item.getUser().getAccessrights().add(AccessRight.SERVICE_SUPPLIER);
+            if (!item.getUser().getAccessrights().stream().filter(a -> a == AccessRight.SERVICE_SUPPLIER).findAny().isPresent()) {
+                item.getUser().getAccessrights().add(AccessRight.SERVICE_SUPPLIER);
+            }
 
             userRepository.save(item.getUser());
 
             item.setStatus(ServiceSupplierClientStatus.ACTIVE);
+
+            final ServiceSupplierClientAuditing auditing = new ServiceSupplierClientAuditing();
+
+            auditing.setComment("");
+            try {
+                auditing.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+            } catch (final IException e) {
+            }
+            auditing.setStatus(RecordStatus.ACTIVE);
+            auditing.setType(AuditingType.APPLY);
+            auditing.setTimestamp(new Date());
+            auditing.setServiceSupplierClient(item);
+
+            serviceSupplierClientAuditingRepository.save(auditing);
         });
 
         getDomainEntityRepository().save(entities);
@@ -200,6 +228,32 @@ public class ServiceSupplierClientProcessController extends
     }
 
     @Override
+    @Transactional
+    public void reject(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
+        final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
+                .findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
+
+        entities.forEach(item -> {
+            item.setStatus(ServiceSupplierClientStatus.REJECTED);
+
+            final ServiceSupplierClientAuditing auditing = new ServiceSupplierClientAuditing();
+
+            auditing.setComment(item.getAuditings().get(0).getComment());
+            try {
+                auditing.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+            } catch (final IException e) {
+            }
+            auditing.setStatus(RecordStatus.ACTIVE);
+            auditing.setType(AuditingType.REJECT);
+            auditing.setTimestamp(new Date());
+
+            item.addAuditing(auditing);
+        });
+
+        getDomainEntityRepository().save(entities);
+    }
+
+    @Override
     protected boolean canAccessAllStatus() {
         return true;
     }
@@ -222,6 +276,24 @@ public class ServiceSupplierClientProcessController extends
 
             supplierClientMaterialDtos.add(dto.getMaterial());
             supplierClientMaterialProcessController.updateAll(supplierClientMaterialDtos);
+        }
+
+        if (!dto.getAuditings().isEmpty()) {
+            final ServiceSupplierClientDto serviceSupplierClient = new ServiceSupplierClientDto();
+            serviceSupplierClient.setId(entity.getUserId());
+
+            dto.getAuditings().forEach(item -> {
+                item.setComment("");
+                try {
+                    item.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+                } catch (final IException e) {
+                }
+                item.setStatus(new LookupDto(RecordStatus.ACTIVE));
+                item.setTimestamp(new Date());
+                item.setServiceSupplierClient(serviceSupplierClient);
+            });
+
+            serviceSupplierClientAuditingProcessController.addAll(dto.getAuditings());
         }
 
         super.updateRelationshipFields(entity, dto);

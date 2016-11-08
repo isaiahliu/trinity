@@ -1,7 +1,6 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
-import org.trinity.common.dto.object.LookupDto;
 
 public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
     private String applicationCopy;
@@ -25,8 +24,6 @@ public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
     private String licenseCopy;
 
     private String licenseNo;
-
-    private LookupDto status;
 
     public String getApplicationCopy() {
         return applicationCopy;
@@ -72,10 +69,6 @@ public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
         return licenseNo;
     }
 
-    public LookupDto getStatus() {
-        return status;
-    }
-
     public void setApplicationCopy(final String applicationCopy) {
         this.applicationCopy = applicationCopy;
     }
@@ -118,9 +111,5 @@ public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
 
     public void setLicenseNo(final String licenseNo) {
         this.licenseNo = licenseNo;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 }

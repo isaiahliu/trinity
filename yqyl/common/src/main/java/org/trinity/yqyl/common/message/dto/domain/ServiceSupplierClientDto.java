@@ -1,5 +1,6 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
@@ -7,7 +8,7 @@ import org.trinity.common.dto.object.LookupDto;
 
 public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private LookupDto type;
-    private LookupDto status;
+
     private String email;
     private String name;
     private String address;
@@ -24,6 +25,7 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private ServiceSupplierClientMaterialDto material;
 
     private List<ServiceInfoDto> serviceInfos;
+    private List<ServiceSupplierClientAuditingDto> auditings;
 
     public ServiceSupplierClientAccountDto getAccount() {
         return account;
@@ -31,6 +33,13 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
 
     public String getAddress() {
         return address;
+    }
+
+    public List<ServiceSupplierClientAuditingDto> getAuditings() {
+        if (auditings == null) {
+            auditings = new ArrayList<>();
+        }
+        return auditings;
     }
 
     public String getCategories() {
@@ -81,10 +90,6 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         return servicePhone;
     }
 
-    public LookupDto getStatus() {
-        return status;
-    }
-
     public LookupDto getType() {
         return type;
     }
@@ -95,6 +100,10 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
 
     public void setAddress(final String address) {
         this.address = address;
+    }
+
+    public void setAuditings(final List<ServiceSupplierClientAuditingDto> auditings) {
+        this.auditings = auditings;
     }
 
     public void setCategories(final String categories) {
@@ -143,10 +152,6 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
 
     public void setServicePhone(final String servicePhone) {
         this.servicePhone = servicePhone;
-    }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
     }
 
     public void setType(final LookupDto type) {

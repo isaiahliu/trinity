@@ -42,11 +42,14 @@ public enum Url implements IHttpUrl {
     SUPPLIER_REGISTER(HttpMethod.POST, Path.SUPPLIER, "register"),
     SUPPLIER_UPDATE(HttpMethod.PUT, Path.SUPPLIER),
     SUPPLIER_AUDIT(HttpMethod.POST, Path.SUPPLIER, "audit"),
+    SUPPLIER_REJECT(HttpMethod.POST, Path.SUPPLIER, "reject"),
 
     STAFF(HttpMethod.GET, Path.STAFF),
     STAFF_AVAILABLE(HttpMethod.GET, Path.STAFF, "available"),
     STAFF_UPDATE(HttpMethod.PUT, Path.STAFF),
     STAFF_NEW(HttpMethod.POST, Path.STAFF),
+
+    AUDITING(HttpMethod.GET, Path.AUDITING),
 
     RECEIVER_AUDIT(HttpMethod.PUT, Path.RECEIVER_INFO, "audit"),
     RECEIVER_ME(HttpMethod.GET, Path.RECEIVER_INFO, "me"),
@@ -99,6 +102,7 @@ public enum Url implements IHttpUrl {
         OPERATOR(CLIENT, "operator"),
 
         STAFF(SUPPLIER, "staff"),
+        AUDITING(SUPPLIER, "auditing"),
 
         RECEIVER_INFO(RECEIVER, "info"),
 

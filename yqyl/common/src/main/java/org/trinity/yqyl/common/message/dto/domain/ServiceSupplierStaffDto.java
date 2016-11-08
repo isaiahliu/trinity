@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
-import org.trinity.common.dto.object.LookupDto;
 
 public class ServiceSupplierStaffDto extends AbstractBusinessDto {
     private String comment;
@@ -18,8 +17,6 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
     private String phoneNo;
 
     private String photo;
-
-    private LookupDto status;
 
     private Integer age;
 
@@ -63,10 +60,6 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
         return serviceSupplierClient;
     }
 
-    public LookupDto getStatus() {
-        return status;
-    }
-
     public void setAge(final Integer age) {
         this.age = age;
     }
@@ -102,9 +95,4 @@ public class ServiceSupplierStaffDto extends AbstractBusinessDto {
     public void setServiceSupplierClient(final ServiceSupplierClientDto serviceSupplierClient) {
         this.serviceSupplierClient = serviceSupplierClient;
     }
-
-    public void setStatus(final LookupDto status) {
-        this.status = status;
-    }
-
 }
