@@ -35,9 +35,8 @@ div.order table td {
 
 div.order table td button {
 	font-size: small;
-	width: 50px;
-	height: 25px;
 	min-width: 50px;
+	height: 25px;
 }
 
 div.order table td.image {

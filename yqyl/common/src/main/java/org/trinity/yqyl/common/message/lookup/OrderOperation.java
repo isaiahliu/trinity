@@ -11,7 +11,11 @@ public enum OrderOperation implements ILookupMessage<LookupType> {
     RECEIPT_UPLOADED("55"),
     APPRAISED("60"),
     SETTLED("100"),
-    CANCELLED("110");
+    CANCEL_REQUEST("105"),
+    RECEIVER_CANCELLED("110"),
+    SUPPLIER_CANCELLED("115"),
+    ADMIN_CANCELLED("116"),
+    CANCEL_REJECTED("120");
 
     private final String messageCode;
 

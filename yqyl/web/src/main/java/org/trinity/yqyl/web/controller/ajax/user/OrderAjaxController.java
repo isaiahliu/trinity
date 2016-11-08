@@ -38,152 +38,160 @@ import org.trinity.yqyl.web.util.Url;
 @RestController
 @RequestMapping("/ajax/user/order")
 public class OrderAjaxController extends AbstractRestController {
-    @Autowired
-    private IRestfulServiceUtil restfulServiceUtil;
+	@Autowired
+	private IRestfulServiceUtil restfulServiceUtil;
 
-    @RequestMapping(value = "/appraise/active/{entityId}", method = RequestMethod.PUT)
-    public @ResponseBody DefaultResponse ajaxActiveOrderAppraise(@PathVariable("entityId") final Long entityId) throws IException {
-        final ServiceOrderAppraiseDto dto = new ServiceOrderAppraiseDto();
-        dto.setId(entityId);
-        dto.setStatus(new LookupDto(RecordStatus.ACTIVE));
-        final ServiceOrderAppraiseRequest request = new ServiceOrderAppraiseRequest();
-        request.getData().add(dto);
+	@RequestMapping(value = "/appraise/active/{entityId}", method = RequestMethod.PUT)
+	public @ResponseBody DefaultResponse ajaxActiveOrderAppraise(@PathVariable("entityId") final Long entityId) throws IException {
+		final ServiceOrderAppraiseDto dto = new ServiceOrderAppraiseDto();
+		dto.setId(entityId);
+		dto.setStatus(new LookupDto(RecordStatus.ACTIVE));
+		final ServiceOrderAppraiseRequest request = new ServiceOrderAppraiseRequest();
+		request.getData().add(dto);
 
-        return restfulServiceUtil.callRestService(Url.APPRAISE_UPDATE, null, request, null, DefaultResponse.class);
-    }
+		return restfulServiceUtil.callRestService(Url.APPRAISE_UPDATE, null, request, null, DefaultResponse.class);
+	}
 
-    @RequestMapping(value = "/assign", method = RequestMethod.POST)
-    public @ResponseBody DefaultResponse ajaxAssignOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
-        serviceOrderRequest.getData().forEach(item -> {
-            item.setStatus(new LookupDto(OrderStatus.IN_PROGRESS));
-            item.setApprovalTime(new Date());
+	@RequestMapping(value = "/assign", method = RequestMethod.POST)
+	public @ResponseBody DefaultResponse ajaxAssignOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
+		serviceOrderRequest.getData().forEach(item -> {
+			item.setStatus(new LookupDto(OrderStatus.IN_PROGRESS));
+			item.setApprovalTime(new Date());
 
-            ServiceOrderOperationDto operation = new ServiceOrderOperationDto();
-            operation.setOperation(new LookupDto(OrderOperation.TAKEN));
+			ServiceOrderOperationDto operation = new ServiceOrderOperationDto();
+			operation.setOperation(new LookupDto(OrderOperation.TAKEN));
 
-            item.getOperations().add(operation);
+			item.getOperations().add(operation);
 
-            operation = new ServiceOrderOperationDto();
-            operation.setOperation(new LookupDto(OrderOperation.ASSIGNMENT));
-            operation.getParams().add(item.getStaff().getName());
-            operation.getParams().add(item.getStaff().getPhoneNo());
+			operation = new ServiceOrderOperationDto();
+			operation.setOperation(new LookupDto(OrderOperation.ASSIGNMENT));
+			operation.getParams().add(item.getStaff().getName());
+			operation.getParams().add(item.getStaff().getPhoneNo());
 
-            item.getOperations().add(operation);
+			item.getOperations().add(operation);
 
-            operation = new ServiceOrderOperationDto();
-            operation.setOperation(new LookupDto(OrderOperation.PROCESSING));
-            operation.getParams().add(item.getStaff().getName());
+			operation = new ServiceOrderOperationDto();
+			operation.setOperation(new LookupDto(OrderOperation.PROCESSING));
+			operation.getParams().add(item.getStaff().getName());
 
-            item.getOperations().add(operation);
-        });
+			item.getOperations().add(operation);
+		});
 
-        return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
-    }
+		return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
+	}
 
-    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
-    public @ResponseBody ServiceOrderResponse ajaxCancelOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest)
-            throws IException {
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	public @ResponseBody ServiceOrderResponse ajaxCancelOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest)
+			throws IException {
 
-        return restfulServiceUtil.callRestService(Url.ORDER_CANCEL, null, serviceOrderRequest, null, ServiceOrderResponse.class);
-    }
+		return restfulServiceUtil.callRestService(Url.ORDER_CANCEL, null, serviceOrderRequest, null, ServiceOrderResponse.class);
+	}
 
-    @RequestMapping(value = "/appraise/disable/{entityId}", method = RequestMethod.PUT)
-    public @ResponseBody DefaultResponse ajaxDisableOrderAppraise(@PathVariable("entityId") final Long entityId) throws IException {
-        final ServiceOrderAppraiseDto dto = new ServiceOrderAppraiseDto();
-        dto.setId(entityId);
-        dto.setStatus(new LookupDto(RecordStatus.DISABLED));
-        final ServiceOrderAppraiseRequest request = new ServiceOrderAppraiseRequest();
-        request.getData().add(dto);
+	@RequestMapping(value = "/appraise/disable/{entityId}", method = RequestMethod.PUT)
+	public @ResponseBody DefaultResponse ajaxDisableOrderAppraise(@PathVariable("entityId") final Long entityId) throws IException {
+		final ServiceOrderAppraiseDto dto = new ServiceOrderAppraiseDto();
+		dto.setId(entityId);
+		dto.setStatus(new LookupDto(RecordStatus.DISABLED));
+		final ServiceOrderAppraiseRequest request = new ServiceOrderAppraiseRequest();
+		request.getData().add(dto);
 
-        return restfulServiceUtil.callRestService(Url.APPRAISE_UPDATE, null, request, null, DefaultResponse.class);
-    }
+		return restfulServiceUtil.callRestService(Url.APPRAISE_UPDATE, null, request, null, DefaultResponse.class);
+	}
 
-    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
-    public @ResponseBody DefaultResponse ajaxEditOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
-        return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
-    }
+	@RequestMapping(value = "/edit", method = RequestMethod.PUT)
+	public @ResponseBody DefaultResponse ajaxEditOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
+		return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
+	}
 
-    @RequestMapping(value = "/{entityId}", method = RequestMethod.GET)
-    public ResponseEntity<ServiceOrderResponse> ajaxGetOrderDetail(@PathVariable("entityId") final Long entityId,
-            final ServiceOrderSearchingDto request) throws IException {
-        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, String.valueOf(entityId), null, request,
-                ServiceOrderResponse.class);
+	@RequestMapping(value = "/{entityId}", method = RequestMethod.GET)
+	public ResponseEntity<ServiceOrderResponse> ajaxGetOrderDetail(@PathVariable("entityId") final Long entityId,
+			final ServiceOrderSearchingDto request) throws IException {
+		final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, String.valueOf(entityId), null, request,
+				ServiceOrderResponse.class);
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<ServiceOrderResponse> ajaxGetOrders(final ServiceOrderSearchingDto request) throws IException {
-        final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, null, null, request,
-                ServiceOrderResponse.class);
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public ResponseEntity<ServiceOrderResponse> ajaxGetOrders(final ServiceOrderSearchingDto request) throws IException {
+		final ServiceOrderResponse response = restfulServiceUtil.callRestService(Url.ORDER, null, null, request,
+				ServiceOrderResponse.class);
 
-        return createResponseEntity(response);
-    }
+		return createResponseEntity(response);
+	}
 
-    @RequestMapping(value = "/pay", method = RequestMethod.POST)
-    public @ResponseBody DefaultResponse ajaxPayOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
-        serviceOrderRequest.getData().forEach(item -> item.setStatus(new LookupDto(OrderStatus.AWAITING_APPRAISE)));
-        return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
-    }
+	@RequestMapping(value = "/pay", method = RequestMethod.POST)
+	public @ResponseBody DefaultResponse ajaxPayOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
+		serviceOrderRequest.getData().forEach(item -> item.setStatus(new LookupDto(OrderStatus.AWAITING_APPRAISE)));
+		return restfulServiceUtil.callRestService(Url.ORDER_UPDATE, null, serviceOrderRequest, null, DefaultResponse.class);
+	}
 
-    @RequestMapping(value = "/proposal", method = RequestMethod.POST)
-    public @ResponseBody ServiceOrderResponse ajaxProposeOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest)
-            throws IException {
-        return restfulServiceUtil.callRestService(Url.ORDER_PROPOSAL, null, serviceOrderRequest, null, ServiceOrderResponse.class);
-    }
+	@RequestMapping(value = "/proposal", method = RequestMethod.POST)
+	public @ResponseBody ServiceOrderResponse ajaxProposeOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest)
+			throws IException {
+		return restfulServiceUtil.callRestService(Url.ORDER_PROPOSAL, null, serviceOrderRequest, null, ServiceOrderResponse.class);
+	}
 
-    @RequestMapping(value = "/requirement", method = RequestMethod.POST)
-    public @ResponseBody ServiceOrderRequirementResponse ajaxPublishRequirement(@RequestBody final ServiceOrderRequirementRequest request)
-            throws IException {
-        request.getData().forEach(item -> {
-            item.setId(null);
-            item.setStatus(new LookupDto(ServiceOrderRequirementStatus.ACTIVE));
-            item.setAnnounceTime(new Date());
-            item.setUser(null);
-        });
+	@RequestMapping(value = "/requirement", method = RequestMethod.POST)
+	public @ResponseBody ServiceOrderRequirementResponse ajaxPublishRequirement(@RequestBody final ServiceOrderRequirementRequest request)
+			throws IException {
+		request.getData().forEach(item -> {
+			item.setId(null);
+			item.setStatus(new LookupDto(ServiceOrderRequirementStatus.ACTIVE));
+			item.setAnnounceTime(new Date());
+			item.setUser(null);
+		});
 
-        return restfulServiceUtil.callRestService(Url.REQUIREMENT_NEW, null, request, null, ServiceOrderRequirementResponse.class);
-    }
+		return restfulServiceUtil.callRestService(Url.REQUIREMENT_NEW, null, request, null, ServiceOrderRequirementResponse.class);
+	}
 
-    @RequestMapping(value = "/release", method = RequestMethod.POST)
-    public @ResponseBody DefaultResponse ajaxReleaseOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
-        return restfulServiceUtil.callRestService(Url.ORDER_RELEASE, null, serviceOrderRequest, null, DefaultResponse.class);
-    }
+	@RequestMapping(value = "/rejectCancel", method = RequestMethod.POST)
+	@Authorize(requireAny = { AccessRight.SERVICE_SUPPLIER, AccessRight.ADMINISTRATOR })
+	public @ResponseBody ServiceOrderResponse ajaxRejectCancelOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest)
+			throws IException {
 
-    @RequestMapping(value = "/transaction", method = RequestMethod.POST)
-    public @ResponseBody ServiceOrderResponse ajaxSendTxCode(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
-        return restfulServiceUtil.callRestService(Url.ORDER_TRANSACTION, null, serviceOrderRequest, null, ServiceOrderResponse.class);
-    }
+		return restfulServiceUtil.callRestService(Url.ORDER_REJECT_CANCEL, null, serviceOrderRequest, null, ServiceOrderResponse.class);
+	}
 
-    @RequestMapping(value = "/appraise", method = RequestMethod.POST)
-    public @ResponseBody ServiceOrderAppraiseResponse ajaxSubmitOrder(@RequestBody final ServiceOrderAppraiseRequest request)
-            throws IException {
-        return restfulServiceUtil.callRestService(Url.APPRAISE_NEW, null, request, null, ServiceOrderAppraiseResponse.class);
-    }
+	@RequestMapping(value = "/release", method = RequestMethod.POST)
+	public @ResponseBody DefaultResponse ajaxReleaseOrder(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
+		return restfulServiceUtil.callRestService(Url.ORDER_RELEASE, null, serviceOrderRequest, null, DefaultResponse.class);
+	}
 
-    @RequestMapping(value = "/{entityId}/receipt", method = RequestMethod.POST)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-    public ResponseEntity<DefaultResponse> ajaxUploadReceipt(@PathVariable("entityId") final Long entityId,
-            final MultipartHttpServletRequest request) throws IException {
-        if (request.getFileNames().hasNext()) {
-            try {
-                final ServiceOrderRequest contentRequest = new ServiceOrderRequest();
+	@RequestMapping(value = "/transaction", method = RequestMethod.POST)
+	public @ResponseBody ServiceOrderResponse ajaxSendTxCode(@RequestBody final ServiceOrderRequest serviceOrderRequest) throws IException {
+		return restfulServiceUtil.callRestService(Url.ORDER_TRANSACTION, null, serviceOrderRequest, null, ServiceOrderResponse.class);
+	}
 
-                final InputStream stream = request.getFile("IMAGE").getInputStream();
-                final byte[] bytes = new byte[stream.available()];
-                stream.read(bytes);
+	@RequestMapping(value = "/appraise", method = RequestMethod.POST)
+	public @ResponseBody ServiceOrderAppraiseResponse ajaxSubmitOrder(@RequestBody final ServiceOrderAppraiseRequest request)
+			throws IException {
+		return restfulServiceUtil.callRestService(Url.APPRAISE_NEW, null, request, null, ServiceOrderAppraiseResponse.class);
+	}
 
-                final ServiceOrderDto dto = new ServiceOrderDto();
-                dto.setId(entityId);
-                dto.setReceiptContent(bytes);
-                contentRequest.getData().add(dto);
+	@RequestMapping(value = "/{entityId}/receipt", method = RequestMethod.POST)
+	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+	public ResponseEntity<DefaultResponse> ajaxUploadReceipt(@PathVariable("entityId") final Long entityId,
+			final MultipartHttpServletRequest request) throws IException {
+		if (request.getFileNames().hasNext()) {
+			try {
+				final ServiceOrderRequest contentRequest = new ServiceOrderRequest();
 
-                return createResponseEntity(
-                        restfulServiceUtil.callRestService(Url.ORDER_RECEIPT, null, contentRequest, null, DefaultResponse.class));
-            } catch (final Exception e) {
-            }
-        }
+				final InputStream stream = request.getFile("IMAGE").getInputStream();
+				final byte[] bytes = new byte[stream.available()];
+				stream.read(bytes);
 
-        return createResponseEntity(new DefaultResponse());
-    }
+				final ServiceOrderDto dto = new ServiceOrderDto();
+				dto.setId(entityId);
+				dto.setReceiptContent(bytes);
+				contentRequest.getData().add(dto);
+
+				return createResponseEntity(
+						restfulServiceUtil.callRestService(Url.ORDER_RECEIPT, null, contentRequest, null, DefaultResponse.class));
+			} catch (final Exception e) {
+			}
+		}
+
+		return createResponseEntity(new DefaultResponse());
+	}
 }

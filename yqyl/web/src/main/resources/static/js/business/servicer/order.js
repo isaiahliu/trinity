@@ -106,6 +106,38 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		order.txCodeInputing = true;
 	};
 
+	$scope.cancel = function(order) {
+		$http({
+			method : "POST",
+			url : "/ajax/user/order/cancel",
+			data : {
+				data : [ {
+					id : order.id
+				} ]
+			}
+		}).success(function(response) {
+			order.status = response.data[0].status;
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
+	};
+	
+	$scope.rejectCancel = function(order) {
+		$http({
+			method : "POST",
+			url : "/ajax/user/order/rejectCancel",
+			data : {
+				data : [ {
+					id : order.id
+				} ]
+			}
+		}).success(function(response) {
+			order.status = response.data[0].status;
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
+	};
+
 	$scope.sendTxCode = function(order) {
 		$http({
 			method : "POST",
