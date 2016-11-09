@@ -74,6 +74,12 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     @Column(name = "approval_time")
     private Date approvalTime;
 
+    @Column(name = "expected_payment_amount")
+    private Double expectedPaymentAmount;
+
+    @Column(name = "actual_payment_amount")
+    private Double actualPaymentAmount;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "settled_time")
     private Date settledTime;
@@ -86,6 +92,7 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
     // bi-directional one-to-one association to ServiceOrderAppraise
     @OneToOne(mappedBy = "serviceOrder")
     private ServiceOrderAppraise appraise;
+
     // bi-directional many-to-one association to User
     @ManyToOne
     private User user;
@@ -109,6 +116,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
         return operation;
     }
 
+    public Double getActualPaymentAmount() {
+        return actualPaymentAmount;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -119,6 +130,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public Date getApprovalTime() {
         return approvalTime;
+    }
+
+    public Double getExpectedPaymentAmount() {
+        return expectedPaymentAmount;
     }
 
     public Long getId() {
@@ -177,6 +192,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
         return this.status;
     }
 
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -186,6 +205,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
         operation.setServiceOrder(null);
 
         return operation;
+    }
+
+    public void setActualPaymentAmount(final Double actualPaymentAmount) {
+        this.actualPaymentAmount = actualPaymentAmount;
     }
 
     public void setAddress(final String address) {
@@ -198,6 +221,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 
     public void setApprovalTime(final Date approvalTime) {
         this.approvalTime = approvalTime;
+    }
+
+    public void setExpectedPaymentAmount(final Double expectedPaymentAmount) {
+        this.expectedPaymentAmount = expectedPaymentAmount;
     }
 
     public void setId(final Long id) {
@@ -256,15 +283,11 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
         this.status = status;
     }
 
+    public void setTransactionCode(final String transactionCode) {
+        this.transactionCode = transactionCode;
+    }
+
     public void setUser(final User user) {
         this.user = user;
-    }
-
-    public String getTransactionCode() {
-        return transactionCode;
-    }
-
-    public void setTransactionCode(String transactionCode) {
-        this.transactionCode = transactionCode;
     }
 }

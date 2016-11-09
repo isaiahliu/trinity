@@ -3,7 +3,8 @@
 <link rel="stylesheet" href="/static/css/business/service/detail.css"></link>
 
 <script type="text/javascript">
-	layoutApp.value("serviceOrderId", ${orderId});
+layoutApp.value("serviceOrderId", ${orderId});
+layoutApp.value("mode", '${mode}');
 </script>
 <div class="detail ng-hide" ng-show="serviceOrder">
 	<div class="title">
@@ -70,9 +71,9 @@
 			<tbody>
 				<tr>
 					<td>{{serviceOrder.serviceInfo.name}}</td>
-					<td>{{serviceOrder.price|currency:"￥"}}</td>
+					<td>{{serviceOrder.expectedPaymentAmount|currency:"￥"}}</td>
 					<td>{{0|currency:"￥"}}</td>
-					<td>{{serviceOrder.price|currency:"￥"}}</td>
+					<td>{{serviceOrder.actualPaymentAmount|currency:"￥"}}</td>
 				</tr>
 			</tbody>
 		</table>

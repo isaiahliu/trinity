@@ -23,6 +23,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private LookupDto paymentType;
     private String transactionCode;
 
+    private Double expectedPaymentAmount;
+
+    private Double actualPaymentAmount;
+
     private ServiceInfoDto serviceInfo;
 
     private ServiceOrderAppraiseDto appraise;
@@ -30,7 +34,12 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private ServiceSupplierStaffDto staff;
 
     private List<ServiceOrderOperationDto> operations;
+
     private byte[] receiptContent;
+
+    public Double getActualPaymentAmount() {
+        return actualPaymentAmount;
+    }
 
     public String getAddress() {
         return address;
@@ -42,6 +51,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public Date getApprovalTime() {
         return approvalTime;
+    }
+
+    public Double getExpectedPaymentAmount() {
+        return expectedPaymentAmount;
     }
 
     public List<ServiceOrderOperationDto> getOperations() {
@@ -110,6 +123,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return username;
     }
 
+    public void setActualPaymentAmount(final Double actualPaymentAmount) {
+        this.actualPaymentAmount = actualPaymentAmount;
+    }
+
     public void setAddress(final String address) {
         this.address = address;
     }
@@ -120,6 +137,10 @@ public class ServiceOrderDto extends AbstractBusinessDto {
 
     public void setApprovalTime(final Date approvalTime) {
         this.approvalTime = approvalTime;
+    }
+
+    public void setExpectedPaymentAmount(final Double expectedPaymentAmount) {
+        this.expectedPaymentAmount = expectedPaymentAmount;
     }
 
     public void setOperations(List<ServiceOrderOperationDto> operations) {

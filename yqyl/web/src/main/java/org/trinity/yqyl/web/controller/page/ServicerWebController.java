@@ -28,6 +28,12 @@ public class ServicerWebController extends AbstractResourceWebController {
 
     @RequestMapping("/order/{entityId}")
     @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    public ModelAndView orderDetailPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("service/detail").addObject("orderId", entityId).addObject("mode", "supplier");
+    }
+
+    @RequestMapping("/order/edit/{entityId}")
+    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
     public ModelAndView orderEditPage(@PathVariable("entityId") final Long entityId) throws IException {
         return createModelAndView("servicer/orderEdit").addObject("serviceOrderId", entityId);
     }

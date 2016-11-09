@@ -121,7 +121,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			errorHandler($scope, response);
 		});
 	};
-	
+
 	$scope.rejectCancel = function(order) {
 		$http({
 			method : "POST",
@@ -151,6 +151,8 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		}).success(function(response) {
 			order.status = response.data[0].status;
 			order.price = response.data[0].price;
+			order.expectedPaymentAmount = response.data[0].expectedPaymentAmount;
+			order.actualPaymentAmount = response.data[0].actualPaymentAmount;
 			order.transactionCode = order.inputTxCode;
 			$scope.txCodeInputCancel(order);
 		}).error(function(response) {
@@ -220,5 +222,36 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		}).error(function(response) {
 			errorHandler($scope, response);
 		});
+	};
+
+	$scope.edit = function(order) {
+		$window.location.href = "/servicer/order/edit/" + order.id;
+	};
+
+	$scope.prepareEditPrice = function(order) {
+		order.priceEditing = true;
+		order.newExpectedPaymentAmount = order.expectedPaymentAmount;
+	};
+
+	$scope.editPrice = function(order) {
+		$http({
+			method : "PUT",
+			url : "/ajax/user/order/price",
+			data : {
+				data : [ {
+					id : order.id,
+					expectedPaymentAmount : order.newExpectedPaymentAmount
+				} ]
+			}
+		}).success(function(response) {
+			order.expectedPaymentAmount = response.data[0].expectedPaymentAmount;
+			$scope.editPriceCancel(order);
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
+	};
+
+	$scope.editPriceCancel = function(order) {
+		order.priceEditing = false;
 	};
 });

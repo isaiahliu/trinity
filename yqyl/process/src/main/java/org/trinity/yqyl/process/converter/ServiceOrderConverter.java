@@ -56,6 +56,8 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
     protected void convertBackInternal(final ServiceOrderDto source, final ServiceOrder target, final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyObject(source::getPrice, target::getPrice, target::setPrice, copyPolicy);
+        copyObject(source::getExpectedPaymentAmount, target::getExpectedPaymentAmount, target::setExpectedPaymentAmount, copyPolicy);
+        copyObject(source::getActualPaymentAmount, target::getActualPaymentAmount, target::setActualPaymentAmount, copyPolicy);
         copyObject(source::getProposalTime, target::getProposalTime, target::setProposalTime, copyPolicy);
         copyObject(source::getApprovalTime, target::getApprovalTime, target::setApprovalTime, copyPolicy);
         copyObject(source::getSettledTime, target::getSettledTime, target::setSettledTime, copyPolicy);
@@ -88,6 +90,8 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
     protected void convertInternal(final ServiceOrder source, final ServiceOrderDto target, final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyObject(source::getPrice, target::getPrice, target::setPrice, copyPolicy);
+        copyObject(source::getExpectedPaymentAmount, target::getExpectedPaymentAmount, target::setExpectedPaymentAmount, copyPolicy);
+        copyObject(source::getActualPaymentAmount, target::getActualPaymentAmount, target::setActualPaymentAmount, copyPolicy);
         copyObject(source::getProposalTime, target::getProposalTime, target::setProposalTime, copyPolicy);
         copyObject(source::getApprovalTime, target::getApprovalTime, target::setApprovalTime, copyPolicy);
         copyObject(source::getSettledTime, target::getSettledTime, target::setSettledTime, copyPolicy);
