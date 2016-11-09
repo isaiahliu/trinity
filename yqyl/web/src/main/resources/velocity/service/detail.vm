@@ -6,6 +6,13 @@
 layoutApp.value("serviceOrderId", ${orderId});
 layoutApp.value("mode", '${mode}');
 </script>
+
+#macro(rateControl $name $rate)
+<span>{{$name>=$rate?'★':'☆'}}</span>
+#end #macro(rateBar $name) #rateControl($name, 1) #rateControl($name, 2)
+#rateControl($name, 3) #rateControl($name, 4) #rateControl($name, 5)
+#end
+
 <div class="detail ng-hide" ng-show="serviceOrder">
 	<div class="title">
 		<span>#label("SERVICE_ORDER_DETAIL")</span>
@@ -20,19 +27,24 @@ layoutApp.value("mode", '${mode}');
 		<span class="key">#label("STATUS"): </span> <span class="value">{{serviceOrder.status.message}}</span>
 	</div>
 	<div class="level2">
-		<span class="key">#label("SERVICE_CATEGORY"): </span> <span class="value">{{serviceOrder.serviceInfo.name}}</span>
+		<span class="key">#label("SERVICE_CATEGORY"): </span> <span
+			class="value">{{serviceOrder.serviceInfo.name}}</span>
 	</div>
 	<div class="level2">
-		<span class="key">#label("SERVICE_SUPPLIER_CLIENT_NAME"): </span> <span class="value">{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</span>
+		<span class="key">#label("SERVICE_SUPPLIER_CLIENT_NAME"): </span> <span
+			class="value">{{serviceOrder.serviceInfo.serviceSupplierClient.name}}</span>
 	</div>
 	<div class="level2">
-		<span class="key">#label("SERVICE_ADDRESS"): </span> <span class="value">{{serviceOrder.address}}</span>
+		<span class="key">#label("SERVICE_ADDRESS"): </span> <span
+			class="value">{{serviceOrder.address}}</span>
 	</div>
 	<div class="level2">
-		<span class="key">#label("SERVICE_TIME"): </span> <span class="value">{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}</span> <span>{{serviceOrder.serviceHour}}:00</span>
+		<span class="key">#label("SERVICE_TIME"): </span> <span class="value">{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}</span>
+		<span>{{serviceOrder.serviceHour}}:00</span>
 	</div>
 	<div class="level2">
-		<span class="key">#label("PAYMENT_METHOD"): </span> <span class="value">{{serviceOrder.paymentMethod.message}}</span>
+		<span class="key">#label("PAYMENT_METHOD"): </span> <span
+			class="value">{{serviceOrder.paymentMethod.message}}</span>
 	</div>
 	<div class="level1">
 		<span>#label("SERVICE_ORDER_TRACING")</span>
@@ -78,8 +90,48 @@ layoutApp.value("mode", '${mode}');
 			</tbody>
 		</table>
 	</div>
+	<div class="level1">
+		<span>#label("SERVICE_ORDER_APPRAISE")</span>
+	</div>
+	<div class="level2">
+		<div class="ng-hide" ng-show="serviceOrder.appraise">
+			<div>
+				<span class="key">#label("SERVICE_ATTITUDE_RATE")</span>
+				#rateBar("serviceOrder.appraise.attitudeRate")
+			</div>
+			<div>
+				<span class="key">#label("SERVICE_QUALITY_RATE")</span>
+				#rateBar("serviceOrder.appraise.qualityRate")
+			</div>
+			<div>
+				<span class="key">#label("SERVICE_ON_TIME_RATE")</span>
+				#rateBar("serviceOrder.appraise.onTimeRate")
+			</div>
+			<div>
+				<span class="key">#label("SERVICE_STAFF_RATE")</span>
+				#rateBar("serviceOrder.appraise.staffRate")
+			</div>
+			<div>
+				<span class="key">#label("COMMENT")</span> <span>{{serviceOrder.appraise.comment}}</span>
+			</div>
+			<div>
+				<span class="key">#label("SUPPLIER_REPLY")</span> <span
+					ng-show="serviceOrder.appraise.reply">{{serviceOrder.appraise.reply}}</span>
+				<a href="javascript:void(0)" ng-click="replying=true"
+					ng-hide="mode!='supplier'||serviceOrder.appraise.reply||replying">#button("ADD")</a>
+				<div style="display: inline-block;" ng-show="replying">
+					<textarea ng-model="serviceOrder.appraise.newReply"></textarea>
+					<br /> <a href="javascript:void(0)" ng-click="reply()">#button("APPLY")</a>
+					<a href="javascript:void(0)" ng-click="replying=false">#button("CANCEL")</a>
+				</div>
+			</div>
+		</div>
+		<div class="ng-hide" ng-hide="serviceOrder.appraise">#label("NOT_APPRAISED")</div>
+	</div>
 	<div class="submit">
-		<button ng-if="serviceOrder.status.code=='I' && serviceOrder.paymentMethod.code=='O'" ng-click="pay()">#button("ONLINE_PAY")</button>
+		<button
+			ng-if="serviceOrder.status.code=='I' && serviceOrder.paymentMethod.code=='O'"
+			ng-click="pay()">#button("ONLINE_PAY")</button>
 		<button ng-click="back()">#button("BACK")</button>
 	</div>
 </div>

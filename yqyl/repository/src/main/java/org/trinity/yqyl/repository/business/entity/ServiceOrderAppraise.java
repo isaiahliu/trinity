@@ -22,98 +22,107 @@ import org.trinity.yqyl.common.message.lookup.RecordStatus;
 @Table(name = "service_order_appraise")
 @NamedQuery(name = "ServiceOrderAppraise.findAll", query = "SELECT s FROM ServiceOrderAppraise s")
 public class ServiceOrderAppraise extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "service_order_id")
-    private Long serviceOrderId;
+	@Id
+	@Column(name = "service_order_id")
+	private Long serviceOrderId;
 
-    @Column(name = "attitude_rate")
-    private Integer attitudeRate;
+	@Column(name = "attitude_rate")
+	private Integer attitudeRate;
 
-    private String comment;
+	private String comment;
 
-    @Column(name = "on_time_rate")
-    private Integer onTimeRate;
+	private String reply;
+	@Column(name = "on_time_rate")
+	private Integer onTimeRate;
 
-    @Column(name = "quality_rate")
-    private Integer qualityRate;
+	@Column(name = "quality_rate")
+	private Integer qualityRate;
 
-    @Column(name = "staff_rate")
-    private Integer staffRate;
+	@Column(name = "staff_rate")
+	private Integer staffRate;
 
-    private RecordStatus status;
+	private RecordStatus status;
 
-    // bi-directional one-to-one association to ServiceOrder
-    @OneToOne
-    @JoinColumn(name = "service_order_id")
-    private ServiceOrder serviceOrder;
+	// bi-directional one-to-one association to ServiceOrder
+	@OneToOne
+	@JoinColumn(name = "service_order_id")
+	private ServiceOrder serviceOrder;
 
-    public ServiceOrderAppraise() {
-    }
+	public ServiceOrderAppraise() {
+	}
 
-    public Integer getAttitudeRate() {
-        return this.attitudeRate;
-    }
+	public Integer getAttitudeRate() {
+		return this.attitudeRate;
+	}
 
-    public String getComment() {
-        return this.comment;
-    }
+	public String getComment() {
+		return this.comment;
+	}
 
-    public Integer getOnTimeRate() {
-        return this.onTimeRate;
-    }
+	public Integer getOnTimeRate() {
+		return this.onTimeRate;
+	}
 
-    public Integer getQualityRate() {
-        return this.qualityRate;
-    }
+	public Integer getQualityRate() {
+		return this.qualityRate;
+	}
 
-    public ServiceOrder getServiceOrder() {
-        return this.serviceOrder;
-    }
+	public String getReply() {
+		return reply;
+	}
 
-    public Long getServiceOrderId() {
-        return this.serviceOrderId;
-    }
+	public ServiceOrder getServiceOrder() {
+		return this.serviceOrder;
+	}
 
-    public Integer getStaffRate() {
-        return this.staffRate;
-    }
+	public Long getServiceOrderId() {
+		return this.serviceOrderId;
+	}
 
-    public RecordStatus getStatus() {
-        return this.status;
-    }
+	public Integer getStaffRate() {
+		return this.staffRate;
+	}
 
-    public void setAttitudeRate(final Integer attitudeRate) {
-        this.attitudeRate = attitudeRate;
-    }
+	public RecordStatus getStatus() {
+		return this.status;
+	}
 
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
+	public void setAttitudeRate(final Integer attitudeRate) {
+		this.attitudeRate = attitudeRate;
+	}
 
-    public void setOnTimeRate(final Integer onTimeRate) {
-        this.onTimeRate = onTimeRate;
-    }
+	public void setComment(final String comment) {
+		this.comment = comment;
+	}
 
-    public void setQualityRate(final Integer qualityRate) {
-        this.qualityRate = qualityRate;
-    }
+	public void setOnTimeRate(final Integer onTimeRate) {
+		this.onTimeRate = onTimeRate;
+	}
 
-    public void setServiceOrder(final ServiceOrder serviceOrder) {
-        this.serviceOrder = serviceOrder;
-    }
+	public void setQualityRate(final Integer qualityRate) {
+		this.qualityRate = qualityRate;
+	}
 
-    public void setServiceOrderId(final Long serviceOrderId) {
-        this.serviceOrderId = serviceOrderId;
-    }
+	public void setReply(final String reply) {
+		this.reply = reply;
+	}
 
-    public void setStaffRate(final Integer staffRate) {
-        this.staffRate = staffRate;
-    }
+	public void setServiceOrder(final ServiceOrder serviceOrder) {
+		this.serviceOrder = serviceOrder;
+	}
 
-    public void setStatus(final RecordStatus status) {
-        this.status = status;
-    }
+	public void setServiceOrderId(final Long serviceOrderId) {
+		this.serviceOrderId = serviceOrderId;
+	}
+
+	public void setStaffRate(final Integer staffRate) {
+		this.staffRate = staffRate;
+	}
+
+	public void setStatus(final RecordStatus status) {
+		this.status = status;
+	}
 
 }

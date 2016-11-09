@@ -14,56 +14,58 @@ import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise;
 
 @Component
 public class ServiceOrderAppraiseConverter extends AbstractLookupSupportObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> {
-    private static enum ServiceOrderAppraiseRelationship {
-        NA
-    }
+	private static enum ServiceOrderAppraiseRelationship {
+		NA
+	}
 
-    @Autowired
-    public ServiceOrderAppraiseConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
-        super(lookupConverter);
-    }
+	@Autowired
+	public ServiceOrderAppraiseConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
+		super(lookupConverter);
+	}
 
-    @Override
-    protected void convertBackInternal(final ServiceOrderAppraiseDto source, final ServiceOrderAppraise target,
-            final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getServiceOrderId, target::setServiceOrderId, copyPolicy);
-        copyObject(source::getAttitudeRate, target::getAttitudeRate, target::setAttitudeRate, copyPolicy);
-        copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
-        copyObject(source::getOnTimeRate, target::getOnTimeRate, target::setOnTimeRate, copyPolicy);
-        copyObject(source::getQualityRate, target::getQualityRate, target::setQualityRate, copyPolicy);
-        copyObject(source::getStaffRate, target::getStaffRate, target::setStaffRate, copyPolicy);
+	@Override
+	protected void convertBackInternal(final ServiceOrderAppraiseDto source, final ServiceOrderAppraise target,
+			final CopyPolicy copyPolicy) {
+		copyObject(source::getId, target::getServiceOrderId, target::setServiceOrderId, copyPolicy);
+		copyObject(source::getAttitudeRate, target::getAttitudeRate, target::setAttitudeRate, copyPolicy);
+		copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
+		copyObject(source::getReply, target::getReply, target::setReply, copyPolicy);
+		copyObject(source::getOnTimeRate, target::getOnTimeRate, target::setOnTimeRate, copyPolicy);
+		copyObject(source::getQualityRate, target::getQualityRate, target::setQualityRate, copyPolicy);
+		copyObject(source::getStaffRate, target::getStaffRate, target::setStaffRate, copyPolicy);
 
-        copyLookup(source::getStatus, target::getStatus, target::setStatus, RecordStatus.class, copyPolicy);
-    }
+		copyLookup(source::getStatus, target::getStatus, target::setStatus, RecordStatus.class, copyPolicy);
+	}
 
-    @Override
-    protected void convertInternal(final ServiceOrderAppraise source, final ServiceOrderAppraiseDto target, final CopyPolicy copyPolicy) {
-        copyObject(source::getServiceOrderId, target::getId, target::setId, copyPolicy);
-        copyObject(source::getAttitudeRate, target::getAttitudeRate, target::setAttitudeRate, copyPolicy);
-        copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
-        copyObject(source::getOnTimeRate, target::getOnTimeRate, target::setOnTimeRate, copyPolicy);
-        copyObject(source::getQualityRate, target::getQualityRate, target::setQualityRate, copyPolicy);
-        copyObject(source::getStaffRate, target::getStaffRate, target::setStaffRate, copyPolicy);
+	@Override
+	protected void convertInternal(final ServiceOrderAppraise source, final ServiceOrderAppraiseDto target, final CopyPolicy copyPolicy) {
+		copyObject(source::getServiceOrderId, target::getId, target::setId, copyPolicy);
+		copyObject(source::getAttitudeRate, target::getAttitudeRate, target::setAttitudeRate, copyPolicy);
+		copyObject(source::getReply, target::getReply, target::setReply, copyPolicy);
+		copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
+		copyObject(source::getOnTimeRate, target::getOnTimeRate, target::setOnTimeRate, copyPolicy);
+		copyObject(source::getQualityRate, target::getQualityRate, target::setQualityRate, copyPolicy);
+		copyObject(source::getStaffRate, target::getStaffRate, target::setStaffRate, copyPolicy);
 
-        copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
-    }
+		copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
+	}
 
-    @Override
-    protected void convertRelationshipInternal(final ServiceOrderAppraise source, final ServiceOrderAppraiseDto target,
-            final RelationshipExpression relationshipExpression) {
-        switch (relationshipExpression.getName(ServiceOrderAppraiseRelationship.class)) {
-        default:
-            break;
-        }
-    }
+	@Override
+	protected void convertRelationshipInternal(final ServiceOrderAppraise source, final ServiceOrderAppraiseDto target,
+			final RelationshipExpression relationshipExpression) {
+		switch (relationshipExpression.getName(ServiceOrderAppraiseRelationship.class)) {
+			default:
+				break;
+		}
+	}
 
-    @Override
-    protected ServiceOrderAppraise createFromInstance() {
-        return new ServiceOrderAppraise();
-    }
+	@Override
+	protected ServiceOrderAppraise createFromInstance() {
+		return new ServiceOrderAppraise();
+	}
 
-    @Override
-    protected ServiceOrderAppraiseDto createToInstance() {
-        return new ServiceOrderAppraiseDto();
-    }
+	@Override
+	protected ServiceOrderAppraiseDto createToInstance() {
+		return new ServiceOrderAppraiseDto();
+	}
 }

@@ -11,6 +11,7 @@ public enum OrderOperation implements ILookupMessage<LookupType> {
     PAYED("50"),
     RECEIPT_UPLOADED("55"),
     APPRAISED("60"),
+    REPLYED("65"),
     SETTLED("100"),
     CANCEL_REQUEST("105"),
     RECEIVER_CANCELLED("110"),

@@ -2,6 +2,7 @@ package org.trinity.yqyl.process.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -79,6 +80,48 @@ public class ServiceOrderAppraiseProcessController extends
 		}
 
 		return data;
+	}
+
+	@Override
+	public void reply(final List<ServiceOrderAppraiseDto> data) throws IException {
+		final List<ServiceOrderAppraise> entities = data.stream().map(item -> {
+			final ServiceOrderAppraise entity = getDomainEntityRepository().findOne(item.getId());
+
+			String username = null;
+			try {
+				username = getSecurityUtil().getCurrentToken().getUsername();
+			} catch (final IException e1) {
+				return entity;
+			}
+
+			final boolean isSupplier = entity.getServiceOrder().getServiceInfo().getServiceSupplierClient().getUser().getUsername()
+					.equals(username);
+			final boolean isAdmin = getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
+
+			if (!isSupplier && !isAdmin) {
+				return entity;
+			}
+			entity.setReply(item.getReply());
+
+			final ServiceOrderOperation serviceOrderOperation = new ServiceOrderOperation();
+
+			try {
+				serviceOrderOperation.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+			} catch (final IException e) {
+			}
+
+			serviceOrderOperation.setOperation(OrderOperation.REPLYED);
+			serviceOrderOperation.setOrderStatus(OrderStatus.SETTLED);
+			serviceOrderOperation.setServiceOrder(entity.getServiceOrder());
+			serviceOrderOperation.setStatus(RecordStatus.ACTIVE);
+			serviceOrderOperation.setTimestamp(new Date());
+
+			serviceOrderOperationRepository.save(serviceOrderOperation);
+
+			return entity;
+		}).collect(Collectors.toList());
+
+		getDomainEntityRepository().save(entities);
 	}
 
 	@Override

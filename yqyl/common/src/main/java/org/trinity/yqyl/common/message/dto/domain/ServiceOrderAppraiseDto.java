@@ -7,6 +7,8 @@ public class ServiceOrderAppraiseDto extends AbstractBusinessDto {
 
     private String comment;
 
+    private String reply;
+
     private Integer onTimeRate;
 
     private Integer qualityRate;
@@ -29,6 +31,10 @@ public class ServiceOrderAppraiseDto extends AbstractBusinessDto {
         return qualityRate;
     }
 
+    public String getReply() {
+        return reply;
+    }
+
     public Integer getStaffRate() {
         return staffRate;
     }
@@ -47,6 +53,10 @@ public class ServiceOrderAppraiseDto extends AbstractBusinessDto {
 
     public void setQualityRate(final Integer qualityRate) {
         this.qualityRate = qualityRate;
+    }
+
+    public void setReply(final String reply) {
+        this.reply = reply;
     }
 
     public void setStaffRate(final Integer staffRate) {
