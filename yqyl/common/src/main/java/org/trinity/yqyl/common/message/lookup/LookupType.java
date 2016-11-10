@@ -8,12 +8,11 @@ import org.trinity.message.IMessageType;
 public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     NA("NA"),
     LOOKUP("LOOKUP"),
-    CURRENCY("CURRENCY"),
+    DIRECTION("DIRECT"),
     ACCOUNT_STATUS("ACSTAT"),
     FAVORITE_CATEGORY("FVCATE"),
     ACCOUNT_POSTING_STATUS("APSTAT"),
     ACCOUNT_BALANCE_STATUS("ABSTAT"),
-    ACCOUNT_BALANCE_CATEGORY("ABCATE"),
     USER_STATUS("URSTAT"),
     ACCESS_RIGHT("ACCESS"),
     TOKEN_STATUS("TKSTAT"),
@@ -21,7 +20,7 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     VALUE_TYPE("VALTYP"),
     RECORD_STATUS("RCSTAT"),
     ROLE_NAME("RLNAME"),
-    TRANSACTION_CATEOGY("TXCATE"),
+    ACCOUNT_CATEGORY("ACCCATE"),
     COMPANY_TYPE("CMTYPE"),
     OPERATOR_CLIENT_STATUS("OPCSTAT"),
     ANNOUNCEMENT_STATUS("ANSTAT"),
@@ -47,7 +46,8 @@ public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     SERVICE_ORDER_REQUIREMENT_STATUS("SORSTAT"),
     BANK("BANK"),
     ACCOUNT_TYPE("ACCTYPE"),
-    AUDITING_TYPE("AUDTYPE");
+    AUDITING_TYPE("AUDTYPE"),
+    TRANSACTION_TYPE("TXTYPE");
 
     private String typeName;
 

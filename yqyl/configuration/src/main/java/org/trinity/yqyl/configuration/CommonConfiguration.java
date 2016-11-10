@@ -26,8 +26,8 @@ import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.converter.LookupConverter;
 import org.trinity.yqyl.common.accessright.SecurityUtil;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
-import org.trinity.yqyl.common.message.lookup.AccountBalanceCategory;
 import org.trinity.yqyl.common.message.lookup.AccountBalanceStatus;
+import org.trinity.yqyl.common.message.lookup.AccountCategory;
 import org.trinity.yqyl.common.message.lookup.AccountPostingStatus;
 import org.trinity.yqyl.common.message.lookup.AccountStatus;
 import org.trinity.yqyl.common.message.lookup.AccountType;
@@ -37,7 +37,7 @@ import org.trinity.yqyl.common.message.lookup.Bank;
 import org.trinity.yqyl.common.message.lookup.ClientType;
 import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.CredentialType;
-import org.trinity.yqyl.common.message.lookup.Currency;
+import org.trinity.yqyl.common.message.lookup.Direction;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.FavoriteCategory;
 import org.trinity.yqyl.common.message.lookup.FlagStatus;
@@ -61,7 +61,7 @@ import org.trinity.yqyl.common.message.lookup.SmokerAge;
 import org.trinity.yqyl.common.message.lookup.StaffStatus;
 import org.trinity.yqyl.common.message.lookup.SystemAttributeKey;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
-import org.trinity.yqyl.common.message.lookup.TransactionCategory;
+import org.trinity.yqyl.common.message.lookup.TransactionType;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.common.message.lookup.ValueType;
 
@@ -69,14 +69,14 @@ import org.trinity.yqyl.common.message.lookup.ValueType;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class CommonConfiguration {
     static {
-        LookupParser.addEnumLookups(AuditingType.class, RecordStatus.class, Gender.class, AccountBalanceCategory.class,
-                AccountBalanceStatus.class, AccountPostingStatus.class, AccountStatus.class, AnnouncementStatus.class,
-                OperatorClientStatus.class, ClientType.class, Currency.class, Language.class, MessageStatus.class, OrderStatus.class,
-                CompanyType.class, ServiceStatus.class, ServiceSupplierClientStatus.class, ServiceReceiverClientStatus.class,
-                TransactionCategory.class, LookupType.class, SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class,
-                FavoriteCategory.class, AccessRight.class, FamilyRelationship.class, FrequencyStatus.class, FlagStatus.class,
-                SmokerAge.class, CredentialType.class, RealnameStatus.class, PaymentType.class, PaymentMethod.class, StaffStatus.class,
-                ServiceOrderRequirementStatus.class, Bank.class, AccountType.class, OrderOperation.class);
+        LookupParser.addEnumLookups(AuditingType.class, RecordStatus.class, Gender.class, AccountBalanceStatus.class,
+                AccountPostingStatus.class, AccountStatus.class, AnnouncementStatus.class, OperatorClientStatus.class, ClientType.class,
+                Direction.class, Language.class, MessageStatus.class, OrderStatus.class, CompanyType.class, ServiceStatus.class,
+                ServiceSupplierClientStatus.class, ServiceReceiverClientStatus.class, AccountCategory.class, LookupType.class,
+                SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class, FavoriteCategory.class, AccessRight.class,
+                FamilyRelationship.class, FrequencyStatus.class, FlagStatus.class, SmokerAge.class, CredentialType.class,
+                RealnameStatus.class, PaymentType.class, PaymentMethod.class, StaffStatus.class, ServiceOrderRequirementStatus.class,
+                Bank.class, AccountType.class, OrderOperation.class, TransactionType.class);
     }
 
     @Bean

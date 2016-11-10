@@ -2,12 +2,13 @@ package org.trinity.yqyl.common.message.lookup;
 
 import org.trinity.message.ILookupMessage;
 
-public enum AccountBalanceCategory implements ILookupMessage<LookupType> {
-    ACTIVE("A");
+public enum AccountCategory implements ILookupMessage<LookupType> {
+    CASH("C"),
+    YIQUAN("Y");
 
     private final String messageCode;
 
-    private AccountBalanceCategory(final String messageCode) {
+    private AccountCategory(final String messageCode) {
         this.messageCode = messageCode;
     }
 
@@ -18,7 +19,8 @@ public enum AccountBalanceCategory implements ILookupMessage<LookupType> {
 
     @Override
     public LookupType getMessageType() {
-        return LookupType.ACCOUNT_BALANCE_CATEGORY;
+        return LookupType.ACCOUNT_CATEGORY;
+
     }
 
 }

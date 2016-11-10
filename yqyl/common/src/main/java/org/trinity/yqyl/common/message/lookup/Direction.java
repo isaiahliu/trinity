@@ -2,13 +2,13 @@ package org.trinity.yqyl.common.message.lookup;
 
 import org.trinity.message.ILookupMessage;
 
-public enum TransactionCategory implements ILookupMessage<LookupType> {
-    CASH("C"),
-    YIQUAN("Y");
+public enum Direction implements ILookupMessage<LookupType> {
+    IN("I"),
+    OUT("O");
 
     private final String messageCode;
 
-    private TransactionCategory(final String messageCode) {
+    private Direction(final String messageCode) {
         this.messageCode = messageCode;
     }
 
@@ -19,7 +19,7 @@ public enum TransactionCategory implements ILookupMessage<LookupType> {
 
     @Override
     public LookupType getMessageType() {
-        return LookupType.TRANSACTION_CATEOGY;
+        return LookupType.DIRECTION;
     }
 
 }

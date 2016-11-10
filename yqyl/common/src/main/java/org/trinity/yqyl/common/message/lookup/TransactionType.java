@@ -2,13 +2,14 @@ package org.trinity.yqyl.common.message.lookup;
 
 import org.trinity.message.ILookupMessage;
 
-public enum Currency implements ILookupMessage<LookupType> {
-    CASH("C"),
-    YIQUAN("Y");
+public enum TransactionType implements ILookupMessage<LookupType> {
+    POS("P"),
+    ONLINE("O"),
+    CASH("C");
 
     private final String messageCode;
 
-    private Currency(final String messageCode) {
+    private TransactionType(final String messageCode) {
         this.messageCode = messageCode;
     }
 
@@ -19,7 +20,7 @@ public enum Currency implements ILookupMessage<LookupType> {
 
     @Override
     public LookupType getMessageType() {
-        return LookupType.CURRENCY;
+        return LookupType.TRANSACTION_TYPE;
     }
 
 }
