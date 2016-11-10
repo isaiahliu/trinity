@@ -24,12 +24,12 @@ public class AccountConverter extends AbstractLookupSupportObjectConverter<Accou
 
     @Override
     protected void convertBackInternal(final AccountDto source, final Account target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getId, target::setId, copyPolicy);
+        copyObject(source::getId, target::getUserId, target::setUserId, copyPolicy);
     }
 
     @Override
     protected void convertInternal(final Account source, final AccountDto target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getId, target::setId, copyPolicy);
+        copyObject(source::getUserId, target::getId, target::setId, copyPolicy);
     }
 
     @Override

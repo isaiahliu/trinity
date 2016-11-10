@@ -24,12 +24,10 @@ public class AccountPostingConverter extends AbstractLookupSupportObjectConverte
 
     @Override
     protected void convertBackInternal(final AccountPostingDto source, final AccountPosting target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getId, target::setId, copyPolicy);
     }
 
     @Override
     protected void convertInternal(final AccountPosting source, final AccountPostingDto target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getId, target::setId, copyPolicy);
     }
 
     @Override

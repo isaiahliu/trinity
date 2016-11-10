@@ -25,7 +25,7 @@ public interface IAccountRepository extends IJpaRepository<Account, AccountSearc
             }
 
             if (searchingDto.getId() != null) {
-                predicates.add(cb.equal(root.get(Account_.id), searchingDto.getId()));
+                predicates.add(cb.equal(root.get(Account_.userId), searchingDto.getId()));
             }
 
             if (searchingDto.getStatus().isEmpty()) {

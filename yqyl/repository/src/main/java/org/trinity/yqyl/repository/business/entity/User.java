@@ -47,8 +47,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
     private String email;
 
     // bi-directional many-to-one association to Account
-    @OneToMany(mappedBy = "user")
-    private List<Account> accounts;
+    @OneToOne(mappedBy = "user")
+    private Account account;
 
     // bi-directional many-to-one association to AllowanceSupplierClient
     @OneToMany(mappedBy = "user")
@@ -99,13 +99,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
     public User() {
     }
 
-    public Account addAccount(final Account account) {
-        getAccounts().add(account);
-        account.setUser(this);
-
-        return account;
-    }
-
     public AllowanceSupplierClient addAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
         getAllowanceSupplierClients().add(allowanceSupplierClient);
         allowanceSupplierClient.setUser(this);
@@ -145,8 +138,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.accessrights;
     }
 
-    public List<Account> getAccounts() {
-        return this.accounts;
+    public Account getAccount() {
+        return account;
     }
 
     public List<AllowanceSupplierClient> getAllowanceSupplierClients() {
@@ -213,13 +206,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return yiquanCode;
     }
 
-    public Account removeAccount(final Account account) {
-        getAccounts().remove(account);
-        account.setUser(null);
-
-        return account;
-    }
-
     public AllowanceSupplierClient removeAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
         getAllowanceSupplierClients().remove(allowanceSupplierClient);
         allowanceSupplierClient.setUser(null);
@@ -259,8 +245,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.accessrights = accessrights;
     }
 
-    public void setAccounts(final List<Account> accounts) {
-        this.accounts = accounts;
+    public void setAccount(final Account account) {
+        this.account = account;
     }
 
     public void setAllowanceSupplierClients(final List<AllowanceSupplierClient> allowanceSupplierClients) {

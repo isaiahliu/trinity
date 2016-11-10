@@ -24,12 +24,10 @@ public class AccountBalanceConverter extends AbstractLookupSupportObjectConverte
 
     @Override
     protected void convertBackInternal(final AccountBalanceDto source, final AccountBalance target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getId, target::setId, copyPolicy);
     }
 
     @Override
     protected void convertInternal(final AccountBalance source, final AccountBalanceDto target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getId, target::setId, copyPolicy);
     }
 
     @Override
