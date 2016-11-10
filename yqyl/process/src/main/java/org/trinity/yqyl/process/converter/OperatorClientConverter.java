@@ -25,7 +25,7 @@ public class OperatorClientConverter extends AbstractLookupSupportObjectConverte
 
     @Override
     protected void convertBackInternal(final OperatorClientDto source, final OperatorClient target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getId, target::setId, copyPolicy);
+        copyObject(source::getId, target::getUserId, target::setUserId, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, OperatorClientStatus.class, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
         copyObject(source::getStaffNo, target::getStaffNo, target::setStaffNo, copyPolicy);
@@ -33,7 +33,7 @@ public class OperatorClientConverter extends AbstractLookupSupportObjectConverte
 
     @Override
     protected void convertInternal(final OperatorClient source, final OperatorClientDto target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getId, target::setId, copyPolicy);
+        copyObject(source::getUserId, target::getId, target::setId, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
         copyObject(source::getStaffNo, target::getStaffNo, target::setStaffNo, copyPolicy);

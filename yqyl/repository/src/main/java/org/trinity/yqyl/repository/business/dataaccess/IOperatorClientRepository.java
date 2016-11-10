@@ -25,7 +25,7 @@ public interface IOperatorClientRepository extends IJpaRepository<OperatorClient
             final List<Predicate> predicates = new ArrayList<>();
 
             if (searchingDto.getId() != null) {
-                predicates.add(cb.equal(root.get(OperatorClient_.id), searchingDto.getId()));
+                predicates.add(cb.equal(root.get(OperatorClient_.userId), searchingDto.getId()));
             }
 
             if (!StringUtils.isEmpty(searchingDto.getUsername())) {

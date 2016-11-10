@@ -55,8 +55,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
     private List<AllowanceSupplierClient> allowanceSupplierClients;
 
     // bi-directional many-to-one association to OperatorClient
-    @OneToMany(mappedBy = "user")
-    private List<OperatorClient> operatorClients;
+    @OneToOne(mappedBy = "user")
+    private OperatorClient operatorClient;
 
     // bi-directional many-to-one association to ServiceReceiverClient
     @OneToMany(mappedBy = "user")
@@ -113,13 +113,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return allowanceSupplierClient;
     }
 
-    public OperatorClient addOperatorClient(final OperatorClient operatorClient) {
-        getOperatorClients().add(operatorClient);
-        operatorClient.setUser(this);
-
-        return operatorClient;
-    }
-
     public ServiceOrder addOrder(final ServiceOrder order) {
         getOrders().add(order);
         order.setUser(this);
@@ -172,8 +165,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.id;
     }
 
-    public List<OperatorClient> getOperatorClients() {
-        return this.operatorClients;
+    public OperatorClient getOperatorClient() {
+        return operatorClient;
     }
 
     public List<ServiceOrder> getOrders() {
@@ -234,13 +227,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return allowanceSupplierClient;
     }
 
-    public OperatorClient removeOperatorClient(final OperatorClient operatorClient) {
-        getOperatorClients().remove(operatorClient);
-        operatorClient.setUser(null);
-
-        return operatorClient;
-    }
-
     public ServiceOrder removeOrder(final ServiceOrder order) {
         getOrders().remove(order);
         order.setUser(null);
@@ -293,8 +279,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.id = id;
     }
 
-    public void setOperatorClients(final List<OperatorClient> operatorClients) {
-        this.operatorClients = operatorClients;
+    public void setOperatorClient(final OperatorClient operatorClient) {
+        this.operatorClient = operatorClient;
     }
 
     public void setOrders(final List<ServiceOrder> orders) {
