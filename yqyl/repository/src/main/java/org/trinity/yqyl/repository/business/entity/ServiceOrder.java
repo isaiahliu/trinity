@@ -103,6 +103,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 	@Column(name = "payment_type")
 	private PaymentType paymentType;
 
+	@OneToOne
+	@JoinColumn(name = "account_transaction_id")
+	private AccountTransaction accountTransaction;
+
 	public ServiceOrder() {
 	}
 
@@ -111,6 +115,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 		operation.setServiceOrder(this);
 
 		return operation;
+	}
+
+	public AccountTransaction getAccountTransaction() {
+		return accountTransaction;
 	}
 
 	public Double getActualPaymentAmount() {
@@ -198,6 +206,10 @@ public class ServiceOrder extends AbstractAuditableEntity implements Serializabl
 		operation.setServiceOrder(null);
 
 		return operation;
+	}
+
+	public void setAccountTransaction(final AccountTransaction accountTransaction) {
+		this.accountTransaction = accountTransaction;
 	}
 
 	public void setActualPaymentAmount(final Double actualPaymentAmount) {

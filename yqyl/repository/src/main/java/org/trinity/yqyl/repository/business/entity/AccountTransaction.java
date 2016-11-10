@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
@@ -42,6 +43,9 @@ public class AccountTransaction extends AbstractAuditableEntity implements Seria
 	@OneToMany(mappedBy = "accountTransaction")
 	private List<AccountPosting> accountPostings;
 
+	@OneToOne(mappedBy = "accountTransaction")
+	private ServiceOrder serviceOrder;
+
 	public AccountTransaction() {
 	}
 
@@ -62,6 +66,10 @@ public class AccountTransaction extends AbstractAuditableEntity implements Seria
 
 	public Long getId() {
 		return this.id;
+	}
+
+	public ServiceOrder getServiceOrder() {
+		return serviceOrder;
 	}
 
 	public RecordStatus getStatus() {
@@ -89,6 +97,10 @@ public class AccountTransaction extends AbstractAuditableEntity implements Seria
 
 	public void setId(final Long id) {
 		this.id = id;
+	}
+
+	public void setServiceOrder(final ServiceOrder serviceOrder) {
+		this.serviceOrder = serviceOrder;
 	}
 
 	public void setStatus(final RecordStatus status) {
