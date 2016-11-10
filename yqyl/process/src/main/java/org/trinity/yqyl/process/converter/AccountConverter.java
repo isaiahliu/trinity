@@ -13,41 +13,42 @@ import org.trinity.yqyl.repository.business.entity.Account;
 
 @Component
 public class AccountConverter extends AbstractLookupSupportObjectConverter<Account, AccountDto> {
-    private static enum AccountRelationship {
-        NA
-    }
+	private static enum AccountRelationship {
+		NA
+	}
 
-    @Autowired
-    public AccountConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
-        super(lookupConverter);
-    }
+	@Autowired
+	public AccountConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
+		super(lookupConverter);
+	}
 
-    @Override
-    protected void convertBackInternal(final AccountDto source, final Account target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getUserId, target::setUserId, copyPolicy);
-    }
+	@Override
+	protected void convertBackInternal(final AccountDto source, final Account target, final CopyPolicy copyPolicy) {
+		copyObject(source::getId, target::getUserId, target::setUserId, copyPolicy);
+	}
 
-    @Override
-    protected void convertInternal(final Account source, final AccountDto target, final CopyPolicy copyPolicy) {
-        copyObject(source::getUserId, target::getId, target::setId, copyPolicy);
-    }
+	@Override
+	protected void convertInternal(final Account source, final AccountDto target, final CopyPolicy copyPolicy) {
+		copyObject(source::getUserId, target::getId, target::setId, copyPolicy);
+	}
 
-    @Override
-    protected void convertRelationshipInternal(final Account source, final AccountDto target,
-            final RelationshipExpression relationshipExpression) {
-        switch (relationshipExpression.getName(AccountRelationship.class)) {
-        default:
-            break;
-        }
-    }
+	@Override
+	protected void convertRelationshipInternal(final Account source, final AccountDto target,
+			final RelationshipExpression relationshipExpression) {
+		switch (relationshipExpression.getName(AccountRelationship.class)) {
+			case NA:
+			default:
+				break;
+		}
+	}
 
-    @Override
-    protected Account createFromInstance() {
-        return new Account();
-    }
+	@Override
+	protected Account createFromInstance() {
+		return new Account();
+	}
 
-    @Override
-    protected AccountDto createToInstance() {
-        return new AccountDto();
-    }
+	@Override
+	protected AccountDto createToInstance() {
+		return new AccountDto();
+	}
 }

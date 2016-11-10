@@ -8,10 +8,6 @@ import org.trinity.yqyl.common.message.dto.request.AccountTransactionRequest;
 import org.trinity.yqyl.common.message.dto.response.AccountTransactionResponse;
 import org.trinity.yqyl.process.controller.base.IAccountTransactionProcessController;
 
-/**
- * @author Isaiah Liu
- *
- */
 @RestController
 @RequestMapping("/account/transaction")
 public class AccountTransactionRestController extends

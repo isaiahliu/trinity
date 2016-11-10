@@ -11,10 +11,10 @@ import org.trinity.yqyl.process.controller.base.IAccountPostingProcessController
 @RestController
 @RequestMapping("/account/posting")
 public class AccountPostingRestController extends
-        AbstractApplicationAwareCrudRestController<AccountPostingDto, AccountPostingSearchingDto, IAccountPostingProcessController, AccountPostingRequest, AccountPostingResponse> {
+		AbstractApplicationAwareCrudRestController<AccountPostingDto, AccountPostingSearchingDto, IAccountPostingProcessController, AccountPostingRequest, AccountPostingResponse> {
 
-    @Override
-    protected AccountPostingResponse createResponseInstance() {
-        return new AccountPostingResponse();
-    }
+	@Override
+	protected AccountPostingResponse createResponseInstance() {
+		return new AccountPostingResponse();
+	}
 }

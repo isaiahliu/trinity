@@ -8,17 +8,13 @@ import org.trinity.yqyl.common.message.dto.request.AccountBalanceRequest;
 import org.trinity.yqyl.common.message.dto.response.AccountBalanceResponse;
 import org.trinity.yqyl.process.controller.base.IAccountBalanceProcessController;
 
-/**
- * @author Isaiah Liu
- *
- */
 @RestController
 @RequestMapping("/account/balance")
 public class AccountBalanceRestController extends
-        AbstractApplicationAwareCrudRestController<AccountBalanceDto, AccountBalanceSearchingDto, IAccountBalanceProcessController, AccountBalanceRequest, AccountBalanceResponse> {
+		AbstractApplicationAwareCrudRestController<AccountBalanceDto, AccountBalanceSearchingDto, IAccountBalanceProcessController, AccountBalanceRequest, AccountBalanceResponse> {
 
-    @Override
-    protected AccountBalanceResponse createResponseInstance() {
-        return new AccountBalanceResponse();
-    }
+	@Override
+	protected AccountBalanceResponse createResponseInstance() {
+		return new AccountBalanceResponse();
+	}
 }

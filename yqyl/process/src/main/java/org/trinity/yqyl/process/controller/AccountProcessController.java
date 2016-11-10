@@ -10,6 +10,7 @@ import org.trinity.yqyl.repository.business.entity.Account;
 
 @Service
 public class AccountProcessController
-        extends AbstractAutowiredCrudProcessController<Account, AccountDto, AccountSearchingDto, IAccountRepository>
-        implements IAccountProcessController {
+      extends AbstractAutowiredCrudProcessController<Account, AccountDto, AccountSearchingDto, IAccountRepository>
+      implements IAccountProcessController {
 }
+
