@@ -24,6 +24,8 @@ public enum Url implements IHttpUrl {
     YIQUAN_BIND(HttpMethod.PUT, Path.YIQUAN, "bind"),
     YIQUAN_TOPUP(HttpMethod.POST, Path.YIQUAN, "topup"),
 
+    ACCOUNT_POSTING(HttpMethod.GET, Path.ACCOUNT_POSTING),
+
     ORDER(HttpMethod.GET, Path.ORDER),
     ORDER_UPDATE(HttpMethod.PUT, Path.ORDER),
     ORDER_PROPOSAL(HttpMethod.POST, Path.ORDER, "proposal"),
@@ -98,6 +100,9 @@ public enum Url implements IHttpUrl {
         APPRAISE(ORDER, "appraise"),
 
         YIQUAN("yiquan"),
+
+        ACCOUNT("account"),
+        ACCOUNT_POSTING(ACCOUNT, "posting"),
 
         CLIENT("client"),
         SUPPLIER(CLIENT, "supplier"),

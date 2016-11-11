@@ -2,7 +2,6 @@
 package org.trinity.yqyl.repository.business.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
 import org.trinity.yqyl.common.message.lookup.AccountPostingStatus;
@@ -35,9 +32,6 @@ public class AccountPosting extends AbstractAuditableEntity implements Serializa
     private Long id;
 
     private Double amount;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date timestamp;
 
     private AccountPostingStatus status;
 
@@ -74,10 +68,6 @@ public class AccountPosting extends AbstractAuditableEntity implements Serializa
         return this.status;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
     public void setAccountBalance(final AccountBalance accountBalance) {
         this.accountBalance = accountBalance;
     }
@@ -97,9 +87,4 @@ public class AccountPosting extends AbstractAuditableEntity implements Serializa
     public void setStatus(final AccountPostingStatus status) {
         this.status = status;
     }
-
-    public void setTimestamp(final Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
 }

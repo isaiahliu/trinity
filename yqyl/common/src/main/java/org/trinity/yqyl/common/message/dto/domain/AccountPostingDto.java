@@ -1,13 +1,11 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
-import java.util.Date;
-
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 
 public class AccountPostingDto extends AbstractBusinessDto {
     private Double amount;
     private AccountBalanceDto balance;
-    private Date timestamp;
+    private AccountTransactionDto transaction;
 
     public Double getAmount() {
         return amount;
@@ -17,8 +15,8 @@ public class AccountPostingDto extends AbstractBusinessDto {
         return balance;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public AccountTransactionDto getTransaction() {
+        return transaction;
     }
 
     public void setAmount(final Double amount) {
@@ -29,7 +27,7 @@ public class AccountPostingDto extends AbstractBusinessDto {
         this.balance = balance;
     }
 
-    public void setTimestamp(final Date timestamp) {
-        this.timestamp = timestamp;
+    public void setTransaction(final AccountTransactionDto transaction) {
+        this.transaction = transaction;
     }
 }

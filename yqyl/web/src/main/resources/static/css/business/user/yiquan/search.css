@@ -1,0 +1,16 @@
+div.search {
+	margin-left: 300px;
+}
+
+div.content table {
+	width: 850px;
+}
+
+div.content table td {
+	border: 1px solid;
+}
+
+div.content table td.key {
+	background-color: rgba(215, 215, 215, 1);
+	width: 150px;
+}

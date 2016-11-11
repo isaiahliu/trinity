@@ -36,6 +36,7 @@ public class AccountTransactionConverter extends AbstractLookupSupportObjectConv
         copyLookup(source::getStatus, target::getStatus, target::setStatus, RecordStatus.class, copyPolicy);
         copyObject(source::getCode, target::getCode, target::setCode, copyPolicy);
         copyLookup(source::getType, target::getType, target::setType, TransactionType.class, copyPolicy);
+        copyObject(source::getTimestamp, target::getTimestamp, target::setTimestamp, copyPolicy);
     }
 
     @Override
@@ -44,6 +45,7 @@ public class AccountTransactionConverter extends AbstractLookupSupportObjectConv
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyObject(source::getCode, target::getCode, target::setCode, copyPolicy);
         copyMessage(source::getType, target::getType, target::setType, copyPolicy);
+        copyObject(source::getTimestamp, target::getTimestamp, target::setTimestamp, copyPolicy);
     }
 
     @Override

@@ -44,6 +44,7 @@ public class AccountTransactionProcessController extends
 
         accountTransaction.setId(null);
         accountTransaction.setStatus(RecordStatus.ACTIVE);
+        accountTransaction.setTimestamp(new Date());
 
         getDomainEntityRepository().save(accountTransaction);
 
@@ -53,7 +54,6 @@ public class AccountTransactionProcessController extends
             accountPosting.setId(null);
             accountPosting.setStatus(AccountPostingStatus.ACTIVE);
             accountPosting.setAccountTransaction(accountTransaction);
-            accountPosting.setTimestamp(new Date());
 
             final AccountBalance accountBalance = accountBalanceRepository.findOne(accountPostingDto.getBalance().getId());
 

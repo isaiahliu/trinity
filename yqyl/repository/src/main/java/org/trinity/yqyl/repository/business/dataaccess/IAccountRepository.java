@@ -15,32 +15,34 @@ import org.trinity.yqyl.common.message.dto.domain.AccountSearchingDto;
 import org.trinity.yqyl.common.message.lookup.AccountStatus;
 import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.Account_;
+import org.trinity.yqyl.repository.business.entity.User_;
 
 public interface IAccountRepository extends IJpaRepository<Account, AccountSearchingDto> {
-	@Override
-	default Page<Account> query(final AccountSearchingDto searchingDto, final Pageable pagable) {
-		final Specification<Account> specification = (root, query, cb) -> {
-			final List<Predicate> predicates = new ArrayList<>();
-			if (!searchingDto.isSearchAll()) {
-			}
+    @Override
+    default Page<Account> query(final AccountSearchingDto searchingDto, final Pageable pagable) {
+        final Specification<Account> specification = (root, query, cb) -> {
+            final List<Predicate> predicates = new ArrayList<>();
+            if (!searchingDto.isSearchAll()) {
+                predicates.add(cb.equal(root.join(Account_.user).get(User_.username), searchingDto.getCurrentUsername()));
+            }
 
-			if (searchingDto.getId() != null) {
-				predicates.add(cb.equal(root.get(Account_.userId), searchingDto.getId()));
-			}
+            if (searchingDto.getId() != null) {
+                predicates.add(cb.equal(root.get(Account_.userId), searchingDto.getId()));
+            }
 
-			if (searchingDto.getStatus().isEmpty()) {
-				if (!searchingDto.isSearchAllStatus()) {
-					predicates.add(cb.equal(root.get(Account_.status), AccountStatus.ACTIVE));
-				}
-			} else {
-				final In<AccountStatus> in = cb.in(root.get(Account_.status));
-				searchingDto.getStatus().stream().map(item -> LookupParser.parse(AccountStatus.class, item))
-						.forEach(item -> in.value(item));
-				predicates.add(in);
-			}
+            if (searchingDto.getStatus().isEmpty()) {
+                if (!searchingDto.isSearchAllStatus()) {
+                    predicates.add(cb.equal(root.get(Account_.status), AccountStatus.ACTIVE));
+                }
+            } else {
+                final In<AccountStatus> in = cb.in(root.get(Account_.status));
+                searchingDto.getStatus().stream().map(item -> LookupParser.parse(AccountStatus.class, item))
+                        .forEach(item -> in.value(item));
+                predicates.add(in);
+            }
 
-			return cb.and(predicates.toArray(new Predicate[0]));
-		};
-		return findAll(specification, pagable);
-	}
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return findAll(specification, pagable);
+    }
 }

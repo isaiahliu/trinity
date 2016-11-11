@@ -9,14 +9,19 @@ import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.AccountPostingDto;
+import org.trinity.yqyl.common.message.dto.domain.AccountTransactionDto;
 import org.trinity.yqyl.common.message.lookup.AccountPostingStatus;
 import org.trinity.yqyl.repository.business.entity.AccountPosting;
+import org.trinity.yqyl.repository.business.entity.AccountTransaction;
 
 @Component
 public class AccountPostingConverter extends AbstractLookupSupportObjectConverter<AccountPosting, AccountPostingDto> {
     private static enum AccountPostingRelationship {
+        TRANSACTION,
         NA
     }
+
+    private IObjectConverter<AccountTransaction, AccountTransactionDto> accountTransactionConverter;
 
     @Autowired
     public AccountPostingConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -28,7 +33,6 @@ public class AccountPostingConverter extends AbstractLookupSupportObjectConverte
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, AccountPostingStatus.class, copyPolicy);
         copyObject(source::getAmount, target::getAmount, target::setAmount, copyPolicy);
-        copyObject(source::getTimestamp, target::getTimestamp, target::setTimestamp, copyPolicy);
     }
 
     @Override
@@ -36,13 +40,15 @@ public class AccountPostingConverter extends AbstractLookupSupportObjectConverte
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyObject(source::getAmount, target::getAmount, target::setAmount, copyPolicy);
-        copyObject(source::getTimestamp, target::getTimestamp, target::setTimestamp, copyPolicy);
     }
 
     @Override
     protected void convertRelationshipInternal(final AccountPosting source, final AccountPostingDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(AccountPostingRelationship.class)) {
+        case TRANSACTION:
+            copyRelationship(source::getAccountTransaction, target::setTransaction, accountTransactionConverter, relationshipExpression);
+            break;
         case NA:
         default:
             break;

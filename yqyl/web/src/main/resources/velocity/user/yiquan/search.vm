@@ -2,6 +2,38 @@
 
 <link rel="stylesheet" href="/static/css/business/user/yiquan/search.css"></link>
 
-<div class="search">search</div>
+<div class="search">
+	<div class="filter">
+		<input type="checkbox" ng-model="filter.enableFrom" /> <span>#label("DATE")</span> <input type="text" placeholder="YYYY/MM/DD"
+			ui-date="dateOptions" ng-model="filter.from" /> <input type="checkbox" ng-model="filter.enableTo" /> <span>#label("TO")</span> <input
+			type="text" placeholder="YYYY/MM/DD" ui-date="dateOptions" ng-model="filter.to" />
+		<button style="margin: 15px 0" ng-click="search()">#button("SEARCH")</button>
+	</div>
+	<table style="min-height: 100px;">
+		<thead>
+			<tr>
+				<td align="center">#label("TRANSACTION_ID")</td>
+				<td align="center">#label("TRANSACTION_TIME")</td>
+				<td align="center">#label("TRANSACTION_AMOUNT")</td>
+				<td align="center">#label("TRANSACTION_TYPE")</td>
+			</tr>
+		</thead>
+		<tbody class="ng-hide" ng-show="accountPostings">
+			<tr ng-repeat="accountPosting in accountPostings">
+				<td align="center">{{accountPosting.transaction.id}}</td>
+				<td align="center">{{accountPosting.transaction.timestamp|date:'yyyy/MM/dd HH:mm:ss'}}</td>
+				<td align="center">{{accountPosting.amount|currency:"￥"}}</td>
+				<td align="center">{{accountPosting.transaction.type.message}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div style="text-align: center;">
+		<div class="paging ng-hide" ng-show="pagingData">
+			<pagination total-items="pagingData.itemCount" ng-model="pagingData.pageIndex" max-size="10" items-per-page="pagingData.pageSize"
+				class="pagination-sm" boundary-links="true" ng-change="search()" first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
+				previous-text='#label("PREVIOUS_PAGE")' next-text='#label("NEXT_PAGE")'></pagination>
+		</div>
+	</div>
+</div>
 
 <script src="/static/js/business/user/yiquan/search.js"></script>
