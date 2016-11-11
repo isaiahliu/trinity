@@ -26,7 +26,6 @@ public class YiquanConverter extends AbstractLookupSupportObjectConverter<Yiquan
     @Override
     protected void convertBackInternal(final YiquanDto source, final Yiquan target, final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
-        copyObject(source::getAmount, target::getAmount, target::setAmount, copyPolicy);
         copyObject(source::getCellphone, target::getCellphone, target::setCellphone, copyPolicy);
         copyObject(source::getCode, target::getCode, target::setCode, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, RecordStatus.class, copyPolicy);
@@ -35,7 +34,6 @@ public class YiquanConverter extends AbstractLookupSupportObjectConverter<Yiquan
     @Override
     protected void convertInternal(final Yiquan source, final YiquanDto target, final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
-        copyObject(source::getAmount, target::getAmount, target::setAmount, copyPolicy);
         copyObject(source::getCellphone, target::getCellphone, target::setCellphone, copyPolicy);
         copyObject(source::getCode, target::getCode, target::setCode, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);

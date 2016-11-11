@@ -73,7 +73,7 @@ public class ServiceSupplierClientProcessController extends
     private IServiceSupplierClientAuditingProcessController serviceSupplierClientAuditingProcessController;
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void audit(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
         final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
                 .findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
@@ -135,7 +135,7 @@ public class ServiceSupplierClientProcessController extends
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public ServiceSupplierClientDto register() throws IException {
         final ServiceSupplierClientSearchingDto searchingDto = new ServiceSupplierClientSearchingDto();
         searchingDto.setRsexp("account");
@@ -228,7 +228,7 @@ public class ServiceSupplierClientProcessController extends
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void reject(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
         final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
                 .findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));

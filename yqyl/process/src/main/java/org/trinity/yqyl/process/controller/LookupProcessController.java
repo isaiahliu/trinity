@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.exception.IException;
 import org.trinity.message.ILookupMessage;
 import org.trinity.message.IMessageResolverChain;
 import org.trinity.message.LookupParser;
@@ -45,7 +46,7 @@ public class LookupProcessController implements ILookupProcessController {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void refresh() {
         final List<Lookup> newLookups = new ArrayList<>();
         for (final Class<?> registeredType : LookupParser.getRegisteredType()) {

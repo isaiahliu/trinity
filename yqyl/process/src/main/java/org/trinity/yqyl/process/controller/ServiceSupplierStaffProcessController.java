@@ -56,7 +56,7 @@ public class ServiceSupplierStaffProcessController extends
     private IServiceCategoryRepository serviceCategoryRepository;
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<ServiceSupplierStaffDto> addAll(final List<ServiceSupplierStaffDto> data) throws IException {
         for (final ServiceSupplierStaffDto dto : data) {
             final ServiceSupplierStaff entity = getDomainObjectConverter().convertBack(dto);
@@ -99,7 +99,7 @@ public class ServiceSupplierStaffProcessController extends
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<ServiceSupplierStaffDto> getAvailableStaffs(final ServiceSupplierStaffSearchingDto searchingData) throws IException {
         final String username = getSecurityUtil().getCurrentToken().getUsername();
         final Specification<ServiceSupplierStaff> unAvailableSpecification = (root, query, cb) -> {

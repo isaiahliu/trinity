@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.SystemAttributeDto;
 import org.trinity.yqyl.common.message.dto.domain.SystemAttributeSearchingDto;
@@ -23,7 +24,7 @@ public class SystemAttributeProcessController extends
         implements ISystemAttributeProcessController {
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void refreshAll() throws IException {
         final Iterable<SystemAttribute> allAttributes = getDomainEntityRepository().findAll();
 

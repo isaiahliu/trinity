@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ContentDto;
 import org.trinity.yqyl.common.message.dto.domain.ContentSearchingDto;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
@@ -22,7 +24,7 @@ public class ContentProcessController
         implements IContentProcessController {
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<ContentDto> addUpdateAll(final List<ContentDto> data) {
         final List<Content> items = new ArrayList<>();
 

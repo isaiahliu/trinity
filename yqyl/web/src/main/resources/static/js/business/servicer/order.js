@@ -33,7 +33,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 	};
 
 	$scope.searchOrders = function() {
-		var ajaxUrl = "/ajax/user/order?searchScope=supplier&rsexp=serviceInfo[serviceCategory]";
+		var ajaxUrl = "/ajax/user/order?searchScope=supplier&rsexp=serviceInfo[serviceCategory],transaction";
 
 		ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
@@ -145,7 +145,9 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			data : {
 				data : [ {
 					id : order.id,
-					transactionCode : order.inputTxCode
+					transaction : {
+						code : order.inputTxCode
+					}
 				} ]
 			}
 		}).success(function(response) {

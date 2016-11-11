@@ -65,7 +65,7 @@ public class ServiceInfoProcessController
     private IContentRepository contentRepository;
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<ServiceInfoDto> addAll(final List<ServiceInfoDto> data) throws IException {
         for (final ServiceInfoDto dto : data) {
             final ServiceInfo entity = getDomainObjectConverter().convertBack(dto);
@@ -103,7 +103,7 @@ public class ServiceInfoProcessController
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void delete(final Long id) throws IException {
         final ServiceInfo serviceInfo = getDomainEntityRepository().findOne(id);
 
@@ -119,7 +119,7 @@ public class ServiceInfoProcessController
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<ServiceInfoDto> getMe(final ServiceInfoSearchingDto dto) throws IException {
         final String username = getSecurityUtil().getCurrentToken().getUsername();
         final Specification<ServiceInfo> specification = (root, query, cb) -> {

@@ -34,7 +34,7 @@ public class UserRealnameProcessController
     private IContentRepository contentRepository;
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<UserRealnameDto> getMe(final UserRealnameSearchingDto dto) throws IException {
         final String username = getSecurityUtil().getCurrentToken().getUsername();
         final User user = userRepository.findOneByUsername(username);

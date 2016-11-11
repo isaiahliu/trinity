@@ -208,7 +208,7 @@ public class ServiceOrderProcessController
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
         final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
 
@@ -244,7 +244,7 @@ public class ServiceOrderProcessController
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<ServiceOrderDto> rejectCancelOrder(final List<ServiceOrderDto> data) throws IException {
         final List<ServiceOrder> entities = data.stream().map(item -> {
             final ServiceOrder entity = getDomainEntityRepository().findOne(item.getId());
@@ -293,7 +293,7 @@ public class ServiceOrderProcessController
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void releaseOrder(final List<ServiceOrderDto> data) throws IException {
         for (final ServiceOrderDto serviceOrderDto : data) {
             final ServiceOrder serviceOrder = getDomainEntityRepository().findOne(serviceOrderDto.getId());
@@ -317,7 +317,7 @@ public class ServiceOrderProcessController
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<ServiceOrderDto> sendTxCode(final List<ServiceOrderDto> data) throws IException {
         final List<ServiceOrder> entities = new ArrayList<>();
         for (final ServiceOrderDto item : data) {
@@ -400,7 +400,7 @@ public class ServiceOrderProcessController
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public String uploadReceipt(final ServiceOrderDto serviceOrderDto) throws IException {
         final ServiceOrder order = getDomainEntityRepository().findOne(serviceOrderDto.getId());
         if (order == null) {

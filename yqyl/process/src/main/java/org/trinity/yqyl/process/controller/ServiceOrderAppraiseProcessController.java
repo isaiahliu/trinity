@@ -37,7 +37,7 @@ public class ServiceOrderAppraiseProcessController extends
 	private IServiceOrderOperationRepository serviceOrderOperationRepository;
 
 	@Override
-	@Transactional
+	@Transactional(rollbackOn = IException.class)
 	public List<ServiceOrderAppraiseDto> addAll(final List<ServiceOrderAppraiseDto> data) throws IException {
 		for (final ServiceOrderAppraiseDto dto : data) {
 			final ServiceOrder serviceOrder = serviceOrderRepository.findOne(dto.getId());

@@ -28,7 +28,7 @@ public class ServiceReceiverClientProcessController extends
     private IUserRepository userRepository;
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void audit(final Long id) throws IException {
         final ServiceReceiverClient client = getDomainEntityRepository().findOne(id);
         if (client == null) {
@@ -57,7 +57,7 @@ public class ServiceReceiverClientProcessController extends
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<ServiceReceiverClientDto> getMe(final ServiceReceiverClientSearchingDto dto) throws IException {
         final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
 

@@ -36,7 +36,7 @@ public class AccountTransactionProcessController extends
     private IObjectConverter<AccountPosting, AccountPostingDto> accountPostingConverter;
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public AccountTransactionDto processTransaction(final AccountTransactionDto transactionDto) throws IException {
         final AccountTransaction accountTransaction = getDomainObjectConverter().convertBack(transactionDto);
 
@@ -52,7 +52,7 @@ public class AccountTransactionProcessController extends
             accountPosting.setStatus(AccountPostingStatus.ACTIVE);
             accountPosting.setAccountTransaction(accountTransaction);
 
-            final AccountBalance accountBalance = accountBalanceRepository.findOne(accountPosting.getAccountBalance().getId());
+            final AccountBalance accountBalance = accountBalanceRepository.findOne(accountPostingDto.getBalance().getId());
 
             final double balance = accountBalance.getAmount() + accountPosting.getAmount();
 

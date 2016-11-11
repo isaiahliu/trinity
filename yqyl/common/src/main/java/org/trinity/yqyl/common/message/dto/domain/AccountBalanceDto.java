@@ -1,5 +1,6 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
@@ -13,6 +14,9 @@ public class AccountBalanceDto extends AbstractBusinessDto {
     private List<AccountPostingDto> accountPostings;
 
     public List<AccountPostingDto> getAccountPostings() {
+        if (accountPostings == null) {
+            accountPostings = new ArrayList<>();
+        }
         return accountPostings;
     }
 

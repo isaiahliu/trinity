@@ -29,8 +29,6 @@ public class Yiquan extends AbstractAuditableEntity implements Serializable {
     @TableGenerator(name = "Yiquan_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Yiquan_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
     private Long id;
 
-    private double amount;
-
     private String cellphone;
 
     private String code;
@@ -49,10 +47,6 @@ public class Yiquan extends AbstractAuditableEntity implements Serializable {
         user.setYiquan(this);
 
         return user;
-    }
-
-    public double getAmount() {
-        return this.amount;
     }
 
     public String getCellphone() {
@@ -80,10 +74,6 @@ public class Yiquan extends AbstractAuditableEntity implements Serializable {
         user.setYiquan(null);
 
         return user;
-    }
-
-    public void setAmount(final double amount) {
-        this.amount = amount;
     }
 
     public void setCellphone(final String cellphone) {

@@ -122,7 +122,7 @@ public class TokenProcessController implements ITokenProcessController {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackOn = IException.class)
 	public TokenDto refreshToken(final String identity, final String originalToken) {
 		Token token = tokenRepository.findOneByDeviceIdentity(identity);
 
@@ -145,7 +145,7 @@ public class TokenProcessController implements ITokenProcessController {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackOn = IException.class)
 	public void updateAccessTime(final String token) throws IException {
 		tokenRepository.updateLastActiveTimestampByToken(token, new Date());
 	}

@@ -24,7 +24,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     private AbstractCrudProcessController<TEntity, TDto, TSearchingDto> selfProxy = this;
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public List<TDto> addAll(final List<TDto> data) throws IException {
         for (final TDto dto : data) {
             final TEntity entity = getDomainObjectConverter().convertBack(dto);
@@ -44,7 +44,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void delete(final Long id) throws IException {
 
         final TEntity entity = getDomainEntityRepository().findOne(id);
@@ -62,7 +62,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public Page<TDto> getAll(final TSearchingDto data) throws IException {
         prepareSearch(data);
 
@@ -78,7 +78,7 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public void updateAll(final List<TDto> data) throws IException {
         final List<TEntity> entities = new ArrayList<>();
         for (final TDto dto : data.stream().filter(item -> item.getId() != null && item.getId() != 0).collect(Collectors.toList())) {

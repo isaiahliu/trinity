@@ -61,13 +61,13 @@
 				<td align="center"><div class="ng-hide"
 						ng-show="order.status.code=='A'||order.status.code=='I'||order.status.code=='P'||order.status.code=='S'">
 						<div class="ng-hide"
-							ng-show="!order.transactionCode&&order.status.code=='I'">
+							ng-show="!order.transaction.code&&order.status.code=='I'">
 							<button ng-hide="order.txCodeInputing"
 								ng-click="$parent.txCodeInput(order)">#button("INPUT")</button>
 						</div>
 						<div class="ng-hide"
-							ng-show="order.transactionCode&&(order.status.code=='P'||order.status.code=='S')">
-							<span>{{order.transactionCode}}</span>
+							ng-show="order.transaction.code&&(order.status.code=='P'||order.status.code=='S')">
+							<span>{{order.transaction.code}}</span>
 						</div>
 					</div></td>
 				<td align="center"><span>{{order.status.message}}</span></td>

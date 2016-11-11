@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.trinity.common.exception.IException;
 import org.trinity.rest.security.AbstractPreAuthenticationFilter;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 
@@ -23,7 +24,7 @@ public class UserService implements UserDetailsService {
     private IUserRepository userRepository;
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = IException.class)
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         if (StringUtils.isEmpty(username)) {
             return null;
