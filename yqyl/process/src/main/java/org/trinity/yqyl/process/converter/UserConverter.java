@@ -11,16 +11,22 @@ import org.trinity.common.util.Tuple2;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.AccountDto;
 import org.trinity.yqyl.common.message.dto.domain.UserDto;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
+import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.User;
 
 @Component
 public class UserConverter extends AbstractLookupSupportObjectConverter<User, UserDto> {
     private static enum UserRelationship {
         TOKEN,
+        ACCOUNT,
         NA
     }
+
+    @Autowired
+    private IObjectConverter<Account, AccountDto> accountConverter;
 
     @Autowired
     public UserConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -60,6 +66,9 @@ public class UserConverter extends AbstractLookupSupportObjectConverter<User, Us
             if (date.isPresent()) {
                 target.setLastAccessDate(date.get());
             }
+            break;
+        case ACCOUNT:
+            copyRelationship(source::getAccount, target::setAccount, accountConverter, relationshipExpression);
             break;
         case NA:
         default:

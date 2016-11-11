@@ -37,7 +37,6 @@ import org.trinity.yqyl.common.message.lookup.Bank;
 import org.trinity.yqyl.common.message.lookup.ClientType;
 import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.CredentialType;
-import org.trinity.yqyl.common.message.lookup.Direction;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.FavoriteCategory;
 import org.trinity.yqyl.common.message.lookup.FlagStatus;
@@ -71,7 +70,7 @@ public class CommonConfiguration {
     static {
         LookupParser.addEnumLookups(AuditingType.class, RecordStatus.class, Gender.class, AccountBalanceStatus.class,
                 AccountPostingStatus.class, AccountStatus.class, AnnouncementStatus.class, OperatorClientStatus.class, ClientType.class,
-                Direction.class, Language.class, MessageStatus.class, OrderStatus.class, CompanyType.class, ServiceStatus.class,
+                Language.class, MessageStatus.class, OrderStatus.class, CompanyType.class, ServiceStatus.class,
                 ServiceSupplierClientStatus.class, ServiceReceiverClientStatus.class, AccountCategory.class, LookupType.class,
                 SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class, FavoriteCategory.class, AccessRight.class,
                 FamilyRelationship.class, FrequencyStatus.class, FlagStatus.class, SmokerAge.class, CredentialType.class,

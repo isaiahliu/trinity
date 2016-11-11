@@ -21,7 +21,7 @@ public class ServiceOrderDto extends AbstractBusinessDto {
     private String receipt;
     private LookupDto paymentMethod;
     private LookupDto paymentType;
-    private String transactionCode;
+    private AccountTransactionDto transaction;
 
     private Double expectedPaymentAmount;
 
@@ -115,8 +115,8 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return staff;
     }
 
-    public String getTransactionCode() {
-        return transactionCode;
+    public AccountTransactionDto getTransaction() {
+        return transaction;
     }
 
     public String getUsername() {
@@ -198,8 +198,8 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.staff = staff;
     }
 
-    public void setTransactionCode(final String transactionCode) {
-        this.transactionCode = transactionCode;
+    public void setTransaction(final AccountTransactionDto transaction) {
+        this.transaction = transaction;
     }
 
     public void setUsername(final String username) {

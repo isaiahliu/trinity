@@ -17,75 +17,75 @@ import org.trinity.yqyl.common.message.lookup.AccountStatus;
 
 /**
  * The persistent class for the account database table.
- * 
+ *
  */
 @Entity
 @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
 public class Account extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "user_id")
-	private Long userId;
+    @Id
+    @Column(name = "user_id")
+    private Long userId;
 
-	private AccountStatus status;
+    private AccountStatus status;
 
-	// bi-directional one-to-one association to User
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+    // bi-directional one-to-one association to User
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	// bi-directional many-to-one association to AccountBalance
-	@OneToMany(mappedBy = "account")
-	private List<AccountBalance> accountBalances;
+    // bi-directional many-to-one association to AccountBalance
+    @OneToMany(mappedBy = "account")
+    private List<AccountBalance> balances;
 
-	public Account() {
-	}
+    public Account() {
+    }
 
-	public AccountBalance addAccountBalance(final AccountBalance accountBalance) {
-		getAccountBalances().add(accountBalance);
-		accountBalance.setAccount(this);
+    public AccountBalance addBalance(final AccountBalance balance) {
+        getBalances().add(balance);
+        balance.setAccount(this);
 
-		return accountBalance;
-	}
+        return balance;
+    }
 
-	public List<AccountBalance> getAccountBalances() {
-		return this.accountBalances;
-	}
+    public List<AccountBalance> getBalances() {
+        return this.balances;
+    }
 
-	public AccountStatus getStatus() {
-		return this.status;
-	}
+    public AccountStatus getStatus() {
+        return this.status;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public Long getUserId() {
-		return this.userId;
-	}
+    public Long getUserId() {
+        return this.userId;
+    }
 
-	public AccountBalance removeAccountBalance(final AccountBalance accountBalance) {
-		getAccountBalances().remove(accountBalance);
-		accountBalance.setAccount(null);
+    public AccountBalance removeBalance(final AccountBalance balance) {
+        getBalances().remove(balance);
+        balance.setAccount(null);
 
-		return accountBalance;
-	}
+        return balance;
+    }
 
-	public void setAccountBalances(final List<AccountBalance> accountBalances) {
-		this.accountBalances = accountBalances;
-	}
+    public void setBalances(final List<AccountBalance> balances) {
+        this.balances = balances;
+    }
 
-	public void setStatus(final AccountStatus status) {
-		this.status = status;
-	}
+    public void setStatus(final AccountStatus status) {
+        this.status = status;
+    }
 
-	public void setUser(final User user) {
-		this.user = user;
-	}
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
-	public void setUserId(final Long userId) {
-		this.userId = userId;
-	}
+    public void setUserId(final Long userId) {
+        this.userId = userId;
+    }
 
 }

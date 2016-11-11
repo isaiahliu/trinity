@@ -26,13 +26,18 @@ public class UserDto extends AbstractBusinessDto {
     private String yiquanCode;
 
     @Null(groups = { AddData.class, UpdateData.class })
-
     private Date lastAccessDate;
 
     private List<LookupDto> accessrights;
 
+    private AccountDto account;
+
     public List<LookupDto> getAccessrights() {
         return accessrights;
+    }
+
+    public AccountDto getAccount() {
+        return account;
     }
 
     public String getCellphone() {
@@ -61,6 +66,10 @@ public class UserDto extends AbstractBusinessDto {
 
     public void setAccessrights(final List<LookupDto> accessrights) {
         this.accessrights = accessrights;
+    }
+
+    public void setAccount(final AccountDto account) {
+        this.account = account;
     }
 
     public void setCellphone(final String cellphone) {

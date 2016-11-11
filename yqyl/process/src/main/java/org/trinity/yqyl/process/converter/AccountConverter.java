@@ -8,47 +8,59 @@ import org.trinity.common.util.Tuple2;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.AccountBalanceDto;
 import org.trinity.yqyl.common.message.dto.domain.AccountDto;
+import org.trinity.yqyl.common.message.lookup.AccountStatus;
 import org.trinity.yqyl.repository.business.entity.Account;
+import org.trinity.yqyl.repository.business.entity.AccountBalance;
 
 @Component
 public class AccountConverter extends AbstractLookupSupportObjectConverter<Account, AccountDto> {
-	private static enum AccountRelationship {
-		NA
-	}
+    private static enum AccountRelationship {
+        BALANCES,
+        NA
+    }
 
-	@Autowired
-	public AccountConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
-		super(lookupConverter);
-	}
+    @Autowired
+    private IObjectConverter<AccountBalance, AccountBalanceDto> accountBalanceConverter;
 
-	@Override
-	protected void convertBackInternal(final AccountDto source, final Account target, final CopyPolicy copyPolicy) {
-		copyObject(source::getId, target::getUserId, target::setUserId, copyPolicy);
-	}
+    @Autowired
+    public AccountConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
+        super(lookupConverter);
+    }
 
-	@Override
-	protected void convertInternal(final Account source, final AccountDto target, final CopyPolicy copyPolicy) {
-		copyObject(source::getUserId, target::getId, target::setId, copyPolicy);
-	}
+    @Override
+    protected void convertBackInternal(final AccountDto source, final Account target, final CopyPolicy copyPolicy) {
+        copyObject(source::getId, target::getUserId, target::setUserId, copyPolicy);
+        copyLookup(source::getStatus, target::getStatus, target::setStatus, AccountStatus.class, copyPolicy);
+    }
 
-	@Override
-	protected void convertRelationshipInternal(final Account source, final AccountDto target,
-			final RelationshipExpression relationshipExpression) {
-		switch (relationshipExpression.getName(AccountRelationship.class)) {
-			case NA:
-			default:
-				break;
-		}
-	}
+    @Override
+    protected void convertInternal(final Account source, final AccountDto target, final CopyPolicy copyPolicy) {
+        copyObject(source::getUserId, target::getId, target::setId, copyPolicy);
+        copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
+    }
 
-	@Override
-	protected Account createFromInstance() {
-		return new Account();
-	}
+    @Override
+    protected void convertRelationshipInternal(final Account source, final AccountDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(AccountRelationship.class)) {
+        case BALANCES:
+            copyRelationshipList(source::getBalances, target::setBalances, accountBalanceConverter, relationshipExpression);
+            break;
+        case NA:
+        default:
+            break;
+        }
+    }
 
-	@Override
-	protected AccountDto createToInstance() {
-		return new AccountDto();
-	}
+    @Override
+    protected Account createFromInstance() {
+        return new Account();
+    }
+
+    @Override
+    protected AccountDto createToInstance() {
+        return new AccountDto();
+    }
 }

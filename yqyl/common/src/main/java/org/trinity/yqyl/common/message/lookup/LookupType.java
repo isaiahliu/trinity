@@ -8,7 +8,6 @@ import org.trinity.message.IMessageType;
 public enum LookupType implements ILookupType, ILookupMessage<LookupType> {
     NA("NA"),
     LOOKUP("LOOKUP"),
-    DIRECTION("DIRECT"),
     ACCOUNT_STATUS("ACSTAT"),
     FAVORITE_CATEGORY("FVCATE"),
     ACCOUNT_POSTING_STATUS("APSTAT"),
