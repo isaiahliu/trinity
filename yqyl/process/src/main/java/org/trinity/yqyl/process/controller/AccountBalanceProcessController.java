@@ -9,8 +9,7 @@ import org.trinity.yqyl.repository.business.dataaccess.IAccountBalanceRepository
 import org.trinity.yqyl.repository.business.entity.AccountBalance;
 
 @Service
-public class AccountBalanceProcessController
-      extends AbstractAutowiredCrudProcessController<AccountBalance, AccountBalanceDto, AccountBalanceSearchingDto, IAccountBalanceRepository>
-      implements IAccountBalanceProcessController {
+public class AccountBalanceProcessController extends
+        AbstractAutowiredCrudProcessController<AccountBalance, AccountBalanceDto, AccountBalanceSearchingDto, IAccountBalanceRepository>
+        implements IAccountBalanceProcessController {
 }
-

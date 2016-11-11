@@ -1,5 +1,6 @@
 package org.trinity.yqyl.process.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -11,21 +12,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.trinity.common.accessright.ISecurityUtil.CheckMode;
+import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.exception.IException;
 import org.trinity.message.exception.GeneralErrorMessage;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.AccountBalanceDto;
+import org.trinity.yqyl.common.message.dto.domain.AccountPostingDto;
+import org.trinity.yqyl.common.message.dto.domain.AccountTransactionDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderOperationDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderSearchingDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
+import org.trinity.yqyl.common.message.lookup.AccountCategory;
 import org.trinity.yqyl.common.message.lookup.OrderOperation;
 import org.trinity.yqyl.common.message.lookup.OrderStatus;
 import org.trinity.yqyl.common.message.lookup.PaymentMethod;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
+import org.trinity.yqyl.common.message.lookup.TransactionType;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
+import org.trinity.yqyl.process.controller.base.IAccountTransactionProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceOrderProcessController;
+import org.trinity.yqyl.repository.business.dataaccess.IAccountTransactionRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IContentRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderOperationRepository;
@@ -33,6 +42,7 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRequirementRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.AccountBalance;
 import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
@@ -56,6 +66,12 @@ public class ServiceOrderProcessController
 
     @Autowired
     private IContentRepository contentRepository;
+
+    @Autowired
+    private IAccountTransactionProcessController accountTransactionProcessController;
+
+    @Autowired
+    private IAccountTransactionRepository accountTransactionRepository;
 
     @Autowired
     private IServiceOrderRequirementRepository serviceOrderRequirementRepository;
@@ -303,21 +319,62 @@ public class ServiceOrderProcessController
     @Override
     @Transactional
     public List<ServiceOrderDto> sendTxCode(final List<ServiceOrderDto> data) throws IException {
-        final List<ServiceOrder> entities = data.stream().map(item -> {
+        final List<ServiceOrder> entities = new ArrayList<>();
+        for (final ServiceOrderDto item : data) {
+
             final ServiceOrder entity = getDomainEntityRepository().findOne(item.getId());
 
             if (entity.getStatus() != OrderStatus.IN_PROGRESS) {
-                if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
-                    return entity;
-                }
+                getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
             } else {
                 entity.setStatus(OrderStatus.AWAITING_APPRAISE);
             }
 
             // TODO Pick up tx amount by txCode from POS API.
+            // TODO Pick up from yiquan code from POS API.
+            // TODO Pick up to yiquan code from POS API
             // final PaymentMethod paymentMethod = item.getPaymentMethod();
             // final String txCode = item.getTransactionCode();
             final double amount = 20d;
+            final String fromYiquanCode = "abc";
+            final String toYiquanCode = "cba";
+
+            final User fromUser = userRepository.findOneByYiquanCode(fromYiquanCode);
+            if (fromUser == null) {
+                throw getExceptionFactory().createException(ErrorMessage.NO_USER_BINDING_TO_YIQUAN_CODE, fromYiquanCode);
+            }
+            final AccountBalance fromBalance = fromUser.getAccount().getBalances().stream()
+                    .filter(balance -> balance.getCategory() == AccountCategory.YIQUAN).findAny().get();
+
+            final User toUser = userRepository.findOneByYiquanCode(toYiquanCode);
+
+            if (toUser == null) {
+                throw getExceptionFactory().createException(ErrorMessage.NO_USER_BINDING_TO_YIQUAN_CODE, toYiquanCode);
+            }
+            final AccountBalance toBalance = toUser.getAccount().getBalances().stream()
+                    .filter(balance -> balance.getCategory() == AccountCategory.YIQUAN).findAny().get();
+
+            AccountTransactionDto transaction = new AccountTransactionDto();
+            transaction.setCode(item.getTransaction().getCode());
+            transaction.setType(new LookupDto(TransactionType.ORDER_PAYMENT));
+
+            AccountPostingDto accountPosting = new AccountPostingDto();
+            AccountBalanceDto balance = new AccountBalanceDto();
+            balance.setId(fromBalance.getId());
+            accountPosting.setBalance(balance);
+            accountPosting.setAmount(0 - amount);
+            transaction.getAccountPostings().add(accountPosting);
+
+            accountPosting = new AccountPostingDto();
+            balance = new AccountBalanceDto();
+            balance.setId(toBalance.getId());
+            accountPosting.setBalance(balance);
+            accountPosting.setAmount(amount);
+            transaction.getAccountPostings().add(accountPosting);
+
+            transaction = accountTransactionProcessController.processTransaction(transaction);
+
+            entity.setAccountTransaction(accountTransactionRepository.findOne(transaction.getId()));
 
             entity.setExpectedPaymentAmount(amount);
             entity.setActualPaymentAmount(amount);
@@ -336,8 +393,8 @@ public class ServiceOrderProcessController
 
             serviceOrderOperationRepository.save(serviceOrderOperation);
 
-            return entity;
-        }).collect(Collectors.toList());
+            entities.add(entity);
+        }
 
         return getDomainObjectConverter().convert(getDomainEntityRepository().save(entities));
     }

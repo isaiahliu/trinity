@@ -3,9 +3,10 @@ package org.trinity.yqyl.common.message.lookup;
 import org.trinity.message.ILookupMessage;
 
 public enum TransactionType implements ILookupMessage<LookupType> {
-    POS("P"),
-    ONLINE("O"),
-    CASH("C");
+    ORDER_PAYMENT("ORDER"),
+    TOP_UP("TOPUP"),
+    CLAIM("CLAIM"),
+    BIND("BIND");
 
     private final String messageCode;
 

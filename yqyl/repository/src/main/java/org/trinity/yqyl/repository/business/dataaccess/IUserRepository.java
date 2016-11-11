@@ -20,6 +20,8 @@ import org.trinity.yqyl.repository.business.entity.User_;
 public interface IUserRepository extends IJpaRepository<User, UserSearchingDto> {
     User findOneByUsername(String username);
 
+    User findOneByYiquanCode(String yiquanCode);
+
     @Override
     default Page<User> query(final UserSearchingDto searchingDto, final Pageable pagable) {
         final Specification<User> specification = (root, query, cb) -> {

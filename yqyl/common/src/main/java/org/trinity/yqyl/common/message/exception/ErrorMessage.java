@@ -20,7 +20,9 @@ public enum ErrorMessage implements IErrorMessage {
     INVALID_ORDER_ID,
     INCORRECT_SERVICE_ORDER_STATUS,
     INSUFFICIENT_ACCESSRIGHT,
-    UNABLE_TO_FIND_USER;
+    UNABLE_TO_FIND_USER,
+    NO_USER_BINDING_TO_YIQUAN_CODE,
+    INSUFFICIENT_BALANCE;
 
     @Override
     public String getMessageCode() {
