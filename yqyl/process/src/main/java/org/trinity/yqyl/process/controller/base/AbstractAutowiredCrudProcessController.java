@@ -54,6 +54,11 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
     }
 
     @Override
+    protected boolean canAccessScopeAll() {
+        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
+    }
+
+    @Override
     protected Pageable createPageable(final TSearchingDto data) {
         return getPagingConverter().convert(data);
     }

@@ -28,6 +28,7 @@ public class AccountPostingConverter extends AbstractLookupSupportObjectConverte
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, AccountPostingStatus.class, copyPolicy);
         copyObject(source::getAmount, target::getAmount, target::setAmount, copyPolicy);
+        copyObject(source::getTimestamp, target::getTimestamp, target::setTimestamp, copyPolicy);
     }
 
     @Override
@@ -35,6 +36,7 @@ public class AccountPostingConverter extends AbstractLookupSupportObjectConverte
         copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
         copyObject(source::getAmount, target::getAmount, target::setAmount, copyPolicy);
+        copyObject(source::getTimestamp, target::getTimestamp, target::setTimestamp, copyPolicy);
     }
 
     @Override

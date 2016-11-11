@@ -6,6 +6,7 @@ import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.ISearchingDto;
 import org.trinity.common.dto.request.AbstractDataRequest;
 import org.trinity.common.dto.response.AbstractResponse;
+import org.trinity.common.exception.factory.IExceptionFactory;
 import org.trinity.process.controller.ICrudProcessController;
 import org.trinity.rest.controller.AbstractCrudRestController;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
@@ -25,14 +26,21 @@ public abstract class AbstractApplicationAwareCrudRestController<TDto extends Ab
     private TProcessController domainProcessController;
 
     @Autowired
-    private ISecurityUtil<AccessRight> securityUtil;
+    private IExceptionFactory exceptionFactory;
 
-    public ISecurityUtil<AccessRight> getSecurityUtil() {
-        return securityUtil;
-    }
+    @Autowired
+    private ISecurityUtil<AccessRight> securityUtil;
 
     @Override
     protected TProcessController getDomainProcessController() {
         return domainProcessController;
+    }
+
+    protected IExceptionFactory getExceptionFactory() {
+        return exceptionFactory;
+    }
+
+    protected ISecurityUtil<AccessRight> getSecurityUtil() {
+        return securityUtil;
     }
 }

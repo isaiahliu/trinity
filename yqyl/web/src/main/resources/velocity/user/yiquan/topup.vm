@@ -2,20 +2,23 @@
 
 <link rel="stylesheet" href="/static/css/business/user/yiquan/topup.css"></link>
 
-<div class="topup">
+<div class="topup ng-hide" ng-show="yiquan" ng-if="yiquan">
 	<table>
 		<tr>
 			<td>#label("YIQUAN_NO")</td>
-			<td><input /></td>
+			<td><span>{{yiquan.code}}</span></td>
+		</tr>
+		<tr>
+			<td>#label("YIQUAN_BALANCE")</td>
+			<td><span>{{yiquan.balance.amount}}</span></td>
 		</tr>
 		<tr>
 			<td>#label("TOPUP_AMOUNT")</td>
-			<td><input /></td>
+			<td><input ng-model="yiquan.topUpAmount"/></td>
 		</tr>
 		<tr>
 			<td>#label("PAYMENT_METHOD")</td>
-			<td><input type="radio" name="paymentMethod" /><span>#label("BANK")</span>
-				<input type="radio" name="paymentMethod" /><span>#label("ALIPAY")</span>
+			<td><input type="radio" name="paymentMethod" /><span>#label("BANK")</span> <input type="radio" name="paymentMethod" /><span>#label("ALIPAY")</span>
 				<input type="radio" name="paymentMethod" /><span>#label("WECHAT")</span></td>
 		</tr>
 		<tr>

@@ -22,7 +22,10 @@ public enum ErrorMessage implements IErrorMessage {
     INSUFFICIENT_ACCESSRIGHT,
     UNABLE_TO_FIND_USER,
     NO_USER_BINDING_TO_YIQUAN_CODE,
-    INSUFFICIENT_BALANCE;
+    INSUFFICIENT_BALANCE,
+    BENEFICIARY_SUPPLIER_MISMATCH,
+    NO_YIQUAN_BINDED,
+    TOPUP_AMOUNT_MUST_BE_POSITIVE;
 
     @Override
     public String getMessageCode() {

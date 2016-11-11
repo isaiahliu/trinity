@@ -17,7 +17,7 @@ import org.trinity.yqyl.repository.business.entity.AccountBalance;
 @Component
 public class AccountConverter extends AbstractLookupSupportObjectConverter<Account, AccountDto> {
     private static enum AccountRelationship {
-        BALANCES,
+        BALANCE,
         NA
     }
 
@@ -45,7 +45,7 @@ public class AccountConverter extends AbstractLookupSupportObjectConverter<Accou
     protected void convertRelationshipInternal(final Account source, final AccountDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(AccountRelationship.class)) {
-        case BALANCES:
+        case BALANCE:
             copyRelationshipList(source::getBalances, target::setBalances, accountBalanceConverter, relationshipExpression);
             break;
         case NA:

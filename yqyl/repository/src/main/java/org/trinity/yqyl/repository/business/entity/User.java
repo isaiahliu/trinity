@@ -89,8 +89,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
     @JoinColumn(name = "yiquan_code", referencedColumnName = "code")
     private Yiquan yiquan;
 
-    @Column(name = "yiquan_code", insertable = false, updatable = false)
-    private String yiquanCode;
+    // @Column(name = "yiquan_code", insertable = false, updatable = false, unique = true, nullable = true)
+    // private String yiquanCode;
 
     // bi-directional many-to-one association to ServiceOrderRequirement
     @OneToMany(mappedBy = "user")
@@ -202,9 +202,9 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.yiquan;
     }
 
-    public String getYiquanCode() {
-        return yiquanCode;
-    }
+    // public String getYiquanCode() {
+    // return yiquanCode;
+    // }
 
     public AllowanceSupplierClient removeAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
         getAllowanceSupplierClients().remove(allowanceSupplierClient);
@@ -309,8 +309,8 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.yiquan = yiquan;
     }
 
-    public void setYiquanCode(final String yiquanCode) {
-        this.yiquanCode = yiquanCode;
-    }
+    // public void setYiquanCode(final String yiquanCode) {
+    // this.yiquanCode = yiquanCode;
+    // }
 
 }

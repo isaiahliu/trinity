@@ -13,6 +13,7 @@ import org.trinity.message.LookupParser;
 import org.trinity.repository.repository.IJpaRepository;
 import org.trinity.yqyl.common.message.dto.domain.YiquanSearchingDto;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.repository.business.entity.User_;
 import org.trinity.yqyl.repository.business.entity.Yiquan;
 import org.trinity.yqyl.repository.business.entity.Yiquan_;
 
@@ -24,6 +25,7 @@ public interface IYiquanRepository extends IJpaRepository<Yiquan, YiquanSearchin
         final Specification<Yiquan> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
             if (!searchingDto.isSearchAll()) {
+                predicates.add(cb.equal(root.join(Yiquan_.users).get(User_.username), searchingDto.getCurrentUsername()));
             }
 
             if (searchingDto.getId() != null) {

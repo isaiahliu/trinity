@@ -14,6 +14,7 @@ import org.trinity.yqyl.common.message.dto.domain.YiquanDto;
 import org.trinity.yqyl.common.message.dto.domain.YiquanSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.YiquanRequest;
 import org.trinity.yqyl.common.message.dto.response.YiquanResponse;
+import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.process.controller.base.IYiquanProcessController;
 
 @RestController
@@ -28,11 +29,22 @@ public class YiquanRestController extends
         return createResponseEntity(new DefaultResponse());
     }
 
+    @RequestMapping(value = "/topup", method = RequestMethod.POST)
+    public ResponseEntity<DefaultResponse> ajaxTopupMe(@RequestBody final YiquanRequest request) throws IException {
+        getDomainProcessController().topupMe(request.getData().get(0));
+
+        return createResponseEntity(new DefaultResponse());
+    }
+
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<YiquanResponse> getMe(final YiquanSearchingDto request) throws IException {
         final YiquanResponse response = createResponseInstance();
 
-        final List<YiquanDto> data = getDomainProcessController().getMe(request);
+        final List<YiquanDto> data = getDomainProcessController().getAll(request).getContent();
+
+        if (data.isEmpty()) {
+            throw getExceptionFactory().createException(ErrorMessage.NO_YIQUAN_BINDED);
+        }
 
         response.addData(data);
 

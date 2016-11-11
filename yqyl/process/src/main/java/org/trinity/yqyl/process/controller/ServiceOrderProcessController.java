@@ -336,8 +336,8 @@ public class ServiceOrderProcessController
             // final PaymentMethod paymentMethod = item.getPaymentMethod();
             // final String txCode = item.getTransactionCode();
             final double amount = 20d;
-            final String fromYiquanCode = "abc";
-            final String toYiquanCode = "cba";
+            final String fromYiquanCode = "YQ001";
+            final String toYiquanCode = "YQ999";
 
             final User fromUser = userRepository.findOneByYiquanCode(fromYiquanCode);
             if (fromUser == null) {
@@ -351,6 +351,13 @@ public class ServiceOrderProcessController
             if (toUser == null) {
                 throw getExceptionFactory().createException(ErrorMessage.NO_USER_BINDING_TO_YIQUAN_CODE, toYiquanCode);
             }
+
+            if (!toUser.getUsername().equals(getCurrentUsername())) {
+                if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+                    throw getExceptionFactory().createException(ErrorMessage.BENEFICIARY_SUPPLIER_MISMATCH);
+                }
+            }
+
             final AccountBalance toBalance = toUser.getAccount().getBalances().stream()
                     .filter(balance -> balance.getCategory() == AccountCategory.YIQUAN).findAny().get();
 

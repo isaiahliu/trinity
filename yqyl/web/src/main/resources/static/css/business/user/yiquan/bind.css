@@ -3,5 +3,14 @@ div.bind {
 }
 
 div.content table {
-	width: 400px;
+	width: 350px;
+}
+
+div.content table td {
+	border: 1px solid;
+}
+
+div.content table td.key {
+	background-color: rgba(215, 215, 215, 1);
+	width: 150px;
 }

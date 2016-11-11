@@ -8,15 +8,22 @@ import org.trinity.common.util.Tuple2;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.AccountBalanceDto;
 import org.trinity.yqyl.common.message.dto.domain.YiquanDto;
+import org.trinity.yqyl.common.message.lookup.AccountCategory;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.repository.business.entity.AccountBalance;
 import org.trinity.yqyl.repository.business.entity.Yiquan;
 
 @Component
 public class YiquanConverter extends AbstractLookupSupportObjectConverter<Yiquan, YiquanDto> {
     private static enum YiquanRelationship {
+        BALANCE,
         NA
     }
+
+    @Autowired
+    private IObjectConverter<AccountBalance, AccountBalanceDto> accountBalanceConverter;
 
     @Autowired
     public YiquanConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -43,6 +50,17 @@ public class YiquanConverter extends AbstractLookupSupportObjectConverter<Yiquan
     protected void convertRelationshipInternal(final Yiquan source, final YiquanDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(YiquanRelationship.class)) {
+        case BALANCE:
+            copyRelationship(() -> {
+                if (source.getUsers().isEmpty()) {
+                    return null;
+                }
+
+                return source.getUsers().get(0).getAccount().getBalances().stream()
+                        .filter(item -> item.getCategory() == AccountCategory.YIQUAN).findFirst().get();
+            }, target::setBalance, accountBalanceConverter, relationshipExpression);
+            break;
+        case NA:
         default:
             break;
         }

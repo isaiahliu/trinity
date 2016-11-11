@@ -5,13 +5,16 @@
 <div class="bind">
 	<table>
 		<tr>
-			<td>#label("YIQUAN_NO")</td>
-			<td><input ng-model="yiquan" /></td>
+			<td class="key">#label("YIQUAN_NO")</td>
+			<td><input class="ng-hide" ng-show="binding" ng-model="newYiquan.code" /><span class="ng-hide" ng-show="yiquan">{{yiquan.code}}</span></td>
 		</tr>
-		<tr>
-			<td align="center" colspan="2"><button ng-click="apply()">#button("OK")</button></td>
+		<tr class="ng-hide" ng-show="binding">
+			<td class="key">#label("YIQUAN_PHONE_NO")</td>
+			<td><input ng-model="newYiquan.cellphone" /></td>
 		</tr>
 	</table>
+
+	<button style="margin: 15px 0 0 130px" class="ng-hide" ng-show="binding" ng-click="apply()">#button("OK")</button>
 </div>
 
 <script src="/static/js/business/user/yiquan/bind.js"></script>

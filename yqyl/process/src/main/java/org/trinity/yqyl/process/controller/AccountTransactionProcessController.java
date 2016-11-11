@@ -1,5 +1,7 @@
 package org.trinity.yqyl.process.controller;
 
+import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,7 @@ public class AccountTransactionProcessController extends
             accountPosting.setId(null);
             accountPosting.setStatus(AccountPostingStatus.ACTIVE);
             accountPosting.setAccountTransaction(accountTransaction);
+            accountPosting.setTimestamp(new Date());
 
             final AccountBalance accountBalance = accountBalanceRepository.findOne(accountPostingDto.getBalance().getId());
 

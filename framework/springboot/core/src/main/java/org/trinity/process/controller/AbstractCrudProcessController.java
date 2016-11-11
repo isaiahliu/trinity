@@ -116,6 +116,8 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
 
     protected abstract boolean canAccessAllStatus();
 
+    protected abstract boolean canAccessScopeAll();
+
     protected abstract Pageable createPageable(final TSearchingDto data);
 
     protected void deleteRelatedTables(final TEntity entity) throws IException {
@@ -131,6 +133,10 @@ public abstract class AbstractCrudProcessController<TEntity, TDto extends Abstra
 
     protected void prepareSearch(final TSearchingDto data) {
         data.setCurrentUsername(getCurrentUsername());
+
+        if (data.isSearchAll() && !canAccessScopeAll()) {
+            data.setSearchScope(ISearchingDto.SEARCH_ME);
+        }
 
         if (!canAccessAllStatus()) {
             data.setSearchAllStatus(false);

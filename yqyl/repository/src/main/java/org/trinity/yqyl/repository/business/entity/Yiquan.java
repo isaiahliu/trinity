@@ -4,6 +4,7 @@ package org.trinity.yqyl.repository.business.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +32,7 @@ public class Yiquan extends AbstractAuditableEntity implements Serializable {
 
     private String cellphone;
 
+    @Column(unique = true)
     private String code;
 
     private RecordStatus status;
@@ -40,13 +42,6 @@ public class Yiquan extends AbstractAuditableEntity implements Serializable {
     private List<User> users;
 
     public Yiquan() {
-    }
-
-    public User addUser(final User user) {
-        getUsers().add(user);
-        user.setYiquan(this);
-
-        return user;
     }
 
     public String getCellphone() {
@@ -66,14 +61,7 @@ public class Yiquan extends AbstractAuditableEntity implements Serializable {
     }
 
     public List<User> getUsers() {
-        return this.users;
-    }
-
-    public User removeUser(final User user) {
-        getUsers().remove(user);
-        user.setYiquan(null);
-
-        return user;
+        return users;
     }
 
     public void setCellphone(final String cellphone) {
@@ -95,4 +83,5 @@ public class Yiquan extends AbstractAuditableEntity implements Serializable {
     public void setUsers(final List<User> users) {
         this.users = users;
     }
+
 }
