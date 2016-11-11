@@ -16,7 +16,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $filt
 	};
 
 	$scope.search = function() {
-		var ajaxUrl = "/ajax/account/posting?category='Y'&searchScope=me&sortedBy=id_desc";
+		var ajaxUrl = "/ajax/account/posting?category=Y&searchScope=me&sortedBy=id_desc&rsexp=transaction";
 
 		ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + $scope.pagingData.pageSize;
