@@ -8,11 +8,13 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
 
 public interface IServiceSupplierClientProcessController
-        extends ICrudProcessController<ServiceSupplierClientDto, ServiceSupplierClientSearchingDto> {
+		extends ICrudProcessController<ServiceSupplierClientDto, ServiceSupplierClientSearchingDto> {
 
-    void audit(List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException;
+	void audit(List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException;
 
-    ServiceSupplierClientDto register() throws IException;
+	void propose(ServiceSupplierClientDto data) throws IException;
 
-    void reject(List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException;
+	ServiceSupplierClientDto register() throws IException;
+
+	void reject(List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException;
 }

@@ -11,9 +11,12 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.exception.IException;
+import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAccountDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientAuditingDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientMaterialDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientSearchingDto;
@@ -43,264 +46,324 @@ import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
 public class ServiceSupplierClientProcessController extends
-        AbstractAutowiredCrudProcessController<ServiceSupplierClient, ServiceSupplierClientDto, ServiceSupplierClientSearchingDto, IServiceSupplierClientRepository>
-        implements IServiceSupplierClientProcessController {
-    @Autowired
-    private IServiceCategoryRepository serviceCategoryRepository;
+		AbstractAutowiredCrudProcessController<ServiceSupplierClient, ServiceSupplierClientDto, ServiceSupplierClientSearchingDto, IServiceSupplierClientRepository>
+		implements IServiceSupplierClientProcessController {
+	@Autowired
+	private IServiceCategoryRepository serviceCategoryRepository;
 
-    @Autowired
-    private IUserRepository userRepository;
+	@Autowired
+	private IUserRepository userRepository;
 
-    @Autowired
-    private IServiceSupplierClientAccountRepository serviceSupplierClientAccountRepository;
+	@Autowired
+	private IServiceSupplierClientAccountRepository serviceSupplierClientAccountRepository;
 
-    @Autowired
-    private IServiceSupplierClientMaterialRepository serviceSupplierClientMaterialRepository;
+	@Autowired
+	private IServiceSupplierClientMaterialRepository serviceSupplierClientMaterialRepository;
 
-    @Autowired
-    private IServiceSupplierClientAuditingRepository serviceSupplierClientAuditingRepository;
+	@Autowired
+	private IServiceSupplierClientAuditingRepository serviceSupplierClientAuditingRepository;
 
-    @Autowired
-    private IContentRepository contentRepository;
+	@Autowired
+	private IContentRepository contentRepository;
 
-    @Autowired
-    private IServiceSupplierClientAccountProcessController supplierClientAccountProcessController;
+	@Autowired
+	private IServiceSupplierClientAccountProcessController supplierClientAccountProcessController;
 
-    @Autowired
-    private IServiceSupplierClientMaterialProcessController supplierClientMaterialProcessController;
+	@Autowired
+	private IServiceSupplierClientMaterialProcessController supplierClientMaterialProcessController;
 
-    @Autowired
-    private IServiceSupplierClientAuditingProcessController serviceSupplierClientAuditingProcessController;
+	@Autowired
+	private IServiceSupplierClientAuditingProcessController serviceSupplierClientAuditingProcessController;
 
-    @Override
-    @Transactional(rollbackOn = IException.class)
-    public void audit(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
-        final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
-                .findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
+	@Override
+	@Transactional(rollbackOn = IException.class)
+	public void audit(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
+		final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
+				.findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
 
-        entities.forEach(item -> {
-            if (!item.getUser().getAccessrights().stream().filter(a -> a == AccessRight.SERVICE_SUPPLIER).findAny().isPresent()) {
-                item.getUser().getAccessrights().add(AccessRight.SERVICE_SUPPLIER);
-            }
+		entities.forEach(item -> {
+			if (!item.getUser().getAccessrights().stream().filter(a -> a == AccessRight.SERVICE_SUPPLIER).findAny().isPresent()) {
+				item.getUser().getAccessrights().add(AccessRight.SERVICE_SUPPLIER);
+			}
 
-            userRepository.save(item.getUser());
+			userRepository.save(item.getUser());
 
-            item.setStatus(ServiceSupplierClientStatus.ACTIVE);
+			item.setStatus(ServiceSupplierClientStatus.ACTIVE);
 
-            final ServiceSupplierClientAuditing auditing = new ServiceSupplierClientAuditing();
+			final ServiceSupplierClientAuditing auditing = new ServiceSupplierClientAuditing();
 
-            auditing.setComment("");
-            try {
-                auditing.setOperator(getSecurityUtil().getCurrentToken().getUsername());
-            } catch (final IException e) {
-            }
-            auditing.setStatus(RecordStatus.ACTIVE);
-            auditing.setType(AuditingType.APPLY);
-            auditing.setTimestamp(new Date());
-            auditing.setServiceSupplierClient(item);
+			auditing.setComment("");
+			try {
+				auditing.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+			} catch (final IException e) {
+			}
+			auditing.setStatus(RecordStatus.ACTIVE);
+			auditing.setType(AuditingType.APPLY);
+			auditing.setTimestamp(new Date());
+			auditing.setServiceSupplierClient(item);
 
-            serviceSupplierClientAuditingRepository.save(auditing);
-        });
+			serviceSupplierClientAuditingRepository.save(auditing);
+		});
 
-        getDomainEntityRepository().save(entities);
-    }
+		getDomainEntityRepository().save(entities);
+	}
 
-    @Override
-    public Page<ServiceSupplierClientDto> getAll(final ServiceSupplierClientSearchingDto searchingData) throws IException {
-        if (searchingData.getCategoryChildren().isEmpty()) {
-            if (searchingData.getCategoryParent() != null) {
-                final ServiceCategory category = serviceCategoryRepository.findOne(searchingData.getCategoryParent());
-                if (category != null) {
-                    searchingData.getCategoryChildren().addAll(serviceCategoryRepository.findAllByParent(category).stream()
-                            .map(item -> item.getId()).collect(Collectors.toList()));
-                }
-            }
-        }
+	@Override
+	public Page<ServiceSupplierClientDto> getAll(final ServiceSupplierClientSearchingDto searchingData) throws IException {
+		if (searchingData.getCategoryChildren().isEmpty()) {
+			if (searchingData.getCategoryParent() != null) {
+				final ServiceCategory category = serviceCategoryRepository.findOne(searchingData.getCategoryParent());
+				if (category != null) {
+					searchingData.getCategoryChildren().addAll(serviceCategoryRepository.findAllByParent(category).stream()
+							.map(item -> item.getId()).collect(Collectors.toList()));
+				}
+			}
+		}
 
-        final Page<ServiceSupplierClientDto> dtos = super.getAll(searchingData);
-        dtos.forEach(item -> {
-            if (item.getServiceInfos() != null && !item.getServiceInfos().isEmpty()) {
-                if (!searchingData.getCategoryChildren().isEmpty()) {
-                    item.setExpectedPrice(item.getServiceInfos().stream()
-                            .filter(info -> searchingData.getCategoryChildren().contains(info.getServiceCategory().getId()))
-                            .collect(Collectors.summarizingDouble(info -> info.getPrice())).getSum());
-                } else {
-                    item.setExpectedPrice(
-                            item.getServiceInfos().stream().collect(Collectors.summarizingDouble(info -> info.getPrice())).getSum());
-                }
-            }
-        });
+		final Page<ServiceSupplierClientDto> dtos = super.getAll(searchingData);
+		dtos.forEach(item -> {
+			if (item.getServiceInfos() != null && !item.getServiceInfos().isEmpty()) {
+				if (!searchingData.getCategoryChildren().isEmpty()) {
+					item.setExpectedPrice(item.getServiceInfos().stream()
+							.filter(info -> searchingData.getCategoryChildren().contains(info.getServiceCategory().getId()))
+							.collect(Collectors.summarizingDouble(info -> info.getPrice())).getSum());
+				} else {
+					item.setExpectedPrice(
+							item.getServiceInfos().stream().collect(Collectors.summarizingDouble(info -> info.getPrice())).getSum());
+				}
+			}
+		});
 
-        return dtos;
-    }
+		return dtos;
+	}
 
-    @Override
-    @Transactional(rollbackOn = IException.class)
-    public ServiceSupplierClientDto register() throws IException {
-        final ServiceSupplierClientSearchingDto searchingDto = new ServiceSupplierClientSearchingDto();
-        searchingDto.setRsexp("account");
+	@Override
+	@Transactional(rollbackOn = IException.class)
+	public void propose(final ServiceSupplierClientDto dto) throws IException {
+		User user = null;
 
-        final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
-        if (user.getServiceSupplierClient() != null) {
-            return getDomainObjectConverter().convert(user.getServiceSupplierClient(), searchingDto.generateRelationship());
-        }
+		if (dto.getId() > 0 && getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR)) {
+			user = userRepository.findOne(dto.getId());
+		} else {
+			user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
+		}
 
-        Content content = new Content();
-        content.setStatus(RecordStatus.ACTIVE);
-        content.setUuid(UUID.randomUUID().toString());
-        content.setContent(new byte[0]);
+		final ServiceSupplierClient entity = user.getServiceSupplierClient();
 
-        contentRepository.save(content);
+		switch (entity.getStatus()) {
+			case INACTIVE:
+			case REJECTED:
+				if (ServiceSupplierClientStatus.PROPOSAL.getMessageCode().equals(dto.getStatus().getCode())) {
+					final ServiceSupplierClientAuditingDto auditingDto = new ServiceSupplierClientAuditingDto();
+					auditingDto.setId(entity.getUserId());
+					auditingDto.setType(new LookupDto(AuditingType.PROPOSAL));
 
-        final ServiceSupplierClient serviceSupplierClient = new ServiceSupplierClient();
-        serviceSupplierClient.setUserId(user.getId());
-        serviceSupplierClient.setUser(user);
-        serviceSupplierClient.setStatus(ServiceSupplierClientStatus.INACTIVE);
-        serviceSupplierClient.setLogo(content.getUuid());
+					dto.getAuditings().add(auditingDto);
+				}
+				break;
+			case PROPOSAL: {
+				final ServiceSupplierClientAuditingDto auditingDto = new ServiceSupplierClientAuditingDto();
+				auditingDto.setId(entity.getUserId());
+				auditingDto.setType(new LookupDto(AuditingType.PROPOSAL_UPDATE));
 
-        getDomainEntityRepository().save(serviceSupplierClient);
+				dto.getAuditings().add(auditingDto);
+			}
+				break;
+			case ACTIVE: {
+				final ServiceSupplierClientAuditingDto auditingDto = new ServiceSupplierClientAuditingDto();
+				auditingDto.setId(entity.getUserId());
+				auditingDto.setType(new LookupDto(AuditingType.UPDATE_REGULAR_INFO));
 
-        final ServiceSupplierClientAccount serviceSupplierClientAccount = new ServiceSupplierClientAccount();
-        serviceSupplierClientAccount.setServiceSupplierClient(serviceSupplierClient);
-        serviceSupplierClientAccount.setServiceSupplierClientId(serviceSupplierClient.getUserId());
-        serviceSupplierClientAccount.setStatus(RecordStatus.ACTIVE);
-        serviceSupplierClientAccountRepository.save(serviceSupplierClientAccount);
+				dto.getAuditings().add(auditingDto);
+				dto.setAccount(null);
+				dto.setMaterial(null);
+				dto.setName(null);
+				dto.setCategories(null);
+				dto.setLogo(null);
+				dto.setRegion(null);
+				dto.setType(null);
+			}
+				break;
+			case DISABLED:
+			case AWAITING_PAYMENT:
+			default:
+				return;
+		}
 
-        final ServiceSupplierClientMaterial serviceSupplierClientMaterial = new ServiceSupplierClientMaterial();
-        content = new Content();
-        content.setStatus(RecordStatus.ACTIVE);
-        content.setUuid(UUID.randomUUID().toString());
-        content.setContent(new byte[0]);
-        contentRepository.save(content);
+		updateRelationshipFields(entity, dto);
+		updateRelatedTables(entity, dto);
 
-        serviceSupplierClientMaterial.setApplicationCopy(content.getUuid());
+		getDomainObjectConverter().convertBack(dto, entity, CopyPolicy.SOURCE_IS_NOT_NULL);
 
-        content = new Content();
-        content.setStatus(RecordStatus.ACTIVE);
-        content.setUuid(UUID.randomUUID().toString());
-        content.setContent(new byte[0]);
-        contentRepository.save(content);
+		getDomainEntityRepository().save(entity);
+	}
 
-        serviceSupplierClientMaterial.setBusinessLicenseCopy(content.getUuid());
+	@Override
+	@Transactional(rollbackOn = IException.class)
+	public ServiceSupplierClientDto register() throws IException {
+		final ServiceSupplierClientSearchingDto searchingDto = new ServiceSupplierClientSearchingDto();
+		searchingDto.setRsexp("account");
 
-        content = new Content();
-        content.setStatus(RecordStatus.ACTIVE);
-        content.setUuid(UUID.randomUUID().toString());
-        content.setContent(new byte[0]);
-        contentRepository.save(content);
+		final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
+		if (user.getServiceSupplierClient() != null) {
+			return getDomainObjectConverter().convert(user.getServiceSupplierClient(), searchingDto.generateRelationship());
+		}
 
-        serviceSupplierClientMaterial.setContractCopy(content.getUuid());
+		Content content = new Content();
+		content.setStatus(RecordStatus.ACTIVE);
+		content.setUuid(UUID.randomUUID().toString());
+		content.setContent(new byte[0]);
 
-        content = new Content();
-        content.setStatus(RecordStatus.ACTIVE);
-        content.setUuid(UUID.randomUUID().toString());
-        content.setContent(new byte[0]);
-        contentRepository.save(content);
+		contentRepository.save(content);
 
-        serviceSupplierClientMaterial.setCorporateCheckingCopy(content.getUuid());
+		final ServiceSupplierClient serviceSupplierClient = new ServiceSupplierClient();
+		serviceSupplierClient.setUserId(user.getId());
+		serviceSupplierClient.setUser(user);
+		serviceSupplierClient.setStatus(ServiceSupplierClientStatus.INACTIVE);
+		serviceSupplierClient.setLogo(content.getUuid());
 
-        content = new Content();
-        content.setStatus(RecordStatus.ACTIVE);
-        content.setUuid(UUID.randomUUID().toString());
-        content.setContent(new byte[0]);
-        contentRepository.save(content);
+		getDomainEntityRepository().save(serviceSupplierClient);
 
-        serviceSupplierClientMaterial.setJcv(content.getUuid());
+		final ServiceSupplierClientAccount serviceSupplierClientAccount = new ServiceSupplierClientAccount();
+		serviceSupplierClientAccount.setServiceSupplierClient(serviceSupplierClient);
+		serviceSupplierClientAccount.setServiceSupplierClientId(serviceSupplierClient.getUserId());
+		serviceSupplierClientAccount.setStatus(RecordStatus.ACTIVE);
+		serviceSupplierClientAccountRepository.save(serviceSupplierClientAccount);
 
-        content = new Content();
-        content.setStatus(RecordStatus.ACTIVE);
-        content.setUuid(UUID.randomUUID().toString());
-        content.setContent(new byte[0]);
-        contentRepository.save(content);
+		final ServiceSupplierClientMaterial serviceSupplierClientMaterial = new ServiceSupplierClientMaterial();
+		content = new Content();
+		content.setStatus(RecordStatus.ACTIVE);
+		content.setUuid(UUID.randomUUID().toString());
+		content.setContent(new byte[0]);
+		contentRepository.save(content);
 
-        serviceSupplierClientMaterial.setLicenseCopy(content.getUuid());
+		serviceSupplierClientMaterial.setApplicationCopy(content.getUuid());
 
-        serviceSupplierClientMaterial.setServiceSupplierClient(serviceSupplierClient);
-        serviceSupplierClientMaterial.setServiceSupplierClientId(serviceSupplierClient.getUserId());
-        serviceSupplierClientMaterial.setStatus(RecordStatus.ACTIVE);
+		content = new Content();
+		content.setStatus(RecordStatus.ACTIVE);
+		content.setUuid(UUID.randomUUID().toString());
+		content.setContent(new byte[0]);
+		contentRepository.save(content);
 
-        serviceSupplierClientMaterialRepository.save(serviceSupplierClientMaterial);
+		serviceSupplierClientMaterial.setBusinessLicenseCopy(content.getUuid());
 
-        serviceSupplierClient.setAccount(serviceSupplierClientAccount);
-        serviceSupplierClient.setMaterial(serviceSupplierClientMaterial);
+		content = new Content();
+		content.setStatus(RecordStatus.ACTIVE);
+		content.setUuid(UUID.randomUUID().toString());
+		content.setContent(new byte[0]);
+		contentRepository.save(content);
 
-        return getDomainObjectConverter().convert(serviceSupplierClient, searchingDto.generateRelationship());
-    }
+		serviceSupplierClientMaterial.setContractCopy(content.getUuid());
 
-    @Override
-    @Transactional(rollbackOn = IException.class)
-    public void reject(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
-        final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
-                .findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
+		content = new Content();
+		content.setStatus(RecordStatus.ACTIVE);
+		content.setUuid(UUID.randomUUID().toString());
+		content.setContent(new byte[0]);
+		contentRepository.save(content);
 
-        entities.forEach(item -> {
-            item.setStatus(ServiceSupplierClientStatus.REJECTED);
+		serviceSupplierClientMaterial.setCorporateCheckingCopy(content.getUuid());
 
-            final ServiceSupplierClientAuditing auditing = new ServiceSupplierClientAuditing();
+		content = new Content();
+		content.setStatus(RecordStatus.ACTIVE);
+		content.setUuid(UUID.randomUUID().toString());
+		content.setContent(new byte[0]);
+		contentRepository.save(content);
 
-            auditing.setComment(item.getAuditings().get(0).getComment());
-            try {
-                auditing.setOperator(getSecurityUtil().getCurrentToken().getUsername());
-            } catch (final IException e) {
-            }
-            auditing.setStatus(RecordStatus.ACTIVE);
-            auditing.setType(AuditingType.REJECT);
-            auditing.setTimestamp(new Date());
+		serviceSupplierClientMaterial.setJcv(content.getUuid());
 
-            item.addAuditing(auditing);
-        });
+		content = new Content();
+		content.setStatus(RecordStatus.ACTIVE);
+		content.setUuid(UUID.randomUUID().toString());
+		content.setContent(new byte[0]);
+		contentRepository.save(content);
 
-        getDomainEntityRepository().save(entities);
-    }
+		serviceSupplierClientMaterial.setLicenseCopy(content.getUuid());
 
-    @Override
-    protected boolean canAccessAllStatus() {
-        return true;
-    }
+		serviceSupplierClientMaterial.setServiceSupplierClient(serviceSupplierClient);
+		serviceSupplierClientMaterial.setServiceSupplierClientId(serviceSupplierClient.getUserId());
+		serviceSupplierClientMaterial.setStatus(RecordStatus.ACTIVE);
 
-    @Override
-    protected boolean canAccessScopeAll() {
-        return true;
-    }
+		serviceSupplierClientMaterialRepository.save(serviceSupplierClientMaterial);
 
-    @Override
-    protected void updateRelationshipFields(final ServiceSupplierClient entity, final ServiceSupplierClientDto dto) throws IException {
-        if (dto.getAccount() != null) {
-            final List<ServiceSupplierClientAccountDto> supplierClientAccountDtos = new ArrayList<>();
+		serviceSupplierClient.setAccount(serviceSupplierClientAccount);
+		serviceSupplierClient.setMaterial(serviceSupplierClientMaterial);
 
-            dto.getAccount().setId(dto.getId());
+		return getDomainObjectConverter().convert(serviceSupplierClient, searchingDto.generateRelationship());
+	}
 
-            supplierClientAccountDtos.add(dto.getAccount());
-            supplierClientAccountProcessController.updateAll(supplierClientAccountDtos);
-        }
+	@Override
+	@Transactional(rollbackOn = IException.class)
+	public void reject(final List<ServiceSupplierClientDto> serviceSupplierClientDtos) throws IException {
+		final Iterable<ServiceSupplierClient> entities = getDomainEntityRepository()
+				.findAll(serviceSupplierClientDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
 
-        if (dto.getMaterial() != null) {
-            final List<ServiceSupplierClientMaterialDto> supplierClientMaterialDtos = new ArrayList<>();
+		entities.forEach(item -> {
+			item.setStatus(ServiceSupplierClientStatus.REJECTED);
 
-            dto.getMaterial().setId(dto.getId());
+			final ServiceSupplierClientAuditing auditing = new ServiceSupplierClientAuditing();
 
-            supplierClientMaterialDtos.add(dto.getMaterial());
-            supplierClientMaterialProcessController.updateAll(supplierClientMaterialDtos);
-        }
+			auditing.setComment(item.getAuditings().get(0).getComment());
+			try {
+				auditing.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+			} catch (final IException e) {
+			}
+			auditing.setStatus(RecordStatus.ACTIVE);
+			auditing.setType(AuditingType.REJECT);
+			auditing.setTimestamp(new Date());
 
-        if (!dto.getAuditings().isEmpty()) {
-            final ServiceSupplierClientDto serviceSupplierClient = new ServiceSupplierClientDto();
-            serviceSupplierClient.setId(entity.getUserId());
+			item.addAuditing(auditing);
+		});
 
-            dto.getAuditings().forEach(item -> {
-                item.setComment("");
-                try {
-                    item.setOperator(getSecurityUtil().getCurrentToken().getUsername());
-                } catch (final IException e) {
-                }
-                item.setStatus(new LookupDto(RecordStatus.ACTIVE));
-                item.setTimestamp(new Date());
-                item.setServiceSupplierClient(serviceSupplierClient);
-            });
+		getDomainEntityRepository().save(entities);
+	}
 
-            serviceSupplierClientAuditingProcessController.addAll(dto.getAuditings());
-        }
+	@Override
+	protected boolean canAccessAllStatus() {
+		return true;
+	}
 
-        super.updateRelationshipFields(entity, dto);
-    }
+	@Override
+	protected boolean canAccessScopeAll() {
+		return true;
+	}
+
+	@Override
+	protected void updateRelationshipFields(final ServiceSupplierClient entity, final ServiceSupplierClientDto dto) throws IException {
+		if (dto.getAccount() != null) {
+			final List<ServiceSupplierClientAccountDto> supplierClientAccountDtos = new ArrayList<>();
+
+			dto.getAccount().setId(dto.getId());
+
+			supplierClientAccountDtos.add(dto.getAccount());
+			supplierClientAccountProcessController.updateAll(supplierClientAccountDtos);
+		}
+
+		if (dto.getMaterial() != null) {
+			final List<ServiceSupplierClientMaterialDto> supplierClientMaterialDtos = new ArrayList<>();
+
+			dto.getMaterial().setId(dto.getId());
+
+			supplierClientMaterialDtos.add(dto.getMaterial());
+			supplierClientMaterialProcessController.updateAll(supplierClientMaterialDtos);
+		}
+
+		if (!dto.getAuditings().isEmpty()) {
+			final ServiceSupplierClientDto serviceSupplierClient = new ServiceSupplierClientDto();
+			serviceSupplierClient.setId(entity.getUserId());
+
+			dto.getAuditings().forEach(item -> {
+				try {
+					item.setOperator(getSecurityUtil().getCurrentToken().getUsername());
+				} catch (final IException e) {
+				}
+				item.setStatus(new LookupDto(RecordStatus.ACTIVE));
+				item.setTimestamp(new Date());
+				item.setServiceSupplierClient(serviceSupplierClient);
+			});
+
+			serviceSupplierClientAuditingProcessController.addAll(dto.getAuditings());
+		}
+
+		super.updateRelationshipFields(entity, dto);
+	}
 }

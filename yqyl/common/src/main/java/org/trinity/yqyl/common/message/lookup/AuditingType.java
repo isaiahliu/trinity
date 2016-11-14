@@ -6,7 +6,8 @@ public enum AuditingType implements ILookupMessage<LookupType> {
     PROPOSAL("P"),
     PROPOSAL_UPDATE("U"),
     APPLY("A"),
-    REJECT("R");
+    REJECT("R"),
+    UPDATE_REGULAR_INFO("G");
 
     private final String messageCode;
 

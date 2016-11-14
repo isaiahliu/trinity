@@ -78,7 +78,7 @@ div.info div.details div.tab div.tabContent {
 
 div.info div.details div.tab div.tabContent span {
 	display: inline-block;
-	width: 80px;
+	width: 120px;
 }
 
 div.info div.details div.tab div.tabContent input, div.info div.details div.tab div.tabContent select
@@ -87,6 +87,19 @@ div.info div.details div.tab div.tabContent input, div.info div.details div.tab 
 	margin-right: 50px;
 }
 
-div.info div.details div.buttonGroup {
-	padding-left: 250px;
+div.info  div.buttonGroup {
+	padding-left: 300px;
+}
+
+div.info div.details div.tab div.tabContent input.upload {
+	min-width: 68px;
+	width: 68px;
+	display: inline;
+}
+
+div.info div.details div.tab div.tabContent img {
+	max-width: 25px;
+	min-width: 25px;
+	max-height: 25px;
+	min-height: 25px;
 }

@@ -37,6 +37,6 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 	};
 
 	$scope.audit = function(supplier) {
-		$window.location.href = "/admin/supplier/audit/" + supplier.id;
+		$window.location.href = "/admin/supplier/" + supplier.id;
 	};
 });

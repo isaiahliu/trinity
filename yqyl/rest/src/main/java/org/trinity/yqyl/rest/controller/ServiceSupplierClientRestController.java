@@ -17,36 +17,44 @@ import org.trinity.yqyl.process.controller.base.IServiceSupplierClientProcessCon
 @RestController
 @RequestMapping("/client/supplier")
 public class ServiceSupplierClientRestController extends
-        AbstractApplicationAwareCrudRestController<ServiceSupplierClientDto, ServiceSupplierClientSearchingDto, IServiceSupplierClientProcessController, ServiceSupplierClientRequest, ServiceSupplierClientResponse> {
+		AbstractApplicationAwareCrudRestController<ServiceSupplierClientDto, ServiceSupplierClientSearchingDto, IServiceSupplierClientProcessController, ServiceSupplierClientRequest, ServiceSupplierClientResponse> {
 
-    @RequestMapping(value = "/audit", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<DefaultResponse> audit(@RequestBody final ServiceSupplierClientRequest request) throws IException {
-        getDomainProcessController().audit(request.getData());
+	@RequestMapping(value = "/audit", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<DefaultResponse> audit(@RequestBody final ServiceSupplierClientRequest request) throws IException {
+		getDomainProcessController().audit(request.getData());
 
-        return createResponseEntity(new DefaultResponse());
-    }
+		return createResponseEntity(new DefaultResponse());
+	}
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<ServiceSupplierClientResponse> register() throws IException {
-        final ServiceSupplierClientResponse response = createResponseInstance();
+	@RequestMapping(value = "/propose", method = RequestMethod.PUT)
+	public @ResponseBody ResponseEntity<DefaultResponse> propose(@RequestBody final ServiceSupplierClientRequest request)
+			throws IException {
+		getDomainProcessController().propose(request.getData().get(0));
 
-        final ServiceSupplierClientDto data = getDomainProcessController().register();
+		return createResponseEntity(new DefaultResponse());
+	}
 
-        response.addData(data);
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<ServiceSupplierClientResponse> register() throws IException {
+		final ServiceSupplierClientResponse response = createResponseInstance();
 
-        return createResponseEntity(response);
-    }
+		final ServiceSupplierClientDto data = getDomainProcessController().register();
 
-    @RequestMapping(value = "/reject", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<DefaultResponse> reject(@RequestBody final ServiceSupplierClientRequest request) throws IException {
-        getDomainProcessController().audit(request.getData());
+		response.addData(data);
 
-        return createResponseEntity(new DefaultResponse());
-    }
+		return createResponseEntity(response);
+	}
 
-    @Override
-    protected ServiceSupplierClientResponse createResponseInstance() {
-        return new ServiceSupplierClientResponse();
-    }
+	@RequestMapping(value = "/reject", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<DefaultResponse> reject(@RequestBody final ServiceSupplierClientRequest request) throws IException {
+		getDomainProcessController().audit(request.getData());
+
+		return createResponseEntity(new DefaultResponse());
+	}
+
+	@Override
+	protected ServiceSupplierClientResponse createResponseInstance() {
+		return new ServiceSupplierClientResponse();
+	}
 
 }
