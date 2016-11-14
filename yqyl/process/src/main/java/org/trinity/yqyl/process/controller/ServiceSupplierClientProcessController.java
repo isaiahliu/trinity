@@ -259,6 +259,11 @@ public class ServiceSupplierClientProcessController extends
     }
 
     @Override
+    protected boolean canAccessScopeAll() {
+        return true;
+    }
+
+    @Override
     protected void updateRelationshipFields(final ServiceSupplierClient entity, final ServiceSupplierClientDto dto) throws IException {
         if (dto.getAccount() != null) {
             final List<ServiceSupplierClientAccountDto> supplierClientAccountDtos = new ArrayList<>();

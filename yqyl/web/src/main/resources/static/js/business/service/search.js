@@ -52,7 +52,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			}
 		}
 
-		var ajaxUrl = "/ajax/service/supplier?rsexp=serviceInfos[serviceCategory]";
+		var ajaxUrl = "/ajax/service/supplier?searchScope=all&rsexp=serviceInfos[serviceCategory]";
 
 		ajaxUrl += "&pageIndex=" + (paging.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + paging.pageSize;

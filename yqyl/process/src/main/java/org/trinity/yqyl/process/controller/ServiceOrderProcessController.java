@@ -336,8 +336,11 @@ public class ServiceOrderProcessController
             // final PaymentMethod paymentMethod = item.getPaymentMethod();
             // final String txCode = item.getTransactionCode();
             final double amount = 20d;
-            final String fromYiquanCode = "YQ001";
-            final String toYiquanCode = "YQ999";
+
+            // FIXME ---Start Test Code
+            final String fromYiquanCode = entity.getUser().getYiquanCode();
+            final String toYiquanCode = entity.getServiceInfo().getServiceSupplierClient().getUser().getYiquanCode();
+            // ---End
 
             final User fromUser = userRepository.findOneByYiquanCode(fromYiquanCode);
             if (fromUser == null) {

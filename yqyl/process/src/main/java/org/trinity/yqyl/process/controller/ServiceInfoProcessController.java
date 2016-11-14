@@ -183,6 +183,11 @@ public class ServiceInfoProcessController
     }
 
     @Override
+    protected boolean canAccessScopeAll() {
+        return true;
+    }
+
+    @Override
     protected void updateRelationshipFields(final ServiceInfo entity, final ServiceInfoDto dto) {
         if (dto.getServiceCategory() != null && dto.getServiceCategory().getId() != null && dto.getServiceCategory().getId() > 0) {
             entity.setServiceCategory(serviceCategoryRepository.findOne(dto.getServiceCategory().getId()));
