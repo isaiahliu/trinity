@@ -14,7 +14,8 @@
 	<modules>
 		<module>core</module>
 		<module>springboot</module>
-		
+
+		<module>contact</module>
 	</modules>
 
 	<properties>

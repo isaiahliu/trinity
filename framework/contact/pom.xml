@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.trinity.framework</groupId>
+		<artifactId>framework</artifactId>
+		<version>${version}</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>org.trinity.framework.contact</groupId>
+	<artifactId>contact</artifactId>
+	<packaging>pom</packaging>
+	<name>trinity-framework-contact</name>
+	<modules>
+		<module>core</module>
+		<module>jtt808</module>
+		<module>tsykt</module>
+	</modules>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.trinity.framework.springboot</groupId>
+				<artifactId>core</artifactId>
+				<version>${version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.trinity.framework.contact</groupId>
+				<artifactId>core</artifactId>
+				<version>${version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>
