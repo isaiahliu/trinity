@@ -3,6 +3,21 @@ div.requirementCatcher {
 	bottom: 20;
 	right: 100px;
 	width: 200px;
-	min-height: 300px;
+	max-height: 300px;
+	min-height: 50px;
+	background: #f5f5f5;
+	z-index: 999;
+	opacity: 0.8;
 	border: 1px solid;
+	padding: 5px;
+}
+
+div.requirementCatcher ul {
+	padding-left: 0;
+}
+
+div.requirementCatcher ul li {
+	list-style: none;
+	border-bottom: 1px dotted;
+	margin-bottom: 3px;
 }
