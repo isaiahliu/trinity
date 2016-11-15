@@ -1,0 +1,8 @@
+div.requirementCatcher {
+	position: fixed;
+	bottom: 20;
+	right: 100px;
+	width: 200px;
+	min-height: 300px;
+	border: 1px solid;
+}
