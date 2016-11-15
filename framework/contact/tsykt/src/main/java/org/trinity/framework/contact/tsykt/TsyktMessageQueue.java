@@ -26,9 +26,6 @@ public class TsyktMessageQueue
 
     @Override
     protected void copyMeta(final ITsyktMessageMeta from, final ITsyktMessageMeta to) {
-        to.setEncryptionMode(from.getEncryptionMode());
-        to.setPhoneNo(from.getPhoneNo());
-
     }
 
     @Override

@@ -40,8 +40,6 @@ public final class TsyktMessageDeserializer extends AbstractContactMessageDeseri
 
         attribute >>= 10;
 
-        header.setEncryptionMode(attribute & 0x7);
-
         attribute >>= 3;
 
         final boolean hasSubPackages = (attribute & 0x1) == 1;
@@ -67,8 +65,6 @@ public final class TsyktMessageDeserializer extends AbstractContactMessageDeseri
 
             phoneNo.append(tempStr);
         }
-
-        header.setPhoneNo(phoneNo.toString());
 
         final int serialNumber = ContactMessageUtil.read(messageCodes, 2, StoreMethod.BIG_END);
         header.setSerialNumber(serialNumber);

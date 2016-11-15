@@ -3,13 +3,9 @@ package org.trinity.framework.contact.tsykt;
 import org.trinity.framework.contact.IContactMessageMeta;
 
 public interface ITsyktMessageMeta extends IContactMessageMeta {
+    byte[] getBitMap();
 
-    int getEncryptionMode();
+    void markAvailable(int... positions);
 
-    String getPhoneNo();
-
-    void setEncryptionMode(final int encryptionMode);
-
-    void setPhoneNo(final String phoneNo);
-
+    void setBitMap(byte[] bitMap);
 }
