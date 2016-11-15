@@ -7,7 +7,6 @@ package org.trinity.message.exception;
  */
 public enum GeneralErrorMessage implements IErrorMessage {
     UNKNOWN_EXCEPTION,
-    NOT_ALL_ACCESS_IS_GRANTED,
     NONE_ACCESS_IS_GRANTED,
     TOKEN_IS_MISSING,
     SUPER_USER_IS_REQUIRED,

@@ -12,16 +12,13 @@ import org.trinity.common.exception.IException;
 
 @Component
 public class BatchSecurityUtil implements ISecurityUtil<IAccessRight<?>> {
+
     @Override
-    public void checkAccessRight(final CheckMode checkMode, final IAccessRight<?>... accessRights) throws IException {
+    public void checkAccessRight(final IAccessRight<?> accessRight, final boolean checkAncenstors) throws IException {
     }
 
     @Override
     public void checkAuthorizationEnabled(final boolean enabled) throws IException {
-    }
-
-    @Override
-    public void checkSuperUser() throws IException {
     }
 
     @Override
@@ -35,22 +32,17 @@ public class BatchSecurityUtil implements ISecurityUtil<IAccessRight<?>> {
     }
 
     @Override
-    public boolean hasAccessRight(final CheckMode checkMode, final IAccessRight<?>... accessRights) {
+    public boolean hasAccessRight(final IAccessRight<?> accessRight, final boolean checkAncenstors) {
         return true;
     }
 
     @Override
-    public boolean hasAccessRightByName(final String accessRightName) {
+    public boolean hasAccessRightByName(final String accessRightName, final boolean checkAncestors) {
         return true;
     }
 
     @Override
     public boolean hasToken() {
-        return true;
-    }
-
-    @Override
-    public boolean isSuperUser() {
         return true;
     }
 }

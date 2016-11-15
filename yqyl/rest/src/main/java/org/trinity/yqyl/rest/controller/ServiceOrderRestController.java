@@ -32,7 +32,7 @@ public class ServiceOrderRestController extends
     }
 
     @RequestMapping(value = "/price", method = RequestMethod.PUT)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ResponseEntity<ServiceOrderResponse> changePrice(@RequestBody final ServiceOrderRequest request)
             throws IException {
         final ServiceOrderResponse response = new ServiceOrderResponse();
@@ -53,7 +53,7 @@ public class ServiceOrderRestController extends
     }
 
     @RequestMapping(value = "/rejectCancel", method = RequestMethod.POST)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ResponseEntity<ServiceOrderResponse> rejectCancelOrder(@RequestBody final ServiceOrderRequest request)
             throws IException {
         final ServiceOrderResponse response = new ServiceOrderResponse();
@@ -63,7 +63,7 @@ public class ServiceOrderRestController extends
     }
 
     @RequestMapping(value = "/release", method = RequestMethod.POST)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ResponseEntity<DefaultResponse> releaseOrder(@RequestBody final ServiceOrderRequest request) throws IException {
         getDomainProcessController().releaseOrder(request.getData());
 
@@ -71,7 +71,7 @@ public class ServiceOrderRestController extends
     }
 
     @RequestMapping(value = "/transaction", method = RequestMethod.POST)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ResponseEntity<ServiceOrderResponse> sendTxCode(@RequestBody final ServiceOrderRequest request) throws IException {
         final ServiceOrderResponse response = new ServiceOrderResponse();
         response.addData(getDomainProcessController().sendTxCode(request.getData()));
@@ -80,7 +80,7 @@ public class ServiceOrderRestController extends
     }
 
     @RequestMapping(value = "/receipt", method = RequestMethod.PUT)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ResponseEntity<DefaultResponse> uploadReceipt(@RequestBody final ServiceOrderRequest request) throws IException {
         final DefaultResponse response = new DefaultResponse();
         final ServiceOrderDto serviceOrderDto = request.getData().get(0);

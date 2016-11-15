@@ -46,7 +46,7 @@ public class UserAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
+    @Authorize(AccessRight.ADMINISTRATOR)
     public @ResponseBody UserResponse ajaxGetServiceInfoMe(final UserSearchingDto dto) throws IException {
         return restfulServiceUtil.callRestService(Url.USER, null, null, dto, UserResponse.class);
     }

@@ -27,7 +27,7 @@ public class CommonAjaxController extends AbstractRestController {
     protected IMessageResolverChain messageResolver;
 
     @RequestMapping(value = "/accessright", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
+    @Authorize(AccessRight.ADMINISTRATOR)
     public @ResponseBody AccessrightResponse ajaxGetAccessrights() throws IException {
         return restfulServiceUtil.callRestService(Url.ACCESSRIGHT, null, null, null, AccessrightResponse.class);
     }

@@ -134,7 +134,7 @@ public class CommonConfiguration {
     @Bean
     public ISecurityUtil<AccessRight> getSecurityUtil(final IMessageResolverChain messageResolver,
             final IExceptionFactory exceptionFactory) {
-        return new SecurityUtil(messageResolver, exceptionFactory, AccessRight.SUPER_USER);
+        return new SecurityUtil(messageResolver, exceptionFactory);
     }
 
     @Bean

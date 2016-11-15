@@ -1,8 +1,6 @@
 package org.trinity.common.accessright;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,50 +15,17 @@ public abstract class AbstractSecurityUtil<T extends IAccessRight<?>> implements
     private final IMessageResolverChain messageResolver;
 
     private final IExceptionFactory exceptionFactory;
-    private final T[] superUsers;
 
-    @SafeVarargs
-    public AbstractSecurityUtil(final IMessageResolverChain messageResolver, final IExceptionFactory exceptionFactory,
-            final T... superUsers) {
+    public AbstractSecurityUtil(final IMessageResolverChain messageResolver, final IExceptionFactory exceptionFactory) {
         super();
         this.messageResolver = messageResolver;
         this.exceptionFactory = exceptionFactory;
-        this.superUsers = superUsers;
     }
 
     @Override
-    public void checkAccessRight(final CheckMode checkMode, @SuppressWarnings("unchecked") final T... accessRights) throws IException {
-        final Collection<? extends GrantedAuthority> authorities = getAuthorities();
-
-        for (final IAccessRight<?> superUser : superUsers) {
-            if (contains(authorities, superUser)) {
-                return;
-            }
-        }
-
-        int hitCount = 0;
-        for (final IAccessRight<?> accessRight : accessRights) {
-            if (contains(authorities, accessRight)) {
-                hitCount++;
-            }
-        }
-
-        final String accessrightNames = String.join(",",
-                Arrays.stream(accessRights).map(item -> messageResolver.getMessage(item)).collect(Collectors.toList()));
-
-        switch (checkMode) {
-        case ALL:
-            if (hitCount != accessRights.length) {
-                throw exceptionFactory.createException(GeneralErrorMessage.NOT_ALL_ACCESS_IS_GRANTED, accessrightNames);
-            }
-            break;
-        case ANY:
-            if (accessRights.length > 0 && hitCount == 0) {
-                throw exceptionFactory.createException(GeneralErrorMessage.NONE_ACCESS_IS_GRANTED, accessrightNames);
-            }
-            break;
-        default:
-            break;
+    public void checkAccessRight(final T accessRight, final boolean checkAncenstors) throws IException {
+        if (!hasAccessRight(accessRight, checkAncenstors)) {
+            throw exceptionFactory.createException(GeneralErrorMessage.NONE_ACCESS_IS_GRANTED, messageResolver.getMessage(accessRight));
         }
     }
 
@@ -68,13 +33,6 @@ public abstract class AbstractSecurityUtil<T extends IAccessRight<?>> implements
     public void checkAuthorizationEnabled(final boolean enabled) throws IException {
         if (!enabled) {
             throw exceptionFactory.createException(GeneralErrorMessage.AUTHERIZATION_DISABLED);
-        }
-    }
-
-    @Override
-    public void checkSuperUser() throws IException {
-        if (!isSuperUser()) {
-            throw exceptionFactory.createException(GeneralErrorMessage.SUPER_USER_IS_REQUIRED);
         }
     }
 
@@ -92,21 +50,15 @@ public abstract class AbstractSecurityUtil<T extends IAccessRight<?>> implements
     }
 
     @Override
-    public boolean hasAccessRight(final CheckMode checkMode, @SuppressWarnings("unchecked") final T... accessRights) {
-        try {
-            checkAccessRight(checkMode, accessRights);
-            return true;
-        } catch (final IException e) {
-            return false;
-        }
+    public boolean hasAccessRight(final T accessRight, final boolean checkAncenstors) {
+        return contains(getAuthorities(), accessRight, checkAncenstors);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public boolean hasAccessRightByName(final String accessRightName) {
+    public boolean hasAccessRightByName(final String accessRightName, final boolean checkAncestors) {
         final T accessRight = getAccessRightByName(accessRightName);
 
-        return hasAccessRight(CheckMode.ALL, accessRight);
+        return hasAccessRight(accessRight, checkAncestors);
     }
 
     @Override
@@ -127,12 +79,8 @@ public abstract class AbstractSecurityUtil<T extends IAccessRight<?>> implements
         return true;
     }
 
-    @Override
-    public boolean isSuperUser() {
-        return hasAccessRight(CheckMode.ANY, superUsers);
-    }
-
-    private boolean contains(final Collection<? extends GrantedAuthority> authorities, final IAccessRight<?> accessRight) {
+    private boolean contains(final Collection<? extends GrantedAuthority> authorities, final IAccessRight<?> accessRight,
+            final boolean checkAncenstors) {
         if (accessRight == null) {
             return false;
         }
@@ -140,8 +88,11 @@ public abstract class AbstractSecurityUtil<T extends IAccessRight<?>> implements
         if (authorities.contains(accessRight)) {
             return true;
         }
-
-        return contains(authorities, accessRight.getParentAccessRight());
+        if (checkAncenstors) {
+            return contains(authorities, accessRight.getParentAccessRight(), checkAncenstors);
+        } else {
+            return false;
+        }
     }
 
     protected abstract T getAccessRightByName(String accessRightName);

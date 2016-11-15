@@ -1,7 +1,6 @@
 package org.trinity.yqyl.process.controller;
 
 import org.springframework.stereotype.Service;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategorySearchingDto;
@@ -25,6 +24,6 @@ public class ServiceCategoryProcessController extends
 
     @Override
     protected boolean canAccessAllStatus() {
-        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
+        return getSecurityUtil().hasAccessRight(AccessRight.ADMINISTRATOR);
     }
 }

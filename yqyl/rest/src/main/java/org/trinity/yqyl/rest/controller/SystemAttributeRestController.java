@@ -21,7 +21,7 @@ public class SystemAttributeRestController extends
         AbstractApplicationAwareCrudRestController<SystemAttributeDto, SystemAttributeSearchingDto, ISystemAttributeProcessController, SystemAttributeRequest, SystemAttributeResponse> {
 
     @RequestMapping(value = "/refresh", method = RequestMethod.PUT)
-    @Authorize(requireAny = AccessRight.SUPER_USER)
+    @Authorize(AccessRight.SUPER_USER)
     public @ResponseBody ResponseEntity<DefaultResponse> updateAll() throws IException {
         final DefaultResponse response = new DefaultResponse();
 

@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
@@ -66,7 +65,7 @@ public class ServiceSupplierStaffProcessController extends
             if (dto.getServiceSupplierClient() != null && dto.getServiceSupplierClient().getId() != null
                     && dto.getServiceSupplierClient().getId() > 0
                     && dto.getServiceSupplierClient().getId() != serviceSupplierClient.getUserId()) {
-                getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.OPERATOR);
+                getSecurityUtil().checkAccessRight(AccessRight.OPERATOR);
 
                 entity.setServiceSupplierClient(serviceSupplierClientRepository.findOne(dto.getServiceSupplierClient().getId()));
             } else {
@@ -147,7 +146,8 @@ public class ServiceSupplierStaffProcessController extends
 
     @Override
     protected boolean canAccessAllStatus() {
-        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR, AccessRight.SERVICE_SUPPLIER);
+        return getSecurityUtil().hasAccessRight(AccessRight.ADMINISTRATOR)
+                || getSecurityUtil().hasAccessRight(AccessRight.SERVICE_SUPPLIER);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class ServiceSupplierStaffProcessController extends
     protected void validateDataPermission(final ServiceSupplierStaffDto dto) throws IException {
         final String username = getDomainEntityRepository().findOne(dto.getId()).getServiceSupplierClient().getUser().getUsername();
         if (!getSecurityUtil().getCurrentToken().getUsername().equals(username)) {
-            getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+            getSecurityUtil().checkAccessRight(AccessRight.SUPER_USER);
         }
         super.validateDataPermission(dto);
     }

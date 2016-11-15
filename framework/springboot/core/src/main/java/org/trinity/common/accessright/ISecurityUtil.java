@@ -6,16 +6,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.trinity.common.exception.IException;
 
 public interface ISecurityUtil<T extends IAccessRight<?>> {
-    public static enum CheckMode {
-        ANY,
-        ALL
+
+    default void checkAccessRight(final T accessRight) throws IException {
+        checkAccessRight(accessRight, true);
     }
 
-    void checkAccessRight(final CheckMode checkMode, @SuppressWarnings("unchecked") final T... accessRights) throws IException;
+    void checkAccessRight(T accessRight, boolean checkAncenstors) throws IException;
 
     void checkAuthorizationEnabled(boolean enabled) throws IException;
-
-    void checkSuperUser() throws IException;
 
     default void deny() throws IException {
         checkAuthorizationEnabled(false);
@@ -25,11 +23,18 @@ public interface ISecurityUtil<T extends IAccessRight<?>> {
 
     AuthToken getCurrentToken() throws IException;
 
-    boolean hasAccessRight(final CheckMode checkMode, @SuppressWarnings("unchecked") final T... accessRights);
+    default boolean hasAccessRight(final T accessRight) {
+        return hasAccessRight(accessRight, true);
+    }
 
-    boolean hasAccessRightByName(String accessRightName);
+    boolean hasAccessRight(T accessRight, boolean checkAncenstors);
+
+    default boolean hasAccessRightByName(final String accessRightName) {
+        return hasAccessRightByName(accessRightName);
+    }
+
+    boolean hasAccessRightByName(String accessRightName, boolean checkAncestors);
 
     boolean hasToken();
 
-    boolean isSuperUser();
 }

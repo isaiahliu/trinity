@@ -22,7 +22,7 @@ public class ServiceSupplierStaffRestController extends
         AbstractApplicationAwareCrudRestController<ServiceSupplierStaffDto, ServiceSupplierStaffSearchingDto, IServiceSupplierStaffProcessController, ServiceSupplierStaffRequest, ServiceSupplierStaffResponse> {
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ResponseEntity<ServiceSupplierStaffResponse> getAvailableStaffs(final ServiceSupplierStaffSearchingDto request)
             throws IException {
 

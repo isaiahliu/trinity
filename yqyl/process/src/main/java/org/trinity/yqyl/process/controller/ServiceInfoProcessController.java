@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.process.converter.IObjectConverter.CopyPolicy;
@@ -75,7 +74,7 @@ public class ServiceInfoProcessController
             if (dto.getServiceSupplierClient() != null && dto.getServiceSupplierClient().getId() != null
                     && dto.getServiceSupplierClient().getId() > 0
                     && dto.getServiceSupplierClient().getId() != serviceSupplierClient.getUserId()) {
-                getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.OPERATOR);
+                getSecurityUtil().checkAccessRight(AccessRight.OPERATOR);
 
                 entity.setServiceSupplierClient(serviceSupplierClientRepository.findOne(dto.getServiceSupplierClient().getId()));
             } else {
@@ -110,7 +109,7 @@ public class ServiceInfoProcessController
         final String username = serviceInfo.getServiceSupplierClient().getUser().getUsername();
 
         if (!username.equals(getSecurityUtil().getCurrentToken().getUsername())) {
-            getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.OPERATOR);
+            getSecurityUtil().checkAccessRight(AccessRight.OPERATOR);
         }
 
         serviceInfo.setStatus(ServiceStatus.DISABLED);
@@ -179,7 +178,8 @@ public class ServiceInfoProcessController
 
     @Override
     protected boolean canAccessAllStatus() {
-        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SERVICE_SUPPLIER, AccessRight.ADMINISTRATOR);
+        return getSecurityUtil().hasAccessRight(AccessRight.SERVICE_SUPPLIER)
+                || getSecurityUtil().hasAccessRight(AccessRight.ADMINISTRATOR);
     }
 
     @Override

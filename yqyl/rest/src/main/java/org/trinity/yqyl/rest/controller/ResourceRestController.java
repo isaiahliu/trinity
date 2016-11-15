@@ -19,7 +19,7 @@ public class ResourceRestController extends AbstractRestController {
     private IMessageResolverChain messageResolver;
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    @Authorize(requireAny = AccessRight.SUPER_USER)
+    @Authorize(AccessRight.SUPER_USER)
     public ResponseEntity<DefaultResponse> refresh() throws IException {
         final DefaultResponse response = new DefaultResponse();
 

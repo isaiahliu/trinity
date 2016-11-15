@@ -8,7 +8,6 @@ import javax.persistence.criteria.Predicate;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.exception.IException;
 import org.trinity.message.LookupParser;
 import org.trinity.yqyl.common.message.dto.domain.UserDto;
@@ -81,7 +80,7 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
     @Override
     protected void updateRelationshipFields(final User entity, final UserDto dto) throws IException {
         if (dto.getAccessrights() != null) {
-            if (getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR)) {
+            if (getSecurityUtil().hasAccessRight(AccessRight.ADMINISTRATOR)) {
                 entity.getAccessrights().clear();
                 if (!dto.getAccessrights().isEmpty()) {
                     dto.getAccessrights()
@@ -97,7 +96,7 @@ public class UserProcessController extends AbstractAutowiredCrudProcessControlle
 
         final User user = getDomainEntityRepository().findOne(dto.getId());
 
-        if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+        if (!getSecurityUtil().hasAccessRight(AccessRight.SUPER_USER)) {
             if (!currentUser.equals(user.getUsername())) {
                 throw getExceptionFactory().createException(ErrorMessage.UNABLE_TO_ACCESS_USER, user.getUsername());
             }

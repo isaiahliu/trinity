@@ -5,7 +5,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.exception.IException;
 import org.trinity.process.converter.IObjectConverter;
@@ -62,7 +61,7 @@ public class YiquanProcessController
         }
 
         if (user.getYiquan() != null && !user.getYiquan().getCode().equals(yiquanDto.getCode())) {
-            getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+            getSecurityUtil().checkAccessRight(AccessRight.SUPER_USER);
         }
 
         Yiquan yiquan = getDomainEntityRepository().findOneByCode(yiquanDto.getCode());

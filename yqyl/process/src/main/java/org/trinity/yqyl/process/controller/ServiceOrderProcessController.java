@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.exception.IException;
 import org.trinity.message.exception.GeneralErrorMessage;
@@ -96,7 +95,7 @@ public class ServiceOrderProcessController
 
             final boolean isSupplier = entity.getServiceInfo().getServiceSupplierClient().getUser().getUsername().equals(username);
             final boolean isReceiver = entity.getUser().getUsername().equals(username);
-            final boolean isAdmin = getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
+            final boolean isAdmin = getSecurityUtil().hasAccessRight(AccessRight.ADMINISTRATOR);
 
             if (!isSupplier && !isReceiver && !isAdmin) {
                 return entity;
@@ -178,7 +177,7 @@ public class ServiceOrderProcessController
                 return entity;
             }
             if (!isSupplier || entity.getStatus() != OrderStatus.IN_PROGRESS && entity.getStatus() != OrderStatus.UNPROCESSED) {
-                if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+                if (!getSecurityUtil().hasAccessRight(AccessRight.SUPER_USER)) {
                     return entity;
                 }
             }
@@ -257,7 +256,7 @@ public class ServiceOrderProcessController
             }
 
             final boolean isSupplier = entity.getServiceInfo().getServiceSupplierClient().getUser().getUsername().equals(username);
-            final boolean isAdmin = getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
+            final boolean isAdmin = getSecurityUtil().hasAccessRight(AccessRight.ADMINISTRATOR);
 
             if (!isSupplier && !isAdmin) {
                 return entity;
@@ -325,7 +324,7 @@ public class ServiceOrderProcessController
             final ServiceOrder entity = getDomainEntityRepository().findOne(item.getId());
 
             if (entity.getStatus() != OrderStatus.IN_PROGRESS) {
-                getSecurityUtil().checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+                getSecurityUtil().checkAccessRight(AccessRight.SUPER_USER);
             } else {
                 entity.setStatus(OrderStatus.AWAITING_APPRAISE);
             }
@@ -356,7 +355,7 @@ public class ServiceOrderProcessController
             }
 
             if (!toUser.getUsername().equals(getCurrentUsername())) {
-                if (!getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+                if (!getSecurityUtil().hasAccessRight(AccessRight.SUPER_USER)) {
                     throw getExceptionFactory().createException(ErrorMessage.BENEFICIARY_SUPPLIER_MISMATCH);
                 }
             }

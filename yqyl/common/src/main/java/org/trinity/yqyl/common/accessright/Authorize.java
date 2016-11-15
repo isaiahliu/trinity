@@ -12,9 +12,7 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Authorize {
-    boolean enabled() default true;
+    boolean checkAncestors() default true;
 
-    AccessRight[] requireAll() default {};
-
-    AccessRight[] requireAny() default {};
+    AccessRight value();
 }

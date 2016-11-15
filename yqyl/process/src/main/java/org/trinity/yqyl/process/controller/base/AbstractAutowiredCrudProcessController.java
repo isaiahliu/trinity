@@ -3,7 +3,6 @@ package org.trinity.yqyl.process.controller.base;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.trinity.common.accessright.ISecurityUtil;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.IPagingDto;
 import org.trinity.common.dto.object.ISearchingDto;
@@ -50,12 +49,12 @@ public abstract class AbstractAutowiredCrudProcessController<TEntity, TDto exten
 
     @Override
     protected boolean canAccessAllStatus() {
-        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+        return getSecurityUtil().hasAccessRight(AccessRight.SUPER_USER);
     }
 
     @Override
     protected boolean canAccessScopeAll() {
-        return getSecurityUtil().hasAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
+        return getSecurityUtil().hasAccessRight(AccessRight.ADMINISTRATOR);
     }
 
     @Override

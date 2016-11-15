@@ -11,90 +11,85 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 @RestController
 @RequestMapping("/servicer")
 public class ServicerWebController extends AbstractResourceWebController {
-	@RequestMapping("/auditing")
-	public ModelAndView auditingPage() throws IException {
-		return createModelAndView("servicer/auditing");
-	}
+    @RequestMapping("/auditing")
+    public ModelAndView auditingPage() throws IException {
+        return createModelAndView("servicer/auditing");
+    }
 
-	@RequestMapping({ "", "/info" })
-	public ModelAndView infoPage() throws IException {
-		return createModelAndView("servicer/info").addObject("serviceSupplierClientId", 0);
-	}
+    @RequestMapping({ "", "/info" })
+    public ModelAndView infoPage() throws IException {
+        return createModelAndView("servicer/info").addObject("serviceSupplierClientId", 0);
+    }
 
-	@RequestMapping("/info/material")
-	public ModelAndView materialPage() throws IException {
-		return createModelAndView("servicer/material");
-	}
+    @RequestMapping("/order/{entityId}")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView orderDetailPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("service/detail").addObject("orderId", entityId).addObject("mode", "supplier");
+    }
 
-	@RequestMapping("/order/{entityId}")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView orderDetailPage(@PathVariable("entityId") final Long entityId) throws IException {
-		return createModelAndView("service/detail").addObject("orderId", entityId).addObject("mode", "supplier");
-	}
+    @RequestMapping("/order/edit/{entityId}")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView orderEditPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("servicer/orderEdit").addObject("serviceOrderId", entityId);
+    }
 
-	@RequestMapping("/order/edit/{entityId}")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView orderEditPage(@PathVariable("entityId") final Long entityId) throws IException {
-		return createModelAndView("servicer/orderEdit").addObject("serviceOrderId", entityId);
-	}
+    @RequestMapping("/order")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView orderPage() throws IException {
+        return createModelAndView("servicer/order");
+    }
 
-	@RequestMapping("/order")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView orderPage() throws IException {
-		return createModelAndView("servicer/order");
-	}
+    @RequestMapping("/service/edit/{entityId}")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView serviceEditPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("servicer/serviceEdit").addObject("serviceInfoId", entityId);
+    }
 
-	@RequestMapping("/service/edit/{entityId}")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView serviceEditPage(@PathVariable("entityId") final Long entityId) throws IException {
-		return createModelAndView("servicer/serviceEdit").addObject("serviceInfoId", entityId);
-	}
+    @RequestMapping("/service/new")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView serviceNewPage() throws IException {
+        return createModelAndView("servicer/serviceEdit").addObject("serviceInfoId", 0);
+    }
 
-	@RequestMapping("/service/new")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView serviceNewPage() throws IException {
-		return createModelAndView("servicer/serviceEdit").addObject("serviceInfoId", 0);
-	}
+    @RequestMapping("/service")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView servicePage() throws IException {
+        return createModelAndView("servicer/service");
+    }
 
-	@RequestMapping("/service")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView servicePage() throws IException {
-		return createModelAndView("servicer/service");
-	}
+    @RequestMapping("/staff/edit/{entityId}")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView staffEditPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("servicer/staffEdit").addObject("staffId", entityId);
+    }
 
-	@RequestMapping("/staff/edit/{entityId}")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView staffEditPage(@PathVariable("entityId") final Long entityId) throws IException {
-		return createModelAndView("servicer/staffEdit").addObject("staffId", entityId);
-	}
+    @RequestMapping("/staff/new")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView staffNewPage() throws IException {
+        return createModelAndView("servicer/staffEdit").addObject("staffId", 0);
+    }
 
-	@RequestMapping("/staff/new")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView staffNewPage() throws IException {
-		return createModelAndView("servicer/staffEdit").addObject("staffId", 0);
-	}
+    @RequestMapping("/staff")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView staffPage() throws IException {
+        return createModelAndView("servicer/staff");
+    }
 
-	@RequestMapping("/staff")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView staffPage() throws IException {
-		return createModelAndView("servicer/staff");
-	}
+    @RequestMapping("/training")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView trainingPage() throws IException {
+        return createModelAndView("servicer/training");
+    }
 
-	@RequestMapping("/training")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView trainingPage() throws IException {
-		return createModelAndView("servicer/training");
-	}
+    @RequestMapping("/transaction")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    public ModelAndView transactionPage() throws IException {
+        return createModelAndView("servicer/transaction");
+    }
 
-	@RequestMapping("/transaction")
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	public ModelAndView transactionPage() throws IException {
-		return createModelAndView("servicer/transaction");
-	}
-
-	@Override
-	@Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
-	protected ModelAndView createModelAndView(final String viewName) {
-		return super.createModelAndView(viewName).addObject("platform", "SERVICER");
-	}
+    @Override
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
+    protected ModelAndView createModelAndView(final String viewName) {
+        return super.createModelAndView(viewName).addObject("platform", "SERVICER");
+    }
 }

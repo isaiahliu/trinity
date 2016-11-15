@@ -36,7 +36,7 @@ public class ServiceSupplierStaffAjaxController extends AbstractRestController {
     private IRestfulServiceUtil restfulServiceUtil;
 
     @RequestMapping(value = "/{entityId}/upload", method = RequestMethod.POST)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("entityId") final Long entityId,
             final MultipartHttpServletRequest request) throws IException {
 
@@ -81,7 +81,7 @@ public class ServiceSupplierStaffAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ServiceSupplierStaffResponse ajaxGetMyAvailableStaffs(final ServiceSupplierStaffSearchingDto request)
             throws IException {
         request.setId(null);
@@ -91,13 +91,13 @@ public class ServiceSupplierStaffAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody ServiceSupplierStaffResponse ajaxGetStaffs(final ServiceSupplierStaffSearchingDto request) throws IException {
         return restfulServiceUtil.callRestService(Url.STAFF, null, null, request, ServiceSupplierStaffResponse.class);
     }
 
     @RequestMapping(value = "/away/{entityId}", method = RequestMethod.DELETE)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody DefaultResponse ajaxStaffAway(@PathVariable("entityId") final Long entityId) throws IException {
         final ServiceSupplierStaffDto serviceSupplierStaffDto = new ServiceSupplierStaffDto();
         serviceSupplierStaffDto.setId(entityId);
@@ -110,7 +110,7 @@ public class ServiceSupplierStaffAjaxController extends AbstractRestController {
     }
 
     @RequestMapping(value = "/return/{entityId}", method = RequestMethod.POST)
-    @Authorize(requireAny = AccessRight.SERVICE_SUPPLIER)
+    @Authorize(AccessRight.SERVICE_SUPPLIER)
     public @ResponseBody DefaultResponse ajaxStaffReturn(@PathVariable("entityId") final Long entityId) throws IException {
         final ServiceSupplierStaffDto serviceSupplierStaffDto = new ServiceSupplierStaffDto();
         serviceSupplierStaffDto.setId(entityId);

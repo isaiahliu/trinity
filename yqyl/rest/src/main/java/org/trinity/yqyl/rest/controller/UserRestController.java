@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.trinity.common.accessright.ISecurityUtil;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.UserDto;
@@ -56,19 +55,19 @@ public class UserRestController
     protected void validateAdd() throws IException {
         super.validateAdd();
 
-        securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
+        securityUtil.checkAccessRight(AccessRight.ADMINISTRATOR);
     }
 
     @Override
     protected void validateDelete() throws IException {
         super.validateDelete();
-        securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.SUPER_USER);
+        securityUtil.checkAccessRight(AccessRight.SUPER_USER);
     }
 
     @Override
     protected void validateGet() throws IException {
         super.validateGet();
 
-        securityUtil.checkAccessRight(CheckMode.ANY, AccessRight.ADMINISTRATOR);
+        securityUtil.checkAccessRight(AccessRight.ADMINISTRATOR);
     }
 }

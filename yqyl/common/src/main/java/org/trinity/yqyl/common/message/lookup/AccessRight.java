@@ -3,6 +3,8 @@ package org.trinity.yqyl.common.message.lookup;
 import org.trinity.common.accessright.IAccessRight;
 
 public enum AccessRight implements IAccessRight<LookupType> {
+    DISABLED("DISABLED", null),
+
     SUPER_USER("SUPER", null),
 
     ADMINISTRATOR("ADMIN", SUPER_USER),

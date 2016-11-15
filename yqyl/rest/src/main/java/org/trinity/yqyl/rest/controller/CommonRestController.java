@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.trinity.common.accessright.ISecurityUtil;
-import org.trinity.common.accessright.ISecurityUtil.CheckMode;
 import org.trinity.common.dto.IResponse;
 import org.trinity.common.dto.object.AccessrightDto;
 import org.trinity.common.dto.object.AccessrightResponse;
@@ -30,7 +29,7 @@ public class CommonRestController extends AbstractRestController {
     private ISecurityUtil<AccessRight> securityUtil;
 
     @RequestMapping(value = "/accessright", method = RequestMethod.GET)
-    @Authorize(requireAny = AccessRight.ADMINISTRATOR)
+    @Authorize(AccessRight.ADMINISTRATOR)
     public ResponseEntity<AccessrightResponse> accessright() throws IException {
         final AccessrightResponse response = new AccessrightResponse();
 
@@ -42,7 +41,7 @@ public class CommonRestController extends AbstractRestController {
 
         populateAccessrightDto(superUserDto, AccessRight.SUPER_USER, allAccessrights);
 
-        if (securityUtil.hasAccessRight(CheckMode.ANY, AccessRight.SUPER_USER)) {
+        if (securityUtil.hasAccessRight(AccessRight.SUPER_USER)) {
             response.addData(superUserDto);
         } else {
             response.addData(superUserDto.getChildren());

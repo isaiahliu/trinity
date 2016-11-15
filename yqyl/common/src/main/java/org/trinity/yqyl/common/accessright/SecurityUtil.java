@@ -8,9 +8,8 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 
 public class SecurityUtil extends AbstractSecurityUtil<AccessRight> {
 
-    public SecurityUtil(final IMessageResolverChain messageResolver, final IExceptionFactory exceptionFactory,
-            final AccessRight... superUsers) {
-        super(messageResolver, exceptionFactory, superUsers);
+    public SecurityUtil(final IMessageResolverChain messageResolver, final IExceptionFactory exceptionFactory) {
+        super(messageResolver, exceptionFactory);
     }
 
     @Override
