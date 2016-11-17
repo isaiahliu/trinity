@@ -4,6 +4,7 @@ import org.trinity.message.ILookupMessage;
 
 public enum OrderOperation implements ILookupMessage<LookupType> {
     PROPOSAL("10"),
+    EDIT_BEFORE_PROCESSING("15"),
     TAKEN("20"),
     ASSIGNMENT("30"),
     PROCESSING("40"),

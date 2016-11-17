@@ -32,16 +32,36 @@ layoutApp.value("mode", '${mode}');
 	</div>
 	<div class="level2">
 		<span class="key">#label("SERVICE_ADDRESS"): </span> <span
-			class="value">{{serviceOrder.address}}</span>
+			class="value" ng-hide="modifying">{{serviceOrder.address}}</span> <input
+			class="ng-hide" ng-show="modifying"
+			ng-model="serviceOrder.newAddress" />
 	</div>
 	<div class="level2">
-		<span class="key">#label("SERVICE_TIME"): </span> <span class="value">{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}</span>
-		<span>{{serviceOrder.serviceHour}}:00</span>
+		<span class="key">#label("SERVICE_TIME"): </span> <span class="value"
+			ng-hide="modifying">{{serviceOrder.serviceDate|date:'yyyy/MM/dd'}}</span>
+		<span ng-hide="modifying">{{serviceOrder.serviceHour}}:00</span> <input
+			class="ng-hide" style="width: 120px;" ng-show="modifying" type="text"
+			placeholder="YYYY/MM/DD" ui-date="dateOptions"
+			ng-model="serviceOrder.newServiceDate" /> <select class="ng-hide"
+			ng-show="modifying" ng-model="serviceOrder.newServiceHour"
+			ng-options="hour as hour for hour in hours"></select> <span
+			class="ng-hide" ng-show="modifying">#label("OCLOCK")</span>
+	</div>
+	<div class="level2">
+		<span class="key">#label("CONTACT_METHOD"): </span> <span
+			class="value" ng-hide="modifying">{{serviceOrder.phone}}</span> <input
+			class="ng-hide" ng-show="modifying" ng-model="serviceOrder.newPhone" />
 	</div>
 	<div class="level2">
 		<span class="key">#label("PAYMENT_METHOD"): </span> <span
 			class="value">{{serviceOrder.paymentMethod.message}}</span>
 	</div>
+	<div class="level2 ng-hide" ng-show="serviceOrder.status.code=='U'">
+		<button class="ng-hide" ng-hide="modifying" ng-click="prepareModify()">#button("MODIFY")</button>
+		<button class="ng-hide" ng-show="modifying" ng-click="applyModify()">#button("APPLY")</button>
+		<button class="ng-hide" ng-show="modifying" ng-click="cancelModify()">#button("CANCEL")</button>
+	</div>
+
 	<div class="level1">
 		<span>#label("SERVICE_ORDER_TRACING")</span>
 	</div>
