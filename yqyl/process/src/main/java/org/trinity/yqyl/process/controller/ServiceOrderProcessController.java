@@ -212,7 +212,7 @@ public class ServiceOrderProcessController
 	public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
 		final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
 
-		if (serviceOrderDto.getId() > 0) {
+		if (serviceOrderDto.getId() != null && serviceOrderDto.getId() > 0) {
 			final ServiceOrder serviceOrder = getDomainEntityRepository().findOne(serviceOrderDto.getId());
 			if (!serviceOrder.getUser().getId().equals(user.getId())) {
 				throw getExceptionFactory().createException(ErrorMessage.INVALID_ORDER_ID);
