@@ -13,4 +13,8 @@ layoutApp.controller('headerController', function($scope, $http, $window, errorH
 			errorHandler($scope, response);
 		});
 	};
+
+	$scope.favorite = function() {
+		window.external.addFavorite("http://www.yqyl.com", "益券养老");
+	}
 });

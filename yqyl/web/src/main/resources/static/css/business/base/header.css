@@ -1,13 +1,13 @@
 div.header, div.footer {
-	background: #f5f5f5;
+	background-color: #F5F5F5;
 }
 
 div.header {
-	height: 40px;
+	height: 32px;
 }
 
 div.header span {
-	line-height: 40px;
+	line-height: 32px;
 }
 
 div.header span.title {
@@ -20,13 +20,12 @@ div.header span.city {
 	
 }
 
-div.header img {
-	height: 30px;
-	margin-top: 5px;
+div.header ul {
+	padding-left: 0px;
 }
 
 div.header li div {
-	height: 40px;
+	height: 32px;
 }
 
 div.header div.headerBar, div.content {
@@ -40,11 +39,10 @@ div.header div.left {
 
 div.header div.right {
 	float: right;
-	padding-right: 50px;
 }
 
 div.header li {
 	list-style-type: none;
 	float: left;
-	margin-left: 20px;
+	margin-left: 10px;
 }

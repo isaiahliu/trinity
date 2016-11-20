@@ -17,7 +17,7 @@
 			</li>
 			<li class="navBarItem"><a href="javascript:void(0)"><span>#button("WECHAT_QR_CODE")</span></a>
 			</li>
-			<li class="navBarItem"><img class="QRCode" src="/static/images/logo/QRCode.png" alt="QR Code"/></li>
+			<li class="navBarItem"><img class="QRCode" src="/static/images/logo/QRCode.jpg" alt="QR Code"/></li>
 		</ul>
 	</div>
 </div>
