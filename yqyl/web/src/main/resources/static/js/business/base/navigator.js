@@ -2,4 +2,8 @@ layoutApp.controller('navigatorController', function($scope, $http, $window, err
 	$scope.showHomeEndowment = false;
 	$scope.showPensionIndustry = false;
 	$scope.showTalentTraining = false;
+
+	$scope.publish = function() {
+		$window.location.href = "/service/publish"
+	}
 });

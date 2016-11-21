@@ -4,15 +4,22 @@
 	<div class="advertisement">
 		<img class="logo" src="/static/images/logo/yqyl.jpg" />
 		<div style="display: inline-block; height: 40px; margin-left: 100px;">
-			<input class="searchBox" /><button class="searchButton">
-				<span style="line-height: 40px;">#button("SEARCH")</span>
-			</button>
-			<button class="publishButton">#button("PUBLISH_SERVICE")</button>
+			<img
+				style="position: absolute; padding: 5px; height: 40px; width: 40px;"
+				src="/static/images/logo/search.png" /> <input class="searchBox"
+				placeholder="#label('INPUT_KEY_WORDS')" /><button class="searchButton"><span
+				style="line-height: 40px;">#button("SEARCH")</span></button>
+			<button class="publishButton" ng-click="publish()">#button("PUBLISH_SERVICE")</button>
 		</div>
 		<img class="advertisement" src="/static/images/logo/advertisement.jpg" />
 	</div>
 	<div class="navBarItems">
 		<ul>
+			<li class="selectedNavBarItem">#if($currentPage=='SEARCH')
+				<div>
+					<span>#button("ONLINE_SERVICE")</span>
+				</div>#end
+			</li>
 			<li class="navBarItem"><a href="/home"><div
 						ng-mouseenter="showHomePage=true"
 						ng-mouseleave="showHomePage=false">

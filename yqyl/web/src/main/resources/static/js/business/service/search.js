@@ -1,54 +1,21 @@
 layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$http({
 		method : "GET",
-		url : "/ajax/service/category?status=A"
+		url : "/ajax/service/category?status=A&rsexp=serviceSubCategories"
 	}).success(function(response) {
 		$scope.categories = response.data;
-		if ($scope.categories.length > 0) {
-			$scope.selectCategory($scope.categories[0]);
-		}
-
 	}).error(function(response) {
 		errorHandler($scope, response);
 	});
 
-	$scope.selectCategory = function(category) {
-		$scope.selectedCategory = category;
-
-		if (category.children == undefined) {
-			$http({
-				method : "GET",
-				url : "/ajax/service/category?&status=A&parentId=" + category.id
-			}).success(function(response) {
-				category.children = response.data;
-			}).error(function(response) {
-				errorHandler($scope, response);
-			});
-		}
-	};
+	$scope.selectedCategory == undefined;
 
 	$scope.searchServices = function(newSearch) {
 		var paging = $scope.pagingData;
 		if (newSearch) {
 			paging = {
 				pageIndex : 1,
-				pageSize : 10
-			}
-		}
-
-		$scope.searchingCategory = undefined;
-		$scope.searchingSubCategories = "";
-		if ($scope.selectedCategory != undefined) {
-			$scope.searchingCategory = $scope.selectedCategory;
-
-			for (var index = 0; index < $scope.selectedCategory.children.length; index++) {
-				if ($scope.selectedCategory.children[index].checked) {
-					if ($scope.searchingSubCategories != "") {
-						$scope.searchingSubCategories += '&';
-					}
-
-					$scope.searchingSubCategories += "categoryChildren=" + $scope.selectedCategory.children[index].id;
-				}
+				pageSize : 30
 			}
 		}
 
@@ -57,12 +24,8 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		ajaxUrl += "&pageIndex=" + (paging.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + paging.pageSize;
 
-		if ($scope.searchingCategory != undefined) {
-			ajaxUrl += "&categoryParent=" + $scope.searchingCategory.id;
-		}
-
-		if ($scope.searchingSubCategories != "") {
-			ajaxUrl += "&" + $scope.searchingSubCategories;
+		if ($scope.selectedCategory != undefined) {
+			ajaxUrl += "&category=" + $scope.selectedCategory.id;
 		}
 
 		$http({
@@ -76,8 +39,4 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			errorHandler($scope, response);
 		});
 	};
-
-	$scope.publish = function() {
-		$window.location.href = "/service/publish"
-	}
 });

@@ -67,7 +67,7 @@ div.navBar li.navBarItem {
 }
 
 div.navBar li div {
-	width: 100px;
+	width: 120px;
 	height: 45px;
 }
 
@@ -87,6 +87,7 @@ div.navBar ul.popList {
 	position: absolute;
 	padding: 0px;
 	z-index: 99;
+	background: #fd6a15;
 }
 
 div.navBar ul.popList li {

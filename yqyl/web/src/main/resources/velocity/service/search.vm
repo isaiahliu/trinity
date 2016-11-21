@@ -1,32 +1,22 @@
 <link rel="stylesheet" href="/static/css/business/service/search.css"></link>
 
 <div class="search">
-	<div class="city">
-		<select>
-			<option value="370900">泰安</option>
-		</select> <input placeholder='#info("INPUT_YOUR_CITY")' />
-		<button ng-click="searchCity()">#button("SEARCH_CITY")</button>
-	</div>
 	<div class="filter">
-		<div class="block category">
-			<ul>
-				<li class="categoryItem ng-hide" ng-show="categories"
-					ng-repeat="category in categories"><a
-					href="javascript:void(0)" ng-click='selectCategory(category)'><div>
-							<span>{{category.name}}</span>
-						</div></a></li>
-			</ul>
+		<div class="title">
+			<a href="javascript:void(0)"
+				ng-click="selectedCategory=undefined;searchServices(true);"><span>#label("ALL_CATEGORIES")</span></a>
 		</div>
-		<div class="block subCategory">
+		<div class="categoryItem ng-hide" ng-show="categories"
+			ng-repeat="category in categories">
 			<ul>
-				<li ng-repeat="subCategory in selectedCategory.children"
-					class="subCategoryItem ng-hide" ng-show="selectedCategory.children"><input
-					type="checkbox" ng-model="subCategory.checked" /><span>{{subCategory.name}}</span></li>
+				<li class="category"><a href="javascript:void(0)"
+					ng-click='selectCategory(category)'><span>{{category.name}}</span>
+				</a></li>
+				<li class="subCategory"><a href="javascript:void(0)"
+					ng-repeat="subCategory in category.serviceSubCategories"
+					ng-if="subCategory.status.code=='A'"><span>{{subCategory.name}}</span></a>
+				</li>
 			</ul>
-		</div>
-		<div class="block submit">
-			<button ng-click="searchServices(true)">#button("SEARCH")</button>
-			<button ng-click="publish()">#button("PUBLISH_SERVICE")</button>
 		</div>
 	</div>
 	<div class="info ng-hide" ng-show="pagingData">
