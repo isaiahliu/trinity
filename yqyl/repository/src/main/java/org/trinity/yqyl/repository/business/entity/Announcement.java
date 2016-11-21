@@ -27,7 +27,7 @@ public class Announcement extends AbstractAuditableEntity implements Serializabl
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "Announcement_PK_IdGenerator")
-    @TableGenerator(name = "Announcement_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Announcement_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    @TableGenerator (name = "Announcement_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Announcement_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
     private Long id;
 
     @Column(name = "client_id")

@@ -5,7 +5,7 @@ import javax.servlet.MultipartConfigElement;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.velocity.VelocityProperties;
-import org.springframework.boot.context.embedded.MultipartConfigFactory;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartResolver;
@@ -26,6 +26,7 @@ import org.trinity.rest.util.RestfulServiceUtil;
 import org.trinity.rest.util.SimplifiedChineseLocaleResolver;
 import org.trinity.yqyl.web.aspect.LocaleInterceptor;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebMvc
 public class WebConfiguration extends WebMvcConfigurerAdapter {
@@ -77,17 +78,17 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public MultipartResolver multipartResolver() {
-        final CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(1000000);
-        return multipartResolver;
-    }
-
-    @Bean
-    MultipartConfigElement multipartConfigElement() {
+    public MultipartConfigElement multipartConfigElement() {
         final MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize("5120MB");
         factory.setMaxRequestSize("5120MB");
         return factory.createMultipartConfig();
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        final CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(1000000);
+        return multipartResolver;
     }
 }
