@@ -13,25 +13,30 @@ import org.trinity.common.exception.IException;
 @RestController
 @RequestMapping("/service")
 public class ServiceWebController extends AbstractResourceWebController {
-	@RequestMapping("/info/{entityId}")
-	public ModelAndView infoPage(@PathVariable("entityId") final Long entityId) throws IException {
-		return createModelAndView("service/info").addObject("serviceSupplierClientId", entityId);
-	}
+    @RequestMapping("/info/{entityId}")
+    public ModelAndView infoPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("service/info").addObject("serviceSupplierClientId", entityId);
+    }
 
-	@RequestMapping("/proposal/{entityId}")
-	public ModelAndView proposalPage(@PathVariable("entityId") final Long entityId,
-			@RequestParam(value = "selected", required = false) final List<Long> selectedServiceInfos) throws IException {
-		return createModelAndView("service/proposal").addObject("serviceSupplierClientId", entityId).addObject("selectedServiceInfos",
-				(selectedServiceInfos != null) ? selectedServiceInfos : Collections.emptyList());
-	}
+    @RequestMapping({ "", "/overview" })
+    public ModelAndView overviewPage() throws IException {
+        return createModelAndView("service/overview").addObject("currentPage", "SEARCH");
+    }
 
-	@RequestMapping("/publish")
-	public ModelAndView publishPage() throws IException {
-		return createModelAndView("service/publish");
-	}
+    @RequestMapping("/proposal/{entityId}")
+    public ModelAndView proposalPage(@PathVariable("entityId") final Long entityId,
+            @RequestParam(value = "selected", required = false) final List<Long> selectedServiceInfos) throws IException {
+        return createModelAndView("service/proposal").addObject("serviceSupplierClientId", entityId).addObject("selectedServiceInfos",
+                (selectedServiceInfos != null) ? selectedServiceInfos : Collections.emptyList());
+    }
 
-	@RequestMapping({ "", "/search" })
-	public ModelAndView searchPage() throws IException {
-		return createModelAndView("service/search").addObject("currentPage", "SEARCH");
-	}
+    @RequestMapping("/publish")
+    public ModelAndView publishPage() throws IException {
+        return createModelAndView("service/publish");
+    }
+
+    @RequestMapping("/search")
+    public ModelAndView searchPage() throws IException {
+        return createModelAndView("service/search").addObject("currentPage", "SEARCH");
+    }
 }

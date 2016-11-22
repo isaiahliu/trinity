@@ -3,67 +3,23 @@
 <div class="search">
 	<div class="filter">
 		<div class="title">
-			<a href="javascript:void(0)"
-				ng-click="selectedCategory=undefined;searchServices(true);"><span>#label("ALL_CATEGORIES")</span></a>
+			<a href="javascript:void(0)" ng-click="selectedCategory=undefined;searchServices(true);"><span>#label("ALL_CATEGORIES")</span></a>
 		</div>
-		<div class="categoryItem ng-hide" ng-show="categories"
-			ng-repeat="category in categories">
+		<div class="categoryItem ng-hide" ng-show="categories" ng-repeat="category in categories">
 			<ul>
-				<li class="category"><a href="javascript:void(0)"
-					ng-click='selectCategory(category)'><span>{{category.name}}</span>
-				</a></li>
-				<li class="subCategory"><a href="javascript:void(0)"
-					ng-repeat="subCategory in category.serviceSubCategories"
-					ng-if="subCategory.status.code=='A'"><span>{{subCategory.name}}</span></a>
-				</li>
+				<li class="category"><a href="javascript:void(0)" ng-click='selectCategory(category)'><span>{{category.name}}</span> </a></li>
+				<li class="subCategory"><a href="javascript:void(0)" ng-repeat="subCategory in category.serviceSubCategories"
+					ng-if="subCategory.status.code=='A'"><span>{{subCategory.name}}</span></a></li>
 			</ul>
 		</div>
 	</div>
-	<div class="info ng-hide" ng-show="pagingData">
-		泰安<span>#info("SERVICE_FOUND_1")"{{searchingCategory.name}}"{{pagingData.itemCount}}#info("SERVICE_FOUND_2")</span>
-	</div>
 	<div class="services ng-hide" ng-show="results">
-		<ul>
-			<li ng-repeat="result in results" class="serviceItem ng-hide"
-				ng-show="results">
-				<div>
-					<div class="serviceImg">
-						<img ng-src="/ajax/content/image/{{result.logo}}" />
-					</div>
-					<div class="serviceBooking">
-						<a ng-href="/service/info/{{result.id}}"><div>
-								<span>#button("SERVICE_BOOKING")</span>
-							</div> </a>
-					</div>
-					<div class="serviceInfo">
-						<div class="serviceInfoTitle">
-							<span>{{result.name}}</span>
-						</div>
-						<div class="serviceInfoDetail">
-							<span class="key">#label("SERVICE_CATEGORIES")</span><span
-								ng-repeat="info in result.serviceInfos" class="value">{{info.serviceCategory.name}}
-							</span>
-						</div>
-						<div class="serviceInfoDetail">
-							<span class="key">#label("EXPECTED_PRICE")</span><span
-								class="value">{{result.expectedPrice}}/#label("HOUR")</span>
-						</div>
-						<div class="serviceInfoDetail">
-							<span class="key">#label("APPRAISE")</span><span class="value">★★★★★</span>
-						</div>
-					</div>
-				</div>
-			</li>
-		</ul>
+		<div class="service"></div>
 	</div>
 	<div class="paging ng-hide" ng-show="pagingData">
-		<pagination total-items="pagingData.itemCount"
-			ng-model="pagingData.pageIndex" max-size="10"
-			items-per-page="pagingData.pageSize" class="pagination-sm"
-			boundary-links="true" ng-change="searchServices(false)"
-			first-text='#label("FIRST_PAGE")' last-text='#label("LAST_PAGE")'
-			previous-text='#label("PREVIOUS_PAGE")'
-			next-text='#label("NEXT_PAGE")'></pagination>
+		<pagination total-items="pagingData.itemCount" ng-model="pagingData.pageIndex" max-size="10" items-per-page="pagingData.pageSize"
+			class="pagination-sm" boundary-links="true" ng-change="searchServices(false)" first-text='#label("FIRST_PAGE")'
+			last-text='#label("LAST_PAGE")' previous-text='#label("PREVIOUS_PAGE")' next-text='#label("NEXT_PAGE")'></pagination>
 	</div>
 </div>
 

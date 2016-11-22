@@ -31,8 +31,8 @@ public class ServiceAjaxController extends AbstractRestController {
     private IRestfulServiceUtil restfulServiceUtil;
 
     @RequestMapping(value = "/{entityId}/upload", method = RequestMethod.POST)
-    public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("entityId") final Long entityId, final MultipartHttpServletRequest request)
-            throws IException {
+    public ResponseEntity<DefaultResponse> ajaxChangePassword(@PathVariable("entityId") final Long entityId,
+            final MultipartHttpServletRequest request) throws IException {
 
         final DefaultResponse response = new DefaultResponse();
         if (request.getFileNames().hasNext()) {
@@ -70,6 +70,11 @@ public class ServiceAjaxController extends AbstractRestController {
         });
 
         return restfulServiceUtil.callRestService(Url.SERVICE_INFO_NEW, null, request, null, ServiceInfoResponse.class);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public @ResponseBody ServiceInfoResponse ajaxGetServiceInfo(final ServiceInfoSearchingDto dto) throws IException {
+        return restfulServiceUtil.callRestService(Url.SERVICE_INFO, null, null, dto, ServiceInfoResponse.class);
     }
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)

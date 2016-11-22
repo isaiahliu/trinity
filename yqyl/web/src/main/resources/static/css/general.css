@@ -31,11 +31,6 @@ div.content table th {
 	border-bottom: 1px solid gray;
 }
 
-div.content img {
-	max-height: 100px;
-	max-width: :150px
-}
-
 div.content textarea {
 	resize: none;
 	height: 200px;

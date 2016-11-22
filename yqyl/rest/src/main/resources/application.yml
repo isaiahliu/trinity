@@ -21,6 +21,7 @@ spring:
     show-sql: false
     hibernate:
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      use-new-id-generator-mappings: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect

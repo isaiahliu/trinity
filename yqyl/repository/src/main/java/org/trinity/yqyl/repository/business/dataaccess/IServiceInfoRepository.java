@@ -13,6 +13,7 @@ import org.trinity.message.LookupParser;
 import org.trinity.repository.repository.IJpaRepository;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoSearchingDto;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
+import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
@@ -30,6 +31,15 @@ public interface IServiceInfoRepository extends IJpaRepository<ServiceInfo, Serv
             if (searchingDto.getServiceSupplierClientId() != null) {
                 predicates.add(cb.equal(root.join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
                         searchingDto.getServiceSupplierClientId()));
+            }
+
+            if (searchingDto.getCategoryId() != null && searchingDto.getCategoryId() > 0) {
+                predicates.add(cb.equal(root.join(ServiceInfo_.serviceCategory).get(ServiceCategory_.id), searchingDto.getCategoryId()));
+            }
+
+            if (searchingDto.getParentCategoryId() != null && searchingDto.getParentCategoryId() > 0) {
+                predicates.add(cb.equal(root.join(ServiceInfo_.serviceCategory).join(ServiceCategory_.parent).get(ServiceCategory_.id),
+                        searchingDto.getParentCategoryId()));
             }
 
             if (!searchingDto.getStatus().isEmpty()) {
