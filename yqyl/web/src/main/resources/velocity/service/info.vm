@@ -5,7 +5,7 @@
 </script>
 <div class="info">
 	<div class="image">
-		<img alt="#label('NOT_UPLOADED')" ng-src="/ajax/content/image/{{serviceSupplierClient.logo}}"/>
+		<img alt="#label('NOT_UPLOADED')" ng-src="/ajax/content/image/{{serviceSupplierClient.logo}}" />
 	</div>
 	<div class="card">
 		<div class="title">{{serviceSupplierClient.name}}</div>
@@ -14,7 +14,7 @@
 				ng-hide="serviceSupplierClient.address" class="value">{{serviceSupplierClient.region}}</span>
 		</div>
 		<div class="cardItem category">
-			<span class="key">#label("SERVICE_CATEGORY")</span> <span ng-show="services.length=>0" ng-repeat="serviceInfo in services" class="value">{{serviceInfo.serviceCategory.name}}</span>
+			<span class="key">#label("SERVICE_CATEGORY")</span> <span ng-show="services.length>=0" ng-repeat="serviceInfo in services" class="value">{{serviceInfo.serviceCategory.name}}</span>
 			<span ng-show="services.length==0">{{serviceSupplierClient.categories}}</span>
 		</div>
 		<div class="cardItem">

@@ -11,16 +11,19 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		errorHandler($scope, response);
 	});
 
-	$scope.searchServices = function(category) {
-		var ajaxUrl = "/ajax/service?searchScope=all&&pageIndex=0&pageSize=8&parentCategoryId=" + category.id;
+	$scope.searchServices =
+			function(category) {
+				var ajaxUrl =
+						"/ajax/service?rsexp=serviceSupplierClient&searchScope=all&pageIndex=0&pageSize=3&parentCategoryId="
+								+ category.id;
 
-		$http({
-			method : "GET",
-			url : ajaxUrl
-		}).success(function(response) {
-			category.services = response.data;
-		}).error(function(response) {
-			errorHandler($scope, response);
-		});
-	};
+				$http({
+					method : "GET",
+					url : ajaxUrl
+				}).success(function(response) {
+					category.services = response.data;
+				}).error(function(response) {
+					errorHandler($scope, response);
+				});
+			};
 });

@@ -3,28 +3,29 @@
 <div class="overview">
 	<div class="filter">
 		<div class="title">
-			<a href="javascript:void(0)" ng-click="selectedCategory=undefined;searchServices(true);"><span>#label("ALL_CATEGORIES")</span></a>
+			<a href="/service/search"><span>#label("ALL_CATEGORIES")</span></a>
 		</div>
 		<div class="categoryItem ng-hide" ng-show="categories" ng-repeat="category in categories">
 			<ul>
-				<li class="category"><a href="javascript:void(0)" ng-click='selectCategory(category)'><span>{{category.name}}</span> </a></li>
-				<li class="subCategory"><a href="javascript:void(0)" ng-repeat="subCategory in category.serviceSubCategories"
-					ng-if="subCategory.status.code=='A'"><span>{{subCategory.name}}</span></a></li>
+				<li class="category"><a ng-href="/service/search?parentCategory={{category.id}}"><span>{{category.name}}</span> </a></li>
+				<li class="subCategory"><a ng-href="/service/search?category={{subCategory.id}}"
+					ng-repeat="subCategory in category.serviceSubCategories" ng-if="subCategory.status.code=='A'"><span>{{subCategory.name}}</span></a></li>
 			</ul>
 		</div>
 	</div>
 	<div class="categories">
 		<div class="ng-hide" ng-repeat="category in categories" ng-class="'category ng-hide category_' + $index % 4" ng-show="category.services">
 			<div class="title">
-				<span class="key">{{category.name}}</span> <span class="value" ng-repeat="subCategory in category.serviceSubCategories"> <span
-					ng-hide="$index==0">|</span> {{subCategory.name}}
+				<a ng-href="/service/search?parentCategory={{category.id}}"><span class="key">{{category.name}}</span></a> <span class="value"
+					ng-repeat="subCategory in category.serviceSubCategories"> <span ng-hide="$index==0">|</span> <a
+					ng-href="/service/search?category={{subCategory.id}}"><span>{{subCategory.name}}</span></a>
 				</span>
 			</div>
 			<div class="separator"></div>
 			<div class="services">
 				<div class="service" ng-repeat="service in category.services">
 					<div>
-						<img ng-src="/ajax/content/image/{{service.image}}" />
+						<a ng-href="/service/info/{{service.serviceSupplierClient.id}}"><img ng-src="/ajax/content/image/{{service.image}}" /></a>
 					</div>
 					<div class="description">
 						<span>{{service.name}}</span> <span>#label("PRICE")</span> <span>{{service.price|currency:"￥"}}</span>
