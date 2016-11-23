@@ -48,19 +48,20 @@
 							<span>#info("SERVICE_FOUND_1")</span> <span>{{pagingData.itemCount}}</span> <span>#info("SERVICE_FOUND_2")</span>
 						</div></td>
 					<td align="center" class="barItem ng-hide" ng-show="pagingData"><div>
-							<span>1/20</span>
+							<span>{{pagingData.pageIndex}}/{{(pagingData.itemCount-1)/(pagingData.pageSize) + 1 | number : 0}}</span>
 						</div></td>
 				</tr>
 			</table>
 		</div>
-		<div class="result">
+		<div class="result ng-hide" ng-show="results">
 			<div class="service" ng-repeat="service in results">
 				<div>
-					<a ng-href="/service/info/{{service.serviceSupplierClient.id}}"><img ng-src="/ajax/content/image/{{service.image}}" /></a>
+					<a ng-href="/service/info/{{service.serviceSupplierClient.id}}"><img alt="#label('NOT_UPLOADED')"
+						ng-src="/ajax/content/image/{{service.image}}" /></a>
 				</div>
 				<div class="description">
 					<div class="left">
-						<span class="name">{{service.name}}</span>
+						<a ng-href="/service/info/{{service.serviceSupplierClient.id}}"> <span class="name">{{service.name}}</span></a>
 					</div>
 					<div class="right">
 						<span class="priceLabel">#label("PRICE")</span> <span class="price">{{service.price|currency:"￥"}}</span>

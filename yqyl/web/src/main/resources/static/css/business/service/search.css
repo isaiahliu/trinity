@@ -82,7 +82,7 @@ div.services div.bar td span {
 }
 
 div.services div.result {
-	
+	padding: 50px 50px 0 50px;
 }
 
 div.services div.result div.service {
@@ -130,4 +130,9 @@ div.services div.result div.service div.description div.right span.price
 	{
 	color: #fd6a15;
 	font-size: 16px;
+}
+
+div.services div.paging
+{
+	text-align: center;
 }

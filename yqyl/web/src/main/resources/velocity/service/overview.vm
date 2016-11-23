@@ -25,11 +25,12 @@
 			<div class="services">
 				<div class="service" ng-repeat="service in category.services">
 					<div>
-						<a ng-href="/service/info/{{service.serviceSupplierClient.id}}"><img ng-src="/ajax/content/image/{{service.image}}" /></a>
+						<a ng-href="/service/info/{{service.serviceSupplierClient.id}}"><img alt="#label('NOT_UPLOADED')"
+							ng-src="/ajax/content/image/{{service.image}}" /></a>
 					</div>
 					<div class="description">
 						<div class="left">
-							<span class="name">{{service.name}}</span>
+							<a ng-href="/service/info/{{service.serviceSupplierClient.id}}"> <span class="name">{{service.name}}</span></a>
 						</div>
 						<div class="right">
 							<span class="priceLabel">#label("PRICE")</span> <span class="price">{{service.price|currency:"￥"}}</span>

@@ -1,4 +1,9 @@
 layoutApp.controller('contentController', function($scope, $http, $window, $location, $rootScope, errorHandler) {
+	$scope.sorting = {
+		name : "default",
+		direction : "asc"
+	}
+
 	$scope.searchServices = function(newSearch) {
 		var paging = $scope.pagingData;
 		if (newSearch) {
@@ -44,24 +49,22 @@ layoutApp.controller('contentController', function($scope, $http, $window, $loca
 		if ($scope.parentCategoryId != undefined || $scope.categoryId != undefined) {
 			for (var i = 0; i < $scope.categories.length; i++) {
 				var category = $scope.categories[i];
+				category.expanding = false;
 
-				if ($scope.parentCategoryId == undefined) {
-					for (var j = 0; j < category.serviceSubCategories.length; j++) {
-						if (category.serviceSubCategories[j].id == $scope.categoryId) {
-							$scope.category = category.serviceSubCategories[j];
-							$scope.parentCategory = category;
-							category.expanding = true;
-							break;
+				if ($scope.parentCategory == undefined) {
+					if ($scope.parentCategoryId == undefined) {
+						for (var j = 0; j < category.serviceSubCategories.length; j++) {
+							if (category.serviceSubCategories[j].id == $scope.categoryId) {
+								$scope.category = category.serviceSubCategories[j];
+								$scope.parentCategory = category;
+								category.expanding = true;
+								break;
+							}
 						}
+					} else if (category.id == $scope.parentCategoryId) {
+						$scope.parentCategory = category;
+						category.expanding = true;
 					}
-
-					if (category.expanding) {
-						break;
-					}
-				} else if (category.id == $scope.parentCategoryId) {
-					$scope.parentCategory = category;
-					category.expanding = true;
-					break;
 				}
 			}
 		}
