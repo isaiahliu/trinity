@@ -7,3 +7,17 @@ layoutApp.value("errorHandler", function(scope, response) {
 		scope.errorMessage = "请求失败";
 	}
 });
+
+layoutApp.filter('unique', function() {
+	return function(collection, keyname) {
+		var output = [], keys = [];
+		angular.forEach(collection, function(item) {
+			var key = item[keyname];
+			if (keys.indexOf(key) === -1) {
+				keys.push(key);
+				output.push(item);
+			}
+		});
+		return output;
+	};
+});

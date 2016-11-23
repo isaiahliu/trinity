@@ -66,4 +66,8 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 	$scope.denyAudit = function() {
 		$window.location.href = "/admin/supplier";
 	};
+
+	$scope.login = function() {
+		$window.location.href = "/login";
+	};
 });

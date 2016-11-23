@@ -24,8 +24,8 @@ div.categories div.category div.separator {
 div.categories div.category div.title span.key {
 	display: inline-block;
 	min-width: 100px;
-	margin-right: 30px;
 	font-size: 22px;
+	margin-right: 30px;
 }
 
 div.categories div.category div.title span.value {
@@ -153,4 +153,39 @@ div.categories div.category div.services div.service img {
 div.categories div.category div.services div.service div.description {
 	height: 50px;
 	width: 250px;
+}
+
+div.categories div.category div.services div.service div.description div.left
+	{
+	display: inline-block;
+	max-width: 150px;
+	text-overflow: ellipsis;
+}
+
+div.categories div.category div.services div.service div.description div.left span
+	{
+	display: inline-block;
+	max-width: 150px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	color: #666666;
+	font-size: 16px;
+}
+
+div.categories div.category div.services div.service div.description div.right
+	{
+	display: inline-block;
+	float: right;
+}
+
+div.categories div.category div.services div.service div.description div.right span.priceLabel
+	{
+	color: #666666;
+	font-size: 12px;
+}
+
+div.categories div.category div.services div.service div.description div.right span.price
+	{
+	color: #fd6a15;
+	font-size: 16px;
 }

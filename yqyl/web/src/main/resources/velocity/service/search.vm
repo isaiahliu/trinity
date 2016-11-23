@@ -1,26 +1,68 @@
 <link rel="stylesheet" href="/static/css/business/service/search.css"></link>
 
 <div class="search">
+	<div class="title">
+		<span>#label("YOUR_POSITION") : </span> <a href="/service/search"><span>#button("ONLINE_SERVICE")</span></a> <span class="ng-hide"
+			ng-show="parentCategory" ng-if="parentCategory">></span> <a class="ng-hide" ng-show="parentCategory"
+			ng-href="/service/search#?parentCategory={{parentCategory.id}}"><span ng-if="parentCategory">{{parentCategory.name}}</span></a> <span
+			class="ng-hide" ng-show="category" ng-if="category">></span> <a class="ng-hide" ng-show="category"
+			ng-href="/service/search#?category={{category.id}}"> <span ng-if="category">{{category.name}}</span>
+		</a>
+	</div>
 	<div class="filter">
-		<div class="title">
-			<a href="javascript:void(0)" ng-click="selectedCategory=undefined;searchServices(true);"><span>#label("ALL_CATEGORIES")</span></a>
-		</div>
 		<div class="categoryItem ng-hide" ng-show="categories" ng-repeat="category in categories">
 			<ul>
-				<li class="category"><a href="javascript:void(0)" ng-click='selectCategory(category)'><span>{{category.name}}</span> </a></li>
-				<li class="subCategory"><a href="javascript:void(0)" ng-repeat="subCategory in category.serviceSubCategories"
-					ng-if="subCategory.status.code=='A'"><span>{{subCategory.name}}</span></a></li>
+				<li class="category"><div>
+						<a ng-hide="category.expanding" ng-click="category.expanding=true" href="javascript:void(0)"><img
+							src="/static/images/icon/expand.png" /></a><a ng-show="category.expanding" ng-click="category.expanding=false" href="javascript:void(0)"><img
+							src="/static/images/icon/collapse.png" /></a><a ng-href="/service/search#?parentCategory={{category.id}}"><span>{{category.name}}</span>
+						</a>
+					</div></li>
+				<li ng-show="category.expanding" class="subCategory"><div ng-repeat="subCategory in category.serviceSubCategories"
+						ng-if="subCategory.status.code=='A'">
+						<a ng-href="/service/search#?category={{subCategory.id}}"><span>{{subCategory.name}}</span></a>
+					</div></li>
 			</ul>
 		</div>
 	</div>
-	<div class="services ng-hide" ng-show="results">
-		<div class="service"></div>
+	<div class="services">
+		<div class="bar">
+			<table>
+				<tr>
+					<td align="center" class="barItem"><div>
+							<span>#label("DEFAULT")</span>
+						</div></td>
+					<td align="center" class="barItem"><div>
+							<span>#label("SALES_VOLUME")</span>
+						</div></td>
+					<td align="center" class="barItem"><div>
+							<span>#label("PRICE")</span>
+						</div></td>
+					<td align="center" class="barItem"><div>
+							<span>#label("SERVICE_ORDER_APPRAISE")</span>
+						</div></td>
+					<td align="center" class="barItem"><div>
+							<span>#label("PUBLISH_TIMESTAMP")</span>
+						</div></td>
+					<td align="center" class="info"><div class="ng-hide" ng-show="pagingData">
+							<span>#info("SERVICE_FOUND_1")</span> <span>{{pagingData.itemCount}}</span> <span>#info("SERVICE_FOUND_2")</span>
+						</div></td>
+					<td align="center" class="barItem ng-hide" ng-show="pagingData"><div>
+							<span>1/20</span>
+						</div></td>
+				</tr>
+			</table>
+		</div>
+		<div class="result">
+			<div class="service"></div>
+		</div>
+		<div class="paging ng-hide" ng-show="pagingData">
+			<pagination total-items="pagingData.itemCount" ng-model="pagingData.pageIndex" max-size="10" items-per-page="pagingData.pageSize"
+				class="pagination-sm" boundary-links="true" ng-change="searchServices(false)" first-text='#label("FIRST_PAGE")'
+				last-text='#label("LAST_PAGE")' previous-text='#label("PREVIOUS_PAGE")' next-text='#label("NEXT_PAGE")'></pagination>
+		</div>
 	</div>
-	<div class="paging ng-hide" ng-show="pagingData">
-		<pagination total-items="pagingData.itemCount" ng-model="pagingData.pageIndex" max-size="10" items-per-page="pagingData.pageSize"
-			class="pagination-sm" boundary-links="true" ng-change="searchServices(false)" first-text='#label("FIRST_PAGE")'
-			last-text='#label("LAST_PAGE")' previous-text='#label("PREVIOUS_PAGE")' next-text='#label("NEXT_PAGE")'></pagination>
-	</div>
+
 </div>
 
 <script src="/static/js/business/service/search.js"></script>
