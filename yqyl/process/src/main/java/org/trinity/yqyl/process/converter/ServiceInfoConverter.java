@@ -15,19 +15,21 @@ import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceCategoryDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceInfoDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceInfoStasticDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceSupplierClientDto;
 import org.trinity.yqyl.common.message.lookup.PaymentMethod;
 import org.trinity.yqyl.common.message.lookup.PaymentType;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
+import org.trinity.yqyl.repository.business.entity.ServiceInfoStastic;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient;
 
 @Component
 public class ServiceInfoConverter extends AbstractLookupSupportObjectConverter<ServiceInfo, ServiceInfoDto> {
 	private static enum ServiceInfoRelationship {
-		SERVICE_SUPPLIER_CLIENT, SERVICE_CATEGORY, MONTHLY_INFO, NA;
+		SERVICE_SUPPLIER_CLIENT, SERVICE_CATEGORY, MONTHLY_INFO, STASTIC, NA;
 	}
 
 	@Autowired
@@ -35,6 +37,9 @@ public class ServiceInfoConverter extends AbstractLookupSupportObjectConverter<S
 
 	@Autowired
 	private IObjectConverter<ServiceSupplierClient, ServiceSupplierClientDto> serviceSupplierClientConverter;
+
+	@Autowired
+	private IObjectConverter<ServiceInfoStastic, ServiceInfoStasticDto> serviceInfoStasticConverter;
 
 	@Autowired
 	public ServiceInfoConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -88,6 +93,10 @@ public class ServiceInfoConverter extends AbstractLookupSupportObjectConverter<S
 				final Double averageRate = orders.stream().filter(item -> item.getAppraise() != null)
 						.map(item -> item.getAppraise().getStaffRate()).collect(Collectors.averagingDouble(item -> item));
 				target.setMonthlyRate(averageRate);
+				break;
+			case STASTIC:
+				copyRelationship(source::getServiceInfoStastic, target::setStastic, serviceInfoStasticConverter, relationshipExpression);
+				break;
 			default:
 				break;
 		}

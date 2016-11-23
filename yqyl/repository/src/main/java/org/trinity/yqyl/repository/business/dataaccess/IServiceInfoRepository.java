@@ -16,9 +16,8 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceInfoSearchingDto;
 import org.trinity.yqyl.common.message.lookup.ServiceStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceCategory_;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
+import org.trinity.yqyl.repository.business.entity.ServiceInfoStastic_;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
-import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise_;
-import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
 import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 
 public interface IServiceInfoRepository extends IJpaRepository<ServiceInfo, ServiceInfoSearchingDto> {
@@ -55,19 +54,21 @@ public interface IServiceInfoRepository extends IJpaRepository<ServiceInfo, Serv
 				case "sales":
 					query.distinct(true);
 					if ("desc".equals(searchingDto.getCustomSortedDirection())) {
-						query.orderBy(cb.desc(cb.count(root.join(ServiceInfo_.serviceOrders).get(ServiceOrder_.id))));
+						query.orderBy(
+								cb.desc(root.join(ServiceInfo_.serviceInfoStastic, JoinType.LEFT).get(ServiceInfoStastic_.orderCount)));
 					} else {
-						query.orderBy(cb.asc(cb.count(root.join(ServiceInfo_.serviceOrders).get(ServiceOrder_.id))));
+						query.orderBy(
+								cb.asc(root.join(ServiceInfo_.serviceInfoStastic, JoinType.LEFT).get(ServiceInfoStastic_.orderCount)));
 					}
 					break;
 				case "appraise":
 					query.distinct(true);
 					if ("desc".equals(searchingDto.getCustomSortedDirection())) {
-						query.orderBy(cb.desc(cb.avg(root.join(ServiceInfo_.serviceOrders, JoinType.LEFT)
-								.join(ServiceOrder_.appraise, JoinType.LEFT).get(ServiceOrderAppraise_.staffRate))));
+						query.orderBy(
+								cb.desc(root.join(ServiceInfo_.serviceInfoStastic, JoinType.LEFT).get(ServiceInfoStastic_.appraiseAvg)));
 					} else {
-						query.orderBy(cb.asc(cb.avg(root.join(ServiceInfo_.serviceOrders, JoinType.LEFT)
-								.join(ServiceOrder_.appraise, JoinType.LEFT).get(ServiceOrderAppraise_.staffRate))));
+						query.orderBy(
+								cb.asc(root.join(ServiceInfo_.serviceInfoStastic, JoinType.LEFT).get(ServiceInfoStastic_.appraiseAvg)));
 					}
 					break;
 				default:

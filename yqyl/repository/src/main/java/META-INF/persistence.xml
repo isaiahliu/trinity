@@ -34,5 +34,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.AccountBalance</class>
 		<class>org.trinity.yqyl.repository.business.entity.AccountPosting</class>
 		<class>org.trinity.yqyl.repository.business.entity.AccountTransaction</class>
+		<class>org.trinity.yqyl.repository.business.entity.ServiceInfoStastic</class>
 	</persistence-unit>
 </persistence>

@@ -15,7 +15,7 @@ public class ServiceInfoDto extends AbstractBusinessDto {
     private double monthlyRate;
 
     private ServiceSupplierClientDto serviceSupplierClient;
-
+    private ServiceInfoStasticDto stastic;
     private ServiceCategoryDto serviceCategory;
 
     public String getDescription() {
@@ -58,6 +58,10 @@ public class ServiceInfoDto extends AbstractBusinessDto {
         return serviceSupplierClient;
     }
 
+    public ServiceInfoStasticDto getStastic() {
+        return stastic;
+    }
+
     public void setDescription(final String description) {
         this.description = description;
     }
@@ -96,5 +100,9 @@ public class ServiceInfoDto extends AbstractBusinessDto {
 
     public void setServiceSupplierClient(final ServiceSupplierClientDto serviceSupplierClient) {
         this.serviceSupplierClient = serviceSupplierClient;
+    }
+
+    public void setStastic(final ServiceInfoStasticDto stastic) {
+        this.stastic = stastic;
     }
 }

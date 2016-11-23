@@ -13,7 +13,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, $loca
 			}
 		}
 
-		var ajaxUrl = "/ajax/service?rsexp=serviceSupplierClient,serviceCategory,monthlyInfo&searchScope=all";
+		var ajaxUrl = "/ajax/service?rsexp=serviceSupplierClient,serviceCategory,stastic&searchScope=all";
 
 		ajaxUrl += "&pageIndex=" + (paging.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + paging.pageSize;
