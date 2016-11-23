@@ -82,7 +82,11 @@ div.services div.bar td span {
 }
 
 div.services div.result {
-	padding: 50px 50px 0 50px;
+	padding: 50px 10px 0 10px;
+}
+
+div.services div.image {
+	border: 1px solid #cccccc;
 }
 
 div.services div.result div.service {
@@ -90,49 +94,74 @@ div.services div.result div.service {
 	margin: 0px 20px 20px 0px;
 }
 
+div.services div.result div.orderNow {
+	text-align: center;
+	height: 32px;
+	line-height: 32px;
+	background: #fd6a15;
+}
+
+div.services div.result div.orderNow span {
+	color: #ffffff;
+	font: 14px;
+	display: block;
+}
+
 div.services div.result div.service img {
-	height: 200px;
-	width: 250px;
+	height: 160px;
+	width: 280px;
+	border: 0px;
 }
 
 div.services div.result div.service div.description {
-	height: 50px;
-	width: 250px;
+	width: 280px;
 }
 
-div.services div.result div.service div.description div.left {
-	display: inline-block;
-	max-width: 150px;
+div.services div.result div.service div.description div.line {
 	text-overflow: ellipsis;
+	height: 25px;
+	margin-bottom: 5px;
 }
 
-div.services div.result div.service div.description div.left span {
-	display: inline-block;
+div.services div.result div.service div.description div.line span {
+	line-height: 25px;
 	max-width: 150px;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	color: #666666;
-	font-size: 16px;
 }
 
-div.services div.result div.service div.description div.right {
-	display: inline-block;
-	float: right;
+div.services div.result div.service div.description div.line span.key {
+	color: #333333;
+	font-size: 14px;
 }
 
-div.services div.result div.service div.description div.right span.priceLabel
+div.services div.result div.service div.description div.line span.value
 	{
 	color: #666666;
-	font-size: 12px;
+	font-size: 14px;
 }
 
-div.services div.result div.service div.description div.right span.price
+div.services div.result div.service div.description div.line span.price
 	{
 	color: #fd6a15;
-	font-size: 16px;
+	font-size: 14px;
 }
 
-div.services div.paging
-{
+div.services div.result div.service div.description div.appraise {
+	vertical-align: middle;
+}
+
+div.services div.result div.service div.description div.appraise img {
+	height: 20px;
+	width: 20px;
+	margin-bottom: 5px;
+}
+
+div.services div.result div.service div.description div.name span {
+	color: #4a9900;
+	font-size: 18px;
+}
+
+div.services div.paging {
 	text-align: center;
 }

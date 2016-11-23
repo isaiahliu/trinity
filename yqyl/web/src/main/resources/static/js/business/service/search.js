@@ -9,11 +9,11 @@ layoutApp.controller('contentController', function($scope, $http, $window, $loca
 		if (newSearch) {
 			paging = {
 				pageIndex : 1,
-				pageSize : 30
+				pageSize : 15
 			}
 		}
 
-		var ajaxUrl = "/ajax/service?rsexp=serviceSupplierClient,serviceCategory&searchScope=all";
+		var ajaxUrl = "/ajax/service?rsexp=serviceSupplierClient,serviceCategory,monthlyInfo&searchScope=all";
 
 		ajaxUrl += "&pageIndex=" + (paging.pageIndex - 1);
 		ajaxUrl += "&pageSize=" + paging.pageSize;
@@ -24,6 +24,22 @@ layoutApp.controller('contentController', function($scope, $http, $window, $loca
 			ajaxUrl += "&parentCategoryId=" + $scope.parentCategoryId;
 		}
 
+		switch ($scope.sorting.name) {
+		case 'sales':
+			ajaxUrl += "&customSortedBy=sales&customSortedDirection=" + ($scope.sorting.asc ? 'asc' : 'desc');
+			break;
+		case 'price':
+			ajaxUrl += "&sortedBy=price_" + ($scope.sorting.asc ? 'asc' : 'desc')
+			break;
+		case 'appraise':
+			ajaxUrl += "&customSortedBy=appraise&customSortedDirection=" + ($scope.sorting.asc ? 'asc' : 'desc')
+			break;
+		case 'timestamp':
+			ajaxUrl += "&sortedBy=lastModifiedDate_" + ($scope.sorting.asc ? 'asc' : 'desc')
+			break;
+		default:
+			break;
+		}
 		$http({
 			method : "GET",
 			url : ajaxUrl
@@ -85,4 +101,24 @@ layoutApp.controller('contentController', function($scope, $http, $window, $loca
 		errorHandler($scope, response);
 	});
 
+	$scope.previousPage = function() {
+		if ($scope.pagingData.pageIndex > 1) {
+			$scope.pagingData.pageIndex--;
+			$scope.searchServices(false);
+		}
+	};
+
+	$scope.nextPage = function() {
+		if ($scope.pagingData.pageIndex * $scope.pagingData.pageSize < $scope.pagingData.itemCount) {
+			$scope.pagingData.pageIndex++;
+			$scope.searchServices(false);
+		}
+	};
+
+	$scope.modifySorting = function(name) {
+		$scope.sorting.name = name;
+		$scope.sorting.asc = !$scope.sorting.asc;
+
+		$scope.searchServices(true);
+	};
 });

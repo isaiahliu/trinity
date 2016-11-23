@@ -7,12 +7,18 @@ div.filter {
 	width: 300px;
 	border: 1px #fd6a15 solid;
 	float: left;
+	position: absolute;
+}
+
+div.overview div.advertisement img {
+	height: 400px;
+}
+
+div.overview div.advertisement {
 }
 
 div.categories {
 	margin-left: 20px;
-	width: 880px;
-	float: left;
 }
 
 div.categories div.category div.separator {
@@ -85,6 +91,10 @@ div.filter div.title a span {
 	line-height: 80px;
 }
 
+div.filter div.categoryItem {
+	background: #ffffff;
+}
+
 div.filter li.category {
 	padding-left: 20px;
 	height: 60px;
@@ -121,7 +131,7 @@ div.category li.categoryItem div {
 	height: 50px;
 	line-height: 50px;
 	text-align: center;
-	background-color: #f5f5f5;
+	background: #f5f5f5;
 	margin-right: 30px;
 	margin-top: 10px;
 }

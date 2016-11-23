@@ -7,9 +7,19 @@ public class ServiceInfoSearchingDto extends AbstractSearchingDto {
     private String name;
     private Long categoryId;
     private Long parentCategoryId;
+    private String customSortedBy;
+    private String customSortedDirection;
 
     public Long getCategoryId() {
         return categoryId;
+    }
+
+    public String getCustomSortedBy() {
+        return customSortedBy;
+    }
+
+    public String getCustomSortedDirection() {
+        return customSortedDirection;
     }
 
     public String getName() {
@@ -26,6 +36,14 @@ public class ServiceInfoSearchingDto extends AbstractSearchingDto {
 
     public void setCategoryId(final Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public void setCustomSortedBy(final String customSortedBy) {
+        this.customSortedBy = customSortedBy;
+    }
+
+    public void setCustomSortedDirection(final String customSortedDirection) {
+        this.customSortedDirection = customSortedDirection;
     }
 
     public void setName(final String name) {
