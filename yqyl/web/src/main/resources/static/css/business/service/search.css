@@ -84,3 +84,50 @@ div.services div.bar td span {
 div.services div.result {
 	
 }
+
+div.services div.result div.service {
+	display: inline-block;
+	margin: 0px 20px 20px 0px;
+}
+
+div.services div.result div.service img {
+	height: 200px;
+	width: 250px;
+}
+
+div.services div.result div.service div.description {
+	height: 50px;
+	width: 250px;
+}
+
+div.services div.result div.service div.description div.left {
+	display: inline-block;
+	max-width: 150px;
+	text-overflow: ellipsis;
+}
+
+div.services div.result div.service div.description div.left span {
+	display: inline-block;
+	max-width: 150px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	color: #666666;
+	font-size: 16px;
+}
+
+div.services div.result div.service div.description div.right {
+	display: inline-block;
+	float: right;
+}
+
+div.services div.result div.service div.description div.right span.priceLabel
+	{
+	color: #666666;
+	font-size: 12px;
+}
+
+div.services div.result div.service div.description div.right span.price
+	{
+	color: #fd6a15;
+	font-size: 16px;
+}
