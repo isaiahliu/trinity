@@ -1,7 +1,7 @@
 layoutApp.controller('contentController', function($scope, $http, $window, $location, $rootScope, errorHandler) {
 	$scope.sorting = {
 		name : "default",
-		direction : "asc"
+		asc : true
 	}
 
 	$scope.searchServices = function(newSearch) {
