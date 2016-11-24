@@ -8,7 +8,7 @@
 
 #macro(info $key)#message("INFO.$key")#end
 
-#macro(readonlyRateControl $name $rate)<span>{{$name>=$rate?'★':'☆'}}</span>#end 
+#macro(readonlyRateControl $name $rate)<img class="ng-hide" ng-show="$name>=$rate" src="/static/images/icon/rate_filled.png"><img class="ng-hide" ng-hide="$name>=$rate" src="/static/images/icon/rate_empty.png">#end 
 
 #macro(readonlyRateBar $name) #readonlyRateControl($name, 1) #readonlyRateControl($name, 2) #readonlyRateControl($name, 3) #readonlyRateControl($name, 4) #readonlyRateControl($name, 5) #end
 

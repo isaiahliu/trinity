@@ -27,6 +27,8 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private List<ServiceInfoDto> serviceInfos;
     private List<ServiceSupplierClientAuditingDto> auditings;
 
+    private List<String> images;
+
     public ServiceSupplierClientAccountDto getAccount() {
         return account;
     }
@@ -64,6 +66,10 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
 
     public Double getExpectedPrice() {
         return expectedPrice;
+    }
+
+    public List<String> getImages() {
+        return images;
     }
 
     public String getLogo() {
@@ -128,6 +134,10 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
 
     public void setExpectedPrice(final Double expectedPrice) {
         this.expectedPrice = expectedPrice;
+    }
+
+    public void setImages(final List<String> images) {
+        this.images = images;
     }
 
     public void setLogo(final String logo) {

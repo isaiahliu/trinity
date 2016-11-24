@@ -3,6 +3,7 @@ package org.trinity.process.converter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
@@ -102,6 +103,15 @@ public abstract class AbstractObjectConverter<TEntity, TDto> implements IObjectC
         default:
             targetSetter.accept(sourceValue);
             break;
+        }
+    }
+
+    protected <T> void copyObjectList(final Supplier<List<T>> sourceGetter, final Consumer<List<T>> targetSetter) {
+        final List<T> enityList = sourceGetter.get();
+        if (enityList != null) {
+            final List<T> targetList = new ArrayList<>();
+            targetList.addAll(enityList);
+            targetSetter.accept(targetList);
         }
     }
 

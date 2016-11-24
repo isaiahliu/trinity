@@ -4,31 +4,48 @@
 	layoutApp.value("serviceSupplierClientId", ${serviceSupplierClientId});
 </script>
 <div class="info">
-	<div class="image">
-		<img alt="#label('NOT_UPLOADED')" ng-src="/ajax/content/image/{{serviceSupplierClient.logo}}" />
-	</div>
-	<div class="card">
-		<div class="title">{{serviceSupplierClient.name}}</div>
-		<div class="cardItem">
-			<span class="key">#label("COMPANY_ADDRESS")</span><span ng-show="serviceSupplierClient.address" class="value">{{serviceSupplierClient.address}}</span><span
-				ng-hide="serviceSupplierClient.address" class="value">{{serviceSupplierClient.region}}</span>
-		</div>
-		<div class="cardItem category">
-			<span class="key">#label("SERVICE_CATEGORY")</span> <span ng-show="services.length>=0" ng-repeat="serviceInfo in services|unique:'serviceCategory.id'" class="value">{{serviceInfo.serviceCategory.name}}</span>
-			<span ng-show="services.length==0">{{serviceSupplierClient.categories}}</span>
-		</div>
-		<div class="cardItem">
-			#if($platform=='ADMIN')
-			<button ng-click="passAudit()">#button("PASS_AUDIT")</button>
-			<button ng-click="denyAudit()">#button("DENY_AUDIT")</button>
-			#else #if(${authentication.token.authenticated})
-			<button ng-click="apply()">#button("APPLY")</button>
-			#else
-			<div>
-				<span>#info("LOGIN_BEFORE_ORDERING")</span>
+	<div>
+		<div class="image">
+			<img alt="#label('NOT_UPLOADED')" ng-src="/ajax/content/image/{{imageBar.selectedImage}}" />
+			<div class="imageBar ng-hide" ng-show="serviceSupplierClient.images">
+				<div style="display: inline-block; width: 21px;">
+					<a href="javascript:void(0)" ng-click="imageBar.previous()"><span>&lt;</span></a>
+				</div>
+				<div style="display: inline-block; width: 200px;">
+					<a class="ng-hide smallImage" ng-show="($index>=$parent.imageBar.pageIndex*4)&&($index<($parent.imageBar.pageIndex+1)*4)"
+						ng-repeat="image in serviceSupplierClient.images" href="javascript:void(0)" ng-click="imageBar.selectedImage=image"><img
+						alt="{{$index}}" ng-src="/ajax/content/image/{{image}}" /></a>
+				</div>
+				<div style="display: inline-block; width: 21px; text-align: right;">
+					<a href="javascript:void(0)" ng-click="imageBar.next()"><span>&gt;</span></a>
+				</div>
 			</div>
-			<button ng-click="login()">#button("LOGIN")</button>
-			#end #end
+		</div>
+		<div class="card">
+			<div class="title ng-hide" ng-show="serviceSupplierClient">{{serviceSupplierClient.name}}</div>
+			<div class="cardItem">
+				<span class="key">#label("SALES_PRICE") : </span> <span ng-show="selectedService" class="value ng-hide">{{selectedService.price|currency:'￥'}}</span>
+				<span ng-show="selectedService.paymentType.code=='H'" class="ng-hide"> / #label("OCLOCK")</span> <span
+					ng-show="selectedService.paymentType.code=='F'" class="ng-hide"> / #label("OTIME")</span>
+			</div>
+			<div class="cardItem">
+				<span class="key">#label("SERVICE_CATEGORY") : </span> <select ng-model="selectedService"
+					ng-options="service.name for service in services"></select>
+			</div>
+			<div class="cardItem  appraise">
+				<span class="key">#label("APPRAISE") : </span> #readonlyRateBar("selectedService.stastic.appraiseAvg")
+			</div>
+
+			<div class="cardItem">
+				#if(${authentication.token.authenticated})
+				<button ng-click="apply()">#button("ORDER_NOW")</button>
+				#else
+				<div>
+					<span>#info("LOGIN_BEFORE_ORDERING")</span>
+				</div>
+				<button ng-click="login()">#button("LOGIN")</button>
+				#end
+			</div>
 		</div>
 	</div>
 	<div class="detail">
@@ -65,8 +82,9 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="serviceInfo in services">
-							<td align="center">{{serviceInfo.serviceCategory.name}}</td>
-							<td align="center">{{serviceInfo.price}}/#label("HOUR")</td>
+							<td align="center">{{serviceInfo.name}}</td>
+							<td align="center"><span>{{serviceInfo.price}}</span><span ng-show="serviceInfo.paymentType.code=='H'" class="ng-hide">
+									/ #label("OCLOCK")</span> <span ng-show="serviceInfo.paymentType.code=='F'" class="ng-hide"> / #label("OTIME")</span></td>
 							<td align="center">{{serviceInfo.description}}</td>
 						</tr>
 					</tbody>

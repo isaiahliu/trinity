@@ -12,6 +12,8 @@ body {
 
 button {
 	border: none;
+	background: #fd6a15;
+	color: #ffffff;
 }
 
 div.content {

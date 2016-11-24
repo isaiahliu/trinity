@@ -3,15 +3,30 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 
 	$http({
 		method : "GET",
-		url : "/ajax/service/supplier/" + serviceSupplierClientId + "?searchAllStatus=true"
+		url : "/ajax/service/supplier/" + serviceSupplierClientId + "?searchAllStatus=true&rsexp=images"
 	}).success(
 			function(response) {
 				$scope.serviceSupplierClient = response.data[0];
+				$scope.imageBar = {
+					selectedImage : $scope.serviceSupplierClient.logo,
+					pageIndex : 0,
+					pageCount : ($scope.serviceSupplierClient.images.length - 1) / 4,
+					previous : function() {
+						if ($scope.imageBar.pageIndex > 0) {
+							$scope.imageBar.pageIndex--;
+						}
+					},
+					next : function() {
+						if ($scope.imageBar.pageIndex < $scope.imageBar.pageCount - 1) {
+							$scope.imageBar.pageIndex++;
+						}
+					}
+				};
 				$http(
 						{
 							method : "GET",
 							url : "/ajax/service/supplier/" + serviceSupplierClientId
-									+ "/services?rsexp=serviceCategory&searchAllStatus=true"
+									+ "/services?rsexp=serviceCategory,stastic&searchAllStatus=true"
 						}).success(function(response) {
 					$scope.services = response.data;
 
@@ -51,20 +66,6 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 
 	$scope.apply = function() {
 		$window.location.href = "/service/proposal/" + serviceSupplierClientId;
-	};
-
-	$scope.passAudit = function() {
-		$http({
-			method : "PUT",
-			url : "/ajax/service/supplier/audit/" + serviceSupplierClientId
-		}).success(function(response) {
-			$window.location.href = "/admin/supplier";
-		}).error(function(response) {
-			errorHandler($scope, response);
-		});
-	};
-	$scope.denyAudit = function() {
-		$window.location.href = "/admin/supplier";
 	};
 
 	$scope.login = function() {

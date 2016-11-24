@@ -29,6 +29,7 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
         ACCOUNT,
         SERVICE_INFOS,
         AUDITINGS,
+        IMAGES,
         NA
     }
 
@@ -100,6 +101,9 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
         case AUDITINGS:
             copyRelationshipList(source::getAuditings, target::setAuditings, serviceSupplierClientAuditingConverter,
                     relationshipExpression);
+            break;
+        case IMAGES:
+            copyObjectList(source::getImages, target::setImages);
             break;
         default:
             break;

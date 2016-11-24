@@ -221,6 +221,10 @@ public class ServiceSupplierClientProcessController extends
         serviceSupplierClient.setStatus(ServiceSupplierClientStatus.INACTIVE);
         serviceSupplierClient.setLogo(content.getUuid());
 
+        final List<String> images = new ArrayList<>();
+        images.add(content.getUuid());
+        serviceSupplierClient.setImages(images);
+
         getDomainEntityRepository().save(serviceSupplierClient);
 
         final ServiceSupplierClientAccount serviceSupplierClientAccount = new ServiceSupplierClientAccount();
