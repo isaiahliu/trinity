@@ -11,11 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.repository.entity.AbstractEntity;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
 
 /**
@@ -24,90 +23,89 @@ import org.trinity.yqyl.common.message.lookup.TokenStatus;
  */
 @Entity
 @NamedQuery(name = "Token.findAll", query = "SELECT t FROM Token t")
-public class Token extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Token extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Token_PK_IdGenerator")
-	@TableGenerator(name = "Token_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Token_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "active_timestamp")
-	private Date activeTimestamp;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "active_timestamp")
+    private Date activeTimestamp;
 
-	@Column(name = "device_identity")
-	private String deviceIdentity;
+    @Column(name = "device_identity")
+    private String deviceIdentity;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "last_active_timestamp")
-	private Date lastActiveTimestamp;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_active_timestamp")
+    private Date lastActiveTimestamp;
 
-	private TokenStatus status;
+    private TokenStatus status;
 
-	private String token;
+    private String token;
 
-	// bi-directional many-to-one association to User
-	@ManyToOne
-	private User user;
+    // bi-directional many-to-one association to User
+    @ManyToOne
+    private User user;
 
-	public Token() {
-	}
+    public Token() {
+    }
 
-	public Date getActiveTimestamp() {
-		return this.activeTimestamp;
-	}
+    public Date getActiveTimestamp() {
+        return this.activeTimestamp;
+    }
 
-	public String getDeviceIdentity() {
-		return this.deviceIdentity;
-	}
+    public String getDeviceIdentity() {
+        return this.deviceIdentity;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public Date getLastActiveTimestamp() {
-		return this.lastActiveTimestamp;
-	}
+    public Date getLastActiveTimestamp() {
+        return this.lastActiveTimestamp;
+    }
 
-	public TokenStatus getStatus() {
-		return this.status;
-	}
+    public TokenStatus getStatus() {
+        return this.status;
+    }
 
-	public String getToken() {
-		return this.token;
-	}
+    public String getToken() {
+        return this.token;
+    }
 
-	public User getUser() {
-		return this.user;
-	}
+    public User getUser() {
+        return this.user;
+    }
 
-	public void setActiveTimestamp(final Date activeTimestamp) {
-		this.activeTimestamp = activeTimestamp;
-	}
+    public void setActiveTimestamp(final Date activeTimestamp) {
+        this.activeTimestamp = activeTimestamp;
+    }
 
-	public void setDeviceIdentity(final String deviceIdentity) {
-		this.deviceIdentity = deviceIdentity;
-	}
+    public void setDeviceIdentity(final String deviceIdentity) {
+        this.deviceIdentity = deviceIdentity;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void setLastActiveTimestamp(final Date lastActiveTimestamp) {
-		this.lastActiveTimestamp = lastActiveTimestamp;
-	}
+    public void setLastActiveTimestamp(final Date lastActiveTimestamp) {
+        this.lastActiveTimestamp = lastActiveTimestamp;
+    }
 
-	public void setStatus(final TokenStatus status) {
-		this.status = status;
-	}
+    public void setStatus(final TokenStatus status) {
+        this.status = status;
+    }
 
-	public void setToken(final String token) {
-		this.token = token;
-	}
+    public void setToken(final String token) {
+        this.token = token;
+    }
 
-	public void setUser(final User user) {
-		this.user = user;
-	}
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
 }

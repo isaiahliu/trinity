@@ -9,11 +9,11 @@ import org.springframework.data.repository.query.Param;
 import org.trinity.yqyl.repository.business.entity.Token;
 
 public interface ITokenRepository extends CrudRepository<Token, Long> {
-	Token findOneByDeviceIdentity(String deviceIdentity);
+    Token findOneByDeviceIdentity(String deviceIdentity);
 
-	Token findOneByToken(String token);
+    Token findOneByToken(String token);
 
-	@Modifying(clearAutomatically = true)
-	@Query("update Token set lastActiveTimestamp=:lastActiveTimestamp where token=:token")
-	void updateLastActiveTimestampByToken(@Param("token") String token, @Param("lastActiveTimestamp") Date lastActiveTimestamp);
+    @Modifying
+    @Query("update Token set lastActiveTimestamp=:lastActiveTimestamp where token=:token")
+    void updateLastActiveTimestampByToken(@Param("token") String token, @Param("lastActiveTimestamp") Date lastActiveTimestamp);
 }

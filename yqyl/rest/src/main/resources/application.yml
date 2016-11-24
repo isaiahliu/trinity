@@ -12,7 +12,7 @@ spring:
     url: ${args.datasource.url:jdbc:mysql://localhost:8099/yqyl_business?characterEncoding=utf-8&serverTimezone=UTC }
     username: ${args.datasource.username:dev}
     password: ${args.datasource.password:!QAZ2wsx}
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     testWhileIdle: true
     validationQuery: select 1
     sqlScriptEncoding: utf-8

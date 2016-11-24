@@ -12,11 +12,6 @@ body {
 
 button {
 	border: none;
-	background: #0381AA;
-	color: white;
-	min-width: 80px;
-	height: 35px;
-	border: none;
 }
 
 div.content {
