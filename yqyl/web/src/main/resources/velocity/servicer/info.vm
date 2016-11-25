@@ -41,7 +41,7 @@
 			<div>
 				<span>#label("COMPANY_DESCRIPTION")</span>
 			</div>
-			<div text-angular ng-model="htmlContent"></div>
+			<div text-angular ng-model="serviceSupplierClient.description"></div>
 			<textarea ng-model="serviceSupplierClient.description" ng-disabled="auditing" ng-readonly="auditing"></textarea>
 		</div>
 		<div class="tab">

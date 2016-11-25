@@ -51,24 +51,21 @@
 	<div class="detail">
 		<div class="tab">
 			<ul>
-				<li><a href="javascript:void(0)" ng-click="status='desc'"><div>
+				<li ng-class="{selected:status=='desc'}"><a href="javascript:void(0)" ng-click="status='desc'"><div>
 							<span>#label("COMPANY_DESCRIPTION")</span>
 						</div></a></li>
-				<li><a href="javascript:void(0)" ng-click="status='cate'"><div>
+				<li ng-class="{selected:status=='cate'}"><a href="javascript:void(0)" ng-click="status='cate'"><div>
 							<span>#label("COMPANY_SERVICE_CATEGORY")</span>
 						</div></a></li>
-				<li><a href="javascript:void(0)" ng-click="status='appr'"><div>
+				<li ng-class="{selected:status=='appr'}"><a href="javascript:void(0)" ng-click="status='appr'"><div>
 							<span>#label("COMPANY_APPRAISE")</span>
 						</div></a></li>
 			</ul>
 		</div>
 		<div class="tabPage">
 			<div ng-show="status=='desc'">
-				<div class="title">
-					<span>{{serviceSupplierClient.name}}</span>
-				</div>
 				<div class="text">
-					<span>{{serviceSupplierClient.description}}</span>
+					<span ng-bind-html="serviceSupplierClient.description"></span>
 				</div>
 			</div>
 			<div class='ng-hide' ng-show="status=='cate'">
@@ -83,8 +80,8 @@
 					<tbody>
 						<tr ng-repeat="serviceInfo in services">
 							<td align="center">{{serviceInfo.name}}</td>
-							<td align="center"><span>{{serviceInfo.price}}</span><span ng-show="serviceInfo.paymentType.code=='H'" class="ng-hide">
-									/ #label("OCLOCK")</span> <span ng-show="serviceInfo.paymentType.code=='F'" class="ng-hide"> / #label("OTIME")</span></td>
+							<td align="center"><span>{{serviceInfo.price}}</span><span ng-show="serviceInfo.paymentType.code=='H'" class="ng-hide"> /
+									#label("OCLOCK")</span> <span ng-show="serviceInfo.paymentType.code=='F'" class="ng-hide"> / #label("OTIME")</span></td>
 							<td align="center">{{serviceInfo.description}}</td>
 						</tr>
 					</tbody>
