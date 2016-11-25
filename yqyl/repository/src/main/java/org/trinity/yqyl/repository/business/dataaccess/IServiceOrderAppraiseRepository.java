@@ -13,8 +13,11 @@ import org.trinity.message.LookupParser;
 import org.trinity.repository.repository.IJpaRepository;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseSearchingDto;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.repository.business.entity.ServiceInfo_;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise_;
+import org.trinity.yqyl.repository.business.entity.ServiceOrder_;
+import org.trinity.yqyl.repository.business.entity.ServiceSupplierClient_;
 
 public interface IServiceOrderAppraiseRepository extends IJpaRepository<ServiceOrderAppraise, ServiceOrderAppraiseSearchingDto> {
     @Override
@@ -26,6 +29,13 @@ public interface IServiceOrderAppraiseRepository extends IJpaRepository<ServiceO
 
             if (searchingDto.getId() != null) {
                 predicates.add(cb.equal(root.get(ServiceOrderAppraise_.serviceOrderId), searchingDto.getId()));
+            }
+
+            if (searchingDto.getServiceSupplierClientId() != null && searchingDto.getServiceSupplierClientId() > 0) {
+                predicates.add(cb.equal(
+                        root.join(ServiceOrderAppraise_.serviceOrder).join(ServiceOrder_.serviceInfo)
+                                .join(ServiceInfo_.serviceSupplierClient).get(ServiceSupplierClient_.userId),
+                        searchingDto.getServiceSupplierClientId()));
             }
 
             if (searchingDto.getStatus().isEmpty()) {

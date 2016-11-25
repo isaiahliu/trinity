@@ -30,7 +30,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 						}).success(function(response) {
 					$scope.services = response.data;
 
-					$scope.searchOrders();
+					$scope.searchAppraises();
 				}).error(function(response) {
 					errorHandler($scope, response);
 				});
@@ -38,10 +38,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		errorHandler($scope, response);
 	});
 
-	$scope.searchOrders =
+	$scope.searchAppraises =
 			function() {
 				var ajaxUrl =
-						"/ajax/service/supplier/orders?rsexp=serviceInfo[serviceCategory],appraise&searchScope=all&serviceSupplierClientId="
+						"/ajax/user/order/appraise?rsexp=serviceOrder[serviceInfo[serviceCategory]],&searchScope=all&serviceSupplierClientId="
 								+ serviceSupplierClientId;
 
 				ajaxUrl += "&pageIndex=" + ($scope.pagingData.pageIndex - 1);
@@ -51,7 +51,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 					method : "GET",
 					url : ajaxUrl
 				}).success(function(response) {
-					$scope.orders = response.data;
+					$scope.appraises = response.data;
 					response.meta.paging.pageIndex++;
 					$scope.pagingData = response.meta.paging;
 				}).error(function(response) {

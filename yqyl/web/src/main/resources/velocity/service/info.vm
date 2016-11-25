@@ -98,10 +98,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="orderInfo in orders">
-							<td align="center"><span>{{orderInfo.username}}</span></td>
-							<td align="center"><span>{{orderInfo.serviceInfo.serviceCategory.name}} </span></td>
-							<td align="center"><span>{{orderInfo.appraise.comment}}</span></td>
+						<tr ng-repeat="appraise in appraises">
+							<td align="center"><span>{{appraise.serviceOrder.username}}</span></td>
+							<td align="center"><span>{{appraise.serviceOrder.serviceInfo.serviceCategory.name}} </span></td>
+							<td align="center"><span>{{appraise.comment}}</span></td>
 						</tr>
 					</tbody>
 				</table>

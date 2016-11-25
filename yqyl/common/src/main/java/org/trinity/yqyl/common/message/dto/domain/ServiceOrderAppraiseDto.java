@@ -15,6 +15,8 @@ public class ServiceOrderAppraiseDto extends AbstractBusinessDto {
 
     private Integer staffRate;
 
+    private ServiceOrderDto serviceOrder;
+
     public Integer getAttitudeRate() {
         return attitudeRate;
     }
@@ -33,6 +35,10 @@ public class ServiceOrderAppraiseDto extends AbstractBusinessDto {
 
     public String getReply() {
         return reply;
+    }
+
+    public ServiceOrderDto getServiceOrder() {
+        return serviceOrder;
     }
 
     public Integer getStaffRate() {
@@ -57,6 +63,10 @@ public class ServiceOrderAppraiseDto extends AbstractBusinessDto {
 
     public void setReply(final String reply) {
         this.reply = reply;
+    }
+
+    public void setServiceOrder(final ServiceOrderDto serviceOrder) {
+        this.serviceOrder = serviceOrder;
     }
 
     public void setStaffRate(final Integer staffRate) {

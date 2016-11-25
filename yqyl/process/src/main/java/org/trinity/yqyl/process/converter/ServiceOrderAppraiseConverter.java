@@ -9,63 +9,72 @@ import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.ServiceOrderAppraiseDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceOrderDto;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderAppraise;
 
 @Component
 public class ServiceOrderAppraiseConverter extends AbstractLookupSupportObjectConverter<ServiceOrderAppraise, ServiceOrderAppraiseDto> {
-	private static enum ServiceOrderAppraiseRelationship {
-		NA
-	}
+    private static enum ServiceOrderAppraiseRelationship {
+        SERVICE_ORDER,
+        NA
+    }
 
-	@Autowired
-	public ServiceOrderAppraiseConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
-		super(lookupConverter);
-	}
+    @Autowired
+    private IObjectConverter<ServiceOrder, ServiceOrderDto> serviceOrderConverter;
 
-	@Override
-	protected void convertBackInternal(final ServiceOrderAppraiseDto source, final ServiceOrderAppraise target,
-			final CopyPolicy copyPolicy) {
-		copyObject(source::getId, target::getServiceOrderId, target::setServiceOrderId, copyPolicy);
-		copyObject(source::getAttitudeRate, target::getAttitudeRate, target::setAttitudeRate, copyPolicy);
-		copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
-		copyObject(source::getReply, target::getReply, target::setReply, copyPolicy);
-		copyObject(source::getOnTimeRate, target::getOnTimeRate, target::setOnTimeRate, copyPolicy);
-		copyObject(source::getQualityRate, target::getQualityRate, target::setQualityRate, copyPolicy);
-		copyObject(source::getStaffRate, target::getStaffRate, target::setStaffRate, copyPolicy);
+    @Autowired
+    public ServiceOrderAppraiseConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
+        super(lookupConverter);
+    }
 
-		copyLookup(source::getStatus, target::getStatus, target::setStatus, RecordStatus.class, copyPolicy);
-	}
+    @Override
+    protected void convertBackInternal(final ServiceOrderAppraiseDto source, final ServiceOrderAppraise target,
+            final CopyPolicy copyPolicy) {
+        copyObject(source::getId, target::getServiceOrderId, target::setServiceOrderId, copyPolicy);
+        copyObject(source::getAttitudeRate, target::getAttitudeRate, target::setAttitudeRate, copyPolicy);
+        copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
+        copyObject(source::getReply, target::getReply, target::setReply, copyPolicy);
+        copyObject(source::getOnTimeRate, target::getOnTimeRate, target::setOnTimeRate, copyPolicy);
+        copyObject(source::getQualityRate, target::getQualityRate, target::setQualityRate, copyPolicy);
+        copyObject(source::getStaffRate, target::getStaffRate, target::setStaffRate, copyPolicy);
 
-	@Override
-	protected void convertInternal(final ServiceOrderAppraise source, final ServiceOrderAppraiseDto target, final CopyPolicy copyPolicy) {
-		copyObject(source::getServiceOrderId, target::getId, target::setId, copyPolicy);
-		copyObject(source::getAttitudeRate, target::getAttitudeRate, target::setAttitudeRate, copyPolicy);
-		copyObject(source::getReply, target::getReply, target::setReply, copyPolicy);
-		copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
-		copyObject(source::getOnTimeRate, target::getOnTimeRate, target::setOnTimeRate, copyPolicy);
-		copyObject(source::getQualityRate, target::getQualityRate, target::setQualityRate, copyPolicy);
-		copyObject(source::getStaffRate, target::getStaffRate, target::setStaffRate, copyPolicy);
+        copyLookup(source::getStatus, target::getStatus, target::setStatus, RecordStatus.class, copyPolicy);
+    }
 
-		copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
-	}
+    @Override
+    protected void convertInternal(final ServiceOrderAppraise source, final ServiceOrderAppraiseDto target, final CopyPolicy copyPolicy) {
+        copyObject(source::getServiceOrderId, target::getId, target::setId, copyPolicy);
+        copyObject(source::getAttitudeRate, target::getAttitudeRate, target::setAttitudeRate, copyPolicy);
+        copyObject(source::getReply, target::getReply, target::setReply, copyPolicy);
+        copyObject(source::getComment, target::getComment, target::setComment, copyPolicy);
+        copyObject(source::getOnTimeRate, target::getOnTimeRate, target::setOnTimeRate, copyPolicy);
+        copyObject(source::getQualityRate, target::getQualityRate, target::setQualityRate, copyPolicy);
+        copyObject(source::getStaffRate, target::getStaffRate, target::setStaffRate, copyPolicy);
 
-	@Override
-	protected void convertRelationshipInternal(final ServiceOrderAppraise source, final ServiceOrderAppraiseDto target,
-			final RelationshipExpression relationshipExpression) {
-		switch (relationshipExpression.getName(ServiceOrderAppraiseRelationship.class)) {
-			default:
-				break;
-		}
-	}
+        copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
+    }
 
-	@Override
-	protected ServiceOrderAppraise createFromInstance() {
-		return new ServiceOrderAppraise();
-	}
+    @Override
+    protected void convertRelationshipInternal(final ServiceOrderAppraise source, final ServiceOrderAppraiseDto target,
+            final RelationshipExpression relationshipExpression) {
+        switch (relationshipExpression.getName(ServiceOrderAppraiseRelationship.class)) {
+        case SERVICE_ORDER:
+            copyRelationship(source::getServiceOrder, target::setServiceOrder, serviceOrderConverter, relationshipExpression);
+            break;
+        default:
+            break;
+        }
+    }
 
-	@Override
-	protected ServiceOrderAppraiseDto createToInstance() {
-		return new ServiceOrderAppraiseDto();
-	}
+    @Override
+    protected ServiceOrderAppraise createFromInstance() {
+        return new ServiceOrderAppraise();
+    }
+
+    @Override
+    protected ServiceOrderAppraiseDto createToInstance() {
+        return new ServiceOrderAppraiseDto();
+    }
 }
