@@ -1,6 +1,8 @@
 package org.trinity.yqyl.process.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +13,7 @@ import org.trinity.common.exception.factory.IExceptionFactory;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.SecurityDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.AccountStatus;
 import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
@@ -95,7 +98,11 @@ public class SecurityProcessController implements ISecurityProcessController {
 
     @Override
     @Transactional(rollbackOn = IException.class)
-    public void register(final String username, final String password) throws IException {
+    public void register(final SecurityDto securityDto) throws IException {
+        final String username = securityDto.getUsername();
+        final String password = securityDto.getPassword();
+        final boolean isServicer = securityDto.isServicer();
+
         User user = userRepository.findOneByUsername(username);
         if (user != null) {
             throw exceptionFactory.createException(ErrorMessage.USERNAME_IS_REGISTERED);
@@ -106,6 +113,12 @@ public class SecurityProcessController implements ISecurityProcessController {
         user.setPassword(password);
 
         user.setStatus(UserStatus.ACTIVE);
+
+        if (isServicer) {
+            final List<AccessRight> accessRights = new ArrayList<>();
+            accessRights.add(AccessRight.SERVICE_SUPPLIER);
+            user.setAccessrights(accessRights);
+        }
 
         userRepository.save(user);
 

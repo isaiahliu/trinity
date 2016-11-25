@@ -12,11 +12,13 @@ import org.trinity.yqyl.common.message.lookup.AccessRight;
 @RequestMapping("/servicer")
 public class ServicerWebController extends AbstractResourceWebController {
     @RequestMapping("/auditing")
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
     public ModelAndView auditingPage() throws IException {
         return createModelAndView("servicer/auditing");
     }
 
     @RequestMapping({ "", "/info" })
+    @Authorize(value = AccessRight.SERVICE_SUPPLIER, checkAncestors = false)
     public ModelAndView infoPage() throws IException {
         return createModelAndView("servicer/info").addObject("serviceSupplierClientId", 0);
     }

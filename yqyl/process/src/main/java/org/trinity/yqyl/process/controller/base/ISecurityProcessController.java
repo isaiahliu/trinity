@@ -9,5 +9,5 @@ public interface ISecurityProcessController extends IProcessController {
 
     SecurityDto logout(String tokenName) throws IException;
 
-    void register(String username, String password) throws IException;
+    void register(SecurityDto securityDto) throws IException;
 }

@@ -66,7 +66,7 @@ public class SecurityRestController extends AbstractRestController {
     public @ResponseBody ResponseEntity<DefaultResponse> register(
             @RequestBody @OnValid(IValidationScenario.IRegister.class) final AuthenticateRequest request) throws IException {
         final DefaultResponse response = new DefaultResponse();
-        securityProcessController.register(request.getUser().getUsername(), request.getUser().getPassword());
+        securityProcessController.register(request.getUser());
 
         return createResponseEntity(response);
     }

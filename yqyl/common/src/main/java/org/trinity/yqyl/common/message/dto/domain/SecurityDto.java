@@ -13,6 +13,8 @@ public class SecurityDto {
             IValidationScenario.IRegister.class }, message = IValidationMessage.LENGTH)
     private String password;
 
+    private boolean servicer;
+
     public String getPassword() {
         return password;
     }
@@ -21,8 +23,16 @@ public class SecurityDto {
         return username;
     }
 
+    public boolean isServicer() {
+        return servicer;
+    }
+
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    public void setServicer(final boolean servicer) {
+        this.servicer = servicer;
     }
 
     public void setUsername(final String username) {
