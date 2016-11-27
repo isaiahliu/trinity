@@ -1,20 +1,19 @@
-div.login img.logo {
-	width: 350px;
-	height: 350px;
-	max-height: 350px;
-	max-width: 350px;
+div.login {
+	width: 1000px;
+	height: 440px;
+	margin-left: 100px;
+	margin-top: 50px;
 }
 
-div.login div.title {
-	text-align: center;
-	height: 50px;
-	line-height: 50px;
+div.login img.logo {
+	width: 600px;
+	height: 440px;
 }
 
 div.login td.tab {
 	text-align: center;
-	width: 180px;
-	height: 60px;
+	width: 200px;
+	height: 52px;
 }
 
 div.login td.tabSelected span {
@@ -22,11 +21,11 @@ div.login td.tabSelected span {
 }
 
 div.login td.tabUnselected span {
-	color: #428bca;
+	color: #333333;
 }
 
 div.login td.tabSelected {
-	background-color: rgba(121, 121, 121, 1);
+	background-color: #fd6a15;
 }
 
 div.login td.tabUnselected {
@@ -35,31 +34,46 @@ div.login td.tabUnselected {
 
 div.login td.tab div {
 	text-align: center;
-	width: 180px;
-	height: 60px;
+	width: 200px;
+	height: 52px;
 }
 
 div.login td.tab a {
-	line-height: 60px;
+	line-height: 52px;
 	text-decoration: none;
 }
 
 div.login td {
-	border: solid 1px;
+	border: solid 1px #777777;
 }
 
-div.login input {
-	height: 33px;
-	width: 330px;
+div.login div.line input {
+	height: 36px;
+	width: 284px;
+	padding-left: 30px;
 }
 
-div.login div.row {
-	padding: 20px 0px 0px 20px;
+div.login div.line input.check {
+	height: 12px;
+	width: 14px;
+	padding-left: 0;
+}
+
+div.login div.line img.logo {
+	position: absolute;
+	margin: 5px 0 0 5px;
+	height: 27px;
+	width: 19px;
+}
+
+div.login div.line {
+	text-align: center;
+	margin-bottom: 20px;
 }
 
 div.login button.btn-login {
-	width: 330px;
-	margin-left: 28px;
+	height: 36px;
+	width: 284px;
 }
 
 div.login button.btn-qq, div.login button.btn-wechat, div.login button.btn-psw

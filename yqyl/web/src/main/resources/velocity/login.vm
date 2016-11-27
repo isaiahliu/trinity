@@ -5,52 +5,55 @@
 		<div>
 			<table>
 				<tr>
-					<td colspan="3"><div class="title">
-							<span>#info("LOGIN")</span>
-						</div></td>
-				</tr>
-				<tr>
-					<td rowspan="2"><img class="logo" alt="Login" src="/static/images/logo/login.png" /></td>
-					<td class="tab" ng-class="{true: 'tabUnselected', false: 'tabSelected'}[isReg]"><a href="javascript:void(0)"
-						ng-click="isReg=false"><div>
+					<td rowspan="2"><img class="logo" alt="Login"
+						src="/static/images/pic/login.jpg" /></td>
+					<td class="tab"
+						ng-class="{true: 'tabUnselected', false: 'tabSelected'}[isReg]"><a
+						href="javascript:void(0)" ng-click="isReg=false"><div>
 								<span>#label("LOGIN")</span>
 							</div></a></td>
-					<td class="tab" ng-class="{true: 'tabSelected', false: 'tabUnselected'}[isReg]"><a href="javascript:void(0)" ng-click="isReg=true"><div>
+					<td class="tab"
+						ng-class="{true: 'tabSelected', false: 'tabUnselected'}[isReg]"><a
+						href="javascript:void(0)" ng-click="isReg=true"><div>
 								<span>#label("REGISTER")</span>
 							</div></a></td>
 				</tr>
 				<tr>
-					<td colspan="2" valign="top">
+					<td colspan="2" valign="middle">
 						<div ng-show="!isReg">
-							<div class="row">
-								<img src="/static/images/icon/username.png" src="user" /> <input ng-model="loginData.username" placeholder='#label("USERNAME")' />
+							<div class="line">
+								<img class="logo" src="/static/images/logo/user.png" /> <input
+									ng-model="loginData.username" placeholder='#label("USERNAME")' />
 							</div>
-							<div class="row">
-								<img src="/static/images/icon/password.png" src="pin" /> <input type="password" ng-model="loginData.password"
-									ng-keydown="loginKeydown($event)" placeholder='#label("PASSWORD")' />
+							<div class="line">
+								<img class="logo" src="/static/images/logo/password.png" /> <input
+									type="password" ng-model="loginData.password"
+									ng-keydown="loginKeydown($event)"
+									placeholder='#label("PASSWORD")' />
 							</div>
-							<div class="row">
+							<div class="line">
 								<button class="btn-login" ng-click="login()">#button("LOGIN")</button>
 							</div>
-							<div class="row">
-								<button class="btn-qq">#button("QQ_LOGIN")</button>
-								<button class="btn-wechat">#button("WECHAT_LOGIN")</button>
-								<button class="btn-psw">#button("FORGET_PASSWORD")</button>
+							<div class="line">
+								<input class="check" type="checkbox" /><span>#label("REMEMBER_USERNAME")</span>
+								<span>#label("FORGET_PASSWORD")</span> <span>#label("REGISTER")</span>
 							</div>
 						</div>
 						<div class="ng-hide" ng-show="isReg">
-							<div class="row">
-								<img src="/static/images/icon/username.png" src="user" /> <input ng-model="registerData.username" placeholder='#label("PHONE")' />
+							<div class="line">
+								<input ng-model="registerData.username"
+									placeholder='#label("PHONE")' />
 							</div>
-							<div class="row">
-								<img src="/static/images/icon/username.png" src="user" /> <input type="password" ng-model="registerData.password"
+							<div class="line">
+								<input type="password" ng-model="registerData.password"
 									placeholder='#label("PASSWORD")' />
 							</div>
-							<div class="row">
-								<img src="/static/images/icon/password.png" src="pin" /> <input type="password" ng-model="repeatPassword"
-									ng-keydown="registerKeydown($event)" placeholder='#label("REPEAT_PASSWORD")' />
+							<div class="line">
+								<input type="password" ng-model="repeatPassword"
+									ng-keydown="registerKeydown($event)"
+									placeholder='#label("REPEAT_PASSWORD")' />
 							</div>
-							<div class="row">
+							<div class="line">
 								<button class="btn-login" ng-click="register()">#button("OK")</button>
 							</div>
 						</div>

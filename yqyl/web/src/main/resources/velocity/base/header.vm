@@ -14,7 +14,7 @@
 					</div></li> #if(${authentication}) #if(${authentication.token.authenticated})
 				#else
 				<li><div>
-						<a href="/login"><span> #button("LOGIN")</span></a>
+						<a href="/login"><span> #button("LOGIN_REGISTER")</span></a>
 					</div></li> #end #end
 			</ul>
 
