@@ -23,12 +23,13 @@ public class UserWebController extends AbstractResourceWebController {
 
     @RequestMapping(value = "/order/appraise/{entityId}", method = RequestMethod.GET)
     public ModelAndView orderAppraisePage(@PathVariable("entityId") final Long entityId) throws IException {
-        return createModelAndView("user/appraise").addObject("orderId", entityId);
+        return createModelAndView("user/appraise").addObject("orderId", entityId).addObject("currentPage", "ORDER");
     }
 
     @RequestMapping(value = "/order/{entityId}", method = RequestMethod.GET)
     public ModelAndView orderDetailPage(@PathVariable("entityId") final Long entityId) throws IException {
-        return createModelAndView("service/detail").addObject("orderId", entityId).addObject("mode", "receiver");
+        return createModelAndView("service/detail").addObject("orderId", entityId).addObject("mode", "receiver").addObject("currentPage",
+                "ORDER");
     }
 
     @RequestMapping(value = "/order/edit/{entityId}", method = RequestMethod.GET)
@@ -38,12 +39,12 @@ public class UserWebController extends AbstractResourceWebController {
 
     @RequestMapping(value = { "", "/order" }, method = RequestMethod.GET)
     public ModelAndView orderPage() throws IException {
-        return createModelAndView("user/order");
+        return createModelAndView("user/order").addObject("currentPage", "ORDER");
     }
 
     @RequestMapping(value = "/password", method = RequestMethod.GET)
     public ModelAndView passwordPage() throws IException {
-        return createModelAndView("user/password");
+        return createModelAndView("user/password").addObject("currentPage", "PASSWORD");
     }
 
     @RequestMapping(value = "/realname", method = RequestMethod.GET)
@@ -53,17 +54,17 @@ public class UserWebController extends AbstractResourceWebController {
 
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
     public ModelAndView userinfoPage() throws IException {
-        return createModelAndView("user/userinfo");
+        return createModelAndView("user/userinfo").addObject("currentPage", "INFO");
     }
 
     @RequestMapping(value = "/volunteer", method = RequestMethod.GET)
     public ModelAndView volunteerPage() throws IException {
-        return createModelAndView("user/volunteer");
+        return createModelAndView("user/volunteer").addObject("currentPage", "VOLUNTEER");
     }
 
     @RequestMapping(value = { "/yiquan", "/yiquan/bind" }, method = RequestMethod.GET)
     public ModelAndView yiquanBindPage() throws IException {
-        return createModelAndView("user/yiquan/bind");
+        return createModelAndView("user/yiquan/bind").addObject("currentPage", "YIQUAN");
     }
 
     @RequestMapping(value = "/yiquan/branch", method = RequestMethod.GET)

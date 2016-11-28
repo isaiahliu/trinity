@@ -1,5 +1,4 @@
 #parse("/velocity/user/navigation.vm")
-
 <link rel="stylesheet" href="/static/css/business/user/order.css"></link>
 
 <div class="order">

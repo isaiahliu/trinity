@@ -1,0 +1,31 @@
+div.userBar {
+	width: 175px;
+	margin: 0;
+}
+
+div.userBar ul {
+	background: white;
+	border: 1px solid #cccccc;
+}
+
+div.userBar ul li div {
+	height: 36px;
+	width: 173px;
+	text-align: left;
+	padding-left: 20px;
+}
+
+div.userBar ul li div.selected {
+	border-left: 3px solid #fd6a15;
+	border-bottom: none;
+	background-color: #eeeeee;
+}
+
+div.userBar ul li div img {
+	margin-bottom: 6px;
+}
+
+div.userBar ul li div span {
+	font-size: 14px;
+	line-height: 36px;
+}
