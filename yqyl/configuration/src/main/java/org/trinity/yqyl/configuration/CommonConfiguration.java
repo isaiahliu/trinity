@@ -63,6 +63,7 @@ import org.trinity.yqyl.common.message.lookup.TokenStatus;
 import org.trinity.yqyl.common.message.lookup.TransactionType;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.common.message.lookup.ValueType;
+import org.trinity.yqyl.common.message.lookup.VerifyCodeType;
 
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
@@ -75,7 +76,7 @@ public class CommonConfiguration {
                 SystemAttributeKey.class, ValueType.class, UserStatus.class, TokenStatus.class, FavoriteCategory.class, AccessRight.class,
                 FamilyRelationship.class, FrequencyStatus.class, FlagStatus.class, SmokerAge.class, CredentialType.class,
                 RealnameStatus.class, PaymentType.class, PaymentMethod.class, StaffStatus.class, ServiceOrderRequirementStatus.class,
-                Bank.class, AccountType.class, OrderOperation.class, TransactionType.class);
+                Bank.class, AccountType.class, OrderOperation.class, TransactionType.class, VerifyCodeType.class);
     }
 
     @Bean

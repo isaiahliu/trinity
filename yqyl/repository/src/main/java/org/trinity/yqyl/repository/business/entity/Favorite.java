@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
 import org.trinity.yqyl.common.message.lookup.FavoriteCategory;
@@ -26,8 +25,7 @@ public class Favorite extends AbstractAuditableEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Favorite_PK_IdGenerator")
-    @TableGenerator(name = "Favorite_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Favorite_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private FavoriteCategory category;

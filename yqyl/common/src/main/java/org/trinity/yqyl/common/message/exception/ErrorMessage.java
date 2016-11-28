@@ -25,7 +25,10 @@ public enum ErrorMessage implements IErrorMessage {
     INSUFFICIENT_BALANCE,
     BENEFICIARY_SUPPLIER_MISMATCH,
     NO_YIQUAN_BINDED,
-    TOPUP_AMOUNT_MUST_BE_POSITIVE;
+    TOPUP_AMOUNT_MUST_BE_POSITIVE,
+    CELLPHONE_IS_REGISTERED,
+    VERIFY_CODE_IS_EXPIRED,
+    INCORRECT_VERIFY_CODE;
 
     @Override
     public String getMessageCode() {

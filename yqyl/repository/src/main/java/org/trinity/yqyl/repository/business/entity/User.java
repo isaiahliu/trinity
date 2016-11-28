@@ -96,6 +96,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<ServiceOrderRequirement> serviceOrderRequirements;
 
+    // bi-directional one-to-one association to UserVerifycode
+    @OneToMany(mappedBy = "user")
+    private List<UserVerifycode> userVerifycodes;
+
     public User() {
     }
 
@@ -132,6 +136,13 @@ public class User extends AbstractAuditableEntity implements Serializable {
         token.setUser(this);
 
         return token;
+    }
+
+    public UserVerifycode addUserVerifycode(final UserVerifycode userVerifycode) {
+        getUserVerifycodes().add(userVerifycode);
+        userVerifycode.setUser(this);
+
+        return userVerifycode;
     }
 
     public List<AccessRight> getAccessrights() {
@@ -198,6 +209,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.username;
     }
 
+    public List<UserVerifycode> getUserVerifycodes() {
+        return this.userVerifycodes;
+    }
+
     public Yiquan getYiquan() {
         return this.yiquan;
     }
@@ -239,6 +254,13 @@ public class User extends AbstractAuditableEntity implements Serializable {
         token.setUser(null);
 
         return token;
+    }
+
+    public UserVerifycode removeUserVerifycode(final UserVerifycode userVerifycode) {
+        getUserVerifycodes().remove(userVerifycode);
+        userVerifycode.setUser(null);
+
+        return userVerifycode;
     }
 
     public void setAccessrights(final List<AccessRight> accessrights) {
@@ -303,6 +325,10 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    public void setUserVerifycodes(final List<UserVerifycode> userVerifycodes) {
+        this.userVerifycodes = userVerifycodes;
     }
 
     public void setYiquan(final Yiquan yiquan) {

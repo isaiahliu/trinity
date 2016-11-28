@@ -8,6 +8,7 @@ public enum Url implements IHttpUrl {
     AUTHENTICATE(HttpMethod.PUT, Path.SECURITY, "authenticate"),
     LOGOUT(HttpMethod.PUT, Path.SECURITY, "logout"),
     REGISTER(HttpMethod.POST, Path.SECURITY, "register"),
+    REGISTER_VERIFY(HttpMethod.POST, Path.SECURITY, "registerVerify"),
     AUTHORITIES(HttpMethod.GET, Path.AUTHORITIES, ""),
 
     ACCESSRIGHT(HttpMethod.GET, Path.ACCESSRIGHT),

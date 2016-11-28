@@ -16,7 +16,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" valign="middle">
-						<div ng-show="!isReg">
+						<div class="loginTab" ng-show="!isReg">
 							<div class="line">
 								<img class="logo" src="/static/images/logo/user.png" /> <input ng-model="loginData.username" placeholder='#label("USERNAME")' />
 							</div>
@@ -34,20 +34,31 @@
 									style="font-size: 14px; color: #fd6a15;">#label("REGISTER")</span></a>
 							</div>
 						</div>
-						<div class="ng-hide" ng-show="isReg">
+						<div class="registerTab ng-hide" ng-show="isReg">
 							<div class="line">
-								<img class="logo" src="/static/images/logo/user.png" /> <input ng-model="registerData.username" placeholder='#label("PHONE")' />
+								<span>#label("PHONE")</span> <input ng-model="registerData.cellphone" placeholder='#info("PHONE")' />
 							</div>
 							<div class="line">
-								<img class="logo" src="/static/images/logo/password.png" /> <input type="password" ng-model="registerData.password"
-									placeholder='#label("PASSWORD")' />
+								<span>#label("VERIFY_CODE")</span> <input ng-model="registerData.verifyCode" style="width: 150px;" />
+								<button style="width: 130px;" ng-click="registerVerify()" ng-hide="verifyCodeSent">#button("SEND_VERIFY_CODE")</button>
+								<button style="width: 130px; color: #cccccc; background-color: #333333;" disabled class="ng-hide" ng-show="verifyCodeSent">#button("SENT_VERIFY_CODE")</button>
 							</div>
 							<div class="line">
-								<img class="logo" src="/static/images/logo/password.png" /> <input type="password" ng-model="repeatPassword"
-									ng-keydown="registerKeydown($event)" placeholder='#label("REPEAT_PASSWORD")' />
+								<span>#label("I_AM")</span> <input class="rd" name="userType" type="radio" ng-value="false" ng-model="registerData.servicer" /> <span>#label("PERSONAL_USER")</span>
+								<input name="userType" class="rd" type="radio" ng-value="true" ng-model="registerData.servicer" /> <span>#label("SERVICER")</span>
 							</div>
 							<div class="line">
-								<button class="btn-login" ng-click="register()">#button("OK")</button>
+								<span>#label("USERNAME")</span> <input ng-model="registerData.username" placeholder='#info("USERNAME")' />
+							</div>
+							<div class="line">
+								<span>#label("PASSWORD")</span> <input type="password" ng-model="registerData.password" placeholder='#info("PASSWORD")' />
+							</div>
+							<div class="line">
+								<span>#label("REPEAT_PASSWORD")</span> <input type="password" ng-model="repeatPassword" ng-keydown="registerKeydown($event)"
+									placeholder='#info("REPEAT_PASSWORD")' />
+							</div>
+							<div class="line">
+								<button class="btn-login" ng-click="register()">#button("REGISTER")</button>
 							</div>
 						</div>
 					</td>

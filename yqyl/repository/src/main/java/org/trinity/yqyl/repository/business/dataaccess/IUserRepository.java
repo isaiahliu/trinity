@@ -18,6 +18,8 @@ import org.trinity.yqyl.repository.business.entity.User;
 import org.trinity.yqyl.repository.business.entity.User_;
 
 public interface IUserRepository extends IJpaRepository<User, UserSearchingDto> {
+    User findOneByCellphone(String cellphone);
+
     User findOneByUsername(String username);
 
     User findOneByYiquanCode(String yiquanCode);

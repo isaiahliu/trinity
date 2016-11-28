@@ -44,9 +44,11 @@ import org.trinity.yqyl.common.message.lookup.TokenStatus;
 import org.trinity.yqyl.common.message.lookup.TransactionType;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.common.message.lookup.ValueType;
+import org.trinity.yqyl.common.message.lookup.VerifyCodeType;
 
 @TypeDefs({
         @TypeDef(name = "AuditingType", defaultForType = AuditingType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.AuditingType")),
+        @TypeDef(name = "VerifyCodeType", defaultForType = VerifyCodeType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.VerifyCodeType")),
         @TypeDef(name = "CredentialType", defaultForType = CredentialType.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.CredentialType")),
         @TypeDef(name = "RealnameStatus", defaultForType = RealnameStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.RealnameStatus")),
         @TypeDef(name = "FlagStatus", defaultForType = FlagStatus.class, typeClass = MessageUserType.class, parameters = @Parameter(name = "class", value = "org.trinity.yqyl.common.message.lookup.FlagStatus")),

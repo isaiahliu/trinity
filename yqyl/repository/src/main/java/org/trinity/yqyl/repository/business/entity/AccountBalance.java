@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
 import org.trinity.yqyl.common.message.lookup.AccountBalanceStatus;
@@ -21,97 +20,96 @@ import org.trinity.yqyl.common.message.lookup.AccountCategory;
 
 /**
  * The persistent class for the account_balance database table.
- * 
+ *
  */
 @Entity
 @Table(name = "account_balance")
 @NamedQuery(name = "AccountBalance.findAll", query = "SELECT a FROM AccountBalance a")
 public class AccountBalance extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "AccountBalance_PK_IdGenerator")
-	@TableGenerator(name = "AccountBalance_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "AccountBalance_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private Double amount;
+    private Double amount;
 
-	private AccountCategory category;
+    private AccountCategory category;
 
-	private AccountBalanceStatus status;
+    private AccountBalanceStatus status;
 
-	// bi-directional many-to-one association to Account
-	@ManyToOne
-	@JoinColumn(name = "account_id")
-	private Account account;
+    // bi-directional many-to-one association to Account
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
-	// bi-directional many-to-one association to AccountPosting
-	@OneToMany(mappedBy = "accountBalance")
-	private List<AccountPosting> accountPostings;
+    // bi-directional many-to-one association to AccountPosting
+    @OneToMany(mappedBy = "accountBalance")
+    private List<AccountPosting> accountPostings;
 
-	public AccountBalance() {
-	}
+    public AccountBalance() {
+    }
 
-	public AccountPosting addAccountPosting(final AccountPosting accountPosting) {
-		getAccountPostings().add(accountPosting);
-		accountPosting.setAccountBalance(this);
+    public AccountPosting addAccountPosting(final AccountPosting accountPosting) {
+        getAccountPostings().add(accountPosting);
+        accountPosting.setAccountBalance(this);
 
-		return accountPosting;
-	}
+        return accountPosting;
+    }
 
-	public Account getAccount() {
-		return this.account;
-	}
+    public Account getAccount() {
+        return this.account;
+    }
 
-	public List<AccountPosting> getAccountPostings() {
-		return this.accountPostings;
-	}
+    public List<AccountPosting> getAccountPostings() {
+        return this.accountPostings;
+    }
 
-	public Double getAmount() {
-		return this.amount;
-	}
+    public Double getAmount() {
+        return this.amount;
+    }
 
-	public AccountCategory getCategory() {
-		return this.category;
-	}
+    public AccountCategory getCategory() {
+        return this.category;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public AccountBalanceStatus getStatus() {
-		return this.status;
-	}
+    public AccountBalanceStatus getStatus() {
+        return this.status;
+    }
 
-	public AccountPosting removeAccountPosting(final AccountPosting accountPosting) {
-		getAccountPostings().remove(accountPosting);
-		accountPosting.setAccountBalance(null);
+    public AccountPosting removeAccountPosting(final AccountPosting accountPosting) {
+        getAccountPostings().remove(accountPosting);
+        accountPosting.setAccountBalance(null);
 
-		return accountPosting;
-	}
+        return accountPosting;
+    }
 
-	public void setAccount(final Account account) {
-		this.account = account;
-	}
+    public void setAccount(final Account account) {
+        this.account = account;
+    }
 
-	public void setAccountPostings(final List<AccountPosting> accountPostings) {
-		this.accountPostings = accountPostings;
-	}
+    public void setAccountPostings(final List<AccountPosting> accountPostings) {
+        this.accountPostings = accountPostings;
+    }
 
-	public void setAmount(final Double amount) {
-		this.amount = amount;
-	}
+    public void setAmount(final Double amount) {
+        this.amount = amount;
+    }
 
-	public void setCategory(final AccountCategory category) {
-		this.category = category;
-	}
+    public void setCategory(final AccountCategory category) {
+        this.category = category;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	public void setStatus(final AccountBalanceStatus status) {
-		this.status = status;
-	}
+    public void setStatus(final AccountBalanceStatus status) {
+        this.status = status;
+    }
 
 }

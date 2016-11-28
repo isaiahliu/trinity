@@ -1,5 +1,7 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.trinity.yqyl.common.validation.IValidationMessage;
 import org.trinity.yqyl.common.validation.IValidationScenario;
@@ -13,7 +15,18 @@ public class SecurityDto {
             IValidationScenario.IRegister.class }, message = IValidationMessage.LENGTH)
     private String password;
 
-    private boolean servicer;
+    private boolean servicer = false;
+
+    @Length(min = 11, max = 11, groups = { IValidationScenario.IRegister.class,
+            IValidationScenario.IRegisterVerify.class }, message = IValidationMessage.LENGTH)
+    private String cellphone;
+
+    @NotNull(groups = { IValidationScenario.IRegister.class })
+    private String verifyCode;
+
+    public String getCellphone() {
+        return cellphone;
+    }
 
     public String getPassword() {
         return password;
@@ -23,8 +36,16 @@ public class SecurityDto {
         return username;
     }
 
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+
     public boolean isServicer() {
         return servicer;
+    }
+
+    public void setCellphone(final String cellphone) {
+        this.cellphone = cellphone;
     }
 
     public void setPassword(final String password) {
@@ -37,5 +58,9 @@ public class SecurityDto {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    public void setVerifyCode(final String verifyCode) {
+        this.verifyCode = verifyCode;
     }
 }

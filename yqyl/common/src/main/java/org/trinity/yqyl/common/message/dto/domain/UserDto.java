@@ -32,6 +32,8 @@ public class UserDto extends AbstractBusinessDto {
 
     private AccountDto account;
 
+    private List<UserVerifycodeDto> verifyCodes;
+
     public List<LookupDto> getAccessrights() {
         return accessrights;
     }
@@ -58,6 +60,10 @@ public class UserDto extends AbstractBusinessDto {
 
     public String getUsername() {
         return username;
+    }
+
+    public List<UserVerifycodeDto> getVerifyCodes() {
+        return verifyCodes;
     }
 
     public String getYiquanCode() {
@@ -90,6 +96,10 @@ public class UserDto extends AbstractBusinessDto {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    public void setVerifyCodes(final List<UserVerifycodeDto> verifyCodes) {
+        this.verifyCodes = verifyCodes;
     }
 
     public void setYiquanCode(final String yiquanCode) {

@@ -110,6 +110,17 @@ public class UserAjaxController extends AbstractRestController {
         return createResponseEntity(response);
     }
 
+    @RequestMapping(value = "/registerVerify", method = RequestMethod.POST)
+    public ResponseEntity<DefaultResponse> ajaxRegisterVerify(@RequestBody final SecurityDto dto) throws IException {
+        final AuthenticateRequest authenticateRequest = new AuthenticateRequest();
+        authenticateRequest.setUser(dto);
+
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.REGISTER_VERIFY, null, authenticateRequest, null,
+                DefaultResponse.class);
+
+        return createResponseEntity(response);
+    }
+
     @RequestMapping(value = "/userinfo", method = RequestMethod.PUT)
     public ResponseEntity<DefaultResponse> ajaxUpdateUserinfo(@RequestBody final UserRequest request) throws IException {
         final DefaultResponse response = restfulServiceUtil.callRestService(Url.USER_INFO, null, request, null, DefaultResponse.class);

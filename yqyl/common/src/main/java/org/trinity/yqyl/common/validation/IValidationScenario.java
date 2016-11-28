@@ -6,4 +6,7 @@ public interface IValidationScenario {
 
     public static interface IRegister {
     }
+
+    public static interface IRegisterVerify {
+    }
 }

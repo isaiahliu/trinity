@@ -1,6 +1,8 @@
 layoutApp.controller('contentController', function($scope, $http, $window, $cookieStore, errorHandler) {
 	$scope.isReg = false;
 	$scope.rememberUsername = false;
+	$scope.verifyCodeSent = false;
+	
 	$scope.loginData = {
 		username : $cookieStore.get("YQYL_USERNAME"),
 		password : ""
@@ -36,7 +38,8 @@ layoutApp.controller('contentController', function($scope, $http, $window, $cook
 
 	$scope.registerData = {
 		username : "",
-		password : ""
+		password : "",
+		servicer : false
 	};
 
 	$scope.repeatPassword = "";
@@ -52,6 +55,18 @@ layoutApp.controller('contentController', function($scope, $http, $window, $cook
 			data : $scope.registerData
 		}).success(function(response) {
 			$window.location.href = "/login";
+		}).error(function(response) {
+			errorHandler($scope, response);
+		});
+	};
+
+	$scope.registerVerify = function() {
+		$http({
+			method : "POST",
+			url : "/ajax/user/registerVerify",
+			data : $scope.registerData
+		}).success(function(response) {
+			$scope.verifyCodeSent = true;
 		}).error(function(response) {
 			errorHandler($scope, response);
 		});

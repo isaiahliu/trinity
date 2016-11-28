@@ -13,20 +13,26 @@ import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.AccountDto;
 import org.trinity.yqyl.common.message.dto.domain.UserDto;
+import org.trinity.yqyl.common.message.dto.domain.UserVerifycodeDto;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.User;
+import org.trinity.yqyl.repository.business.entity.UserVerifycode;
 
 @Component
 public class UserConverter extends AbstractLookupSupportObjectConverter<User, UserDto> {
     private static enum UserRelationship {
         TOKEN,
         ACCOUNT,
+        VERIFY_CODES,
         NA
     }
 
     @Autowired
     private IObjectConverter<Account, AccountDto> accountConverter;
+
+    @Autowired
+    private IObjectConverter<UserVerifycode, UserVerifycodeDto> userVerifyCodeConverter;
 
     @Autowired
     public UserConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -69,6 +75,9 @@ public class UserConverter extends AbstractLookupSupportObjectConverter<User, Us
             break;
         case ACCOUNT:
             copyRelationship(source::getAccount, target::setAccount, accountConverter, relationshipExpression);
+            break;
+        case VERIFY_CODES:
+            copyRelationshipList(source::getUserVerifycodes, target::setVerifyCodes, userVerifyCodeConverter, relationshipExpression);
             break;
         case NA:
         default:

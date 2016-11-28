@@ -1,8 +1,10 @@
 package org.trinity.yqyl.process.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -16,17 +18,24 @@ import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
 import org.trinity.yqyl.common.message.lookup.AccountStatus;
 import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
+import org.trinity.yqyl.common.message.lookup.RecordStatus;
+import org.trinity.yqyl.common.message.lookup.SystemAttributeKey;
 import org.trinity.yqyl.common.message.lookup.TokenStatus;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
+import org.trinity.yqyl.common.message.lookup.VerifyCodeType;
 import org.trinity.yqyl.process.controller.base.ISecurityProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IAccountRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IOperatorClientRepository;
+import org.trinity.yqyl.repository.business.dataaccess.ISystemAttributeRepository;
 import org.trinity.yqyl.repository.business.dataaccess.ITokenRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IUserVerifycodeRepository;
 import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.OperatorClient;
+import org.trinity.yqyl.repository.business.entity.SystemAttribute;
 import org.trinity.yqyl.repository.business.entity.Token;
 import org.trinity.yqyl.repository.business.entity.User;
+import org.trinity.yqyl.repository.business.entity.UserVerifycode;
 
 @Service
 public class SecurityProcessController implements ISecurityProcessController {
@@ -36,6 +45,10 @@ public class SecurityProcessController implements ISecurityProcessController {
     private IUserRepository userRepository;
     @Autowired
     private IAccountRepository accountRepository;
+    @Autowired
+    private IUserVerifycodeRepository userVerifycodeRepository;
+    @Autowired
+    private ISystemAttributeRepository systemAttributeRepository;
     @Autowired
     private IExceptionFactory exceptionFactory;
     @Autowired
@@ -101,14 +114,38 @@ public class SecurityProcessController implements ISecurityProcessController {
     public void register(final SecurityDto securityDto) throws IException {
         final String username = securityDto.getUsername();
         final String password = securityDto.getPassword();
+        final String cellphone = securityDto.getCellphone();
+        final String verifyCode = securityDto.getVerifyCode();
         final boolean isServicer = securityDto.isServicer();
 
         User user = userRepository.findOneByUsername(username);
         if (user != null) {
-            throw exceptionFactory.createException(ErrorMessage.USERNAME_IS_REGISTERED);
+            if (!cellphone.equals(user.getCellphone())) {
+                throw exceptionFactory.createException(ErrorMessage.USERNAME_IS_REGISTERED);
+            }
+        } else {
+            user = userRepository.findOneByCellphone(cellphone);
+        }
+        int expireMinutes = Integer.parseInt(SystemAttributeKey.VERIFY_CODE_EXPIRE_MINUTES.getDefaultValue());
+        final SystemAttribute expireMinutesAttribute = systemAttributeRepository
+                .findOneByKey(SystemAttributeKey.VERIFY_CODE_EXPIRE_MINUTES);
+        if (expireMinutesAttribute != null) {
+            expireMinutes = Integer.parseInt(expireMinutesAttribute.getValue());
         }
 
-        user = new User();
+        final List<UserVerifycode> userVerifycodes = user.getUserVerifycodes();
+        final UserVerifycode verifyCodeEntity = userVerifycodes.stream().filter(item -> item.getType() == VerifyCodeType.REGISTER).findAny()
+                .get();
+
+        final Calendar now = Calendar.getInstance();
+        now.add(Calendar.MINUTE, 0 - expireMinutes);
+        if (now.getTime().after(verifyCodeEntity.getTimestamp())) {
+            throw exceptionFactory.createException(ErrorMessage.VERIFY_CODE_IS_EXPIRED);
+        }
+        if (!verifyCode.equals(verifyCodeEntity.getCode())) {
+            throw exceptionFactory.createException(ErrorMessage.INCORRECT_VERIFY_CODE);
+        }
+
         user.setUsername(username);
         user.setPassword(password);
 
@@ -137,5 +174,47 @@ public class SecurityProcessController implements ISecurityProcessController {
         account.setUserId(user.getId());
 
         accountRepository.save(account);
+    }
+
+    @Override
+    @Transactional(rollbackOn = IException.class)
+    public void registerVerify(final SecurityDto securityDto) throws IException {
+        User user = userRepository.findOneByCellphone(securityDto.getCellphone());
+        if (user != null) {
+            if (user.getStatus() != UserStatus.UNREGISTERED) {
+                throw exceptionFactory.createException(ErrorMessage.CELLPHONE_IS_REGISTERED);
+            }
+        } else {
+            user = new User();
+            user.setCellphone(securityDto.getCellphone());
+            user.setStatus(UserStatus.UNREGISTERED);
+            user.setUserVerifycodes(new ArrayList<>());
+        }
+
+        final Optional<UserVerifycode> anyVerifycode = user.getUserVerifycodes().stream()
+                .filter(item -> item.getType() == VerifyCodeType.REGISTER).findAny();
+
+        // TODO generate code
+        // TODO send to SMS API
+        final String verifyCode = "111111";
+        UserVerifycode verifyCodeEntity = null;
+        if (anyVerifycode.isPresent()) {
+            verifyCodeEntity = anyVerifycode.get();
+        } else {
+            verifyCodeEntity = new UserVerifycode();
+            verifyCodeEntity.setCode(verifyCode);
+            verifyCodeEntity.setType(VerifyCodeType.REGISTER);
+            verifyCodeEntity.setTimestamp(new Date());
+            verifyCodeEntity.setStatus(RecordStatus.ACTIVE);
+            verifyCodeEntity.setUser(user);
+
+            user.getUserVerifycodes().add(verifyCodeEntity);
+        }
+
+        verifyCodeEntity.setCode(verifyCode);
+        verifyCodeEntity.setTimestamp(new Date());
+
+        userRepository.save(user);
+        userVerifycodeRepository.save(verifyCodeEntity);
     }
 }

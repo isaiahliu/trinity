@@ -35,5 +35,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.AccountPosting</class>
 		<class>org.trinity.yqyl.repository.business.entity.AccountTransaction</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceInfoStastic</class>
+		<class>org.trinity.yqyl.repository.business.entity.UserVerifycode</class>
 	</persistence-unit>
 </persistence>
