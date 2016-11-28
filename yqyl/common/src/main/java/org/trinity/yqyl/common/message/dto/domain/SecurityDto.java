@@ -11,8 +11,7 @@ public class SecurityDto {
             IValidationScenario.IRegister.class }, message = IValidationMessage.LENGTH)
     private String username;
 
-    @Length(min = 6, max = 20, groups = { IValidationScenario.IAuthenticate.class,
-            IValidationScenario.IRegister.class }, message = IValidationMessage.LENGTH)
+    @Length(min = 6, max = 20, groups = { IValidationScenario.IRegister.class }, message = IValidationMessage.LENGTH)
     private String password;
 
     private boolean servicer = false;

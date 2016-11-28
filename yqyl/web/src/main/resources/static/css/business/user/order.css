@@ -1,30 +1,41 @@
 div.order {
-	margin-left: 300px;
+	margin-left: 200px;
+}
+
+div.order div.block {
+	width: 1000px;
+	border: 1px solid #cccccc;
 }
 
 div.order table {
-	max-width: 840px;
-	min-width: 600px;
+	width: 970px;
+	margin: auto;
 }
 
 div.order table td {
-	border: solid 1px;
 	font-size: small;
 }
 
 div.order table thead td {
-	background-color: rgba(215, 215, 215, 1);
+	background-color: #f0f0f0;
+	height: 40px;
 }
 
-div.order table thead td span {
-	font-weight: bold;
+div.order table tbody td {
+	padding: 10px 0;
 }
 
-div.order div.orderItem div.orderPic {
-	float: left;
-	width: 70px;
-	height: 70px;
-	margin-right: 5px;
+div.order table td span {
+	font-size: 16px;
+}
+
+div.order table tbody tr {
+	border-bottom: 1px solid #cccccc;
+}
+
+div.order div.orderPic img {
+	width: 54px;
+	height: 54px;
 }
 
 div.order div.orderItem div.orderPic img {

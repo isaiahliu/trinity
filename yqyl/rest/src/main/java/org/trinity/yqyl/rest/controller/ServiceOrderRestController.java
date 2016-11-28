@@ -41,6 +41,18 @@ public class ServiceOrderRestController extends
 		return createResponseEntity(response);
 	}
 
+	@Override
+	public ResponseEntity<ServiceOrderResponse> getAll(final ServiceOrderSearchingDto request) throws IException {
+		final ResponseEntity<ServiceOrderResponse> response = super.getAll(request);
+
+		if (request.isFetchUnprocessedCount()) {
+			response.getBody().addExtraData("unprocessedOrderCount",
+					getDomainProcessController().countUnprocessedOrders(request.getCurrentUsername()));
+		}
+
+		return response;
+	}
+
 	@RequestMapping(value = "/proposal", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<ServiceOrderResponse> proposeOrder(@RequestBody final ServiceOrderRequest request)
 			throws IException {

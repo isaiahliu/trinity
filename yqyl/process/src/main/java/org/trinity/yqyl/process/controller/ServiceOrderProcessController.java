@@ -213,6 +213,12 @@ public class ServiceOrderProcessController
 	}
 
 	@Override
+	public int countUnprocessedOrders(final String username) throws IException {
+		return getDomainEntityRepository().countUnprocessedOrders(userRepository.findOneByUsername(username),
+				new OrderStatus[] { OrderStatus.UNPROCESSED });
+	}
+
+	@Override
 	@Transactional(rollbackOn = IException.class)
 	public ServiceOrderDto proposeOrder(final ServiceOrderDto serviceOrderDto) throws IException {
 		final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());

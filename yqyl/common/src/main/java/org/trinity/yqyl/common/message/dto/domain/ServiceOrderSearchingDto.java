@@ -10,6 +10,7 @@ public class ServiceOrderSearchingDto extends AbstractSearchingDto {
     private String supplierUserName;
     private String category;
     private String paymentMethod;
+    private boolean fetchUnprocessedCount;
 
     public String getCategory() {
         return category;
@@ -39,8 +40,16 @@ public class ServiceOrderSearchingDto extends AbstractSearchingDto {
         return supplierUserName;
     }
 
+    public boolean isFetchUnprocessedCount() {
+        return fetchUnprocessedCount;
+    }
+
     public void setCategory(final String category) {
         this.category = category;
+    }
+
+    public void setFetchUnprocessedCount(final boolean fetchUnprocessedCount) {
+        this.fetchUnprocessedCount = fetchUnprocessedCount;
     }
 
     public void setPaymentMethod(final String paymentMethod) {

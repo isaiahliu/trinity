@@ -52,6 +52,10 @@ div.login div.line input {
 	width: 284px;
 }
 
+div.login div.loginTab {
+	padding-top: 20px;
+}
+
 div.login div.loginTab div.line input {
 	padding-left: 30px;
 }
@@ -77,7 +81,7 @@ div.login div.line img.logo {
 
 div.login div.line {
 	text-align: center;
-	margin: 10px 0;
+	margin: 20px 0px 0px 0px;
 }
 
 div.login div.registerTab div.line span {
