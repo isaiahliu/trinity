@@ -7,11 +7,11 @@ import org.trinity.yqyl.common.validation.IValidationMessage;
 import org.trinity.yqyl.common.validation.IValidationScenario;
 
 public class SecurityDto {
-    @Length(min = 4, groups = { IValidationScenario.IAuthenticate.class,
+    @Length(min = 2, max = 40, groups = { IValidationScenario.IAuthenticate.class,
             IValidationScenario.IRegister.class }, message = IValidationMessage.LENGTH)
     private String username;
 
-    @Length(min = 4, groups = { IValidationScenario.IAuthenticate.class,
+    @Length(min = 6, max = 20, groups = { IValidationScenario.IAuthenticate.class,
             IValidationScenario.IRegister.class }, message = IValidationMessage.LENGTH)
     private String password;
 
