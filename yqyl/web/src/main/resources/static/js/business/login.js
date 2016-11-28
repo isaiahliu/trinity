@@ -1,8 +1,8 @@
-layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
+layoutApp.controller('contentController', function($scope, $http, $window, $cookieStore, errorHandler) {
 	$scope.isReg = false;
-
+	$scope.rememberUsername = false;
 	$scope.loginData = {
-		username : "",
+		username : $cookieStore.get("YQYL_USERNAME"),
 		password : ""
 	};
 	$scope.login = function() {
@@ -11,6 +11,11 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			url : "/ajax/user/authenticate",
 			data : $scope.loginData
 		}).success(function(response) {
+			if ($scope.rememberUsername) {
+				$cookieStore.put("YQYL_USERNAME", $scope.loginData.username);
+			} else {
+				$cookieStore.put("YQYL_USERNAME", "");
+			}
 			$window.location.href = "/home";
 		}).error(function(response) {
 			errorHandler($scope, response);

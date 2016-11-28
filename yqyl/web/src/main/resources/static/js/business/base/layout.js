@@ -1,4 +1,4 @@
-var layoutApp = angular.module('layoutApp', [ 'ui.bootstrap', 'ui.date', 'textAngular' ]);
+var layoutApp = angular.module('layoutApp', [ 'ui.bootstrap', 'ui.date', 'textAngular', 'ngCookies' ]);
 
 layoutApp.value("errorHandler", function(scope, response) {
 	if (response.errors != undefined) {
