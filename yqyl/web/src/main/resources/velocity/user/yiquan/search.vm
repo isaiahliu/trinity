@@ -1,4 +1,4 @@
-#parse("/velocity/user/yiquan/navigation.vm")
+#parse("/velocity/user/navigation.vm")
 
 <link rel="stylesheet" href="/static/css/business/user/yiquan/search.css"></link>
 

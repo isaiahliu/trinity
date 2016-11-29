@@ -64,26 +64,26 @@ public class UserWebController extends AbstractResourceWebController {
 
     @RequestMapping(value = { "/yiquan", "/yiquan/bind" }, method = RequestMethod.GET)
     public ModelAndView yiquanBindPage() throws IException {
-        return createModelAndView("user/yiquan/bind").addObject("currentPage", "YIQUAN");
+        return createModelAndView("user/yiquan/bind").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "BIND");
     }
 
     @RequestMapping(value = "/yiquan/branch", method = RequestMethod.GET)
     public ModelAndView yiquanBranchPage() throws IException {
-        return createModelAndView("user/yiquan/branch");
+        return createModelAndView("user/yiquan/branch").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "BRANCH");
     }
 
     @RequestMapping(value = "/yiquan/point", method = RequestMethod.GET)
     public ModelAndView yiquanPointPage() throws IException {
-        return createModelAndView("user/yiquan/point");
+        return createModelAndView("user/yiquan/point").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "POINT");
     }
 
     @RequestMapping(value = "/yiquan/search", method = RequestMethod.GET)
     public ModelAndView yiquanSearchPage() throws IException {
-        return createModelAndView("user/yiquan/search");
+        return createModelAndView("user/yiquan/search").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "SEARCH");
     }
 
     @RequestMapping(value = "/yiquan/topup", method = RequestMethod.GET)
     public ModelAndView yiquanTopupPage() throws IException {
-        return createModelAndView("user/yiquan/topup");
+        return createModelAndView("user/yiquan/topup").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "TOPUP");
     }
 }

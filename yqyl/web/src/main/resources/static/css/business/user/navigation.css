@@ -26,6 +26,20 @@ div.userBar ul li div img {
 }
 
 div.userBar ul li div span {
+	margin-left: 5px;
 	font-size: 14px;
 	line-height: 36px;
+}
+
+div.userBar ul li div.navBarSubItem {
+	height: 26px;
+}
+
+div.userBar ul li div.navBarSubItem span {
+	margin-left: 35px;
+	line-height: 26px;
+}
+
+div.userBar ul li div.subSelected {
+	background-color: #ffddc9;
 }
