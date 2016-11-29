@@ -34,7 +34,7 @@ public class ServiceReceiverClientAjaxController extends AbstractRestController 
 
         request.getData().forEach(item -> {
             if (item.getId() == null) {
-                item.setStatus(new LookupDto(ServiceReceiverClientStatus.ACTIVE.getMessageCode(), ""));
+                item.setStatus(new LookupDto(ServiceReceiverClientStatus.PROPOSAL.getMessageCode(), ""));
             }
         });
 

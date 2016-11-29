@@ -2,7 +2,7 @@ package org.trinity.yqyl.common.message.dto.domain;
 
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 
-public class YiquanDto extends AbstractBusinessDto {
+public class ServiceReceiverClientYiquanDto extends AbstractBusinessDto {
     private String cellphone;
 
     private String code;

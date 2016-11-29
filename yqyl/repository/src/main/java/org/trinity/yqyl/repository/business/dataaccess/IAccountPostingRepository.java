@@ -25,6 +25,7 @@ import org.trinity.yqyl.repository.business.entity.AccountPosting;
 import org.trinity.yqyl.repository.business.entity.AccountPosting_;
 import org.trinity.yqyl.repository.business.entity.AccountTransaction_;
 import org.trinity.yqyl.repository.business.entity.Account_;
+import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient_;
 import org.trinity.yqyl.repository.business.entity.User_;
 
 public interface IAccountPostingRepository extends IJpaRepository<AccountPosting, AccountPostingSearchingDto> {
@@ -33,8 +34,8 @@ public interface IAccountPostingRepository extends IJpaRepository<AccountPosting
         final Specification<AccountPosting> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
             if (!searchingDto.isSearchAll()) {
-                predicates.add(cb.equal(
-                        root.join(AccountPosting_.accountBalance).join(AccountBalance_.account).join(Account_.user).get(User_.username),
+                predicates.add(cb.equal(root.join(AccountPosting_.accountBalance).join(AccountBalance_.account)
+                        .join(Account_.serviceReceiverClient).join(ServiceReceiverClient_.user).get(User_.username),
                         searchingDto.getCurrentUsername()));
             }
 

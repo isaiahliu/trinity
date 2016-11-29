@@ -16,7 +16,6 @@ import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.SecurityDto;
 import org.trinity.yqyl.common.message.exception.ErrorMessage;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
-import org.trinity.yqyl.common.message.lookup.AccountStatus;
 import org.trinity.yqyl.common.message.lookup.OperatorClientStatus;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.SystemAttributeKey;
@@ -24,13 +23,11 @@ import org.trinity.yqyl.common.message.lookup.TokenStatus;
 import org.trinity.yqyl.common.message.lookup.UserStatus;
 import org.trinity.yqyl.common.message.lookup.VerifyCodeType;
 import org.trinity.yqyl.process.controller.base.ISecurityProcessController;
-import org.trinity.yqyl.repository.business.dataaccess.IAccountRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IOperatorClientRepository;
 import org.trinity.yqyl.repository.business.dataaccess.ISystemAttributeRepository;
 import org.trinity.yqyl.repository.business.dataaccess.ITokenRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserVerifycodeRepository;
-import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.OperatorClient;
 import org.trinity.yqyl.repository.business.entity.SystemAttribute;
 import org.trinity.yqyl.repository.business.entity.Token;
@@ -43,8 +40,6 @@ public class SecurityProcessController implements ISecurityProcessController {
     private ITokenRepository tokenRepository;
     @Autowired
     private IUserRepository userRepository;
-    @Autowired
-    private IAccountRepository accountRepository;
     @Autowired
     private IUserVerifycodeRepository userVerifycodeRepository;
     @Autowired
@@ -167,13 +162,6 @@ public class SecurityProcessController implements ISecurityProcessController {
         operatorClient.setUserId(user.getId());
 
         operatorClientRepository.save(operatorClient);
-
-        final Account account = new Account();
-        account.setStatus(AccountStatus.ACTIVE);
-        account.setUser(user);
-        account.setUserId(user.getId());
-
-        accountRepository.save(account);
     }
 
     @Override

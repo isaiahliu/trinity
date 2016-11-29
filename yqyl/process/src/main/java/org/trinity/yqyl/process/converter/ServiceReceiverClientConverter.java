@@ -8,19 +8,24 @@ import org.trinity.common.util.Tuple2;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
+import org.trinity.yqyl.common.message.dto.domain.AccountDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.Gender;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
+import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
 
 @Component
 public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectConverter<ServiceReceiverClient, ServiceReceiverClientDto> {
     private static enum ServiceReceiverClientRelationship {
+        ACCOUNT,
         NA
     }
 
     private static final String DATE_FORMAT = "yyyy/MM/dd";
+    @Autowired
+    private IObjectConverter<Account, AccountDto> accountConverter;
 
     @Autowired
     public ServiceReceiverClientConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -41,6 +46,7 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
         copyObject(source::getEmail, target::getEmail, target::setEmail, copyPolicy);
         copyObject(source::getHomephoneNo, target::getHomephoneNo, target::setHomephoneNo, copyPolicy);
         copyObject(source::getIdentityCard, target::getIdentityCard, target::setIdentityCard, copyPolicy);
+        copyObject(source::getIdentityCardCopy, target::getIdentityCardCopy, target::setIdentityCardCopy, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
     }
 
@@ -56,6 +62,7 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
         copyObject(source::getEmail, target::getEmail, target::setEmail, copyPolicy);
         copyObject(source::getHomephoneNo, target::getHomephoneNo, target::setHomephoneNo, copyPolicy);
         copyObject(source::getIdentityCard, target::getIdentityCard, target::setIdentityCard, copyPolicy);
+        copyObject(source::getIdentityCardCopy, target::getIdentityCardCopy, target::setIdentityCardCopy, copyPolicy);
         copyObject(source::getName, target::getName, target::setName, copyPolicy);
     }
 
@@ -63,6 +70,10 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
     protected void convertRelationshipInternal(final ServiceReceiverClient source, final ServiceReceiverClientDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(ServiceReceiverClientRelationship.class)) {
+        case ACCOUNT:
+            copyRelationship(source::getAccount, target::setAccount, accountConverter, relationshipExpression);
+            break;
+        case NA:
         default:
             break;
         }

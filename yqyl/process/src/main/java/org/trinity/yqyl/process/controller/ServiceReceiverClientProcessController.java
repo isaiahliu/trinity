@@ -38,7 +38,7 @@ public class ServiceReceiverClientProcessController extends
             throw getExceptionFactory().createException(ErrorMessage.SERVICE_RECEIVER_CLIENT_MUST_BE_PROPOSAL);
         }
 
-        client.setStatus(ServiceReceiverClientStatus.ACTIVE);
+        client.setStatus(ServiceReceiverClientStatus.REALNAME);
 
         getDomainEntityRepository().save(client);
     }
@@ -50,7 +50,7 @@ public class ServiceReceiverClientProcessController extends
             throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE, String.valueOf(id));
         }
 
-        if (!MessageUtils.in(entity.getStatus(), ServiceReceiverClientStatus.INACTIVE, ServiceReceiverClientStatus.PROPOSAL)) {
+        if (!MessageUtils.in(entity.getStatus(), ServiceReceiverClientStatus.PROPOSAL)) {
             throw getExceptionFactory().createException(ErrorMessage.ONLY_PROPOSAL_CLIENT_CAN_BE_CANCELLED);
         }
         getDomainEntityRepository().delete(entity);

@@ -13,15 +13,23 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private String email;
 
+    private AccountDto account;
+
     private LookupDto gender;
 
     private String homephoneNo;
 
     private String identityCard;
 
+    private String identityCardCopy;
+
     private String name;
 
     private LookupDto familyRelationship;
+
+    public AccountDto getAccount() {
+        return account;
+    }
 
     public String getAddress() {
         return address;
@@ -55,8 +63,16 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         return identityCard;
     }
 
+    public String getIdentityCardCopy() {
+        return identityCardCopy;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setAccount(final AccountDto account) {
+        this.account = account;
     }
 
     public void setAddress(final String address) {
@@ -89,6 +105,10 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public void setIdentityCard(final String identityCard) {
         this.identityCard = identityCard;
+    }
+
+    public void setIdentityCardCopy(final String identityCardCopy) {
+        this.identityCardCopy = identityCardCopy;
     }
 
     public void setName(final String name) {

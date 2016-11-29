@@ -21,9 +21,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
+import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.Gender;
-import org.trinity.yqyl.common.message.lookup.CompanyType;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 
 /**
@@ -68,6 +68,9 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     @Column(name = "identity_card")
     private String identityCard;
 
+    @Column(name = "identity_card_copy")
+    private String identityCardCopy;
+
     @Column(name = "medical_insurance_status")
     private String medicalInsuranceStatus;
 
@@ -87,6 +90,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     @ManyToOne
     @JoinColumn(name = "spouse_client_id")
     private ServiceReceiverClient spouse;
+
+    // bi-directional many-to-one association to Account
+    @OneToOne(mappedBy = "serviceReceiverClient")
+    private Account account;
 
     // bi-directional one-to-one association to
     // ServiceReceiverClientHealthIndicator
@@ -110,7 +117,14 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     @OneToMany(mappedBy = "serviceReceiverClient")
     private List<Favorite> favorites;
 
-    // bi-directional many-to-one association to User
+    // bi-directional many-to-one association to Yiquan
+    @OneToOne(mappedBy = "serviceReceiverClient")
+    private ServiceReceiverClientYiquan yiquan;
+
+    // bi-directional many-to-one association to Order
+    @OneToMany(mappedBy = "serviceReceiverClient")
+    private List<ServiceOrder> orders;
+
     @ManyToOne
     private User user;
 
@@ -122,6 +136,17 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         favorite.setServiceReceiverClient(this);
 
         return favorite;
+    }
+
+    public ServiceOrder addOrder(final ServiceOrder order) {
+        getOrders().add(order);
+        order.setServiceReceiverClient(this);
+
+        return order;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     public String getAddress() {
@@ -184,6 +209,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return this.identityCard;
     }
 
+    public String getIdentityCardCopy() {
+        return identityCardCopy;
+    }
+
     public ServiceReceiverClientInterest getInterest() {
         return this.interest;
     }
@@ -194,6 +223,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public String getName() {
         return this.name;
+    }
+
+    public List<ServiceOrder> getOrders() {
+        return this.orders;
     }
 
     public ServiceReceiverClientOther getOther() {
@@ -224,11 +257,26 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return this.videophoneNo;
     }
 
+    public ServiceReceiverClientYiquan getYiquan() {
+        return this.yiquan;
+    }
+
     public Favorite removeFavorite(final Favorite favorite) {
         getFavorites().remove(favorite);
         favorite.setServiceReceiverClient(null);
 
         return favorite;
+    }
+
+    public ServiceOrder removeOrder(final ServiceOrder order) {
+        getOrders().remove(order);
+        order.setServiceReceiverClient(null);
+
+        return order;
+    }
+
+    public void setAccount(final Account account) {
+        this.account = account;
     }
 
     public void setAddress(final String address) {
@@ -291,6 +339,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         this.identityCard = identityCard;
     }
 
+    public void setIdentityCardCopy(final String identityCardCopy) {
+        this.identityCardCopy = identityCardCopy;
+    }
+
     public void setInterest(final ServiceReceiverClientInterest interest) {
         this.interest = interest;
     }
@@ -301,6 +353,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public void setOrders(final List<ServiceOrder> orders) {
+        this.orders = orders;
     }
 
     public void setOther(final ServiceReceiverClientOther other) {
@@ -329,5 +385,9 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public void setVideophoneNo(final String videophoneNo) {
         this.videophoneNo = videophoneNo;
+    }
+
+    public void setYiquan(final ServiceReceiverClientYiquan yiquan) {
+        this.yiquan = yiquan;
     }
 }

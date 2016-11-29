@@ -33,262 +33,263 @@ import org.trinity.yqyl.common.message.lookup.PaymentType;
 @Table(name = "service_order")
 @NamedQuery(name = "ServiceOrder.findAll", query = "SELECT o FROM ServiceOrder o")
 public class ServiceOrder extends AbstractAuditableEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private String phone;
+    private static final long serialVersionUID = 1L;
+    private String phone;
 
-	private String address;
+    private String address;
 
-	// bi-directional many-to-one association to ServiceOrderRequirement
-	@ManyToOne
-	@JoinColumn(name = "service_order_requirement_id")
-	private ServiceOrderRequirement serviceOrderRequirement;
+    // bi-directional many-to-one association to ServiceOrderRequirement
+    @ManyToOne
+    @JoinColumn(name = "service_order_requirement_id")
+    private ServiceOrderRequirement serviceOrderRequirement;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "service_time")
-	private Date serviceTime;
-	// bi-directional many-to-one association to ServiceOrderOperation
-	@OneToMany(mappedBy = "serviceOrder")
-	private List<ServiceOrderOperation> operations;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "service_time")
+    private Date serviceTime;
 
-	// bi-directional many-to-one association to ServiceInfo
-	@ManyToOne
-	@JoinColumn(name = "service_info_id")
-	private ServiceInfo serviceInfo;
+    // bi-directional many-to-one association to ServiceOrderOperation
+    @OneToMany(mappedBy = "serviceOrder")
+    private List<ServiceOrderOperation> operations;
 
-	// bi-directional many-to-one association to ServiceSupplierStaff
-	@ManyToOne
-	@JoinColumn(name = "service_supplier_staff_id")
-	private ServiceSupplierStaff serviceSupplierStaff;
+    // bi-directional many-to-one association to ServiceInfo
+    @ManyToOne
+    @JoinColumn(name = "service_info_id")
+    private ServiceInfo serviceInfo;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
-	@TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-	private Long id;
+    // bi-directional many-to-one association to ServiceSupplierStaff
+    @ManyToOne
+    @JoinColumn(name = "service_supplier_staff_id")
+    private ServiceSupplierStaff serviceSupplierStaff;
 
-	private Double price;
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "proposal_time")
-	private Date proposalTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrder_PK_IdGenerator")
+    @TableGenerator(name = "ServiceOrder_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrder_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+    private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "approval_time")
-	private Date approvalTime;
+    private Double price;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "proposal_time")
+    private Date proposalTime;
 
-	@Column(name = "expected_payment_amount")
-	private Double expectedPaymentAmount;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "approval_time")
+    private Date approvalTime;
 
-	@Column(name = "actual_payment_amount")
-	private Double actualPaymentAmount;
+    @Column(name = "expected_payment_amount")
+    private Double expectedPaymentAmount;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "settled_time")
-	private Date settledTime;
+    @Column(name = "actual_payment_amount")
+    private Double actualPaymentAmount;
 
-	@Column(name = "receipt", insertable = true, updatable = true)
-	private String receipt;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "settled_time")
+    private Date settledTime;
 
-	private OrderStatus status;
+    @Column(name = "receipt", insertable = true, updatable = true)
+    private String receipt;
 
-	// bi-directional one-to-one association to ServiceOrderAppraise
-	@OneToOne(mappedBy = "serviceOrder")
-	private ServiceOrderAppraise appraise;
+    private OrderStatus status;
 
-	// bi-directional many-to-one association to User
-	@ManyToOne
-	private User user;
+    // bi-directional one-to-one association to ServiceOrderAppraise
+    @OneToOne(mappedBy = "serviceOrder")
+    private ServiceOrderAppraise appraise;
 
-	@Column(name = "payment_method")
-	private PaymentMethod paymentMethod;
+    // bi-directional many-to-one association to User
+    @ManyToOne
+    private ServiceReceiverClient serviceReceiverClient;
 
-	@Column(name = "payment_type")
-	private PaymentType paymentType;
+    @Column(name = "payment_method")
+    private PaymentMethod paymentMethod;
 
-	@OneToOne
-	@JoinColumn(name = "account_transaction_id")
-	private AccountTransaction accountTransaction;
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
 
-	public ServiceOrder() {
-	}
+    @OneToOne
+    @JoinColumn(name = "account_transaction_id")
+    private AccountTransaction accountTransaction;
 
-	public ServiceOrderOperation addOperation(final ServiceOrderOperation operation) {
-		getOperations().add(operation);
-		operation.setServiceOrder(this);
+    public ServiceOrder() {
+    }
 
-		return operation;
-	}
+    public ServiceOrderOperation addOperation(final ServiceOrderOperation operation) {
+        getOperations().add(operation);
+        operation.setServiceOrder(this);
 
-	public AccountTransaction getAccountTransaction() {
-		return accountTransaction;
-	}
+        return operation;
+    }
 
-	public Double getActualPaymentAmount() {
-		return actualPaymentAmount;
-	}
+    public AccountTransaction getAccountTransaction() {
+        return accountTransaction;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public Double getActualPaymentAmount() {
+        return actualPaymentAmount;
+    }
 
-	public ServiceOrderAppraise getAppraise() {
-		return this.appraise;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public Date getApprovalTime() {
-		return approvalTime;
-	}
+    public ServiceOrderAppraise getAppraise() {
+        return this.appraise;
+    }
 
-	public Double getExpectedPaymentAmount() {
-		return expectedPaymentAmount;
-	}
+    public Date getApprovalTime() {
+        return approvalTime;
+    }
 
-	public Long getId() {
-		return this.id;
-	}
+    public Double getExpectedPaymentAmount() {
+        return expectedPaymentAmount;
+    }
 
-	public List<ServiceOrderOperation> getOperations() {
-		return this.operations;
-	}
+    public Long getId() {
+        return this.id;
+    }
 
-	public PaymentMethod getPaymentMethod() {
-		return paymentMethod;
-	}
+    public List<ServiceOrderOperation> getOperations() {
+        return this.operations;
+    }
 
-	public PaymentType getPaymentType() {
-		return paymentType;
-	}
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
 
-	public Double getPrice() {
-		return this.price;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public Date getProposalTime() {
-		return proposalTime;
-	}
+    public Double getPrice() {
+        return this.price;
+    }
 
-	public String getReceipt() {
-		return receipt;
-	}
+    public Date getProposalTime() {
+        return proposalTime;
+    }
 
-	public ServiceInfo getServiceInfo() {
-		return this.serviceInfo;
-	}
+    public String getReceipt() {
+        return receipt;
+    }
 
-	public ServiceOrderRequirement getServiceOrderRequirement() {
-		return this.serviceOrderRequirement;
-	}
+    public ServiceInfo getServiceInfo() {
+        return this.serviceInfo;
+    }
 
-	public ServiceSupplierStaff getServiceSupplierStaff() {
-		return this.serviceSupplierStaff;
-	}
+    public ServiceOrderRequirement getServiceOrderRequirement() {
+        return this.serviceOrderRequirement;
+    }
 
-	public Date getServiceTime() {
-		return serviceTime;
-	}
+    public ServiceReceiverClient getServiceReceiverClient() {
+        return serviceReceiverClient;
+    }
 
-	public Date getSettledTime() {
-		return settledTime;
-	}
-
-	public OrderStatus getStatus() {
-		return this.status;
-	}
-
-	public User getUser() {
-		return this.user;
-	}
-
-	public ServiceOrderOperation removeOperation(final ServiceOrderOperation operation) {
-		getOperations().remove(operation);
-		operation.setServiceOrder(null);
-
-		return operation;
-	}
-
-	public void setAccountTransaction(final AccountTransaction accountTransaction) {
-		this.accountTransaction = accountTransaction;
-	}
-
-	public void setActualPaymentAmount(final Double actualPaymentAmount) {
-		this.actualPaymentAmount = actualPaymentAmount;
-	}
-
-	public void setAddress(final String address) {
-		this.address = address;
-	}
-
-	public void setAppraise(final ServiceOrderAppraise appraise) {
-		this.appraise = appraise;
-	}
-
-	public void setApprovalTime(final Date approvalTime) {
-		this.approvalTime = approvalTime;
-	}
-
-	public void setExpectedPaymentAmount(final Double expectedPaymentAmount) {
-		this.expectedPaymentAmount = expectedPaymentAmount;
-	}
-
-	public void setId(final Long id) {
-		this.id = id;
-	}
-
-	public void setOperations(final List<ServiceOrderOperation> operations) {
-		this.operations = operations;
-	}
-
-	public void setPaymentMethod(final PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-
-	public void setPaymentType(final PaymentType paymentType) {
-		this.paymentType = paymentType;
-	}
-
-	public void setPhone(final String phone) {
-		this.phone = phone;
-	}
-
-	public void setPrice(final Double price) {
-		this.price = price;
-	}
-
-	public void setProposalTime(final Date proposalTime) {
-		this.proposalTime = proposalTime;
-	}
-
-	public void setReceipt(final String receipt) {
-		this.receipt = receipt;
-	}
-
-	public void setServiceInfo(final ServiceInfo serviceInfo) {
-		this.serviceInfo = serviceInfo;
-	}
-
-	public void setServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
-		this.serviceOrderRequirement = serviceOrderRequirement;
-	}
-
-	public void setServiceSupplierStaff(final ServiceSupplierStaff serviceSupplierStaff) {
-		this.serviceSupplierStaff = serviceSupplierStaff;
-	}
-
-	public void setServiceTime(final Date serviceTime) {
-		this.serviceTime = serviceTime;
-	}
-
-	public void setSettledTime(final Date settledTime) {
-		this.settledTime = settledTime;
-	}
-
-	public void setStatus(final OrderStatus status) {
-		this.status = status;
-	}
-
-	public void setUser(final User user) {
-		this.user = user;
-	}
+    public ServiceSupplierStaff getServiceSupplierStaff() {
+        return this.serviceSupplierStaff;
+    }
+
+    public Date getServiceTime() {
+        return serviceTime;
+    }
+
+    public Date getSettledTime() {
+        return settledTime;
+    }
+
+    public OrderStatus getStatus() {
+        return this.status;
+    }
+
+    public ServiceOrderOperation removeOperation(final ServiceOrderOperation operation) {
+        getOperations().remove(operation);
+        operation.setServiceOrder(null);
+
+        return operation;
+    }
+
+    public void setAccountTransaction(final AccountTransaction accountTransaction) {
+        this.accountTransaction = accountTransaction;
+    }
+
+    public void setActualPaymentAmount(final Double actualPaymentAmount) {
+        this.actualPaymentAmount = actualPaymentAmount;
+    }
+
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
+    public void setAppraise(final ServiceOrderAppraise appraise) {
+        this.appraise = appraise;
+    }
+
+    public void setApprovalTime(final Date approvalTime) {
+        this.approvalTime = approvalTime;
+    }
+
+    public void setExpectedPaymentAmount(final Double expectedPaymentAmount) {
+        this.expectedPaymentAmount = expectedPaymentAmount;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setOperations(final List<ServiceOrderOperation> operations) {
+        this.operations = operations;
+    }
+
+    public void setPaymentMethod(final PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void setPaymentType(final PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public void setPhone(final String phone) {
+        this.phone = phone;
+    }
+
+    public void setPrice(final Double price) {
+        this.price = price;
+    }
+
+    public void setProposalTime(final Date proposalTime) {
+        this.proposalTime = proposalTime;
+    }
+
+    public void setReceipt(final String receipt) {
+        this.receipt = receipt;
+    }
+
+    public void setServiceInfo(final ServiceInfo serviceInfo) {
+        this.serviceInfo = serviceInfo;
+    }
+
+    public void setServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
+        this.serviceOrderRequirement = serviceOrderRequirement;
+    }
+
+    public void setServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
+        this.serviceReceiverClient = serviceReceiverClient;
+    }
+
+    public void setServiceSupplierStaff(final ServiceSupplierStaff serviceSupplierStaff) {
+        this.serviceSupplierStaff = serviceSupplierStaff;
+    }
+
+    public void setServiceTime(final Date serviceTime) {
+        this.serviceTime = serviceTime;
+    }
+
+    public void setSettledTime(final Date settledTime) {
+        this.settledTime = settledTime;
+    }
+
+    public void setStatus(final OrderStatus status) {
+        this.status = status;
+    }
 }

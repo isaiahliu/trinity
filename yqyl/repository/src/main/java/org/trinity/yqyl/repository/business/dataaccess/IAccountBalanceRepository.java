@@ -16,6 +16,7 @@ import org.trinity.yqyl.common.message.lookup.AccountBalanceStatus;
 import org.trinity.yqyl.repository.business.entity.AccountBalance;
 import org.trinity.yqyl.repository.business.entity.AccountBalance_;
 import org.trinity.yqyl.repository.business.entity.Account_;
+import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient_;
 import org.trinity.yqyl.repository.business.entity.User_;
 
 public interface IAccountBalanceRepository extends IJpaRepository<AccountBalance, AccountBalanceSearchingDto> {
@@ -24,8 +25,8 @@ public interface IAccountBalanceRepository extends IJpaRepository<AccountBalance
         final Specification<AccountBalance> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
             if (!searchingDto.isSearchAll()) {
-                predicates.add(cb.equal(root.join(AccountBalance_.account).join(Account_.user).get(User_.username),
-                        searchingDto.getCurrentUsername()));
+                predicates.add(cb.equal(root.join(AccountBalance_.account).join(Account_.serviceReceiverClient)
+                        .join(ServiceReceiverClient_.user).get(User_.username), searchingDto.getCurrentUsername()));
             }
 
             if (searchingDto.getId() != null) {

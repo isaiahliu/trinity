@@ -30,16 +30,10 @@ public class UserDto extends AbstractBusinessDto {
 
     private List<LookupDto> accessrights;
 
-    private AccountDto account;
-
     private List<UserVerifycodeDto> verifyCodes;
 
     public List<LookupDto> getAccessrights() {
         return accessrights;
-    }
-
-    public AccountDto getAccount() {
-        return account;
     }
 
     public String getCellphone() {
@@ -72,10 +66,6 @@ public class UserDto extends AbstractBusinessDto {
 
     public void setAccessrights(final List<LookupDto> accessrights) {
         this.accessrights = accessrights;
-    }
-
-    public void setAccount(final AccountDto account) {
-        this.account = account;
     }
 
     public void setCellphone(final String cellphone) {

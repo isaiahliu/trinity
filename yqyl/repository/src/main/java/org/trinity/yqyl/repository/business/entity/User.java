@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -46,10 +45,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     private String email;
 
-    // bi-directional many-to-one association to Account
-    @OneToOne(mappedBy = "user")
-    private Account account;
-
     // bi-directional many-to-one association to AllowanceSupplierClient
     @OneToMany(mappedBy = "user")
     private List<AllowanceSupplierClient> allowanceSupplierClients;
@@ -76,21 +71,9 @@ public class User extends AbstractAuditableEntity implements Serializable {
     @Column(name = "accessright")
     private List<AccessRight> accessrights;
 
-    // bi-directional many-to-one association to Order
-    @OneToMany(mappedBy = "user")
-    private List<ServiceOrder> orders;
-
     // bi-directional one-to-one association to UserRealname
     @OneToOne(mappedBy = "user")
     private UserRealname realname;
-
-    // bi-directional many-to-one association to Yiquan
-    @ManyToOne
-    @JoinColumn(name = "yiquan_code", referencedColumnName = "code")
-    private Yiquan yiquan;
-
-    @Column(name = "yiquan_code", insertable = false, updatable = false, unique = true, nullable = true)
-    private String yiquanCode;
 
     // bi-directional many-to-one association to ServiceOrderRequirement
     @OneToMany(mappedBy = "user")
@@ -108,13 +91,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         allowanceSupplierClient.setUser(this);
 
         return allowanceSupplierClient;
-    }
-
-    public ServiceOrder addOrder(final ServiceOrder order) {
-        getOrders().add(order);
-        order.setUser(this);
-
-        return order;
     }
 
     public ServiceOrderRequirement addServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
@@ -149,10 +125,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.accessrights;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
     public List<AllowanceSupplierClient> getAllowanceSupplierClients() {
         return this.allowanceSupplierClients;
     }
@@ -171,10 +143,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public OperatorClient getOperatorClient() {
         return operatorClient;
-    }
-
-    public List<ServiceOrder> getOrders() {
-        return this.orders;
     }
 
     public String getPassword() {
@@ -213,26 +181,11 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.userVerifycodes;
     }
 
-    public Yiquan getYiquan() {
-        return this.yiquan;
-    }
-
-    public String getYiquanCode() {
-        return yiquanCode;
-    }
-
     public AllowanceSupplierClient removeAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
         getAllowanceSupplierClients().remove(allowanceSupplierClient);
         allowanceSupplierClient.setUser(null);
 
         return allowanceSupplierClient;
-    }
-
-    public ServiceOrder removeOrder(final ServiceOrder order) {
-        getOrders().remove(order);
-        order.setUser(null);
-
-        return order;
     }
 
     public ServiceOrderRequirement removeServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
@@ -267,10 +220,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.accessrights = accessrights;
     }
 
-    public void setAccount(final Account account) {
-        this.account = account;
-    }
-
     public void setAllowanceSupplierClients(final List<AllowanceSupplierClient> allowanceSupplierClients) {
         this.allowanceSupplierClients = allowanceSupplierClients;
     }
@@ -289,10 +238,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public void setOperatorClient(final OperatorClient operatorClient) {
         this.operatorClient = operatorClient;
-    }
-
-    public void setOrders(final List<ServiceOrder> orders) {
-        this.orders = orders;
     }
 
     public void setPassword(final String password) {
@@ -331,11 +276,4 @@ public class User extends AbstractAuditableEntity implements Serializable {
         this.userVerifycodes = userVerifycodes;
     }
 
-    public void setYiquan(final Yiquan yiquan) {
-        this.yiquan = yiquan;
-    }
-
-    public void setYiquanCode(final String yiquanCode) {
-        this.yiquanCode = yiquanCode;
-    }
 }

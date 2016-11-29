@@ -105,7 +105,6 @@ public class ServiceOrderConverter extends AbstractLookupSupportObjectConverter<
         copyObject(source::getPhone, target::getPhone, target::setPhone, copyPolicy);
         copyObject(source::getReceipt, target::getReceipt, target::setReceipt, copyPolicy);
         copyObject(source::getServiceTime, target::getServiceDate, target::setServiceDate, copyPolicy);
-        copyObject(() -> source.getUser().getUsername(), target::getUsername, target::setUsername, copyPolicy);
         copyMessage(source::getPaymentMethod, target::getPaymentMethod, target::setPaymentMethod, copyPolicy);
         copyMessage(source::getPaymentType, target::getPaymentType, target::setPaymentType, copyPolicy);
         copyObject(() -> {

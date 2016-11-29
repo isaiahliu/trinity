@@ -37,7 +37,7 @@ public interface IServiceReceiverClientRepository extends IJpaRepository<Service
 
             if (searchingDto.getStatus().isEmpty()) {
                 if (!searchingDto.isSearchAllStatus()) {
-                    predicates.add(cb.equal(root.get(ServiceReceiverClient_.status), ServiceReceiverClientStatus.ACTIVE));
+                    predicates.add(cb.notEqual(root.get(ServiceReceiverClient_.status), ServiceReceiverClientStatus.DISABLED));
                 }
             } else {
                 final In<ServiceReceiverClientStatus> in = cb.in(root.get(ServiceReceiverClient_.status));

@@ -10,7 +10,6 @@ import org.trinity.common.dto.object.LookupDto;
 public class ServiceOrderDto extends AbstractBusinessDto {
     private Double price;
 
-    private String username;
     private Date proposalTime;
     private Date approvalTime;
     private Date settledTime;
