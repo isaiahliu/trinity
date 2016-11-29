@@ -1,5 +1,16 @@
 div.detail {
-	margin-left: 300px;
+	margin-left: 200px;
+}
+
+div.detail div.block {
+	width: 1000px;
+	border: 1px solid #cccccc;
+}
+
+div.detail div.block div.subBlock {
+	background: #f6f6f6;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 div.submit {
@@ -14,13 +25,21 @@ div.detail div.title {
 }
 
 div.detail div.level1 {
-	font-size: large;
-	padding: 15px 0 5px 100px;
+	height: 36px;
+	line-height: 36px;
+	border-bottom: 1px solid #cccccc;
+	padding-left: 20px;
+}
+
+div.detail div.level1 img {
+	height: 14px;
+	width: 14px;
+	margin: 0 10px 4px 0;
 }
 
 div.detail div.level2 {
-	font-size: large;
-	padding: 2px 0 2px 200px;
+	padding-left: 50px;
+	margin: 10px 0;
 }
 
 div.detail div.level2 span.key {
