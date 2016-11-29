@@ -41,8 +41,10 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoStasticReposi
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderOperationRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRequirementRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IServiceReceiverClientYiquanRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.AccountBalance;
 import org.trinity.yqyl.repository.business.entity.Content;
 import org.trinity.yqyl.repository.business.entity.ServiceInfo;
@@ -50,12 +52,16 @@ import org.trinity.yqyl.repository.business.entity.ServiceInfoStastic;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderOperation;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement;
+import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientYiquan;
 import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
 public class ServiceOrderProcessController
         extends AbstractAutowiredCrudProcessController<ServiceOrder, ServiceOrderDto, ServiceOrderSearchingDto, IServiceOrderRepository>
         implements IServiceOrderProcessController {
+
+    @Autowired
+    private IServiceReceiverClientYiquanRepository serviceReceiverClientYiquanRepository;
 
     @Autowired
     private IUserRepository userRepository;
@@ -100,7 +106,7 @@ public class ServiceOrderProcessController
             }
 
             final boolean isSupplier = entity.getServiceInfo().getServiceSupplierClient().getUser().getUsername().equals(username);
-            final boolean isReceiver = entity.getUser().getUsername().equals(username);
+            final boolean isReceiver = entity.getServiceReceiverClient().getUser().getUsername().equals(username);
             final boolean isAdmin = getSecurityUtil().hasAccessRight(AccessRight.ADMINISTRATOR);
 
             if (!isSupplier && !isReceiver && !isAdmin) {
@@ -225,7 +231,7 @@ public class ServiceOrderProcessController
 
         if (serviceOrderDto.getId() != null && serviceOrderDto.getId() > 0) {
             final ServiceOrder serviceOrder = getDomainEntityRepository().findOne(serviceOrderDto.getId());
-            if (!serviceOrder.getUser().getId().equals(user.getId())) {
+            if (!serviceOrder.getServiceReceiverClient().getUser().getId().equals(user.getId())) {
                 throw getExceptionFactory().createException(ErrorMessage.INVALID_ORDER_ID);
             }
 
@@ -256,7 +262,6 @@ public class ServiceOrderProcessController
             serviceOrder.setPrice(0d);
             serviceOrder.setProposalTime(new Date());
             serviceOrder.setStatus(OrderStatus.UNPROCESSED);
-            serviceOrder.setUser(user);
 
             final ServiceInfo serviceInfo = serviceInfoRepository.findOne(serviceOrderDto.getServiceInfo().getId());
 
@@ -392,29 +397,17 @@ public class ServiceOrderProcessController
 
             // FIXME ---Start Test Code
             final String fromYiquanCode = entity.getServiceReceiverClient().getYiquan().getCode();
-            final String toYiquanCode = entity.getServiceInfo().getServiceSupplierClient().getUser().getYiquanCode();
+            final Account toAccount = entity.getServiceInfo().getServiceSupplierClient().getAccount();
             // ---End
 
-            final User fromUser = userRepository.findOneByYiquanCode(fromYiquanCode);
-            if (fromUser == null) {
+            final ServiceReceiverClientYiquan fromYiquan = serviceReceiverClientYiquanRepository.findOneByCode(fromYiquanCode);
+            if (fromYiquan == null) {
                 throw getExceptionFactory().createException(ErrorMessage.NO_USER_BINDING_TO_YIQUAN_CODE, fromYiquanCode);
             }
-            final AccountBalance fromBalance = fromUser.getAccount().getBalances().stream()
+            final AccountBalance fromBalance = fromYiquan.getServiceReceiverClient().getAccount().getBalances().stream()
                     .filter(balance -> balance.getCategory() == AccountCategory.YIQUAN).findAny().get();
 
-            final User toUser = userRepository.findOneByYiquanCode(toYiquanCode);
-
-            if (toUser == null) {
-                throw getExceptionFactory().createException(ErrorMessage.NO_USER_BINDING_TO_YIQUAN_CODE, toYiquanCode);
-            }
-
-            if (!toUser.getUsername().equals(getCurrentUsername())) {
-                if (!getSecurityUtil().hasAccessRight(AccessRight.SUPER_USER)) {
-                    throw getExceptionFactory().createException(ErrorMessage.BENEFICIARY_SUPPLIER_MISMATCH);
-                }
-            }
-
-            final AccountBalance toBalance = toUser.getAccount().getBalances().stream()
+            final AccountBalance toBalance = toAccount.getBalances().stream()
                     .filter(balance -> balance.getCategory() == AccountCategory.YIQUAN).findAny().get();
 
             AccountTransactionDto transaction = new AccountTransactionDto();

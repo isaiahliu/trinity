@@ -4,17 +4,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.exception.IException;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.AccountBalanceDto;
-import org.trinity.yqyl.common.message.dto.domain.AccountPostingDto;
-import org.trinity.yqyl.common.message.dto.domain.AccountTransactionDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientYiquanDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientYiquanSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
-import org.trinity.yqyl.common.message.lookup.AccountCategory;
-import org.trinity.yqyl.common.message.lookup.TransactionType;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
 import org.trinity.yqyl.process.controller.base.IAccountTransactionProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceReceiverClientYiquanProcessController;
@@ -23,7 +17,6 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceReceiverClientYiq
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
 import org.trinity.yqyl.repository.business.entity.AccountBalance;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientYiquan;
-import org.trinity.yqyl.repository.business.entity.User;
 
 @Service
 public class ServiceReceiverClientYiquanProcessController extends
@@ -97,26 +90,26 @@ public class ServiceReceiverClientYiquanProcessController extends
     @Override
     @Transactional(rollbackOn = IException.class)
     public void topupMe(final ServiceReceiverClientYiquanDto yiquanDto) throws IException {
-        if (yiquanDto.getTopUpAmount() == null || yiquanDto.getTopUpAmount() <= 0) {
-            throw getExceptionFactory().createException(ErrorMessage.TOPUP_AMOUNT_MUST_BE_POSITIVE);
-        }
-
-        final String username = getSecurityUtil().getCurrentToken().getUsername();
-
-        final User user = userRepository.findOneByUsername(username);
-
-        final AccountBalance accountBalance = user.getAccount().getBalances().stream()
-                .filter(item -> item.getCategory() == AccountCategory.YIQUAN).findFirst().get();
-
-        final AccountTransactionDto transaction = new AccountTransactionDto();
-
-        transaction.setType(new LookupDto(TransactionType.TOP_UP));
-        final AccountPostingDto accountPostingDto = new AccountPostingDto();
-        accountPostingDto.setAmount(yiquanDto.getTopUpAmount());
-        accountPostingDto.setBalance(accountBalanceConverter.convert(accountBalance));
-        transaction.getAccountPostings().add(accountPostingDto);
-
-        accountTransactionProcessController.processTransaction(transaction);
+        // if (yiquanDto.getTopUpAmount() == null || yiquanDto.getTopUpAmount() <= 0) {
+        // throw getExceptionFactory().createException(ErrorMessage.TOPUP_AMOUNT_MUST_BE_POSITIVE);
+        // }
+        //
+        // final String username = getSecurityUtil().getCurrentToken().getUsername();
+        //
+        // final User user = userRepository.findOneByUsername(username);
+        //
+        // final AccountBalance accountBalance = user.getAccount().getBalances().stream()
+        // .filter(item -> item.getCategory() == AccountCategory.YIQUAN).findFirst().get();
+        //
+        // final AccountTransactionDto transaction = new AccountTransactionDto();
+        //
+        // transaction.setType(new LookupDto(TransactionType.TOP_UP));
+        // final AccountPostingDto accountPostingDto = new AccountPostingDto();
+        // accountPostingDto.setAmount(yiquanDto.getTopUpAmount());
+        // accountPostingDto.setBalance(accountBalanceConverter.convert(accountBalance));
+        // transaction.getAccountPostings().add(accountPostingDto);
+        //
+        // accountTransactionProcessController.processTransaction(transaction);
     }
 
     @Override

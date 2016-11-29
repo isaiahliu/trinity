@@ -10,6 +10,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -72,7 +73,7 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     // bi-directional one-to-one association to ServiceSupplierClientAccount
     @OneToOne(mappedBy = "serviceSupplierClient")
-    private ServiceSupplierClientAccount account;
+    private ServiceSupplierClientAccount bankAccount;
 
     // bi-directional one-to-one association to ServiceSupplierClientMaterial
     @OneToOne(mappedBy = "serviceSupplierClient")
@@ -86,6 +87,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
     @CollectionTable(name = "service_supplier_client_image", joinColumns = @JoinColumn(name = "service_supplier_client_id"))
     @Column(name = "uuid")
     private List<String> images;
+
+    // bi-directional many-to-one association to Account
+    @ManyToOne
+    private Account account;
 
     public ServiceSupplierClient() {
     }
@@ -111,7 +116,7 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return serviceSupplierStaff;
     }
 
-    public ServiceSupplierClientAccount getAccount() {
+    public Account getAccount() {
         return this.account;
     }
 
@@ -121,6 +126,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public List<ServiceSupplierClientAuditing> getAuditings() {
         return this.auditings;
+    }
+
+    public ServiceSupplierClientAccount getBankAccount() {
+        return bankAccount;
     }
 
     public String getContact() {
@@ -212,7 +221,7 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
         return serviceSupplierStaff;
     }
 
-    public void setAccount(final ServiceSupplierClientAccount account) {
+    public void setAccount(final Account account) {
         this.account = account;
     }
 
@@ -222,6 +231,10 @@ public class ServiceSupplierClient extends AbstractAuditableEntity implements Se
 
     public void setAuditings(final List<ServiceSupplierClientAuditing> auditings) {
         this.auditings = auditings;
+    }
+
+    public void setBankAccount(final ServiceSupplierClientAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public void setContact(final String contact) {

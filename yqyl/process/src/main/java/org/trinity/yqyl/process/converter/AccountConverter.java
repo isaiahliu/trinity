@@ -31,13 +31,13 @@ public class AccountConverter extends AbstractLookupSupportObjectConverter<Accou
 
     @Override
     protected void convertBackInternal(final AccountDto source, final Account target, final CopyPolicy copyPolicy) {
-        copyObject(source::getId, target::getServiceReceiverClientId, target::setServiceReceiverClientId, copyPolicy);
+        copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, AccountStatus.class, copyPolicy);
     }
 
     @Override
     protected void convertInternal(final Account source, final AccountDto target, final CopyPolicy copyPolicy) {
-        copyObject(source::getServiceReceiverClientId, target::getId, target::setId, copyPolicy);
+        copyObject(source::getId, target::getId, target::setId, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
     }
 

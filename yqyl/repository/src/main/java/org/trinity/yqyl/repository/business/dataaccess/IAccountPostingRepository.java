@@ -34,9 +34,11 @@ public interface IAccountPostingRepository extends IJpaRepository<AccountPosting
         final Specification<AccountPosting> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
             if (!searchingDto.isSearchAll()) {
-                predicates.add(cb.equal(root.join(AccountPosting_.accountBalance).join(AccountBalance_.account)
-                        .join(Account_.serviceReceiverClient).join(ServiceReceiverClient_.user).get(User_.username),
-                        searchingDto.getCurrentUsername()));
+                predicates
+                        .add(cb.equal(
+                                root.join(AccountPosting_.accountBalance).join(AccountBalance_.account)
+                                        .join(Account_.serviceReceiverClients).join(ServiceReceiverClient_.user).get(User_.username),
+                                searchingDto.getCurrentUsername()));
             }
 
             if (!StringUtils.isEmpty(searchingDto.getCategory())) {

@@ -118,10 +118,6 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         return transaction;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public void setActualPaymentAmount(final Double actualPaymentAmount) {
         this.actualPaymentAmount = actualPaymentAmount;
     }
@@ -201,7 +197,4 @@ public class ServiceOrderDto extends AbstractBusinessDto {
         this.transaction = transaction;
     }
 
-    public void setUsername(final String username) {
-        this.username = username;
-    }
 }

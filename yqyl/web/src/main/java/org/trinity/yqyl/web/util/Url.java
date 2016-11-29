@@ -42,9 +42,6 @@ public enum Url implements IHttpUrl {
     APPRAISE_UPDATE(HttpMethod.PUT, Path.APPRAISE),
     APPRAISE_REPLY(HttpMethod.POST, Path.APPRAISE, "reply"),
 
-    REALNAME_ME(HttpMethod.GET, Path.REALNAME, "me"),
-    REALNAME_UPDATE(HttpMethod.PUT, Path.REALNAME),
-
     SUPPLIER(HttpMethod.GET, Path.SUPPLIER),
     SUPPLIER_REGISTER(HttpMethod.POST, Path.SUPPLIER, "register"),
     SUPPLIER_UPDATE(HttpMethod.PUT, Path.SUPPLIER),
@@ -98,7 +95,6 @@ public enum Url implements IHttpUrl {
 
         USER("user"),
         ORDER(USER, "order"),
-        REALNAME(USER, "realname"),
 
         APPRAISE(ORDER, "appraise"),
 

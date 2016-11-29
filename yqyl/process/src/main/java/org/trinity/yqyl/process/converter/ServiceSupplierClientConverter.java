@@ -90,7 +90,7 @@ public class ServiceSupplierClientConverter extends AbstractLookupSupportObjectC
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(ServiceSupplierClientRelationship.class)) {
         case ACCOUNT:
-            copyRelationship(source::getAccount, target::setAccount, serviceSupplierClientAccountConverter, relationshipExpression);
+            copyRelationship(source::getBankAccount, target::setBankAccount, serviceSupplierClientAccountConverter, relationshipExpression);
             break;
         case MATERIAL:
             copyRelationship(source::getMaterial, target::setMaterial, serviceSupplierClientMaterialConverter, relationshipExpression);

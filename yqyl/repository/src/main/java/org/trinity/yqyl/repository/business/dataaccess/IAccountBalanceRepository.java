@@ -25,7 +25,7 @@ public interface IAccountBalanceRepository extends IJpaRepository<AccountBalance
         final Specification<AccountBalance> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
             if (!searchingDto.isSearchAll()) {
-                predicates.add(cb.equal(root.join(AccountBalance_.account).join(Account_.serviceReceiverClient)
+                predicates.add(cb.equal(root.join(AccountBalance_.account).join(Account_.serviceReceiverClients)
                         .join(ServiceReceiverClient_.user).get(User_.username), searchingDto.getCurrentUsername()));
             }
 

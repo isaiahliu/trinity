@@ -21,17 +21,13 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
     private String servicePhone;
     private Double expectedPrice;
 
-    private ServiceSupplierClientAccountDto account;
+    private ServiceSupplierClientAccountDto bankAccount;
     private ServiceSupplierClientMaterialDto material;
 
     private List<ServiceInfoDto> serviceInfos;
     private List<ServiceSupplierClientAuditingDto> auditings;
 
     private List<String> images;
-
-    public ServiceSupplierClientAccountDto getAccount() {
-        return account;
-    }
 
     public String getAddress() {
         return address;
@@ -42,6 +38,10 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
             auditings = new ArrayList<>();
         }
         return auditings;
+    }
+
+    public ServiceSupplierClientAccountDto getBankAccount() {
+        return bankAccount;
     }
 
     public String getCategories() {
@@ -100,16 +100,16 @@ public class ServiceSupplierClientDto extends AbstractBusinessDto {
         return type;
     }
 
-    public void setAccount(final ServiceSupplierClientAccountDto account) {
-        this.account = account;
-    }
-
     public void setAddress(final String address) {
         this.address = address;
     }
 
     public void setAuditings(final List<ServiceSupplierClientAuditingDto> auditings) {
         this.auditings = auditings;
+    }
+
+    public void setBankAccount(final ServiceSupplierClientAccountDto bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public void setCategories(final String categories) {

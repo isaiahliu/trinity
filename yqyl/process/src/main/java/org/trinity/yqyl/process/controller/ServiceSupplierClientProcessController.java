@@ -174,7 +174,7 @@ public class ServiceSupplierClientProcessController extends
             auditingDto.setType(new LookupDto(AuditingType.UPDATE_REGULAR_INFO));
 
             dto.getAuditings().add(auditingDto);
-            dto.setAccount(null);
+            dto.setBankAccount(null);
             dto.setMaterial(null);
             dto.setName(null);
             dto.setCategories(null);
@@ -288,7 +288,7 @@ public class ServiceSupplierClientProcessController extends
 
         serviceSupplierClientMaterialRepository.save(serviceSupplierClientMaterial);
 
-        serviceSupplierClient.setAccount(serviceSupplierClientAccount);
+        serviceSupplierClient.setBankAccount(serviceSupplierClientAccount);
         serviceSupplierClient.setMaterial(serviceSupplierClientMaterial);
 
         return getDomainObjectConverter().convert(serviceSupplierClient, searchingDto.generateRelationship());
@@ -332,12 +332,12 @@ public class ServiceSupplierClientProcessController extends
 
     @Override
     protected void updateRelationshipFields(final ServiceSupplierClient entity, final ServiceSupplierClientDto dto) throws IException {
-        if (dto.getAccount() != null) {
+        if (dto.getBankAccount() != null) {
             final List<ServiceSupplierClientAccountDto> supplierClientAccountDtos = new ArrayList<>();
 
-            dto.getAccount().setId(dto.getId());
+            dto.getBankAccount().setId(dto.getId());
 
-            supplierClientAccountDtos.add(dto.getAccount());
+            supplierClientAccountDtos.add(dto.getBankAccount());
             supplierClientAccountProcessController.updateAll(supplierClientAccountDtos);
         }
 

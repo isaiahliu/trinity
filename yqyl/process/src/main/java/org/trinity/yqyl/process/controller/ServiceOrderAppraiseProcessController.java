@@ -46,7 +46,8 @@ public class ServiceOrderAppraiseProcessController extends
         for (final ServiceOrderAppraiseDto dto : data) {
             final ServiceOrder serviceOrder = serviceOrderRepository.findOne(dto.getId());
 
-            if (!serviceOrder.getUser().getUsername().equals(getSecurityUtil().getCurrentToken().getUsername())) {
+            if (!serviceOrder.getServiceReceiverClient().getUser().getUsername()
+                    .equals(getSecurityUtil().getCurrentToken().getUsername())) {
                 throw getExceptionFactory().createException(ErrorMessage.INSUFFICIENT_ACCESSRIGHT);
             }
 

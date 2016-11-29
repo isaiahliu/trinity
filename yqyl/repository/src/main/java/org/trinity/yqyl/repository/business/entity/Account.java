@@ -8,10 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.TableGenerator;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
@@ -33,11 +31,13 @@ public class Account extends AbstractAuditableEntity implements Serializable {
 
     private AccountStatus status;
 
-    // bi-directional one-to-one association to User
-    @OneToOne
-    @JoinColumn(name = "service_receiver_client_id")
-    private ServiceReceiverClient serviceReceiverClient;
+    // bi-directional many-to-one association to ServiceReceiverClient
+    @OneToMany(mappedBy = "account")
+    private List<ServiceReceiverClient> serviceReceiverClients;
 
+    // bi-directional many-to-one association to ServiceSupplierClient
+    @OneToMany(mappedBy = "account")
+    private List<ServiceSupplierClient> serviceSupplierClients;
     // bi-directional many-to-one association to AccountBalance
     @OneToMany(mappedBy = "account")
     private List<AccountBalance> balances;
@@ -52,6 +52,20 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         return balance;
     }
 
+    public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
+        getServiceReceiverClients().add(serviceReceiverClient);
+        serviceReceiverClient.setAccount(this);
+
+        return serviceReceiverClient;
+    }
+
+    public ServiceSupplierClient addServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+        getServiceSupplierClients().add(serviceSupplierClient);
+        serviceSupplierClient.setAccount(this);
+
+        return serviceSupplierClient;
+    }
+
     public List<AccountBalance> getBalances() {
         return this.balances;
     }
@@ -60,8 +74,12 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         return id;
     }
 
-    public ServiceReceiverClient getServiceReceiverClient() {
-        return serviceReceiverClient;
+    public List<ServiceReceiverClient> getServiceReceiverClients() {
+        return this.serviceReceiverClients;
+    }
+
+    public List<ServiceSupplierClient> getServiceSupplierClients() {
+        return this.serviceSupplierClients;
     }
 
     public AccountStatus getStatus() {
@@ -75,6 +93,20 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         return balance;
     }
 
+    public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
+        getServiceReceiverClients().remove(serviceReceiverClient);
+        serviceReceiverClient.setAccount(null);
+
+        return serviceReceiverClient;
+    }
+
+    public ServiceSupplierClient removeServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+        getServiceSupplierClients().remove(serviceSupplierClient);
+        serviceSupplierClient.setAccount(null);
+
+        return serviceSupplierClient;
+    }
+
     public void setBalances(final List<AccountBalance> balances) {
         this.balances = balances;
     }
@@ -83,8 +115,12 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         this.id = id;
     }
 
-    public void setServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
-        this.serviceReceiverClient = serviceReceiverClient;
+    public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {
+        this.serviceReceiverClients = serviceReceiverClients;
+    }
+
+    public void setServiceSupplierClients(final List<ServiceSupplierClient> serviceSupplierClients) {
+        this.serviceSupplierClients = serviceSupplierClients;
     }
 
     public void setStatus(final AccountStatus status) {

@@ -92,9 +92,8 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     private ServiceReceiverClient spouse;
 
     // bi-directional many-to-one association to Account
-    @OneToOne(mappedBy = "serviceReceiverClient")
+    @ManyToOne
     private Account account;
-
     // bi-directional one-to-one association to
     // ServiceReceiverClientHealthIndicator
     @OneToOne(mappedBy = "serviceReceiverClient")
@@ -146,7 +145,7 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     }
 
     public Account getAccount() {
-        return account;
+        return this.account;
     }
 
     public String getAddress() {

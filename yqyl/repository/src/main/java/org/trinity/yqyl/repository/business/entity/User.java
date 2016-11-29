@@ -71,10 +71,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
     @Column(name = "accessright")
     private List<AccessRight> accessrights;
 
-    // bi-directional one-to-one association to UserRealname
-    @OneToOne(mappedBy = "user")
-    private UserRealname realname;
-
     // bi-directional many-to-one association to ServiceOrderRequirement
     @OneToMany(mappedBy = "user")
     private List<ServiceOrderRequirement> serviceOrderRequirements;
@@ -147,10 +143,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public String getPassword() {
         return this.password;
-    }
-
-    public UserRealname getRealname() {
-        return this.realname;
     }
 
     public List<ServiceOrderRequirement> getServiceOrderRequirements() {
@@ -242,10 +234,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public void setPassword(final String password) {
         this.password = password;
-    }
-
-    public void setRealname(final UserRealname realname) {
-        this.realname = realname;
     }
 
     public void setServiceOrderRequirements(final List<ServiceOrderRequirement> serviceOrderRequirements) {

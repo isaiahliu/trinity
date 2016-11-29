@@ -24,12 +24,12 @@ public interface IAccountRepository extends IJpaRepository<Account, AccountSearc
         final Specification<Account> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
             if (!searchingDto.isSearchAll()) {
-                predicates.add(cb.equal(root.join(Account_.serviceReceiverClient).join(ServiceReceiverClient_.user).get(User_.username),
+                predicates.add(cb.equal(root.join(Account_.serviceReceiverClients).join(ServiceReceiverClient_.user).get(User_.username),
                         searchingDto.getCurrentUsername()));
             }
 
             if (searchingDto.getId() != null) {
-                predicates.add(cb.equal(root.get(Account_.serviceReceiverClientId), searchingDto.getId()));
+                predicates.add(cb.equal(root.get(Account_.id), searchingDto.getId()));
             }
 
             if (searchingDto.getStatus().isEmpty()) {

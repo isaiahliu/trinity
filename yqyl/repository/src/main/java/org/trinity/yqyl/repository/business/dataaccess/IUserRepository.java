@@ -22,8 +22,6 @@ public interface IUserRepository extends IJpaRepository<User, UserSearchingDto> 
 
     User findOneByUsername(String username);
 
-    User findOneByYiquanCode(String yiquanCode);
-
     @Override
     default Page<User> query(final UserSearchingDto searchingDto, final Pageable pagable) {
         final Specification<User> specification = (root, query, cb) -> {
