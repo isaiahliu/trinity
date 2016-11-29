@@ -4,6 +4,8 @@ import org.trinity.message.ILookupMessage;
 
 public enum PaymentType implements ILookupMessage<LookupType> {
     FIXED("F"),
+    TYPE("T"),
+    PIECE("P"),
     PER_HOUR("H");
 
     private final String messageCode;

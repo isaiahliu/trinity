@@ -14,11 +14,10 @@ div.detail div.block div.subBlock {
 }
 
 div.submit {
-	margin: 20px 0px 0px 250px;
+	text-align: center;
 }
 
 div.detail div.title {
-	font-size: large;
 	font-weight: bold;
 	background: rgba(215, 215, 215, 1);
 	padding: 5px 0 5px 50px;
@@ -48,9 +47,14 @@ div.detail div.level2 span.key {
 }
 
 div.detail table td {
-	border: solid 1px;
+	font-size: 14px;
 }
 
-div.detail table thead td {
-	background: rgba(215, 215, 215, 1);
+div.detail table.operations td {
+	padding: 10px 0;
+}
+
+div.appraise img {
+	width: 25px;
+	heigth: 25px;
 }
