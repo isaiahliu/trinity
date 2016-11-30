@@ -15,20 +15,21 @@
 		<li><a href="/user/yiquan"><div class="navBarItem #if($currentPage=='YIQUAN')selected #end">
 					<img src="/static/images/logo/user_yiquan.png" /> <span>#button("MY_YIQUAN")</span>
 				</div></a></li>
-		<li><a href="/user/yiquan/bind"><div class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='BIND')subSelected #end">
+		<li><a href="/user/yiquan/list"><div
+					class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='BIND')subSelected #end">
 					<span>#button("YIQUAN_BIND")</span>
 				</div></a></li>
-		<li><a href="/user/yiquan/topup"><div class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='TOPUP')subSelected #end">
+		<li><a href="/user/yiquan/topup"><div
+					class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='TOPUP')subSelected #end">
 					<span>#button("YIQUAN_TOPUP")</span>
 				</div></a></li>
-		<li><a href="/user/yiquan/search"><div class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='SEARCH')subSelected #end">
+		<li><a href="/user/yiquan/search"><div
+					class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='SEARCH')subSelected #end">
 					<span>#button("YIQUAN_SEARCH")</span>
 				</div></a></li>
-		<li><a href="/user/yiquan/branch"><div class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='BRANCH')subSelected #end">
+		<li><a href="/user/yiquan/branch"><div
+					class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='BRANCH')subSelected #end">
 					<span>#button("YIQUAN_BRANCH")</span>
-				</div></a></li>
-		<li><a href="/user/yiquan/point"><div class="#if($currentPage!='YIQUAN')ng-hide#end navBarSubItem #if($currentSubPage=='POINT')subSelected #end">
-					<span>#button("YIQUAN_POINT")</span>
 				</div></a></li>
 		<li><a href="/user/volunteer"><div class="navBarItem #if($currentPage=='VOLUNTEER')selected #end">
 					<img src="/static/images/logo/user_volunteer.png" /> <span>#button("ALLOWANCE_SUPPLIER_VERIFY")</span>

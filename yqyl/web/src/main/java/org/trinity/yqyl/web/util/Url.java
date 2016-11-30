@@ -56,13 +56,11 @@ public enum Url implements IHttpUrl {
 
     AUDITING(HttpMethod.GET, Path.AUDITING),
 
-    RECEIVER_AUDIT(HttpMethod.PUT, Path.RECEIVER_INFO, "audit"),
     RECEIVER(HttpMethod.GET, Path.RECEIVER_INFO),
-    RECEIVER_PROPOSAL(HttpMethod.PUT, Path.RECEIVER_INFO, "proposal"),
     RECEIVER_UPDATE(HttpMethod.PUT, Path.RECEIVER_INFO),
     RECEIVER_DELETE(HttpMethod.DELETE, Path.RECEIVER_INFO),
-    RECEIVER_CANCEL_PROPOSAL(HttpMethod.DELETE, Path.RECEIVER_INFO, "cancel"),
     RECEIVER_ADD(HttpMethod.POST, Path.RECEIVER_INFO),
+    RECEIVER_REALNAME(HttpMethod.POST, Path.RECEIVER_INFO, "realname"),
 
     HEALTH_INDICATOR(HttpMethod.GET, Path.HEALTH_INDICATOR),
 

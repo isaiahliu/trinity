@@ -1,0 +1,23 @@
+#parse("/velocity/user/navigation.vm")
+
+<link rel="stylesheet" href="/static/css/business/user/userinfoEdit.css"></link>
+
+<script type="text/javascript">
+	layoutApp.value("clientId", #if(${clientId})${clientId}#else 0 #end);
+</script>
+
+<div class="userinfoEdit">
+	<div style="padding: 15px;" class="block">
+		<span style="color: #fd6a15; font-size: 22px; margin-right: 60px;">#label("USER_INFO")</span>
+	</div>
+	<div style="padding: 15px 20px; text-align: center;" class="block">
+		<input ng-model="client.name" placeholder="#label('NAME')" /> <input ng-model="client.cellphoneNo" placeholder="#label('PHONE')" /> <select
+			ng-model="client.familyRelationship.code" ng-options="relationship.code as relationship.message for relationship in relationships"></select>
+	</div>
+	<div style="padding: 15px 20px; text-align: center;" class="block">
+		<button ng-click="apply()">#button("APPLY")</button>
+	</div>
+
+</div>
+
+<script src="/static/js/business/user/userinfoEdit.js"></script>

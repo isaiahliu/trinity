@@ -53,6 +53,18 @@ public class ContentProcessController
     }
 
     @Override
+    @Transactional(rollbackOn = IException.class)
+    public String create() {
+        final Content content = new Content();
+        content.setContent(new byte[0]);
+        content.setStatus(RecordStatus.ACTIVE);
+        content.setUuid(UUID.randomUUID().toString());
+
+        getDomainEntityRepository().save(content);
+        return content.getUuid();
+    }
+
+    @Override
     public ContentDto getOneByUuid(final String uuid) {
         final Content content = getDomainEntityRepository().findOneByUuid(uuid);
         return getDomainObjectConverter().convert(content);

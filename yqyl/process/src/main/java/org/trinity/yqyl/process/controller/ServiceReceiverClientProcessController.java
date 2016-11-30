@@ -1,17 +1,21 @@
 package org.trinity.yqyl.process.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.trinity.common.exception.IException;
-import org.trinity.message.MessageUtils;
-import org.trinity.message.exception.GeneralErrorMessage;
+import org.trinity.message.LookupParser;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
-import org.trinity.yqyl.common.message.exception.ErrorMessage;
+import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
+import org.trinity.yqyl.process.controller.base.IAccountProcessController;
+import org.trinity.yqyl.process.controller.base.IContentProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceReceiverClientProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceReceiverClientRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
@@ -25,34 +29,54 @@ public class ServiceReceiverClientProcessController extends
     @Autowired
     private IUserRepository userRepository;
 
+    @Autowired
+    private IAccountProcessController accountProcessController;
+
+    @Autowired
+    private IContentProcessController contentProcessController;
+
     @Override
     @Transactional(rollbackOn = IException.class)
-    public void audit(final Long id) throws IException {
-        final ServiceReceiverClient client = getDomainEntityRepository().findOne(id);
-        if (client == null) {
-            throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE);
-        }
-        if (client.getStatus() != ServiceReceiverClientStatus.PROPOSAL) {
-            throw getExceptionFactory().createException(ErrorMessage.SERVICE_RECEIVER_CLIENT_MUST_BE_PROPOSAL);
-        }
+    public List<ServiceReceiverClientDto> addAll(final List<ServiceReceiverClientDto> dtos) throws IException {
+        final User user = userRepository.findOneByUsername(getCurrentUsername());
 
-        client.setStatus(ServiceReceiverClientStatus.REALNAME);
+        final List<ServiceReceiverClient> entities = dtos.stream().map(item -> {
+            final ServiceReceiverClient entity = new ServiceReceiverClient();
 
-        getDomainEntityRepository().save(client);
+            entity.setUser(user);
+            entity.setName(item.getName());
+            entity.setCellphoneNo(item.getCellphoneNo());
+            entity.setFamilyRelationship(LookupParser.parse(FamilyRelationship.class, item.getFamilyRelationship().getCode()));
+            entity.setStatus(ServiceReceiverClientStatus.PROPOSAL);
+
+            entity.setIdentityCardCopy(contentProcessController.create());
+
+            return entity;
+        }).collect(Collectors.toList());
+
+        return getDomainObjectConverter().convert(getDomainEntityRepository().save(entities));
     }
 
     @Override
-    @Transactional(rollbackOn = IException.class)
-    public void cancel(final Long id) throws IException {
-        final ServiceReceiverClient entity = getDomainEntityRepository().findOne(id);
-        if (entity == null) {
-            throw getExceptionFactory().createException(GeneralErrorMessage.UNABLE_TO_FIND_INSTANCE, String.valueOf(id));
-        }
+    public void realname(final List<ServiceReceiverClientDto> data) throws IException {
+        final List<ServiceReceiverClient> entities = data.stream().map(item -> {
+            final ServiceReceiverClient serviceReceiverClient = getDomainEntityRepository().findOne(item.getId());
 
-        if (!MessageUtils.in(entity.getStatus(), ServiceReceiverClientStatus.PROPOSAL)) {
-            throw getExceptionFactory().createException(ErrorMessage.ONLY_PROPOSAL_CLIENT_CAN_BE_CANCELLED);
-        }
-        getDomainEntityRepository().delete(entity);
+            if (!serviceReceiverClient.getUser().getUsername().equals(getCurrentUsername())) {
+                return serviceReceiverClient;
+            }
+
+            serviceReceiverClient.setName(item.getName());
+            serviceReceiverClient.setIdentityCard(item.getIdentityCard());
+            serviceReceiverClient.setStatus(ServiceReceiverClientStatus.REALNAME);
+
+            if (serviceReceiverClient.getAccount() == null) {
+                serviceReceiverClient.setAccount(accountProcessController.createAccount());
+            }
+            return serviceReceiverClient;
+        }).collect(Collectors.toList());
+
+        getDomainEntityRepository().save(entities);
     }
 
     @Override

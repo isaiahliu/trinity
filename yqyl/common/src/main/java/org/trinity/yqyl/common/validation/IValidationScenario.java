@@ -4,6 +4,9 @@ public interface IValidationScenario {
     public static interface IAuthenticate {
     }
 
+    public static interface IRealname {
+    }
+
     public static interface IRegister {
     }
 

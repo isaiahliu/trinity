@@ -1,7 +1,11 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.LookupDto;
+import org.trinity.common.dto.validator.RegexMatchCheck;
+import org.trinity.yqyl.common.validation.IValidationMessage;
+import org.trinity.yqyl.common.validation.IValidationScenario.IRealname;
 
 public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
@@ -19,10 +23,12 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private String homephoneNo;
 
+    @RegexMatchCheck(groups = IRealname.class, regex = "[0-9]{17}[0-9X]{1}", message = IValidationMessage.INVALID_IDENTITY_CARD_FORMAT)
     private String identityCard;
 
     private String identityCardCopy;
 
+    @NotEmpty(groups = IRealname.class)
     private String name;
 
     private LookupDto familyRelationship;

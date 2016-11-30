@@ -2,7 +2,6 @@ package org.trinity.yqyl.process.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.AccountDto;
 import org.trinity.yqyl.common.message.dto.domain.AccountSearchingDto;
 import org.trinity.yqyl.common.message.lookup.AccountBalanceStatus;
@@ -17,26 +16,26 @@ import org.trinity.yqyl.repository.business.entity.AccountBalance;
 
 @Service
 public class AccountProcessController
-		extends AbstractAutowiredCrudProcessController<Account, AccountDto, AccountSearchingDto, IAccountRepository>
-		implements IAccountProcessController {
-	@Autowired
-	private IAccountBalanceRepository accountBalanceRepository;
+        extends AbstractAutowiredCrudProcessController<Account, AccountDto, AccountSearchingDto, IAccountRepository>
+        implements IAccountProcessController {
+    @Autowired
+    private IAccountBalanceRepository accountBalanceRepository;
 
-	@Override
-	public Account createAccount() throws IException {
-		final Account account = new Account();
-		account.setStatus(AccountStatus.ACTIVE);
+    @Override
+    public Account createAccount() {
+        final Account account = new Account();
+        account.setStatus(AccountStatus.ACTIVE);
 
-		getDomainEntityRepository().save(account);
+        getDomainEntityRepository().save(account);
 
-		final AccountBalance accountBalance = new AccountBalance();
-		accountBalance.setAmount(0d);
-		accountBalance.setCategory(AccountCategory.YIQUAN);
-		accountBalance.setStatus(AccountBalanceStatus.ACTIVE);
-		accountBalance.setAccount(account);
+        final AccountBalance accountBalance = new AccountBalance();
+        accountBalance.setAmount(0d);
+        accountBalance.setCategory(AccountCategory.YIQUAN);
+        accountBalance.setStatus(AccountBalanceStatus.ACTIVE);
+        accountBalance.setAccount(account);
 
-		accountBalanceRepository.save(accountBalance);
+        accountBalanceRepository.save(accountBalance);
 
-		return account;
-	}
+        return account;
+    }
 }

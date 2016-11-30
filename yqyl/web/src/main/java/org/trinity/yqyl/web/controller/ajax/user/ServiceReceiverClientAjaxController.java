@@ -1,5 +1,7 @@
 package org.trinity.yqyl.web.controller.ajax.user;
 
+import java.io.InputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,17 +9,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.trinity.common.dto.IResponse;
-import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
+import org.trinity.yqyl.common.message.dto.domain.ContentDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
+import org.trinity.yqyl.common.message.dto.request.ContentRequest;
 import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientRequest;
+import org.trinity.yqyl.common.message.dto.response.ContentResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientHealthIndicatorResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
-import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.web.util.Url;
 
 @RestController
@@ -26,29 +30,11 @@ public class ServiceReceiverClientAjaxController extends AbstractRestController 
     @Autowired
     private IRestfulServiceUtil restfulServiceUtil;
 
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ResponseEntity<IResponse> ajaxAddUpdateServiceReceiver(@RequestBody final ServiceReceiverClientRequest request)
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<ServiceReceiverClientResponse> ajaxAddServiceReceiver(@RequestBody final ServiceReceiverClientRequest request)
             throws IException {
-        if (request.getData().isEmpty()) {
-            return createResponseEntity(new DefaultResponse());
-        }
-
-        request.getData().forEach(item -> {
-            if (item.getId() == null) {
-                item.setStatus(new LookupDto(ServiceReceiverClientStatus.PROPOSAL.getMessageCode(), ""));
-            }
-        });
-
-        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_UPDATE, null, request, null,
-                DefaultResponse.class);
-        return createResponseEntity(response);
-    }
-
-    @RequestMapping(value = "/{entityId}", method = RequestMethod.DELETE)
-    public ResponseEntity<DefaultResponse> ajaxDeleteUserinfo(@PathVariable("entityId") final Long entityId) throws IException {
-        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_CANCEL_PROPOSAL, String.valueOf(entityId), null,
-                null, DefaultResponse.class);
-
+        final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_ADD, null, request, null,
+                ServiceReceiverClientResponse.class);
         return createResponseEntity(response);
     }
 
@@ -74,6 +60,54 @@ public class ServiceReceiverClientAjaxController extends AbstractRestController 
     public ResponseEntity<ServiceReceiverClientResponse> ajaxGetUserinfo(@PathVariable("entityId") final Long entityId) throws IException {
         final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER, String.valueOf(entityId), null,
                 null, ServiceReceiverClientResponse.class);
+
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/realname", method = RequestMethod.POST)
+    public ResponseEntity<ServiceReceiverClientResponse> ajaxServiceReceiverRealname(
+            @RequestBody final ServiceReceiverClientRequest request) throws IException {
+        final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_REALNAME, null, request, null,
+                ServiceReceiverClientResponse.class);
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public ResponseEntity<IResponse> ajaxUpdateServiceReceiver(@RequestBody final ServiceReceiverClientRequest request) throws IException {
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_UPDATE, null, request, null,
+                DefaultResponse.class);
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/{entityId}/upload", method = RequestMethod.POST)
+    public ResponseEntity<DefaultResponse> ajaxUploadIdentityCard(@PathVariable("entityId") final Long entityId,
+            final MultipartHttpServletRequest request) throws IException {
+
+        final DefaultResponse response = new DefaultResponse();
+        if (request.getFileNames().hasNext()) {
+            try {
+                final ServiceReceiverClientSearchingDto searchingDto = new ServiceReceiverClientSearchingDto();
+                searchingDto.setId(entityId);
+                final ServiceReceiverClientResponse receiver = restfulServiceUtil.callRestService(Url.RECEIVER, null, null, searchingDto,
+                        ServiceReceiverClientResponse.class);
+
+                final String uuid = receiver.getData().get(0).getIdentityCardCopy();
+
+                final ContentRequest contentRequest = new ContentRequest();
+
+                final InputStream stream = request.getFile("IDENTITY_CARD_COPY").getInputStream();
+                final byte[] bytes = new byte[stream.available()];
+                stream.read(bytes);
+
+                final ContentDto dto = new ContentDto();
+                dto.setUuid(uuid);
+                dto.setContent(bytes);
+                contentRequest.getData().add(dto);
+
+                restfulServiceUtil.callRestService(Url.CONTENT_UPLOAD, null, contentRequest, null, ContentResponse.class);
+            } catch (final Exception e) {
+            }
+        }
 
         return createResponseEntity(response);
     }

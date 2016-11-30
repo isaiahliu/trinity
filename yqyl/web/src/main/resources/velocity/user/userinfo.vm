@@ -43,8 +43,9 @@
 							<span ng-hide="member.status.code=='P'">#label("VERIFIED")</span><span ng-show="member.status.code=='P'">#label("NOT_VERIFIED")</span>
 						</div></td>
 					<td align="center"><div class="operations">
-							<a href="javascript:void(0)"><span>#button("VIEW")</span></a> <a ng-show="member.status.code=='P'" href="javascript:void(0)"><span>#button("REALNAME_VERIFY")</span></a>
-							<a href="javascript:void(0)"><span>#button("EDIT")</span></a> <a href="javascript:void(0)"><span>#button("DISABLE_CLIENT")</span></a>
+							<a href="javascript:void(0)"><span>#button("VIEW")</span></a> <a ng-show="member.status.code=='P'"
+								ng-href="/user/realname/{{member.id}}"><span>#button("REALNAME_VERIFY")</span></a> <a ng-href="/user/userinfo/{{member.id}}"><span>#button("EDIT")</span></a>
+							<a href="javascript:void(0)"><span>#button("DISABLE_CLIENT")</span></a>
 						</div></td>
 				</tr>
 				<tr class="ng-hide" ng-show="modeUpdate">

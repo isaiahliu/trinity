@@ -47,9 +47,19 @@ public class UserWebController extends AbstractResourceWebController {
         return createModelAndView("user/password").addObject("currentPage", "PASSWORD");
     }
 
-    @RequestMapping(value = "/realname", method = RequestMethod.GET)
-    public ModelAndView realnamePage() throws IException {
-        return createModelAndView("user/realname");
+    @RequestMapping(value = "/realname/{entityId}", method = RequestMethod.GET)
+    public ModelAndView realnamePage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("user/realname").addObject("clientId", entityId);
+    }
+
+    @RequestMapping(value = "/userinfo/{entityId}", method = RequestMethod.GET)
+    public ModelAndView userinfoEditPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("user/userinfoEdit").addObject("currentPage", "INFO").addObject("clientId", entityId);
+    }
+
+    @RequestMapping(value = "/userinfo/new", method = RequestMethod.GET)
+    public ModelAndView userinfoNewPage() throws IException {
+        return createModelAndView("user/userinfoEdit").addObject("currentPage", "INFO").addObject("clientId", 0);
     }
 
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
@@ -62,7 +72,7 @@ public class UserWebController extends AbstractResourceWebController {
         return createModelAndView("user/volunteer").addObject("currentPage", "VOLUNTEER");
     }
 
-    @RequestMapping(value = { "/yiquan", "/yiquan/bind" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/yiquan/bind", method = RequestMethod.GET)
     public ModelAndView yiquanBindPage() throws IException {
         return createModelAndView("user/yiquan/bind").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "BIND");
     }
@@ -70,6 +80,11 @@ public class UserWebController extends AbstractResourceWebController {
     @RequestMapping(value = "/yiquan/branch", method = RequestMethod.GET)
     public ModelAndView yiquanBranchPage() throws IException {
         return createModelAndView("user/yiquan/branch").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "BRANCH");
+    }
+
+    @RequestMapping(value = { "/yiquan", "/yiquan/list" }, method = RequestMethod.GET)
+    public ModelAndView yiquanListPage() throws IException {
+        return createModelAndView("user/yiquan/list").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "BIND");
     }
 
     @RequestMapping(value = "/yiquan/point", method = RequestMethod.GET)

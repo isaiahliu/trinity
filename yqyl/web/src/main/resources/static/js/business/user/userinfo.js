@@ -8,21 +8,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 		errorHandler($scope, response);
 	});
 
-	$scope.addNew = function() {
-		$scope.members.push({});
+	$scope.addFamilyMember = function() {
+		$window.location.href = "/user/userinfo/new";
 	};
-
-	$scope.apply = function() {
-		$http({
-			method : "PUT",
-			url : "/ajax/user/receiver",
-			data : {
-				data : $scope.members
-			}
-		}).success(function(response) {
-			$window.location.reload();
-		}).error(function(response) {
-			errorHandler($scope, response);
-		});
-	}
 });

@@ -2,12 +2,18 @@ div.realname {
 	margin-left: 200px;
 }
 
+div.realname div.block {
+	width: 1000px;
+	border: 1px solid #cccccc;
+}
+
 div.content table {
-	width: 840px;
+	width: 960px;
 }
 
 div.realname table td {
-	border: solid 1px black;
+	border: solid 1px #dddddd;
+	padding: 5px;
 }
 
 div.realname img {
@@ -19,8 +25,6 @@ div.realname img {
 
 div.realname table td.key {
 	width: 150px;
-	background: rgba(121, 121, 121, 1);
-	color: white;
 }
 
 div.realname div.buttons {

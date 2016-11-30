@@ -9,5 +9,7 @@ import org.trinity.yqyl.common.message.dto.domain.ContentSearchingDto;
 public interface IContentProcessController extends ICrudProcessController<ContentDto, ContentSearchingDto> {
     List<ContentDto> addUpdateAll(List<ContentDto> data);
 
+    String create();
+
     ContentDto getOneByUuid(String uuid);
 }
