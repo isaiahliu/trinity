@@ -16,12 +16,17 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearching
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient_;
+import org.trinity.yqyl.repository.business.entity.User_;
 
 public interface IServiceReceiverClientRepository extends IJpaRepository<ServiceReceiverClient, ServiceReceiverClientSearchingDto> {
     @Override
     default Page<ServiceReceiverClient> query(final ServiceReceiverClientSearchingDto searchingDto, final Pageable pagable) {
         final Specification<ServiceReceiverClient> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
+
+            if (!searchingDto.isSearchAll()) {
+                predicates.add(cb.equal(root.join(ServiceReceiverClient_.user).get(User_.username), searchingDto.getCurrentUsername()));
+            }
 
             if (!StringUtils.isEmpty(searchingDto.getId())) {
                 predicates.add(cb.equal(root.get(ServiceReceiverClient_.id), searchingDto.getId()));

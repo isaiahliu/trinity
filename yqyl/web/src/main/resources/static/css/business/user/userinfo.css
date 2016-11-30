@@ -19,10 +19,9 @@ div.content table thead td {
 	background: #f0f0f0;
 }
 
-div.content div.operations span {
+div.content div.operations a {
 	margin-right: 5px;
 }
-
 
 div.content table tbody td.add div {
 	color: white;

@@ -1,7 +1,5 @@
 package org.trinity.yqyl.process.controller;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +42,7 @@ public class ServiceReceiverClientProcessController extends
     }
 
     @Override
+    @Transactional(rollbackOn = IException.class)
     public void cancel(final Long id) throws IException {
         final ServiceReceiverClient entity = getDomainEntityRepository().findOne(id);
         if (entity == null) {
@@ -54,14 +53,6 @@ public class ServiceReceiverClientProcessController extends
             throw getExceptionFactory().createException(ErrorMessage.ONLY_PROPOSAL_CLIENT_CAN_BE_CANCELLED);
         }
         getDomainEntityRepository().delete(entity);
-    }
-
-    @Override
-    @Transactional(rollbackOn = IException.class)
-    public List<ServiceReceiverClientDto> getMe(final ServiceReceiverClientSearchingDto dto) throws IException {
-        final User user = userRepository.findOneByUsername(getSecurityUtil().getCurrentToken().getUsername());
-
-        return getDomainObjectConverter().convert(user.getServiceReceiverClients());
     }
 
     @Override

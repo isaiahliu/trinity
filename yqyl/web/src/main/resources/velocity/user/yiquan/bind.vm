@@ -3,18 +3,39 @@
 <link rel="stylesheet" href="/static/css/business/user/yiquan/bind.css"></link>
 
 <div class="bind">
-	<table>
-		<tr>
-			<td class="key">#label("YIQUAN_NO")</td>
-			<td><input class="ng-hide" ng-show="binding" ng-model="newYiquan.code" /><span class="ng-hide" ng-show="yiquan">{{yiquan.code}}</span></td>
-		</tr>
-		<tr class="ng-hide" ng-show="binding">
-			<td class="key">#label("YIQUAN_PHONE_NO")</td>
-			<td><input ng-model="newYiquan.cellphone" /></td>
-		</tr>
-	</table>
-
-	<button style="margin: 15px 0 0 130px" class="ng-hide" ng-show="binding" ng-click="apply()">#button("OK")</button>
+	<div style="padding: 15px;" class="block">
+		<span style="color: #fd6a15; font-size: 22px; margin-right: 60px;">#label("YIQUAN_BIND")</span>
+	</div>
+	<div style="padding: 15px 20px; text-align: center;" class="block">
+		<table>
+			<thead>
+				<tr>
+					<td align="center" width="200px"><div>
+							<span>#label("INDEX")</span>
+						</div></td>
+					<td align="center" width="200px"><div>
+							<span>#label("NAME")</span>
+						</div></td>
+					<td align="center" width="200px"><div>
+							<span>#label("YIQUAN_NO")</span>
+						</div></td>
+					<td align="center" width="320px"><div>
+							<span>#label("OPERATION")</span>
+						</div></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-show="members" class="ng-hide" ng-repeat="member in members">
+					<td align="center"><span>{{$index+1}}</span></td>
+					<td align="center"><span>{{member.name}}</span ng-show="member.status.code=='P'"><span>(#label("NOT_REALNAME_VERIFIED"))</span></td>
+					<td align="center"><span ng-show="member.yiquan">{{member.yiquan.code}}</span><span ng-hide="member.yiquan">#label("NOT_BINDED")</span></td>
+					<td align="center"><a ng-show="member.status.code=='R'&&!member.yiquan" href="javascript:void(0)"><span>#button("BIND")</span></a>
+						<a ng-show="member.status.code=='R'&&member.yiquan" href="javascript:void(0)"><span>#button("UNBIND")</span></a> <a
+						ng-show="member.status.code=='P'" href="javascript:void(0)"><span>#button("REALNAME_VERIFY")</span></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script src="/static/js/business/user/yiquan/bind.js"></script>

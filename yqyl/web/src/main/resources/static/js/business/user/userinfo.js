@@ -1,7 +1,7 @@
 layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$http({
 		method : "GET",
-		url : "/ajax/user/receiver/me"
+		url : "/ajax/user/receiver"
 	}).success(function(response) {
 		$scope.members = response.data;
 	}).error(function(response) {

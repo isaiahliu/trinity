@@ -23,8 +23,6 @@ public class UserDto extends AbstractBusinessDto {
 
     private String email;
 
-    private String yiquanCode;
-
     @Null(groups = { AddData.class, UpdateData.class })
     private Date lastAccessDate;
 
@@ -60,10 +58,6 @@ public class UserDto extends AbstractBusinessDto {
         return verifyCodes;
     }
 
-    public String getYiquanCode() {
-        return yiquanCode;
-    }
-
     public void setAccessrights(final List<LookupDto> accessrights) {
         this.accessrights = accessrights;
     }
@@ -90,9 +84,5 @@ public class UserDto extends AbstractBusinessDto {
 
     public void setVerifyCodes(final List<UserVerifycodeDto> verifyCodes) {
         this.verifyCodes = verifyCodes;
-    }
-
-    public void setYiquanCode(final String yiquanCode) {
-        this.yiquanCode = yiquanCode;
     }
 }

@@ -1,15 +1,11 @@
 layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
 	$http({
 		method : "GET",
-		url : "/ajax/user/yiquan?searchScope=me"
+		url : "/ajax/user/receiver?rsexp=yiquan"
 	}).success(function(response) {
-		$scope.yiquan = response.data[0];
+		$scope.members = response.data;
 	}).error(function(response) {
-		if (response.errors != undefined && response.errors[0] != undefined) {
-			$scope.binding = true;
-		} else {
-			errorHandler($scope, response);
-		}
+		errorHandler($scope, response);
 	});
 
 	$scope.apply = function() {

@@ -1,7 +1,5 @@
 package org.trinity.yqyl.process.controller.base;
 
-import java.util.List;
-
 import org.trinity.common.exception.IException;
 import org.trinity.process.controller.ICrudProcessController;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
@@ -13,6 +11,4 @@ public interface IServiceReceiverClientProcessController
     void audit(Long id) throws IException;
 
     void cancel(Long id) throws IException;
-
-    List<ServiceReceiverClientDto> getMe(ServiceReceiverClientSearchingDto dto) throws IException;
 }

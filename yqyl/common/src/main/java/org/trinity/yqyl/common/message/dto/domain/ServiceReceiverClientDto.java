@@ -27,6 +27,8 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private LookupDto familyRelationship;
 
+    private ServiceReceiverClientYiquanDto yiquan;
+
     public AccountDto getAccount() {
         return account;
     }
@@ -71,6 +73,10 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         return name;
     }
 
+    public ServiceReceiverClientYiquanDto getYiquan() {
+        return yiquan;
+    }
+
     public void setAccount(final AccountDto account) {
         this.account = account;
     }
@@ -113,5 +119,9 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public void setYiquan(final ServiceReceiverClientYiquanDto yiquan) {
+        this.yiquan = yiquan;
     }
 }

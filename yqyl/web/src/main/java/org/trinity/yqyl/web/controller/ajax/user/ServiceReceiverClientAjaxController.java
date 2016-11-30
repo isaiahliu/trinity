@@ -13,6 +13,7 @@ import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
+import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientRequest;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientHealthIndicatorResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
@@ -51,9 +52,10 @@ public class ServiceReceiverClientAjaxController extends AbstractRestController 
         return createResponseEntity(response);
     }
 
-    @RequestMapping(value = "/me", method = RequestMethod.GET)
-    public ResponseEntity<ServiceReceiverClientResponse> ajaxGetServiceReceiverClientForMe() throws IException {
-        final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_ME, null, null, null,
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity<ServiceReceiverClientResponse> ajaxGetServiceReceiverClient(final ServiceReceiverClientSearchingDto request)
+            throws IException {
+        final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER, null, null, request,
                 ServiceReceiverClientResponse.class);
 
         return createResponseEntity(response);

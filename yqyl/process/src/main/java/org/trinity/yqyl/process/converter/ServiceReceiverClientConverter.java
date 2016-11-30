@@ -10,22 +10,29 @@ import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
 import org.trinity.yqyl.common.message.dto.domain.AccountDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
+import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientYiquanDto;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.Gender;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
+import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientYiquan;
 
 @Component
 public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectConverter<ServiceReceiverClient, ServiceReceiverClientDto> {
     private static enum ServiceReceiverClientRelationship {
         ACCOUNT,
+        YIQUAN,
         NA
     }
 
     private static final String DATE_FORMAT = "yyyy/MM/dd";
+
     @Autowired
     private IObjectConverter<Account, AccountDto> accountConverter;
+
+    @Autowired
+    private IObjectConverter<ServiceReceiverClientYiquan, ServiceReceiverClientYiquanDto> serviceReceiverClientYiquanConverter;
 
     @Autowired
     public ServiceReceiverClientConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -72,6 +79,9 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
         switch (relationshipExpression.getName(ServiceReceiverClientRelationship.class)) {
         case ACCOUNT:
             copyRelationship(source::getAccount, target::setAccount, accountConverter, relationshipExpression);
+            break;
+        case YIQUAN:
+            copyRelationship(source::getYiquan, target::setYiquan, serviceReceiverClientYiquanConverter, relationshipExpression);
             break;
         case NA:
         default:
