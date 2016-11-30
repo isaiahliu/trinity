@@ -10,7 +10,11 @@ public class FavoriteCategory extends AbstractFreeTextLookup<LookupType> {
 
     private final String messageCode;
 
-    private FavoriteCategory(final String messageCode) {
+    public FavoriteCategory() {
+        this("");
+    }
+
+    public FavoriteCategory(final String messageCode) {
         this.messageCode = messageCode;
     }
 

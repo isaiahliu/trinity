@@ -4,8 +4,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.validator.RegexMatchCheck;
+import org.trinity.yqyl.common.scenario.IScenario.IRealname;
 import org.trinity.yqyl.common.validation.IValidationMessage;
-import org.trinity.yqyl.common.validation.IValidationScenario.IRealname;
 
 public class ServiceReceiverClientDto extends AbstractBusinessDto {
 

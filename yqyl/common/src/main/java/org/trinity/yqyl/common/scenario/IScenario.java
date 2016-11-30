@@ -1,6 +1,6 @@
-package org.trinity.yqyl.common.validation;
+package org.trinity.yqyl.common.scenario;
 
-public interface IValidationScenario {
+public interface IScenario {
     public static interface IAuthenticate {
     }
 

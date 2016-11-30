@@ -13,7 +13,7 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientRequest;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
-import org.trinity.yqyl.common.validation.IValidationScenario;
+import org.trinity.yqyl.common.scenario.IScenario;
 import org.trinity.yqyl.process.controller.base.IServiceReceiverClientProcessController;
 
 @RestController
@@ -22,7 +22,7 @@ public class ServiceReceiverClientRestController extends
         AbstractApplicationAwareCrudRestController<ServiceReceiverClientDto, ServiceReceiverClientSearchingDto, IServiceReceiverClientProcessController, ServiceReceiverClientRequest, ServiceReceiverClientResponse> {
     @RequestMapping(value = "/realname", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<DefaultResponse> realname(
-            @RequestBody @OnValid(IValidationScenario.IRealname.class) final ServiceReceiverClientRequest request) throws IException {
+            @RequestBody @OnValid(IScenario.IRealname.class) final ServiceReceiverClientRequest request) throws IException {
 
         getDomainProcessController().realname(request.getData());
 
