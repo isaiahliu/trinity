@@ -35,7 +35,6 @@ public class ServiceReceiverClientYiquanConverter
     protected void convertBackInternal(final ServiceReceiverClientYiquanDto source, final ServiceReceiverClientYiquan target,
             final CopyPolicy copyPolicy) {
         copyObject(source::getId, target::getServiceReceiverClientId, target::setServiceReceiverClientId, copyPolicy);
-        copyObject(source::getCellphone, target::getCellphone, target::setCellphone, copyPolicy);
         copyObject(source::getCode, target::getCode, target::setCode, copyPolicy);
         copyLookup(source::getStatus, target::getStatus, target::setStatus, RecordStatus.class, copyPolicy);
     }
@@ -44,7 +43,6 @@ public class ServiceReceiverClientYiquanConverter
     protected void convertInternal(final ServiceReceiverClientYiquan source, final ServiceReceiverClientYiquanDto target,
             final CopyPolicy copyPolicy) {
         copyObject(source::getServiceReceiverClientId, target::getId, target::setId, copyPolicy);
-        copyObject(source::getCellphone, target::getCellphone, target::setCellphone, copyPolicy);
         copyObject(source::getCode, target::getCode, target::setCode, copyPolicy);
         copyMessage(source::getStatus, target::getStatus, target::setStatus, copyPolicy);
     }

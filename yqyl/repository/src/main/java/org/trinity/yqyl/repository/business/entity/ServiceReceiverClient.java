@@ -93,6 +93,7 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     // bi-directional many-to-one association to Account
     @ManyToOne
+    @JoinColumn(name = "account_id")
     private Account account;
     // bi-directional one-to-one association to
     // ServiceReceiverClientHealthIndicator
@@ -125,6 +126,7 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     private List<ServiceOrder> orders;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public ServiceReceiverClient() {

@@ -26,8 +26,6 @@ public class ServiceReceiverClientYiquan extends AbstractAuditableEntity impleme
     @Column(name = "service_receiver_client_id")
     private Long serviceReceiverClientId;
 
-    private String cellphone;
-
     @Column(unique = true)
     private String code;
 
@@ -39,10 +37,6 @@ public class ServiceReceiverClientYiquan extends AbstractAuditableEntity impleme
     private ServiceReceiverClient serviceReceiverClient;
 
     public ServiceReceiverClientYiquan() {
-    }
-
-    public String getCellphone() {
-        return this.cellphone;
     }
 
     public String getCode() {
@@ -59,10 +53,6 @@ public class ServiceReceiverClientYiquan extends AbstractAuditableEntity impleme
 
     public RecordStatus getStatus() {
         return this.status;
-    }
-
-    public void setCellphone(final String cellphone) {
-        this.cellphone = cellphone;
     }
 
     public void setCode(final String code) {

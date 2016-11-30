@@ -3,8 +3,6 @@ package org.trinity.yqyl.common.message.dto.domain;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 
 public class ServiceReceiverClientYiquanDto extends AbstractBusinessDto {
-    private String cellphone;
-
     private String code;
 
     private Double topUpAmount;
@@ -13,10 +11,6 @@ public class ServiceReceiverClientYiquanDto extends AbstractBusinessDto {
 
     public AccountBalanceDto getBalance() {
         return balance;
-    }
-
-    public String getCellphone() {
-        return cellphone;
     }
 
     public String getCode() {
@@ -29,10 +23,6 @@ public class ServiceReceiverClientYiquanDto extends AbstractBusinessDto {
 
     public void setBalance(final AccountBalanceDto balance) {
         this.balance = balance;
-    }
-
-    public void setCellphone(final String cellphone) {
-        this.cellphone = cellphone;
     }
 
     public void setCode(final String code) {

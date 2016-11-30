@@ -2,6 +2,28 @@ div.userinfo {
 	margin-left: 200px;
 }
 
+div.userinfo div.block {
+	width: 1000px;
+	border: 1px solid #cccccc;
+}
+
 div.content table {
-	width: 400px;
+	width: 960px;
+}
+
+div.content table td {
+	border: solid 1px #dddddd;
+}
+
+div.content table thead td {
+	background: #f0f0f0;
+}
+
+div.content div.operations span {
+	margin-right: 5px;
+}
+
+
+div.content table tbody td.add div {
+	color: white;
 }
