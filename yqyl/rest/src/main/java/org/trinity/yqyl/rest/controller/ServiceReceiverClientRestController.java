@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.dto.validator.OnValid;
+import org.trinity.common.dto.washer.OnWash;
 import org.trinity.common.exception.IException;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientRequest;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
-import org.trinity.yqyl.common.scenario.IScenario;
+import org.trinity.yqyl.common.scenario.IScenario.IRealname;
 import org.trinity.yqyl.process.controller.base.IServiceReceiverClientProcessController;
 
 @RestController
@@ -31,7 +32,7 @@ public class ServiceReceiverClientRestController extends
 
     @RequestMapping(value = "/realname", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<DefaultResponse> realname(
-            @RequestBody @OnValid(IScenario.IRealname.class) final ServiceReceiverClientRequest request) throws IException {
+            @RequestBody @OnValid(IRealname.class) @OnWash(IRealname.class) final ServiceReceiverClientRequest request) throws IException {
 
         getDomainProcessController().realname(request.getData());
 

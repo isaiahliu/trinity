@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.LookupDto;
 import org.trinity.common.dto.validator.RegexMatchCheck;
+import org.trinity.common.dto.washer.KeepAfterWashed;
 import org.trinity.yqyl.common.scenario.IScenario.IRealname;
 import org.trinity.yqyl.common.validation.IValidationMessage;
 
@@ -151,6 +152,7 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         this.cellphoneNo = cellphoneNo;
     }
 
+    @KeepAfterWashed(IRealname.class)
     public void setCredentialType(final LookupDto credentialType) {
         this.credentialType = credentialType;
     }
@@ -187,10 +189,12 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         this.homephoneNo = homephoneNo;
     }
 
+    @KeepAfterWashed(IRealname.class)
     public void setIdentityCard(final String identityCard) {
         this.identityCard = identityCard;
     }
 
+    @KeepAfterWashed(IRealname.class)
     public void setIdentityCardCopy(final String identityCardCopy) {
         this.identityCardCopy = identityCardCopy;
     }

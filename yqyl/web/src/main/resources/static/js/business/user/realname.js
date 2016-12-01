@@ -11,6 +11,15 @@ layoutApp.directive('customOnChange', function() {
 layoutApp.controller('contentController', function($scope, $http, $window, clientId, errorHandler) {
 	$http({
 		method : "GET",
+		url : "/ajax/common/lookup/CDTYPE"
+	}).success(function(response) {
+		$scope.credentialTypes = response.data;
+	}).error(function(response) {
+		errorHandler($scope, response);
+	});
+
+	$http({
+		method : "GET",
 		url : "/ajax/user/receiver?id=" + clientId
 	}).success(function(response) {
 		if (response.data.length > 0) {

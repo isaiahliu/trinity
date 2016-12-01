@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.trinity.common.exception.IException;
 import org.trinity.message.LookupParser;
+import org.trinity.process.converter.IObjectConverter.CopyPolicy;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
 import org.trinity.yqyl.common.message.lookup.AccessRight;
@@ -124,8 +125,7 @@ public class ServiceReceiverClientProcessController extends
                 return serviceReceiverClient;
             }
 
-            serviceReceiverClient.setName(item.getName());
-            serviceReceiverClient.setIdentityCard(item.getIdentityCard());
+            getDomainObjectConverter().convertBack(item, serviceReceiverClient, CopyPolicy.SOURCE_IS_NOT_NULL);
             serviceReceiverClient.setStatus(ServiceReceiverClientStatus.REALNAME);
 
             if (serviceReceiverClient.getAccount() == null) {

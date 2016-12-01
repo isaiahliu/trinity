@@ -8,11 +8,16 @@ div.realname div.block {
 }
 
 div.content table {
-	width: 960px;
+	width: 560px;
+	margin: auto;
 }
 
 div.realname table td {
 	padding: 5px;
+}
+
+div.realname table td span {
+	font-size: 14px;
 }
 
 div.realname img {
@@ -28,9 +33,9 @@ div.realname div.buttons {
 	width: 840px;
 	margin-top: 30px;
 	text-align: center;
-	margin-top: 30px;
 }
 
 div.realname table td.value input, div.realname table td.value select {
-	width: 500px;
+	width: 300px;
+	font-size: 14px;
 }
