@@ -1,6 +1,7 @@
 package org.trinity.yqyl.rest.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,14 @@ import org.trinity.yqyl.process.controller.base.IServiceReceiverClientProcessCon
 @RequestMapping("/client/receiver/info")
 public class ServiceReceiverClientRestController extends
         AbstractApplicationAwareCrudRestController<ServiceReceiverClientDto, ServiceReceiverClientSearchingDto, IServiceReceiverClientProcessController, ServiceReceiverClientRequest, ServiceReceiverClientResponse> {
+    @RequestMapping(value = "/disable/{entityId}", method = RequestMethod.DELETE)
+    public @ResponseBody ResponseEntity<DefaultResponse> disable(@PathVariable("entityId") final Long entityId) throws IException {
+
+        getDomainProcessController().disable(entityId);
+
+        return createResponseEntity();
+    }
+
     @RequestMapping(value = "/realname", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<DefaultResponse> realname(
             @RequestBody @OnValid(IScenario.IRealname.class) final ServiceReceiverClientRequest request) throws IException {

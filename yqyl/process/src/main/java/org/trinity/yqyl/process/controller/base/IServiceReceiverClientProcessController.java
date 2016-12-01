@@ -10,5 +10,7 @@ import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearching
 public interface IServiceReceiverClientProcessController
         extends ICrudProcessController<ServiceReceiverClientDto, ServiceReceiverClientSearchingDto> {
 
+    void disable(Long entityId) throws IException;
+
     void realname(List<ServiceReceiverClientDto> data) throws IException;
 }

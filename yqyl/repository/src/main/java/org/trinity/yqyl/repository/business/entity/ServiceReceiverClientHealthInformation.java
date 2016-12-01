@@ -28,47 +28,59 @@ public class ServiceReceiverClientHealthInformation extends AbstractAuditableEnt
     @Column(name = "service_receiver_client_id")
     private Long serviceReceiverClientId;
 
-    private String anaphylactogen;
-
-    @Column(name = "artificial_limb")
-    private String artificialLimb;
-
     @Column(name = "health_status")
     private String healthStatus;
 
     @Column(name = "hearing_status")
     private String hearingStatus;
 
-    @Column(name = "heart_rate")
-    private String heartRate;
-
-    @Column(name = "intellectual_condition")
-    private String intellectualCondition;
-
-    @Column(name = "medical_history")
-    private String medicalHistory;
-
-    private String photo;
-
-    @Column(name = "primary_emergency_contact_name")
-    private String primaryEmergencyContactName;
-
-    @Column(name = "primary_emergency_contact_no")
-    private String primaryEmergencyContactNo;
-
-    @Column(name = "secondary_emergency_contact_name")
-    private String secondaryEmergencyContactName;
-
-    @Column(name = "secondary_emergency_contact_no")
-    private String secondaryEmergencyContactNo;
+    @Column(name = "visual_acuity")
+    private String visualAcuity;
 
     @Column(name = "self_care_status")
     private String selfCareStatus;
 
-    private RecordStatus status;
+    @Column(name = "intellectual_condition")
+    private String intellectualCondition;
 
-    @Column(name = "visual_acuity")
-    private String visualAcuity;
+    @Column(name = "action_capacity")
+    private String actionCapacity;
+
+    @Column(name = "trip_mode")
+    private String tripMode;
+
+    @Column(name = "medical_history")
+    private String medicalHistory;
+
+    private String height;
+
+    private String weight;
+
+    @Column(name = "blood_fat")
+    private String bloodFat;
+
+    @Column(name = "blood_sugar")
+    private String bloodSugar;
+
+    @Column(name = "blood_type")
+    private String bloodType;
+
+    @Column(name = "blood_pressure")
+    private String bloodPressure;
+
+    @Column(name = "heart_rate")
+    private String heartRate;
+
+    private String pulse;
+
+    @Column(name = "recent_medical")
+    private String recentMedical;
+
+    private String allergen;
+
+    private String other;
+
+    private RecordStatus status;
 
     // bi-directional one-to-one association to ServiceReceiverClient
     @OneToOne
@@ -78,80 +90,116 @@ public class ServiceReceiverClientHealthInformation extends AbstractAuditableEnt
     public ServiceReceiverClientHealthInformation() {
     }
 
-    public String getAnaphylactogen() {
-        return this.anaphylactogen;
+    public String getActionCapacity() {
+        return actionCapacity;
     }
 
-    public String getArtificialLimb() {
-        return this.artificialLimb;
+    public String getAllergen() {
+        return allergen;
+    }
+
+    public String getBloodFat() {
+        return bloodFat;
+    }
+
+    public String getBloodPressure() {
+        return bloodPressure;
+    }
+
+    public String getBloodSugar() {
+        return bloodSugar;
+    }
+
+    public String getBloodType() {
+        return bloodType;
     }
 
     public String getHealthStatus() {
-        return this.healthStatus;
+        return healthStatus;
     }
 
     public String getHearingStatus() {
-        return this.hearingStatus;
+        return hearingStatus;
     }
 
     public String getHeartRate() {
-        return this.heartRate;
+        return heartRate;
+    }
+
+    public String getHeight() {
+        return height;
     }
 
     public String getIntellectualCondition() {
-        return this.intellectualCondition;
+        return intellectualCondition;
     }
 
     public String getMedicalHistory() {
-        return this.medicalHistory;
+        return medicalHistory;
     }
 
-    public String getPhoto() {
-        return this.photo;
+    public String getOther() {
+        return other;
     }
 
-    public String getPrimaryEmergencyContactName() {
-        return this.primaryEmergencyContactName;
+    public String getPulse() {
+        return pulse;
     }
 
-    public String getPrimaryEmergencyContactNo() {
-        return this.primaryEmergencyContactNo;
-    }
-
-    public String getSecondaryEmergencyContactName() {
-        return this.secondaryEmergencyContactName;
-    }
-
-    public String getSecondaryEmergencyContactNo() {
-        return this.secondaryEmergencyContactNo;
+    public String getRecentMedical() {
+        return recentMedical;
     }
 
     public String getSelfCareStatus() {
-        return this.selfCareStatus;
+        return selfCareStatus;
     }
 
     public ServiceReceiverClient getServiceReceiverClient() {
-        return this.serviceReceiverClient;
+        return serviceReceiverClient;
     }
 
     public Long getServiceReceiverClientId() {
-        return this.serviceReceiverClientId;
+        return serviceReceiverClientId;
     }
 
     public RecordStatus getStatus() {
-        return this.status;
+        return status;
+    }
+
+    public String getTripMode() {
+        return tripMode;
     }
 
     public String getVisualAcuity() {
-        return this.visualAcuity;
+        return visualAcuity;
     }
 
-    public void setAnaphylactogen(final String anaphylactogen) {
-        this.anaphylactogen = anaphylactogen;
+    public String getWeight() {
+        return weight;
     }
 
-    public void setArtificialLimb(final String artificialLimb) {
-        this.artificialLimb = artificialLimb;
+    public void setActionCapacity(final String actionCapacity) {
+        this.actionCapacity = actionCapacity;
+    }
+
+    public void setAllergen(final String allergen) {
+        this.allergen = allergen;
+    }
+
+    public void setBloodFat(final String bloodFat) {
+        this.bloodFat = bloodFat;
+    }
+
+    public void setBloodPressure(final String bloodPressure) {
+        this.bloodPressure = bloodPressure;
+    }
+
+    public void setBloodSugar(final String bloodSugar) {
+        this.bloodSugar = bloodSugar;
+    }
+
+    public void setBloodType(final String bloodType) {
+        this.bloodType = bloodType;
     }
 
     public void setHealthStatus(final String healthStatus) {
@@ -166,6 +214,10 @@ public class ServiceReceiverClientHealthInformation extends AbstractAuditableEnt
         this.heartRate = heartRate;
     }
 
+    public void setHeight(final String height) {
+        this.height = height;
+    }
+
     public void setIntellectualCondition(final String intellectualCondition) {
         this.intellectualCondition = intellectualCondition;
     }
@@ -174,24 +226,16 @@ public class ServiceReceiverClientHealthInformation extends AbstractAuditableEnt
         this.medicalHistory = medicalHistory;
     }
 
-    public void setPhoto(final String photo) {
-        this.photo = photo;
+    public void setOther(final String other) {
+        this.other = other;
     }
 
-    public void setPrimaryEmergencyContactName(final String primaryEmergencyContactName) {
-        this.primaryEmergencyContactName = primaryEmergencyContactName;
+    public void setPulse(final String pulse) {
+        this.pulse = pulse;
     }
 
-    public void setPrimaryEmergencyContactNo(final String primaryEmergencyContactNo) {
-        this.primaryEmergencyContactNo = primaryEmergencyContactNo;
-    }
-
-    public void setSecondaryEmergencyContactName(final String secondaryEmergencyContactName) {
-        this.secondaryEmergencyContactName = secondaryEmergencyContactName;
-    }
-
-    public void setSecondaryEmergencyContactNo(final String secondaryEmergencyContactNo) {
-        this.secondaryEmergencyContactNo = secondaryEmergencyContactNo;
+    public void setRecentMedical(final String recentMedical) {
+        this.recentMedical = recentMedical;
     }
 
     public void setSelfCareStatus(final String selfCareStatus) {
@@ -210,8 +254,15 @@ public class ServiceReceiverClientHealthInformation extends AbstractAuditableEnt
         this.status = status;
     }
 
+    public void setTripMode(final String tripMode) {
+        this.tripMode = tripMode;
+    }
+
     public void setVisualAcuity(final String visualAcuity) {
         this.visualAcuity = visualAcuity;
     }
 
+    public void setWeight(final String weight) {
+        this.weight = weight;
+    }
 }

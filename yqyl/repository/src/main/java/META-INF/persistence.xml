@@ -17,7 +17,6 @@
 		<class>org.trinity.yqyl.repository.business.entity.Favorite</class>
 		<class>org.trinity.yqyl.repository.business.entity.Content</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceCategory</class>
-		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthIndicator</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthInformation</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClientInterest</class>
 		<class>org.trinity.yqyl.repository.business.entity.ServiceReceiverClientOther</class>

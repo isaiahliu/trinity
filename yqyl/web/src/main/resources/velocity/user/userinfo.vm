@@ -11,17 +11,14 @@
 		<table>
 			<thead>
 				<tr>
-					<td align="center" width="150px"><div>
+					<td align="center" width="200px"><div>
 							<span>#label("FAMILY_MEMBER_RELATIONSHIP")</span>
 						</div></td>
-					<td align="center" width="150px"><div>
+					<td align="center" width="200px"><div>
 							<span>#label("NAME")</span>
 						</div></td>
-					<td align="center" width="150px"><div>
+					<td align="center" width="200px"><div>
 							<span>#label("CONTACT_METHOD")</span>
-						</div></td>
-					<td align="center" width="150px"><div>
-							<span>#label("REALNAME_VERIFY")</span>
 						</div></td>
 					<td align="center" width="320px"><div>
 							<span>#label("OPERATION")</span>
@@ -34,18 +31,14 @@
 							<span>{{member.familyRelationship.message}}</span>
 						</div></td>
 					<td align="center"><div>
-							<span>{{member.name}}</span>
+							<span>{{member.nickname}}</span> <span ng-hide="member.status.code=='P'">(#label("VERIFIED"))</span>
 						</div></td>
 					<td align="center"><div>
 							<span>{{member.cellphoneNo}}</span>
 						</div></td>
-					<td align="center"><div>
-							<span ng-hide="member.status.code=='P'">#label("VERIFIED")</span><span ng-show="member.status.code=='P'">#label("NOT_VERIFIED")</span>
-						</div></td>
 					<td align="center"><div class="operations">
-							<a href="javascript:void(0)"><span>#button("VIEW")</span></a> <a ng-show="member.status.code=='P'"
-								ng-href="/user/realname/{{member.id}}"><span>#button("REALNAME_VERIFY")</span></a> <a ng-href="/user/userinfo/{{member.id}}"><span>#button("EDIT")</span></a>
-							<a href="javascript:void(0)"><span>#button("DISABLE_CLIENT")</span></a>
+							<a href="javascript:void(0)"><span>#button("VIEW")</span></a> <a ng-href="/user/realname/{{member.id}}"><span>#button("REALNAME_VERIFY")</span></a>
+							<a ng-href="/user/userinfo/{{member.id}}"><span>#button("EDIT")</span></a> <a href="javascript:void(0)" ng-click="disable(member)"><span>#button("DISABLE_CLIENT")</span></a>
 						</div></td>
 				</tr>
 				<tr class="ng-hide" ng-show="modeUpdate">
@@ -54,7 +47,6 @@
 			</tbody>
 		</table>
 	</div>
-
 </div>
 
 <script src="/static/js/business/user/userinfo.js"></script>

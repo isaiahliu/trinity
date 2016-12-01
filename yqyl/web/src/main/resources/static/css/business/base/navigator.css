@@ -52,6 +52,7 @@ div.navBar div.advertisement button.searchButton {
 	background: #4a9900;
 	color: #ffffff;
 	font-size: 16px;
+	border-radius: 0;
 }
 
 div.navBar div.advertisement button.publishButton {
@@ -60,6 +61,7 @@ div.navBar div.advertisement button.publishButton {
 	background: #fd6a15;
 	font-size: 16px;
 	color: #ffffff;
+	border-radius: 0;
 }
 
 div.navBar div.navBarItems li.selectedNavBarItem {

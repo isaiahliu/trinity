@@ -10,6 +10,9 @@
 	<div style="padding: 15px;" class="block">
 		<span style="color: #fd6a15; font-size: 22px; margin-right: 60px;">#label("USER_INFO")</span>
 	</div>
+	<div style="padding: 15px;" class="block">
+		<img src="/static/images/icon/green_block.png" style="width: 15px; height: 15px; margin-bottom: 2px;"> <span>#label("REALNAME_VERIFY")</span>
+	</div>
 	<div style="padding: 15px 20px; text-align: center;" class="block">
 		<table>
 			<tbody>

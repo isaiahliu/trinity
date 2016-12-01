@@ -12,4 +12,5 @@ import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthIn
 public class ServiceReceiverClientHealthInformationProcessController extends
         AbstractAutowiredCrudProcessController<ServiceReceiverClientHealthInformation, ServiceReceiverClientHealthInformationDto, ServiceReceiverClientHealthInformationSearchingDto, IServiceReceiverClientHealthInformationRepository>
         implements IServiceReceiverClientHealthInformationProcessController {
+
 }

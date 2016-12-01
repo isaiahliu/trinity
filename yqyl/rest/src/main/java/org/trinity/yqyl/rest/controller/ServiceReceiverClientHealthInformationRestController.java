@@ -9,7 +9,7 @@ import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientHealthI
 import org.trinity.yqyl.process.controller.base.IServiceReceiverClientHealthInformationProcessController;
 
 @RestController
-@RequestMapping("/client/receiver/healthinfo")
+@RequestMapping("/client/receiver/health")
 public class ServiceReceiverClientHealthInformationRestController extends
         AbstractApplicationAwareCrudRestController<ServiceReceiverClientHealthInformationDto, ServiceReceiverClientHealthInformationSearchingDto, IServiceReceiverClientHealthInformationProcessController, ServiceReceiverClientHealthInformationRequest, ServiceReceiverClientHealthInformationResponse> {
 

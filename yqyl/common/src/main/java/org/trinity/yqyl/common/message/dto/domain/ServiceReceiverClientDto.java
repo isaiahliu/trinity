@@ -1,5 +1,7 @@
 package org.trinity.yqyl.common.message.dto.domain;
 
+import java.util.Date;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.trinity.common.dto.domain.AbstractBusinessDto;
 import org.trinity.common.dto.object.LookupDto;
@@ -13,13 +15,15 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private String cellphoneNo;
 
-    private String dob;
+    private Date dob;
 
     private String email;
 
     private AccountDto account;
 
     private LookupDto gender;
+
+    private LookupDto credentialType;
 
     private String homephoneNo;
 
@@ -31,9 +35,25 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
     @NotEmpty(groups = IRealname.class)
     private String name;
 
+    private String nickname;
+
     private LookupDto familyRelationship;
 
     private ServiceReceiverClientYiquanDto yiquan;
+
+    private String region;
+
+    private String emergencyContact;
+
+    private String emergencyContactNo;
+
+    private Date registryDate;
+
+    private ServiceReceiverClientHealthInformationDto healthInformation;
+
+    private ServiceReceiverClientInterestDto interest;
+
+    private ServiceReceiverClientOtherDto other;
 
     public AccountDto getAccount() {
         return account;
@@ -47,12 +67,24 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         return cellphoneNo;
     }
 
-    public String getDob() {
+    public LookupDto getCredentialType() {
+        return credentialType;
+    }
+
+    public Date getDob() {
         return dob;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public String getEmergencyContactNo() {
+        return emergencyContactNo;
     }
 
     public LookupDto getFamilyRelationship() {
@@ -61,6 +93,10 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public LookupDto getGender() {
         return gender;
+    }
+
+    public ServiceReceiverClientHealthInformationDto getHealthInformation() {
+        return healthInformation;
     }
 
     public String getHomephoneNo() {
@@ -75,8 +111,28 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         return identityCardCopy;
     }
 
+    public ServiceReceiverClientInterestDto getInterest() {
+        return interest;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public ServiceReceiverClientOtherDto getOther() {
+        return other;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public Date getRegistryDate() {
+        return registryDate;
     }
 
     public ServiceReceiverClientYiquanDto getYiquan() {
@@ -95,12 +151,24 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         this.cellphoneNo = cellphoneNo;
     }
 
-    public void setDob(final String dob) {
+    public void setCredentialType(final LookupDto credentialType) {
+        this.credentialType = credentialType;
+    }
+
+    public void setDob(final Date dob) {
         this.dob = dob;
     }
 
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    public void setEmergencyContact(final String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    public void setEmergencyContactNo(final String emergencyContactNo) {
+        this.emergencyContactNo = emergencyContactNo;
     }
 
     public void setFamilyRelationship(final LookupDto familyRelationship) {
@@ -109,6 +177,10 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     public void setGender(final LookupDto gender) {
         this.gender = gender;
+    }
+
+    public void setHealthInformation(final ServiceReceiverClientHealthInformationDto healthInformation) {
+        this.healthInformation = healthInformation;
     }
 
     public void setHomephoneNo(final String homephoneNo) {
@@ -123,8 +195,28 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         this.identityCardCopy = identityCardCopy;
     }
 
+    public void setInterest(final ServiceReceiverClientInterestDto interest) {
+        this.interest = interest;
+    }
+
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setOther(final ServiceReceiverClientOtherDto other) {
+        this.other = other;
+    }
+
+    public void setRegion(final String region) {
+        this.region = region;
+    }
+
+    public void setRegistryDate(final Date registryDate) {
+        this.registryDate = registryDate;
     }
 
     public void setYiquan(final ServiceReceiverClientYiquanDto yiquan) {

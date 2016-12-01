@@ -59,7 +59,7 @@ public class UserWebController extends AbstractResourceWebController {
 
     @RequestMapping(value = "/userinfo/new", method = RequestMethod.GET)
     public ModelAndView userinfoNewPage() throws IException {
-        return createModelAndView("user/userinfoEdit").addObject("currentPage", "INFO").addObject("clientId", 0);
+        return createModelAndView("user/userinfoNew").addObject("currentPage", "INFO");
     }
 
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)

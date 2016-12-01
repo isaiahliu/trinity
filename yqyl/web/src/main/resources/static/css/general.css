@@ -11,9 +11,12 @@ body {
 }
 
 button {
-	border: none;
+	min-height: 30px;
+	min-width: 80px;
+	border-radius: 5px;
 	background: #fd6a15;
 	color: #ffffff;
+	border: none;
 }
 
 div.content {

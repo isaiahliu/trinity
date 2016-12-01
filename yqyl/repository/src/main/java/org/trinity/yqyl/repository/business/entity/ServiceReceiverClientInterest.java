@@ -28,42 +28,24 @@ public class ServiceReceiverClientInterest extends AbstractAuditableEntity imple
     @Column(name = "service_receiver_client_id")
     private Long serviceReceiverClientId;
 
-    private String badminton;
+    private String literature;
 
-    private String basketball;
-
-    @Column(name = "comic_dialogue")
-    private String comicDialogue;
-
-    private String comment;
-
-    private String corporation;
-
-    @Column(name = "corporation_role")
-    private String corporationRole;
-
-    private String dancing;
-
-    private String drama;
-
-    private String football;
-
-    private String handwriting;
-
-    private String opusculum;
+    private String sport;
 
     @Column(name = "other_interest")
     private String otherInterest;
 
-    @Column(name = "other_skill")
-    private String otherSkill;
+    private String club;
+
+    @Column(name = "club_activity")
+    private String clubActivity;
+
+    @Column(name = "club_role")
+    private String clubRole;
+
+    private String other;
 
     private RecordStatus status;
-
-    private String swimming;
-
-    @Column(name = "table_tennis")
-    private String tableTennis;
 
     // bi-directional one-to-one association to ServiceReceiverClient
     @OneToOne
@@ -73,128 +55,68 @@ public class ServiceReceiverClientInterest extends AbstractAuditableEntity imple
     public ServiceReceiverClientInterest() {
     }
 
-    public String getBadminton() {
-        return this.badminton;
+    public String getClub() {
+        return club;
     }
 
-    public String getBasketball() {
-        return this.basketball;
+    public String getClubActivity() {
+        return clubActivity;
     }
 
-    public String getComicDialogue() {
-        return this.comicDialogue;
+    public String getClubRole() {
+        return clubRole;
     }
 
-    public String getComment() {
-        return this.comment;
+    public String getLiterature() {
+        return literature;
     }
 
-    public String getCorporation() {
-        return this.corporation;
-    }
-
-    public String getCorporationRole() {
-        return this.corporationRole;
-    }
-
-    public String getDancing() {
-        return this.dancing;
-    }
-
-    public String getDrama() {
-        return this.drama;
-    }
-
-    public String getFootball() {
-        return this.football;
-    }
-
-    public String getHandwriting() {
-        return this.handwriting;
-    }
-
-    public String getOpusculum() {
-        return this.opusculum;
+    public String getOther() {
+        return other;
     }
 
     public String getOtherInterest() {
-        return this.otherInterest;
-    }
-
-    public String getOtherSkill() {
-        return this.otherSkill;
+        return otherInterest;
     }
 
     public ServiceReceiverClient getServiceReceiverClient() {
-        return this.serviceReceiverClient;
+        return serviceReceiverClient;
     }
 
     public Long getServiceReceiverClientId() {
-        return this.serviceReceiverClientId;
+        return serviceReceiverClientId;
+    }
+
+    public String getSport() {
+        return sport;
     }
 
     public RecordStatus getStatus() {
-        return this.status;
+        return status;
     }
 
-    public String getSwimming() {
-        return this.swimming;
+    public void setClub(final String club) {
+        this.club = club;
     }
 
-    public String getTableTennis() {
-        return this.tableTennis;
+    public void setClubActivity(final String clubActivity) {
+        this.clubActivity = clubActivity;
     }
 
-    public void setBadminton(final String badminton) {
-        this.badminton = badminton;
+    public void setClubRole(final String clubRole) {
+        this.clubRole = clubRole;
     }
 
-    public void setBasketball(final String basketball) {
-        this.basketball = basketball;
+    public void setLiterature(final String literature) {
+        this.literature = literature;
     }
 
-    public void setComicDialogue(final String comicDialogue) {
-        this.comicDialogue = comicDialogue;
-    }
-
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
-
-    public void setCorporation(final String corporation) {
-        this.corporation = corporation;
-    }
-
-    public void setCorporationRole(final String corporationRole) {
-        this.corporationRole = corporationRole;
-    }
-
-    public void setDancing(final String dancing) {
-        this.dancing = dancing;
-    }
-
-    public void setDrama(final String drama) {
-        this.drama = drama;
-    }
-
-    public void setFootball(final String football) {
-        this.football = football;
-    }
-
-    public void setHandwriting(final String handwriting) {
-        this.handwriting = handwriting;
-    }
-
-    public void setOpusculum(final String opusculum) {
-        this.opusculum = opusculum;
+    public void setOther(final String other) {
+        this.other = other;
     }
 
     public void setOtherInterest(final String otherInterest) {
         this.otherInterest = otherInterest;
-    }
-
-    public void setOtherSkill(final String otherSkill) {
-        this.otherSkill = otherSkill;
     }
 
     public void setServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
@@ -205,16 +127,11 @@ public class ServiceReceiverClientInterest extends AbstractAuditableEntity imple
         this.serviceReceiverClientId = serviceReceiverClientId;
     }
 
+    public void setSport(final String sport) {
+        this.sport = sport;
+    }
+
     public void setStatus(final RecordStatus status) {
         this.status = status;
     }
-
-    public void setSwimming(final String swimming) {
-        this.swimming = swimming;
-    }
-
-    public void setTableTennis(final String tableTennis) {
-        this.tableTennis = tableTennis;
-    }
-
 }

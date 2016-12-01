@@ -61,8 +61,14 @@ public enum Url implements IHttpUrl {
     RECEIVER_DELETE(HttpMethod.DELETE, Path.RECEIVER_INFO),
     RECEIVER_ADD(HttpMethod.POST, Path.RECEIVER_INFO),
     RECEIVER_REALNAME(HttpMethod.POST, Path.RECEIVER_INFO, "realname"),
+    RECEIVER_DISABLE(HttpMethod.DELETE, Path.RECEIVER_INFO, "disable"),
 
-    HEALTH_INDICATOR(HttpMethod.GET, Path.HEALTH_INDICATOR),
+    RECEIVER_HEALTH(HttpMethod.GET, Path.RECEIVER_HEALTH),
+    RECEIVER_HEALTH_UPDATE(HttpMethod.PUT, Path.RECEIVER_HEALTH),
+
+    RECEIVER_INTEREST_UPDATE(HttpMethod.PUT, Path.RECEIVER_INTEREST),
+
+    RECEIVER_OTHER_UPDATE(HttpMethod.PUT, Path.RECEIVER_OTHER),
 
     OPERATOR(HttpMethod.GET, Path.OPERATOR),
     OPERATOR_UPDATE(HttpMethod.PUT, Path.OPERATOR),
@@ -110,7 +116,11 @@ public enum Url implements IHttpUrl {
 
         RECEIVER_INFO(RECEIVER, "info"),
 
-        HEALTH_INDICATOR(RECEIVER, "healthindicator"),
+        RECEIVER_HEALTH(RECEIVER, "health"),
+
+        RECEIVER_INTEREST(RECEIVER, "interest"),
+
+        RECEIVER_OTHER(RECEIVER, "other"),
 
         SERVICE("service"),
         SERVICE_INFO(SERVICE, "info"),

@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.trinity.repository.entity.AbstractAuditableEntity;
-import org.trinity.yqyl.common.message.lookup.CompanyType;
+import org.trinity.yqyl.common.message.lookup.CredentialType;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.Gender;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
@@ -43,14 +43,8 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     private String address;
 
-    private String category;
-
     @Column(name = "cellphone_no")
     private String cellphoneNo;
-
-    private String comment;
-
-    private String community;
 
     @Temporal(TemporalType.DATE)
     private Date dob;
@@ -71,34 +65,31 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     @Column(name = "identity_card_copy")
     private String identityCardCopy;
 
-    @Column(name = "medical_insurance_status")
-    private String medicalInsuranceStatus;
+    private String nickname;
 
     private String name;
 
     private ServiceReceiverClientStatus status;
 
-    private CompanyType type;
+    @Column(name = "credential_type")
+    private CredentialType credentialType;
 
-    @Column(name = "video_id")
-    private String videoId;
+    private String region;
 
-    @Column(name = "videophone_no")
-    private String videophoneNo;
+    @Column(name = "emergency_contact")
+    private String emergencyContact;
 
-    // uni-directional many-to-one association to ServiceReceiverClient
-    @ManyToOne
-    @JoinColumn(name = "spouse_client_id")
-    private ServiceReceiverClient spouse;
+    @Column(name = "emergency_contact_no")
+    private String emergencyContactNo;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "registry_date")
+    private Date registryDate;
 
     // bi-directional many-to-one association to Account
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
-    // bi-directional one-to-one association to
-    // ServiceReceiverClientHealthIndicator
-    @OneToOne(mappedBy = "serviceReceiverClient")
-    private ServiceReceiverClientHealthIndicator healthIndicator;
 
     // bi-directional one-to-one association to
     // ServiceReceiverClientHealthInformation
@@ -154,20 +145,12 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return this.address;
     }
 
-    public String getCategory() {
-        return this.category;
-    }
-
     public String getCellphoneNo() {
         return this.cellphoneNo;
     }
 
-    public String getComment() {
-        return this.comment;
-    }
-
-    public String getCommunity() {
-        return this.community;
+    public CredentialType getCredentialType() {
+        return credentialType;
     }
 
     public Date getDob() {
@@ -176,6 +159,14 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public String getEmail() {
         return this.email;
+    }
+
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public String getEmergencyContactNo() {
+        return emergencyContactNo;
     }
 
     public FamilyRelationship getFamilyRelationship() {
@@ -188,10 +179,6 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public Gender getGender() {
         return this.gender;
-    }
-
-    public ServiceReceiverClientHealthIndicator getHealthIndicator() {
-        return this.healthIndicator;
     }
 
     public ServiceReceiverClientHealthInformation getHealthInformation() {
@@ -218,12 +205,12 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return this.interest;
     }
 
-    public String getMedicalInsuranceStatus() {
-        return this.medicalInsuranceStatus;
-    }
-
     public String getName() {
         return this.name;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public List<ServiceOrder> getOrders() {
@@ -234,28 +221,20 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return this.other;
     }
 
-    public ServiceReceiverClient getSpouse() {
-        return this.spouse;
+    public String getRegion() {
+        return region;
+    }
+
+    public Date getRegistryDate() {
+        return registryDate;
     }
 
     public ServiceReceiverClientStatus getStatus() {
         return this.status;
     }
 
-    public CompanyType getType() {
-        return this.type;
-    }
-
     public User getUser() {
         return this.user;
-    }
-
-    public String getVideoId() {
-        return this.videoId;
-    }
-
-    public String getVideophoneNo() {
-        return this.videophoneNo;
     }
 
     public ServiceReceiverClientYiquan getYiquan() {
@@ -284,20 +263,12 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         this.address = address;
     }
 
-    public void setCategory(final String category) {
-        this.category = category;
-    }
-
     public void setCellphoneNo(final String cellphoneNo) {
         this.cellphoneNo = cellphoneNo;
     }
 
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
-
-    public void setCommunity(final String community) {
-        this.community = community;
+    public void setCredentialType(final CredentialType credentialType) {
+        this.credentialType = credentialType;
     }
 
     public void setDob(final Date dob) {
@@ -306,6 +277,14 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    public void setEmergencyContact(final String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    public void setEmergencyContactNo(final String emergencyContactNo) {
+        this.emergencyContactNo = emergencyContactNo;
     }
 
     public void setFamilyRelationship(final FamilyRelationship familyRelationship) {
@@ -318,10 +297,6 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public void setGender(final Gender gender) {
         this.gender = gender;
-    }
-
-    public void setHealthIndicator(final ServiceReceiverClientHealthIndicator healthIndicator) {
-        this.healthIndicator = healthIndicator;
     }
 
     public void setHealthInformation(final ServiceReceiverClientHealthInformation healthInformation) {
@@ -348,12 +323,12 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         this.interest = interest;
     }
 
-    public void setMedicalInsuranceStatus(final String medicalInsuranceStatus) {
-        this.medicalInsuranceStatus = medicalInsuranceStatus;
-    }
-
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public void setNickname(final String nickname) {
+        this.nickname = nickname;
     }
 
     public void setOrders(final List<ServiceOrder> orders) {
@@ -364,28 +339,20 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         this.other = other;
     }
 
-    public void setSpouse(final ServiceReceiverClient spouse) {
-        this.spouse = spouse;
+    public void setRegion(final String region) {
+        this.region = region;
+    }
+
+    public void setRegistryDate(final Date registryDate) {
+        this.registryDate = registryDate;
     }
 
     public void setStatus(final ServiceReceiverClientStatus status) {
         this.status = status;
     }
 
-    public void setType(final CompanyType type) {
-        this.type = type;
-    }
-
     public void setUser(final User user) {
         this.user = user;
-    }
-
-    public void setVideoId(final String videoId) {
-        this.videoId = videoId;
-    }
-
-    public void setVideophoneNo(final String videophoneNo) {
-        this.videophoneNo = videophoneNo;
     }
 
     public void setYiquan(final ServiceReceiverClientYiquan yiquan) {

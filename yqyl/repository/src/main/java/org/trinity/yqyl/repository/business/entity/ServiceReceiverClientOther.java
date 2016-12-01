@@ -28,22 +28,16 @@ public class ServiceReceiverClientOther extends AbstractAuditableEntity implemen
     @Column(name = "service_receiver_client_id")
     private Long serviceReceiverClientId;
 
-    private String comment;
+    private String nationality;
 
     private String education;
 
     private String faith;
 
-    private String nationality;
-
-    @Column(name = "native_place")
-    private String nativePlace;
-
-    @Column(name = "party_member")
-    private String partyMember;
-
     @Column(name = "place_of_birth")
     private String placeOfBirth;
+
+    private String other;
 
     private RecordStatus status;
 
@@ -53,10 +47,6 @@ public class ServiceReceiverClientOther extends AbstractAuditableEntity implemen
     private ServiceReceiverClient serviceReceiverClient;
 
     public ServiceReceiverClientOther() {
-    }
-
-    public String getComment() {
-        return this.comment;
     }
 
     public String getEducation() {
@@ -71,12 +61,8 @@ public class ServiceReceiverClientOther extends AbstractAuditableEntity implemen
         return this.nationality;
     }
 
-    public String getNativePlace() {
-        return this.nativePlace;
-    }
-
-    public String getPartyMember() {
-        return this.partyMember;
+    public String getOther() {
+        return other;
     }
 
     public String getPlaceOfBirth() {
@@ -95,10 +81,6 @@ public class ServiceReceiverClientOther extends AbstractAuditableEntity implemen
         return this.status;
     }
 
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
-
     public void setEducation(final String education) {
         this.education = education;
     }
@@ -111,12 +93,8 @@ public class ServiceReceiverClientOther extends AbstractAuditableEntity implemen
         this.nationality = nationality;
     }
 
-    public void setNativePlace(final String nativePlace) {
-        this.nativePlace = nativePlace;
-    }
-
-    public void setPartyMember(final String partyMember) {
-        this.partyMember = partyMember;
+    public void setOther(final String other) {
+        this.other = other;
     }
 
     public void setPlaceOfBirth(final String placeOfBirth) {

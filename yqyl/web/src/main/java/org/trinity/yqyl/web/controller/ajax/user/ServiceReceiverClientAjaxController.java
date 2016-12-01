@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.trinity.common.dto.IResponse;
 import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
@@ -18,9 +17,11 @@ import org.trinity.rest.util.IRestfulServiceUtil;
 import org.trinity.yqyl.common.message.dto.domain.ContentDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientSearchingDto;
 import org.trinity.yqyl.common.message.dto.request.ContentRequest;
+import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientHealthInformationRequest;
+import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientInterestRequest;
+import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientOtherRequest;
 import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientRequest;
 import org.trinity.yqyl.common.message.dto.response.ContentResponse;
-import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientHealthIndicatorResponse;
 import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientResponse;
 import org.trinity.yqyl.web.util.Url;
 
@@ -38,20 +39,18 @@ public class ServiceReceiverClientAjaxController extends AbstractRestController 
         return createResponseEntity(response);
     }
 
+    @RequestMapping(value = "/disable/{entityId}", method = RequestMethod.DELETE)
+    public ResponseEntity<DefaultResponse> ajaxDisableServiceReceiver(@PathVariable("entityId") final Long entityId) throws IException {
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_DISABLE, String.valueOf(entityId), null, null,
+                DefaultResponse.class);
+        return createResponseEntity(response);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<ServiceReceiverClientResponse> ajaxGetServiceReceiverClient(final ServiceReceiverClientSearchingDto request)
             throws IException {
         final ServiceReceiverClientResponse response = restfulServiceUtil.callRestService(Url.RECEIVER, null, null, request,
                 ServiceReceiverClientResponse.class);
-
-        return createResponseEntity(response);
-    }
-
-    @RequestMapping(value = "/healthindicator/{entityId}", method = RequestMethod.GET)
-    public ResponseEntity<ServiceReceiverClientHealthIndicatorResponse> ajaxGetServiceReceiverClientHealthIndicator(
-            @PathVariable("entityId") final Long entityId) throws IException {
-        final ServiceReceiverClientHealthIndicatorResponse response = restfulServiceUtil.callRestService(Url.HEALTH_INDICATOR,
-                String.valueOf(entityId), null, null, ServiceReceiverClientHealthIndicatorResponse.class);
 
         return createResponseEntity(response);
     }
@@ -73,8 +72,33 @@ public class ServiceReceiverClientAjaxController extends AbstractRestController 
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ResponseEntity<IResponse> ajaxUpdateServiceReceiver(@RequestBody final ServiceReceiverClientRequest request) throws IException {
+    public ResponseEntity<DefaultResponse> ajaxUpdateServiceReceiver(@RequestBody final ServiceReceiverClientRequest request)
+            throws IException {
         final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_UPDATE, null, request, null,
+                DefaultResponse.class);
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/health", method = RequestMethod.PUT)
+    public ResponseEntity<DefaultResponse> ajaxUpdateServiceReceiverHealth(
+            @RequestBody final ServiceReceiverClientHealthInformationRequest request) throws IException {
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_HEALTH_UPDATE, null, request, null,
+                DefaultResponse.class);
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/interest", method = RequestMethod.PUT)
+    public ResponseEntity<DefaultResponse> ajaxUpdateServiceReceiverInterest(
+            @RequestBody final ServiceReceiverClientInterestRequest request) throws IException {
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_INTEREST_UPDATE, null, request, null,
+                DefaultResponse.class);
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/other", method = RequestMethod.PUT)
+    public ResponseEntity<DefaultResponse> ajaxUpdateServiceReceiverOther(@RequestBody final ServiceReceiverClientOtherRequest request)
+            throws IException {
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.RECEIVER_OTHER_UPDATE, null, request, null,
                 DefaultResponse.class);
         return createResponseEntity(response);
     }
