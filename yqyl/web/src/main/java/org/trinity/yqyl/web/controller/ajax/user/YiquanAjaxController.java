@@ -10,9 +10,9 @@ import org.trinity.common.dto.response.DefaultResponse;
 import org.trinity.common.exception.IException;
 import org.trinity.rest.controller.AbstractRestController;
 import org.trinity.rest.util.IRestfulServiceUtil;
-import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientYiquanSearchingDto;
-import org.trinity.yqyl.common.message.dto.request.ServiceReceiverClientYiquanRequest;
-import org.trinity.yqyl.common.message.dto.response.ServiceReceiverClientYiquanResponse;
+import org.trinity.yqyl.common.message.dto.domain.YiquanSearchingDto;
+import org.trinity.yqyl.common.message.dto.request.YiquanRequest;
+import org.trinity.yqyl.common.message.dto.response.YiquanResponse;
 import org.trinity.yqyl.web.util.Url;
 
 @RestController
@@ -22,21 +22,21 @@ public class YiquanAjaxController extends AbstractRestController {
     private IRestfulServiceUtil restfulServiceUtil;
 
     @RequestMapping(value = "/bind", method = RequestMethod.PUT)
-    public ResponseEntity<DefaultResponse> ajaxBindYiquan(@RequestBody final ServiceReceiverClientYiquanRequest request) throws IException {
+    public ResponseEntity<DefaultResponse> ajaxBindYiquan(@RequestBody final YiquanRequest request) throws IException {
         final DefaultResponse response = restfulServiceUtil.callRestService(Url.YIQUAN_BIND, null, request, null, DefaultResponse.class);
 
         return createResponseEntity(response);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<ServiceReceiverClientYiquanResponse> ajaxGetYiquan(final ServiceReceiverClientYiquanSearchingDto request) throws IException {
-        final ServiceReceiverClientYiquanResponse response = restfulServiceUtil.callRestService(Url.YIQUAN_ME, null, null, request, ServiceReceiverClientYiquanResponse.class);
+    public ResponseEntity<YiquanResponse> ajaxGetYiquan(final YiquanSearchingDto request) throws IException {
+        final YiquanResponse response = restfulServiceUtil.callRestService(Url.YIQUAN_ME, null, null, request, YiquanResponse.class);
 
         return createResponseEntity(response);
     }
 
     @RequestMapping(value = "/topup", method = RequestMethod.POST)
-    public ResponseEntity<DefaultResponse> ajaxTopUpYiquan(@RequestBody final ServiceReceiverClientYiquanRequest request) throws IException {
+    public ResponseEntity<DefaultResponse> ajaxTopUpYiquan(@RequestBody final YiquanRequest request) throws IException {
         final DefaultResponse response = restfulServiceUtil.callRestService(Url.YIQUAN_TOPUP, null, request, null, DefaultResponse.class);
 
         return createResponseEntity(response);

@@ -2,10 +2,10 @@ package org.trinity.yqyl.process.datapermission;
 
 import org.springframework.stereotype.Component;
 import org.trinity.common.exception.IException;
-import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientYiquan;
+import org.trinity.yqyl.repository.business.entity.Yiquan;
 
 @Component
-public class ServiceReceiverClientYiquanDataPermissionValidator extends AbstractDataPermissionValidator<ServiceReceiverClientYiquan> {
+public class YiquanDataPermissionValidator extends AbstractDataPermissionValidator<Yiquan> {
     @Override
     public void checkSpecialPermission() throws IException {
         super.checkSpecialPermission();

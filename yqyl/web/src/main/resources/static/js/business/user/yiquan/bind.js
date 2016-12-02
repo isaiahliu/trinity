@@ -9,7 +9,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, clien
 		if ($scope.client.yiquan == null) {
 			$scope.binded = false;
 			$scope.client.yiquan = {
-				id : clientId
+				serviceReceiverClientId : clientId
 			};
 		}
 

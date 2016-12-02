@@ -19,7 +19,6 @@ import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.RecordStatus;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 import org.trinity.yqyl.process.controller.base.AbstractAutowiredCrudProcessController;
-import org.trinity.yqyl.process.controller.base.IAccountProcessController;
 import org.trinity.yqyl.process.controller.base.IContentProcessController;
 import org.trinity.yqyl.process.controller.base.IServiceReceiverClientProcessController;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceReceiverClientHealthInformationRepository;
@@ -39,9 +38,6 @@ public class ServiceReceiverClientProcessController extends
         implements IServiceReceiverClientProcessController {
     @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
-    private IAccountProcessController accountProcessController;
 
     @Autowired
     private IContentProcessController contentProcessController;
@@ -128,9 +124,6 @@ public class ServiceReceiverClientProcessController extends
             getDomainObjectConverter().convertBack(item, serviceReceiverClient, CopyPolicy.SOURCE_IS_NOT_NULL);
             serviceReceiverClient.setStatus(ServiceReceiverClientStatus.REALNAME);
 
-            if (serviceReceiverClient.getAccount() == null) {
-                serviceReceiverClient.setAccount(accountProcessController.createAccount());
-            }
             return serviceReceiverClient;
         }).collect(Collectors.toList());
 

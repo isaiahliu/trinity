@@ -31,13 +31,14 @@ public class Account extends AbstractAuditableEntity implements Serializable {
 
     private AccountStatus status;
 
-    // bi-directional many-to-one association to ServiceReceiverClient
+    // bi-directional many-to-one association to Yiquan
     @OneToMany(mappedBy = "account")
-    private List<ServiceReceiverClient> serviceReceiverClients;
+    private List<Yiquan> yiquans;
 
     // bi-directional many-to-one association to ServiceSupplierClient
     @OneToMany(mappedBy = "account")
     private List<ServiceSupplierClient> serviceSupplierClients;
+
     // bi-directional many-to-one association to AccountBalance
     @OneToMany(mappedBy = "account")
     private List<AccountBalance> balances;
@@ -52,18 +53,18 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         return balance;
     }
 
-    public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
-        getServiceReceiverClients().add(serviceReceiverClient);
-        serviceReceiverClient.setAccount(this);
-
-        return serviceReceiverClient;
-    }
-
     public ServiceSupplierClient addServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
         getServiceSupplierClients().add(serviceSupplierClient);
         serviceSupplierClient.setAccount(this);
 
         return serviceSupplierClient;
+    }
+
+    public Yiquan addYiquan(final Yiquan yiquan) {
+        getYiquans().add(yiquan);
+        yiquan.setAccount(this);
+
+        return yiquan;
     }
 
     public List<AccountBalance> getBalances() {
@@ -74,16 +75,16 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         return id;
     }
 
-    public List<ServiceReceiverClient> getServiceReceiverClients() {
-        return this.serviceReceiverClients;
-    }
-
     public List<ServiceSupplierClient> getServiceSupplierClients() {
         return this.serviceSupplierClients;
     }
 
     public AccountStatus getStatus() {
         return this.status;
+    }
+
+    public List<Yiquan> getYiquans() {
+        return this.yiquans;
     }
 
     public AccountBalance removeBalance(final AccountBalance balance) {
@@ -93,18 +94,18 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         return balance;
     }
 
-    public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
-        getServiceReceiverClients().remove(serviceReceiverClient);
-        serviceReceiverClient.setAccount(null);
-
-        return serviceReceiverClient;
-    }
-
     public ServiceSupplierClient removeServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
         getServiceSupplierClients().remove(serviceSupplierClient);
         serviceSupplierClient.setAccount(null);
 
         return serviceSupplierClient;
+    }
+
+    public Yiquan removeYiquan(final Yiquan Yiquan) {
+        getYiquans().remove(Yiquan);
+        Yiquan.setAccount(null);
+
+        return Yiquan;
     }
 
     public void setBalances(final List<AccountBalance> balances) {
@@ -115,15 +116,15 @@ public class Account extends AbstractAuditableEntity implements Serializable {
         this.id = id;
     }
 
-    public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {
-        this.serviceReceiverClients = serviceReceiverClients;
-    }
-
     public void setServiceSupplierClients(final List<ServiceSupplierClient> serviceSupplierClients) {
         this.serviceSupplierClients = serviceSupplierClients;
     }
 
     public void setStatus(final AccountStatus status) {
         this.status = status;
+    }
+
+    public void setYiquans(final List<Yiquan> yiquans) {
+        this.yiquans = yiquans;
     }
 }

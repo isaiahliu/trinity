@@ -24,16 +24,15 @@
 				</tr>
 				<tr>
 					<td class="key"><span>#label("YIQUAN_NO")</span></td>
-					<td class="value"><span ng-show="binded">{{client.yiquan.code}}</span><input ng-hide="binded" ng-model="client.yiquan.code"
-						type="password" /></td>
+					<td class="value"><span ng-show="binded">{{client.yiquan.code}}</span><input ng-hide="binded" ng-model="client.yiquan.code" /></td>
 				</tr>
 				<tr ng-if="!binded">
 					<td class="key"><span>#label("YIQUAN_PASSWORD")</span></td>
-					<td class="value"><input ng-model="client.yiquan.password" type="password" /></td>
+					<td class="value"><input ng-model="client.yiquan.yiquanPassword" type="password" /></td>
 				</tr>
 				<tr ng-if="!binded">
 					<td class="key"><span>#label("YIQUAN_PHONE_NO")</span></td>
-					<td class="value"><input ng-model="client.yiquan.phone" /></td>
+					<td class="value"><input ng-model="client.yiquan.yiquanPhoneNo" /></td>
 				</tr>
 			</tbody>
 		</table>

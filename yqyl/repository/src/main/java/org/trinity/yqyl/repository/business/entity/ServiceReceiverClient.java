@@ -86,11 +86,6 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     @Column(name = "registry_date")
     private Date registryDate;
 
-    // bi-directional many-to-one association to Account
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
-
     // bi-directional one-to-one association to
     // ServiceReceiverClientHealthInformation
     @OneToOne(mappedBy = "serviceReceiverClient")
@@ -109,8 +104,9 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     private List<Favorite> favorites;
 
     // bi-directional many-to-one association to Yiquan
-    @OneToOne(mappedBy = "serviceReceiverClient")
-    private ServiceReceiverClientYiquan yiquan;
+    @ManyToOne
+    @JoinColumn(name = "yiquan_id")
+    private Yiquan yiquan;
 
     // bi-directional many-to-one association to Order
     @OneToMany(mappedBy = "serviceReceiverClient")
@@ -135,10 +131,6 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         order.setServiceReceiverClient(this);
 
         return order;
-    }
-
-    public Account getAccount() {
-        return this.account;
     }
 
     public String getAddress() {
@@ -237,7 +229,7 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return this.user;
     }
 
-    public ServiceReceiverClientYiquan getYiquan() {
+    public Yiquan getYiquan() {
         return this.yiquan;
     }
 
@@ -253,10 +245,6 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         order.setServiceReceiverClient(null);
 
         return order;
-    }
-
-    public void setAccount(final Account account) {
-        this.account = account;
     }
 
     public void setAddress(final String address) {
@@ -355,7 +343,7 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         this.user = user;
     }
 
-    public void setYiquan(final ServiceReceiverClientYiquan yiquan) {
+    public void setYiquan(final Yiquan yiquan) {
         this.yiquan = yiquan;
     }
 }

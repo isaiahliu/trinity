@@ -28,7 +28,9 @@ public enum ErrorMessage implements IErrorMessage {
     TOPUP_AMOUNT_MUST_BE_POSITIVE,
     CELLPHONE_IS_REGISTERED,
     VERIFY_CODE_IS_EXPIRED,
-    INCORRECT_VERIFY_CODE;
+    INCORRECT_VERIFY_CODE,
+    YIQUAN_IS_ALREADY_BINDED,
+    CLIENT_SHOULD_BE_REALNAME;
 
     @Override
     public String getMessageCode() {

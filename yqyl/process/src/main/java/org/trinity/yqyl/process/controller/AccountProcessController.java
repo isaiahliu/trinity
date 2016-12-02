@@ -1,5 +1,7 @@
 package org.trinity.yqyl.process.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.trinity.yqyl.common.message.dto.domain.AccountDto;
@@ -33,9 +35,10 @@ public class AccountProcessController
         accountBalance.setCategory(AccountCategory.YIQUAN);
         accountBalance.setStatus(AccountBalanceStatus.ACTIVE);
         accountBalance.setAccount(account);
-
         accountBalanceRepository.save(accountBalance);
 
+        account.setBalances(new ArrayList<>());
+        account.addBalance(accountBalance);
         return account;
     }
 }

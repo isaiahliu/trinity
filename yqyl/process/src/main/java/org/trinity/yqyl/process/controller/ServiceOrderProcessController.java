@@ -41,9 +41,9 @@ import org.trinity.yqyl.repository.business.dataaccess.IServiceInfoStasticReposi
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderOperationRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceOrderRequirementRepository;
-import org.trinity.yqyl.repository.business.dataaccess.IServiceReceiverClientYiquanRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IServiceSupplierStaffRepository;
 import org.trinity.yqyl.repository.business.dataaccess.IUserRepository;
+import org.trinity.yqyl.repository.business.dataaccess.IYiquanRepository;
 import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.AccountBalance;
 import org.trinity.yqyl.repository.business.entity.Content;
@@ -52,8 +52,8 @@ import org.trinity.yqyl.repository.business.entity.ServiceInfoStastic;
 import org.trinity.yqyl.repository.business.entity.ServiceOrder;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderOperation;
 import org.trinity.yqyl.repository.business.entity.ServiceOrderRequirement;
-import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientYiquan;
 import org.trinity.yqyl.repository.business.entity.User;
+import org.trinity.yqyl.repository.business.entity.Yiquan;
 
 @Service
 public class ServiceOrderProcessController
@@ -61,7 +61,7 @@ public class ServiceOrderProcessController
         implements IServiceOrderProcessController {
 
     @Autowired
-    private IServiceReceiverClientYiquanRepository serviceReceiverClientYiquanRepository;
+    private IYiquanRepository serviceReceiverClientYiquanRepository;
 
     @Autowired
     private IUserRepository userRepository;
@@ -400,11 +400,11 @@ public class ServiceOrderProcessController
             final Account toAccount = entity.getServiceInfo().getServiceSupplierClient().getAccount();
             // ---End
 
-            final ServiceReceiverClientYiquan fromYiquan = serviceReceiverClientYiquanRepository.findOneByCode(fromYiquanCode);
+            final Yiquan fromYiquan = serviceReceiverClientYiquanRepository.findOneByCode(fromYiquanCode);
             if (fromYiquan == null) {
                 throw getExceptionFactory().createException(ErrorMessage.NO_USER_BINDING_TO_YIQUAN_CODE, fromYiquanCode);
             }
-            final AccountBalance fromBalance = fromYiquan.getServiceReceiverClient().getAccount().getBalances().stream()
+            final AccountBalance fromBalance = fromYiquan.getAccount().getBalances().stream()
                     .filter(balance -> balance.getCategory() == AccountCategory.YIQUAN).findAny().get();
 
             final AccountBalance toBalance = toAccount.getBalances().stream()

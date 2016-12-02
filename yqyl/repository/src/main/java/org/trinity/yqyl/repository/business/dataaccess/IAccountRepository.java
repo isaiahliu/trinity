@@ -17,6 +17,7 @@ import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.Account_;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient_;
 import org.trinity.yqyl.repository.business.entity.User_;
+import org.trinity.yqyl.repository.business.entity.Yiquan_;
 
 public interface IAccountRepository extends IJpaRepository<Account, AccountSearchingDto> {
     @Override
@@ -24,8 +25,8 @@ public interface IAccountRepository extends IJpaRepository<Account, AccountSearc
         final Specification<Account> specification = (root, query, cb) -> {
             final List<Predicate> predicates = new ArrayList<>();
             if (!searchingDto.isSearchAll()) {
-                predicates.add(cb.equal(root.join(Account_.serviceReceiverClients).join(ServiceReceiverClient_.user).get(User_.username),
-                        searchingDto.getCurrentUsername()));
+                predicates.add(cb.equal(root.join(Account_.yiquans).join(Yiquan_.serviceReceiverClients).join(ServiceReceiverClient_.user)
+                        .get(User_.username), searchingDto.getCurrentUsername()));
             }
 
             if (searchingDto.getId() != null) {

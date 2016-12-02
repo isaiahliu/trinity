@@ -20,8 +20,6 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private String email;
 
-    private AccountDto account;
-
     private LookupDto gender;
 
     private LookupDto credentialType;
@@ -40,7 +38,7 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
 
     private LookupDto familyRelationship;
 
-    private ServiceReceiverClientYiquanDto yiquan;
+    private YiquanDto yiquan;
 
     private String region;
 
@@ -55,10 +53,6 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
     private ServiceReceiverClientInterestDto interest;
 
     private ServiceReceiverClientOtherDto other;
-
-    public AccountDto getAccount() {
-        return account;
-    }
 
     public String getAddress() {
         return address;
@@ -136,12 +130,8 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         return registryDate;
     }
 
-    public ServiceReceiverClientYiquanDto getYiquan() {
+    public YiquanDto getYiquan() {
         return yiquan;
-    }
-
-    public void setAccount(final AccountDto account) {
-        this.account = account;
     }
 
     public void setAddress(final String address) {
@@ -223,7 +213,7 @@ public class ServiceReceiverClientDto extends AbstractBusinessDto {
         this.registryDate = registryDate;
     }
 
-    public void setYiquan(final ServiceReceiverClientYiquanDto yiquan) {
+    public void setYiquan(final YiquanDto yiquan) {
         this.yiquan = yiquan;
     }
 }

@@ -8,27 +8,24 @@ import org.trinity.common.util.Tuple2;
 import org.trinity.message.ILookupMessage;
 import org.trinity.process.converter.AbstractLookupSupportObjectConverter;
 import org.trinity.process.converter.IObjectConverter;
-import org.trinity.yqyl.common.message.dto.domain.AccountDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientHealthInformationDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientInterestDto;
 import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientOtherDto;
-import org.trinity.yqyl.common.message.dto.domain.ServiceReceiverClientYiquanDto;
+import org.trinity.yqyl.common.message.dto.domain.YiquanDto;
 import org.trinity.yqyl.common.message.lookup.CredentialType;
 import org.trinity.yqyl.common.message.lookup.FamilyRelationship;
 import org.trinity.yqyl.common.message.lookup.Gender;
 import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
-import org.trinity.yqyl.repository.business.entity.Account;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClient;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientHealthInformation;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientInterest;
 import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientOther;
-import org.trinity.yqyl.repository.business.entity.ServiceReceiverClientYiquan;
+import org.trinity.yqyl.repository.business.entity.Yiquan;
 
 @Component
 public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectConverter<ServiceReceiverClient, ServiceReceiverClientDto> {
     private static enum ServiceReceiverClientRelationship {
-        ACCOUNT,
         YIQUAN,
         HEALTH_INFORMATION,
         INTEREST,
@@ -37,8 +34,6 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
     }
 
     @Autowired
-    private IObjectConverter<Account, AccountDto> accountConverter;
-    @Autowired
     private IObjectConverter<ServiceReceiverClientHealthInformation, ServiceReceiverClientHealthInformationDto> serviceReceiverClientHealthInformationConverter;
     @Autowired
     private IObjectConverter<ServiceReceiverClientInterest, ServiceReceiverClientInterestDto> serviceReceiverClientInterestConverter;
@@ -46,7 +41,7 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
     private IObjectConverter<ServiceReceiverClientOther, ServiceReceiverClientOtherDto> serviceReceiverClientOtherConverter;
 
     @Autowired
-    private IObjectConverter<ServiceReceiverClientYiquan, ServiceReceiverClientYiquanDto> serviceReceiverClientYiquanConverter;
+    private IObjectConverter<Yiquan, YiquanDto> serviceReceiverClientYiquanConverter;
 
     @Autowired
     public ServiceReceiverClientConverter(final IObjectConverter<Tuple2<ILookupMessage<?>, String[]>, LookupDto> lookupConverter) {
@@ -103,9 +98,6 @@ public class ServiceReceiverClientConverter extends AbstractLookupSupportObjectC
     protected void convertRelationshipInternal(final ServiceReceiverClient source, final ServiceReceiverClientDto target,
             final RelationshipExpression relationshipExpression) {
         switch (relationshipExpression.getName(ServiceReceiverClientRelationship.class)) {
-        case ACCOUNT:
-            copyRelationship(source::getAccount, target::setAccount, accountConverter, relationshipExpression);
-            break;
         case YIQUAN:
             copyRelationship(source::getYiquan, target::setYiquan, serviceReceiverClientYiquanConverter, relationshipExpression);
             break;
