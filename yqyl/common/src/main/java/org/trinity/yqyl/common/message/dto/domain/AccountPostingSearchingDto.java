@@ -6,6 +6,7 @@ public class AccountPostingSearchingDto extends AbstractSearchingDto {
     private String fromDate;
     private String toDate;
     private String category;
+    private Long yiquanId;
 
     public String getCategory() {
         return category;
@@ -19,6 +20,10 @@ public class AccountPostingSearchingDto extends AbstractSearchingDto {
         return toDate;
     }
 
+    public Long getYiquanId() {
+        return yiquanId;
+    }
+
     public void setCategory(final String category) {
         this.category = category;
     }
@@ -29,5 +34,9 @@ public class AccountPostingSearchingDto extends AbstractSearchingDto {
 
     public void setToDate(final String toDate) {
         this.toDate = toDate;
+    }
+
+    public void setYiquanId(final Long yiquanId) {
+        this.yiquanId = yiquanId;
     }
 }

@@ -60,7 +60,7 @@ public class ServiceOrderRequirement extends AbstractAuditableEntity implements 
 
     // bi-directional many-to-one association to User
     @ManyToOne
-    private User user;
+    private ServiceReceiverClient serviceReceiverClient;
 
     public ServiceOrderRequirement() {
     }
@@ -108,10 +108,6 @@ public class ServiceOrderRequirement extends AbstractAuditableEntity implements 
         return this.status;
     }
 
-    public User getUser() {
-        return this.user;
-    }
-
     public ServiceOrder removeServiceOrder(final ServiceOrder serviceOrder) {
         getServiceOrders().remove(serviceOrder);
         serviceOrder.setServiceOrderRequirement(null);
@@ -155,8 +151,11 @@ public class ServiceOrderRequirement extends AbstractAuditableEntity implements 
         this.status = status;
     }
 
-    public void setUser(final User user) {
-        this.user = user;
+    public ServiceReceiverClient getServiceReceiverClient() {
+        return serviceReceiverClient;
     }
 
+    public void setServiceReceiverClient(ServiceReceiverClient serviceReceiverClient) {
+        this.serviceReceiverClient = serviceReceiverClient;
+    }
 }

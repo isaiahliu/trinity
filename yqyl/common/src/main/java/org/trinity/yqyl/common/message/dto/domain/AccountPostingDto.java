@@ -6,6 +6,7 @@ public class AccountPostingDto extends AbstractBusinessDto {
     private Double amount;
     private AccountBalanceDto balance;
     private AccountTransactionDto transaction;
+    private YiquanDto yiquan;
 
     public Double getAmount() {
         return amount;
@@ -29,5 +30,13 @@ public class AccountPostingDto extends AbstractBusinessDto {
 
     public void setTransaction(final AccountTransactionDto transaction) {
         this.transaction = transaction;
+    }
+
+    public YiquanDto getYiquan() {
+        return yiquan;
+    }
+
+    public void setYiquan(YiquanDto yiquan) {
+        this.yiquan = yiquan;
     }
 }

@@ -9,6 +9,11 @@ public class ServiceSupplierClientSearchingDto extends AbstractSearchingDto {
     private Long categoryParent;
     private List<Long> categoryChildren;
     private String name;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
 
     public List<Long> getCategoryChildren() {
         if (categoryChildren == null) {
@@ -23,6 +28,10 @@ public class ServiceSupplierClientSearchingDto extends AbstractSearchingDto {
 
     public String getName() {
         return name;
+    }
+
+    public void setAddress(final String address) {
+        this.address = address;
     }
 
     public void setCategoryChildren(final List<Long> categoryChildren) {

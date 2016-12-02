@@ -107,27 +107,56 @@ public class YiquanProcessController
 
     @Override
     @Transactional(rollbackOn = IException.class)
-    public void topupMe(final YiquanDto yiquanDto) throws IException {
-        // if (yiquanDto.getTopUpAmount() == null || yiquanDto.getTopUpAmount() <= 0) {
-        // throw getExceptionFactory().createException(ErrorMessage.TOPUP_AMOUNT_MUST_BE_POSITIVE);
-        // }
-        //
-        // final String username = getSecurityUtil().getCurrentToken().getUsername();
-        //
-        // final User user = userRepository.findOneByUsername(username);
-        //
-        // final AccountBalance accountBalance = user.getAccount().getBalances().stream()
-        // .filter(item -> item.getCategory() == AccountCategory.YIQUAN).findFirst().get();
-        //
-        // final AccountTransactionDto transaction = new AccountTransactionDto();
-        //
-        // transaction.setType(new LookupDto(TransactionType.TOP_UP));
-        // final AccountPostingDto accountPostingDto = new AccountPostingDto();
-        // accountPostingDto.setAmount(yiquanDto.getTopUpAmount());
-        // accountPostingDto.setBalance(accountBalanceConverter.convert(accountBalance));
-        // transaction.getAccountPostings().add(accountPostingDto);
-        //
-        // accountTransactionProcessController.processTransaction(transaction);
+    public void topup(final YiquanDto yiquanDto) throws IException {
+        if (yiquanDto.getTopUpAmount() == null || yiquanDto.getTopUpAmount() <= 0) {
+            throw getExceptionFactory().createException(ErrorMessage.TOPUP_AMOUNT_MUST_BE_POSITIVE);
+        }
+
+        final Yiquan yiquan = getDomainEntityRepository().findOneByCode(yiquanDto.getCode());
+
+        if (yiquan == null) {
+            throw getExceptionFactory().createException(ErrorMessage.INVALID_YIQUAN_CODE);
+        }
+
+        final AccountBalance accountBalance = yiquan.getAccount().getBalances().stream()
+                .filter(item -> item.getCategory() == AccountCategory.YIQUAN).findFirst().get();
+
+        final AccountTransactionDto transaction = new AccountTransactionDto();
+
+        transaction.setType(new LookupDto(TransactionType.TOP_UP));
+        final AccountPostingDto accountPostingDto = new AccountPostingDto();
+        accountPostingDto.setAmount(yiquanDto.getTopUpAmount());
+        accountPostingDto.setBalance(accountBalanceConverter.convert(accountBalance));
+        transaction.getAccountPostings().add(accountPostingDto);
+
+        accountTransactionProcessController.processTransaction(transaction);
+    }
+
+    @Override
+    @Transactional(rollbackOn = IException.class)
+    public void unbindMe(final YiquanDto yiquanDto) throws IException {
+        final String username = getSecurityUtil().getCurrentToken().getUsername();
+
+        final ServiceReceiverClient client = serviceReceiverClientRepository.findOne(yiquanDto.getServiceReceiverClientId());
+
+        if (!client.getUser().getUsername().equals(username)) {
+            throw getExceptionFactory().createException(ErrorMessage.INSUFFICIENT_ACCESSRIGHT);
+        }
+
+        if (client.getYiquan() == null) {
+            return;
+        }
+
+        // final String code = client.getYiquan().getCode();
+        // final String name = client.getName();
+        // final String password = yiquanDto.getYiquanPassword();
+        // final String identityCard = client.getIdentityCard();
+        // TODO verify yiquan code, password, name, identity card from API.
+        // TODO If verify fails, throw exception.
+
+        client.setYiquan(null);
+
+        serviceReceiverClientRepository.save(client);
     }
 
     @Override

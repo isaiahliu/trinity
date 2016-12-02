@@ -97,6 +97,12 @@ public class ServiceSupplierAjaxController extends AbstractRestController {
         return restfulServiceUtil.callRestService(Url.SUPPLIER, null, null, request, ServiceSupplierClientResponse.class);
     }
 
+    @RequestMapping(value = "/public", method = RequestMethod.GET)
+    public @ResponseBody ServiceSupplierClientResponse ajaxServicesPublicInfo(final ServiceSupplierClientSearchingDto request)
+            throws IException {
+        return restfulServiceUtil.callRestService(Url.SUPPLIER_PUBLIC, null, null, request, ServiceSupplierClientResponse.class);
+    }
+
     @RequestMapping(value = "/{entityId}/upload", method = RequestMethod.POST)
     public ResponseEntity<DefaultResponse> ajaxUploadLogo(@PathVariable("entityId") final Long entityId,
             final MultipartHttpServletRequest request) throws IException {

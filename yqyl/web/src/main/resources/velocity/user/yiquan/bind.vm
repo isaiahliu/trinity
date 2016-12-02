@@ -26,7 +26,7 @@
 					<td class="key"><span>#label("YIQUAN_NO")</span></td>
 					<td class="value"><span ng-show="binded">{{client.yiquan.code}}</span><input ng-hide="binded" ng-model="client.yiquan.code" /></td>
 				</tr>
-				<tr ng-if="!binded">
+				<tr ng-if="!binded||unbinding">
 					<td class="key"><span>#label("YIQUAN_PASSWORD")</span></td>
 					<td class="value"><input ng-model="client.yiquan.yiquanPassword" type="password" /></td>
 				</tr>
@@ -36,8 +36,11 @@
 				</tr>
 			</tbody>
 		</table>
-		<div class="buttons ng-hide" ng-show="!binded">
-			<button ng-click="apply()">#button("APPLY")</button>
+		<div class="buttons ng-hide" ng-show="client">
+			<button class="ng-hide" ng-hide="binded" ng-click="apply()">#button("APPLY")</button>
+			<button class="ng-hide" ng-show="binded&&!unbinding" ng-click="unbinding=true">#button("UNBIND")</button>
+			<button class="ng-hide" ng-show="unbinding" ng-click="unbind()">#button("APPLY_UNBIND")</button>
+			<button class="ng-hide" ng-show="unbinding" ng-click="unbinding=false">#button("CANCEL")</button>
 		</div>
 	</div>
 

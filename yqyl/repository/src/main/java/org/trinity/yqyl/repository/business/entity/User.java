@@ -71,10 +71,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
     @Column(name = "accessright")
     private List<AccessRight> accessrights;
 
-    // bi-directional many-to-one association to ServiceOrderRequirement
-    @OneToMany(mappedBy = "user")
-    private List<ServiceOrderRequirement> serviceOrderRequirements;
-
     // bi-directional one-to-one association to UserVerifycode
     @OneToMany(mappedBy = "user")
     private List<UserVerifycode> userVerifycodes;
@@ -87,13 +83,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         allowanceSupplierClient.setUser(this);
 
         return allowanceSupplierClient;
-    }
-
-    public ServiceOrderRequirement addServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
-        getServiceOrderRequirements().add(serviceOrderRequirement);
-        serviceOrderRequirement.setUser(this);
-
-        return serviceOrderRequirement;
     }
 
     public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
@@ -145,10 +134,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         return this.password;
     }
 
-    public List<ServiceOrderRequirement> getServiceOrderRequirements() {
-        return this.serviceOrderRequirements;
-    }
-
     public List<ServiceReceiverClient> getServiceReceiverClients() {
         return this.serviceReceiverClients;
     }
@@ -178,13 +163,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
         allowanceSupplierClient.setUser(null);
 
         return allowanceSupplierClient;
-    }
-
-    public ServiceOrderRequirement removeServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
-        getServiceOrderRequirements().remove(serviceOrderRequirement);
-        serviceOrderRequirement.setUser(null);
-
-        return serviceOrderRequirement;
     }
 
     public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
@@ -234,10 +212,6 @@ public class User extends AbstractAuditableEntity implements Serializable {
 
     public void setPassword(final String password) {
         this.password = password;
-    }
-
-    public void setServiceOrderRequirements(final List<ServiceOrderRequirement> serviceOrderRequirements) {
-        this.serviceOrderRequirements = serviceOrderRequirements;
     }
 
     public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {

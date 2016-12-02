@@ -40,6 +40,10 @@ public interface IServiceSupplierClientRepository extends IJpaRepository<Service
                 predicates.add(cb.like(root.get(ServiceSupplierClient_.name), "%" + searchingDto.getName() + "%"));
             }
 
+            if (!StringUtils.isEmpty(searchingDto.getAddress())) {
+                predicates.add(cb.like(root.get(ServiceSupplierClient_.address), "%" + searchingDto.getAddress() + "%"));
+            }
+
             if (searchingDto.getId() != null && searchingDto.getId() != 0) {
                 predicates.add(cb.equal(root.get(ServiceSupplierClient_.userId), searchingDto.getId()));
             }

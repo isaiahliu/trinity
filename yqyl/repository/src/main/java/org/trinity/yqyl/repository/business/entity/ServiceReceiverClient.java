@@ -116,6 +116,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
     @JoinColumn(name = "user_id")
     private User user;
 
+    // bi-directional many-to-one association to ServiceOrderRequirement
+    @OneToMany(mappedBy = "serviceReceiverClient")
+    private List<ServiceOrderRequirement> serviceOrderRequirements;
+
     public ServiceReceiverClient() {
     }
 
@@ -131,6 +135,13 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         order.setServiceReceiverClient(this);
 
         return order;
+    }
+
+    public ServiceOrderRequirement addServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
+        getServiceOrderRequirements().add(serviceOrderRequirement);
+        serviceOrderRequirement.setServiceReceiverClient(this);
+
+        return serviceOrderRequirement;
     }
 
     public String getAddress() {
@@ -221,6 +232,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         return registryDate;
     }
 
+    public List<ServiceOrderRequirement> getServiceOrderRequirements() {
+        return this.serviceOrderRequirements;
+    }
+
     public ServiceReceiverClientStatus getStatus() {
         return this.status;
     }
@@ -245,6 +260,13 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
         order.setServiceReceiverClient(null);
 
         return order;
+    }
+
+    public ServiceOrderRequirement removeServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
+        getServiceOrderRequirements().remove(serviceOrderRequirement);
+        serviceOrderRequirement.setServiceReceiverClient(null);
+
+        return serviceOrderRequirement;
     }
 
     public void setAddress(final String address) {
@@ -333,6 +355,10 @@ public class ServiceReceiverClient extends AbstractAuditableEntity implements Se
 
     public void setRegistryDate(final Date registryDate) {
         this.registryDate = registryDate;
+    }
+
+    public void setServiceOrderRequirements(final List<ServiceOrderRequirement> serviceOrderRequirements) {
+        this.serviceOrderRequirements = serviceOrderRequirements;
     }
 
     public void setStatus(final ServiceReceiverClientStatus status) {

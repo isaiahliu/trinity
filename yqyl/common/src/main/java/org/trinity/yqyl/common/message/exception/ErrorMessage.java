@@ -30,7 +30,8 @@ public enum ErrorMessage implements IErrorMessage {
     VERIFY_CODE_IS_EXPIRED,
     INCORRECT_VERIFY_CODE,
     YIQUAN_IS_ALREADY_BINDED,
-    CLIENT_SHOULD_BE_REALNAME;
+    CLIENT_SHOULD_BE_REALNAME,
+    INVALID_YIQUAN_CODE;
 
     @Override
     public String getMessageCode() {

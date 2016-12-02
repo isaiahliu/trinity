@@ -8,5 +8,7 @@ import org.trinity.yqyl.common.message.dto.domain.YiquanSearchingDto;
 public interface IYiquanProcessController extends ICrudProcessController<YiquanDto, YiquanSearchingDto> {
     void bindMe(YiquanDto yiquanCode) throws IException;
 
-    void topupMe(YiquanDto yiquanDto) throws IException;
+    void topup(YiquanDto yiquanDto) throws IException;
+
+    void unbindMe(YiquanDto yiquanDto) throws IException;
 }

@@ -21,8 +21,9 @@ public enum Url implements IHttpUrl {
     USER_INFO(HttpMethod.PUT, Path.USER),
     USER_CHANGE_PASSWORD(HttpMethod.PUT, Path.USER, "password"),
 
-    YIQUAN_ME(HttpMethod.GET, Path.YIQUAN, "me"),
+    YIQUAN(HttpMethod.GET, Path.YIQUAN),
     YIQUAN_BIND(HttpMethod.PUT, Path.YIQUAN, "bind"),
+    YIQUAN_UNBIND(HttpMethod.PUT, Path.YIQUAN, "unbind"),
     YIQUAN_TOPUP(HttpMethod.POST, Path.YIQUAN, "topup"),
 
     ACCOUNT_POSTING(HttpMethod.GET, Path.ACCOUNT_POSTING),
@@ -43,6 +44,7 @@ public enum Url implements IHttpUrl {
     APPRAISE_REPLY(HttpMethod.POST, Path.APPRAISE, "reply"),
 
     SUPPLIER(HttpMethod.GET, Path.SUPPLIER),
+    SUPPLIER_PUBLIC(HttpMethod.GET, Path.SUPPLIER, "public"),
     SUPPLIER_REGISTER(HttpMethod.POST, Path.SUPPLIER, "register"),
     SUPPLIER_UPDATE(HttpMethod.PUT, Path.SUPPLIER),
     SUPPLIER_PROPOSE(HttpMethod.PUT, Path.SUPPLIER, "propose"),

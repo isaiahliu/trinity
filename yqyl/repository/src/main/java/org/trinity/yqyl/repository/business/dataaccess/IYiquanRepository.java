@@ -28,6 +28,7 @@ public interface IYiquanRepository extends IJpaRepository<Yiquan, YiquanSearchin
             if (!searchingDto.isSearchAll()) {
                 predicates.add(cb.equal(root.join(Yiquan_.serviceReceiverClients).join(ServiceReceiverClient_.user).get(User_.username),
                         searchingDto.getCurrentUsername()));
+                query.distinct(true);
             }
 
             if (searchingDto.getId() != null) {

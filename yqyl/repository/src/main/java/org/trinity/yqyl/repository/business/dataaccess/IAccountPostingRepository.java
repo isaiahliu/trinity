@@ -39,6 +39,7 @@ public interface IAccountPostingRepository extends IJpaRepository<AccountPosting
                         root.join(AccountPosting_.accountBalance).join(AccountBalance_.account).join(Account_.yiquans)
                                 .join(Yiquan_.serviceReceiverClients).join(ServiceReceiverClient_.user).get(User_.username),
                         searchingDto.getCurrentUsername()));
+                query.distinct(true);
             }
 
             if (!StringUtils.isEmpty(searchingDto.getCategory())) {
@@ -70,6 +71,13 @@ public interface IAccountPostingRepository extends IJpaRepository<AccountPosting
                             calendar.getTime()));
                 } catch (final ParseException e) {
                 }
+            }
+
+            if (searchingDto.getYiquanId() != null) {
+                predicates.add(cb.equal(
+                        root.join(AccountPosting_.accountBalance).join(AccountBalance_.account).join(Account_.yiquans).get(Yiquan_.id),
+                        searchingDto.getYiquanId()));
+                query.distinct(true);
             }
 
             if (searchingDto.getId() != null) {

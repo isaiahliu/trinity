@@ -30,7 +30,7 @@ public class YiquanAjaxController extends AbstractRestController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<YiquanResponse> ajaxGetYiquan(final YiquanSearchingDto request) throws IException {
-        final YiquanResponse response = restfulServiceUtil.callRestService(Url.YIQUAN_ME, null, null, request, YiquanResponse.class);
+        final YiquanResponse response = restfulServiceUtil.callRestService(Url.YIQUAN, null, null, request, YiquanResponse.class);
 
         return createResponseEntity(response);
     }
@@ -38,6 +38,13 @@ public class YiquanAjaxController extends AbstractRestController {
     @RequestMapping(value = "/topup", method = RequestMethod.POST)
     public ResponseEntity<DefaultResponse> ajaxTopUpYiquan(@RequestBody final YiquanRequest request) throws IException {
         final DefaultResponse response = restfulServiceUtil.callRestService(Url.YIQUAN_TOPUP, null, request, null, DefaultResponse.class);
+
+        return createResponseEntity(response);
+    }
+
+    @RequestMapping(value = "/unbind", method = RequestMethod.PUT)
+    public ResponseEntity<DefaultResponse> ajaxUnbindYiquan(@RequestBody final YiquanRequest request) throws IException {
+        final DefaultResponse response = restfulServiceUtil.callRestService(Url.YIQUAN_UNBIND, null, request, null, DefaultResponse.class);
 
         return createResponseEntity(response);
     }

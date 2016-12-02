@@ -1,16 +1,25 @@
 div.search {
-	margin-left: 300px;
+	margin-left: 200px;
+}
+
+div.search div.block {
+	width: 1000px;
+	border: 1px solid #cccccc;
 }
 
 div.content table {
-	width: 850px;
+	width: 960px;
 }
 
 div.content table td {
-	border: 1px solid;
+	border: 1px solid #dddddd;
 }
 
-div.content table td.key {
-	background-color: rgba(215, 215, 215, 1);
-	width: 150px;
+
+div.content table thead td {
+	background: #f0f0f0;
+}
+
+div.content div.operations a {
+	margin-right: 5px;
 }
