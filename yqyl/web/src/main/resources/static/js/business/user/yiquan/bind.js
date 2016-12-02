@@ -1,9 +1,18 @@
-layoutApp.controller('contentController', function($scope, $http, $window, errorHandler) {
+layoutApp.controller('contentController', function($scope, $http, $window, clientId, errorHandler) {
+	$scope.binded = true;
+
 	$http({
 		method : "GET",
-		url : "/ajax/user/receiver?rsexp=yiquan"
+		url : "/ajax/user/receiver?rsexp=yiquan&id=" + clientId
 	}).success(function(response) {
-		$scope.members = response.data;
+		$scope.client = response.data[0];
+		if ($scope.client.yiquan == null) {
+			$scope.binded = false;
+			$scope.client.yiquan = {
+				id : clientId
+			};
+		}
+
 	}).error(function(response) {
 		errorHandler($scope, response);
 	});
@@ -13,7 +22,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			method : "PUT",
 			url : "/ajax/user/yiquan/bind",
 			data : {
-				data : [ $scope.newYiquan ]
+				data : [ $scope.client.yiquan ]
 			}
 		}).success(function(response) {
 			$window.location.reload();

@@ -18,7 +18,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, clien
 
 	$http({
 		method : "GET",
-		url : "/ajax/user/receiver?rsexp=healthInformation,interest,other,id=" + clientId
+		url : "/ajax/user/receiver?rsexp=healthInformation,interest,other&id=" + clientId
 	}).success(function(response) {
 		$scope.client = response.data[0];
 		if ($scope.client.dob) {

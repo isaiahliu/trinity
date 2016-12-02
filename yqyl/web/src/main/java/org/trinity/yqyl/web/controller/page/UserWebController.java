@@ -72,9 +72,10 @@ public class UserWebController extends AbstractResourceWebController {
         return createModelAndView("user/volunteer").addObject("currentPage", "VOLUNTEER");
     }
 
-    @RequestMapping(value = "/yiquan/bind", method = RequestMethod.GET)
-    public ModelAndView yiquanBindPage() throws IException {
-        return createModelAndView("user/yiquan/bind").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "BIND");
+    @RequestMapping(value = "/yiquan/bind/{entityId}", method = RequestMethod.GET)
+    public ModelAndView yiquanBindPage(@PathVariable("entityId") final Long entityId) throws IException {
+        return createModelAndView("user/yiquan/bind").addObject("currentPage", "YIQUAN").addObject("currentSubPage", "BIND")
+                .addObject("clientId", entityId);
     }
 
     @RequestMapping(value = "/yiquan/branch", method = RequestMethod.GET)

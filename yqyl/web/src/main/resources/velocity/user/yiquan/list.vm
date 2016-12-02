@@ -26,10 +26,10 @@
 			</thead>
 			<tbody>
 				<tr ng-show="members" class="ng-hide" ng-repeat="member in members">
-					<td align="center"><span>{{$index}}</span></td>
+					<td align="center"><span>{{$index+1}}</span></td>
 					<td align="center"><span>{{member.name}}</span><span ng-show="member.status.code=='P'">(#label("NOT_REALNAME_VERIFIED"))</span></td>
 					<td align="center"><span ng-show="member.yiquan">{{member.yiquan.code}}</span><span ng-hide="member.yiquan">#label("NOT_BINDED")</span></td>
-					<td align="center"><a ng-show="member.status.code=='R'&&!member.yiquan" href="javascript:void(0)"><span>#button("BIND")</span></a>
+					<td align="center"><a ng-show="member.status.code=='R'&&!member.yiquan" ng-href="/user/yiquan/bind/{{member.id}}"><span>#button("BIND")</span></a>
 						<a ng-show="member.status.code=='R'&&member.yiquan" href="javascript:void(0)"><span>#button("UNBIND")</span></a> <a
 						ng-show="member.status.code=='P'" ng-href="/user/realname/{{member.id}}"><span>#button("REALNAME_VERIFY")</span></a></td>
 				</tr>
