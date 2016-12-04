@@ -22,109 +22,121 @@ import org.trinity.yqyl.common.message.lookup.AccountStatus;
 @Entity
 @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
 public class Account extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "Account_PK_IdGenerator")
-    @TableGenerator(name = "Account_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Account_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Account_PK_IdGenerator")
+	@TableGenerator(name = "Account_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "Account_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private AccountStatus status;
+	private AccountStatus status;
 
-    // bi-directional many-to-one association to Yiquan
-    @OneToMany(mappedBy = "account")
-    private List<Yiquan> yiquans;
+	// bi-directional many-to-one association to Yiquan
+	@OneToMany(mappedBy = "account")
+	private List<Yiquan> yiquans;
 
-    // bi-directional many-to-one association to ServiceSupplierClient
-    @OneToMany(mappedBy = "account")
-    private List<ServiceSupplierClient> serviceSupplierClients;
+	// bi-directional many-to-one association to Yiquan
+	@OneToMany(mappedBy = "account")
+	private List<User> users;
 
-    // bi-directional many-to-one association to AccountBalance
-    @OneToMany(mappedBy = "account")
-    private List<AccountBalance> balances;
+	// bi-directional many-to-one association to ServiceSupplierClient
+	@OneToMany(mappedBy = "account")
+	private List<ServiceSupplierClient> serviceSupplierClients;
 
-    public Account() {
-    }
+	// bi-directional many-to-one association to AccountBalance
+	@OneToMany(mappedBy = "account")
+	private List<AccountBalance> balances;
 
-    public AccountBalance addBalance(final AccountBalance balance) {
-        getBalances().add(balance);
-        balance.setAccount(this);
+	public Account() {
+	}
 
-        return balance;
-    }
+	public AccountBalance addBalance(final AccountBalance balance) {
+		getBalances().add(balance);
+		balance.setAccount(this);
 
-    public ServiceSupplierClient addServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-        getServiceSupplierClients().add(serviceSupplierClient);
-        serviceSupplierClient.setAccount(this);
+		return balance;
+	}
 
-        return serviceSupplierClient;
-    }
+	public ServiceSupplierClient addServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+		getServiceSupplierClients().add(serviceSupplierClient);
+		serviceSupplierClient.setAccount(this);
 
-    public Yiquan addYiquan(final Yiquan yiquan) {
-        getYiquans().add(yiquan);
-        yiquan.setAccount(this);
+		return serviceSupplierClient;
+	}
 
-        return yiquan;
-    }
+	public Yiquan addYiquan(final Yiquan yiquan) {
+		getYiquans().add(yiquan);
+		yiquan.setAccount(this);
 
-    public List<AccountBalance> getBalances() {
-        return this.balances;
-    }
+		return yiquan;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public List<AccountBalance> getBalances() {
+		return this.balances;
+	}
 
-    public List<ServiceSupplierClient> getServiceSupplierClients() {
-        return this.serviceSupplierClients;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public AccountStatus getStatus() {
-        return this.status;
-    }
+	public List<ServiceSupplierClient> getServiceSupplierClients() {
+		return this.serviceSupplierClients;
+	}
 
-    public List<Yiquan> getYiquans() {
-        return this.yiquans;
-    }
+	public AccountStatus getStatus() {
+		return this.status;
+	}
 
-    public AccountBalance removeBalance(final AccountBalance balance) {
-        getBalances().remove(balance);
-        balance.setAccount(null);
+	public List<Yiquan> getYiquans() {
+		return this.yiquans;
+	}
 
-        return balance;
-    }
+	public AccountBalance removeBalance(final AccountBalance balance) {
+		getBalances().remove(balance);
+		balance.setAccount(null);
 
-    public ServiceSupplierClient removeServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-        getServiceSupplierClients().remove(serviceSupplierClient);
-        serviceSupplierClient.setAccount(null);
+		return balance;
+	}
 
-        return serviceSupplierClient;
-    }
+	public ServiceSupplierClient removeServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+		getServiceSupplierClients().remove(serviceSupplierClient);
+		serviceSupplierClient.setAccount(null);
 
-    public Yiquan removeYiquan(final Yiquan Yiquan) {
-        getYiquans().remove(Yiquan);
-        Yiquan.setAccount(null);
+		return serviceSupplierClient;
+	}
 
-        return Yiquan;
-    }
+	public Yiquan removeYiquan(final Yiquan Yiquan) {
+		getYiquans().remove(Yiquan);
+		Yiquan.setAccount(null);
 
-    public void setBalances(final List<AccountBalance> balances) {
-        this.balances = balances;
-    }
+		return Yiquan;
+	}
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	public void setBalances(final List<AccountBalance> balances) {
+		this.balances = balances;
+	}
 
-    public void setServiceSupplierClients(final List<ServiceSupplierClient> serviceSupplierClients) {
-        this.serviceSupplierClients = serviceSupplierClients;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public void setStatus(final AccountStatus status) {
-        this.status = status;
-    }
+	public void setServiceSupplierClients(final List<ServiceSupplierClient> serviceSupplierClients) {
+		this.serviceSupplierClients = serviceSupplierClients;
+	}
 
-    public void setYiquans(final List<Yiquan> yiquans) {
-        this.yiquans = yiquans;
-    }
+	public void setStatus(final AccountStatus status) {
+		this.status = status;
+	}
+
+	public void setYiquans(final List<Yiquan> yiquans) {
+		this.yiquans = yiquans;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 }

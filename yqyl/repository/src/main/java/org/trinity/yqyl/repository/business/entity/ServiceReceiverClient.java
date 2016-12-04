@@ -34,342 +34,290 @@ import org.trinity.yqyl.common.message.lookup.ServiceReceiverClientStatus;
 @Table(name = "service_receiver_client")
 @NamedQuery(name = "ServiceReceiverClient.findAll", query = "SELECT s FROM ServiceReceiverClient s")
 public class ServiceReceiverClient extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceReceiverClient_PK_IdGenerator")
-    @TableGenerator(name = "ServiceReceiverClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceReceiverClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceReceiverClient_PK_IdGenerator")
+	@TableGenerator(name = "ServiceReceiverClient_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceReceiverClient_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private String address;
+	private String address;
 
-    @Column(name = "cellphone_no")
-    private String cellphoneNo;
+	@Column(name = "cellphone_no")
+	private String cellphoneNo;
 
-    @Temporal(TemporalType.DATE)
-    private Date dob;
+	@Temporal(TemporalType.DATE)
+	private Date dob;
 
-    @Column(name = "family_relationship")
-    private FamilyRelationship familyRelationship;
+	@Column(name = "family_relationship")
+	private FamilyRelationship familyRelationship;
 
-    private String email;
+	private String email;
 
-    private Gender gender;
+	private Gender gender;
 
-    @Column(name = "homephone_no")
-    private String homephoneNo;
+	@Column(name = "homephone_no")
+	private String homephoneNo;
 
-    @Column(name = "identity_card")
-    private String identityCard;
+	@Column(name = "identity_card")
+	private String identityCard;
 
-    @Column(name = "identity_card_copy")
-    private String identityCardCopy;
+	@Column(name = "identity_card_copy")
+	private String identityCardCopy;
 
-    private String nickname;
+	private String nickname;
 
-    private String name;
+	private String name;
 
-    private ServiceReceiverClientStatus status;
+	private ServiceReceiverClientStatus status;
 
-    @Column(name = "credential_type")
-    private CredentialType credentialType;
+	@Column(name = "credential_type")
+	private CredentialType credentialType;
 
-    private String region;
+	private String region;
 
-    @Column(name = "emergency_contact")
-    private String emergencyContact;
+	@Column(name = "emergency_contact")
+	private String emergencyContact;
 
-    @Column(name = "emergency_contact_no")
-    private String emergencyContactNo;
+	@Column(name = "emergency_contact_no")
+	private String emergencyContactNo;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "registry_date")
-    private Date registryDate;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "registry_date")
+	private Date registryDate;
 
-    // bi-directional one-to-one association to
-    // ServiceReceiverClientHealthInformation
-    @OneToOne(mappedBy = "serviceReceiverClient")
-    private ServiceReceiverClientHealthInformation healthInformation;
+	// bi-directional one-to-one association to
+	// ServiceReceiverClientHealthInformation
+	@OneToOne(mappedBy = "serviceReceiverClient")
+	private ServiceReceiverClientHealthInformation healthInformation;
 
-    // bi-directional one-to-one association to ServiceReceiverClientInterest
-    @OneToOne(mappedBy = "serviceReceiverClient")
-    private ServiceReceiverClientInterest interest;
+	// bi-directional one-to-one association to ServiceReceiverClientInterest
+	@OneToOne(mappedBy = "serviceReceiverClient")
+	private ServiceReceiverClientInterest interest;
 
-    // bi-directional one-to-one association to ServiceReceiverClientOther
-    @OneToOne(mappedBy = "serviceReceiverClient")
-    private ServiceReceiverClientOther other;
+	// bi-directional one-to-one association to ServiceReceiverClientOther
+	@OneToOne(mappedBy = "serviceReceiverClient")
+	private ServiceReceiverClientOther other;
 
-    // bi-directional many-to-one association to Favorite
-    @OneToMany(mappedBy = "serviceReceiverClient")
-    private List<Favorite> favorites;
+	// bi-directional many-to-one association to Favorite
+	@OneToMany(mappedBy = "serviceReceiverClient")
+	private List<Favorite> favorites;
 
-    // bi-directional many-to-one association to Yiquan
-    @ManyToOne
-    @JoinColumn(name = "yiquan_id")
-    private Yiquan yiquan;
+	// bi-directional many-to-one association to Yiquan
+	@ManyToOne
+	@JoinColumn(name = "yiquan_id")
+	private Yiquan yiquan;
 
-    // bi-directional many-to-one association to Order
-    @OneToMany(mappedBy = "serviceReceiverClient")
-    private List<ServiceOrder> orders;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+	public ServiceReceiverClient() {
+	}
 
-    // bi-directional many-to-one association to ServiceOrderRequirement
-    @OneToMany(mappedBy = "serviceReceiverClient")
-    private List<ServiceOrderRequirement> serviceOrderRequirements;
+	public Favorite addFavorite(final Favorite favorite) {
+		getFavorites().add(favorite);
+		favorite.setServiceReceiverClient(this);
 
-    public ServiceReceiverClient() {
-    }
+		return favorite;
+	}
 
-    public Favorite addFavorite(final Favorite favorite) {
-        getFavorites().add(favorite);
-        favorite.setServiceReceiverClient(this);
+	public String getAddress() {
+		return this.address;
+	}
 
-        return favorite;
-    }
+	public String getCellphoneNo() {
+		return this.cellphoneNo;
+	}
 
-    public ServiceOrder addOrder(final ServiceOrder order) {
-        getOrders().add(order);
-        order.setServiceReceiverClient(this);
+	public CredentialType getCredentialType() {
+		return credentialType;
+	}
 
-        return order;
-    }
+	public Date getDob() {
+		return this.dob;
+	}
 
-    public ServiceOrderRequirement addServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
-        getServiceOrderRequirements().add(serviceOrderRequirement);
-        serviceOrderRequirement.setServiceReceiverClient(this);
+	public String getEmail() {
+		return this.email;
+	}
 
-        return serviceOrderRequirement;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public String getCellphoneNo() {
-        return this.cellphoneNo;
-    }
-
-    public CredentialType getCredentialType() {
-        return credentialType;
-    }
+	public String getEmergencyContact() {
+		return emergencyContact;
+	}
 
-    public Date getDob() {
-        return this.dob;
-    }
+	public String getEmergencyContactNo() {
+		return emergencyContactNo;
+	}
 
-    public String getEmail() {
-        return this.email;
-    }
+	public FamilyRelationship getFamilyRelationship() {
+		return familyRelationship;
+	}
 
-    public String getEmergencyContact() {
-        return emergencyContact;
-    }
+	public List<Favorite> getFavorites() {
+		return this.favorites;
+	}
 
-    public String getEmergencyContactNo() {
-        return emergencyContactNo;
-    }
+	public Gender getGender() {
+		return this.gender;
+	}
 
-    public FamilyRelationship getFamilyRelationship() {
-        return familyRelationship;
-    }
+	public ServiceReceiverClientHealthInformation getHealthInformation() {
+		return this.healthInformation;
+	}
 
-    public List<Favorite> getFavorites() {
-        return this.favorites;
-    }
+	public String getHomephoneNo() {
+		return this.homephoneNo;
+	}
 
-    public Gender getGender() {
-        return this.gender;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public ServiceReceiverClientHealthInformation getHealthInformation() {
-        return this.healthInformation;
-    }
+	public String getIdentityCard() {
+		return this.identityCard;
+	}
 
-    public String getHomephoneNo() {
-        return this.homephoneNo;
-    }
+	public String getIdentityCardCopy() {
+		return identityCardCopy;
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public ServiceReceiverClientInterest getInterest() {
+		return this.interest;
+	}
 
-    public String getIdentityCard() {
-        return this.identityCard;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getIdentityCardCopy() {
-        return identityCardCopy;
-    }
+	public String getNickname() {
+		return nickname;
+	}
 
-    public ServiceReceiverClientInterest getInterest() {
-        return this.interest;
-    }
+	public ServiceReceiverClientOther getOther() {
+		return this.other;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public String getRegion() {
+		return region;
+	}
 
-    public String getNickname() {
-        return nickname;
-    }
+	public Date getRegistryDate() {
+		return registryDate;
+	}
 
-    public List<ServiceOrder> getOrders() {
-        return this.orders;
-    }
+	public ServiceReceiverClientStatus getStatus() {
+		return this.status;
+	}
 
-    public ServiceReceiverClientOther getOther() {
-        return this.other;
-    }
+	public User getUser() {
+		return this.user;
+	}
 
-    public String getRegion() {
-        return region;
-    }
+	public Yiquan getYiquan() {
+		return this.yiquan;
+	}
 
-    public Date getRegistryDate() {
-        return registryDate;
-    }
-
-    public List<ServiceOrderRequirement> getServiceOrderRequirements() {
-        return this.serviceOrderRequirements;
-    }
-
-    public ServiceReceiverClientStatus getStatus() {
-        return this.status;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public Yiquan getYiquan() {
-        return this.yiquan;
-    }
-
-    public Favorite removeFavorite(final Favorite favorite) {
-        getFavorites().remove(favorite);
-        favorite.setServiceReceiverClient(null);
-
-        return favorite;
-    }
-
-    public ServiceOrder removeOrder(final ServiceOrder order) {
-        getOrders().remove(order);
-        order.setServiceReceiverClient(null);
-
-        return order;
-    }
-
-    public ServiceOrderRequirement removeServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
-        getServiceOrderRequirements().remove(serviceOrderRequirement);
-        serviceOrderRequirement.setServiceReceiverClient(null);
-
-        return serviceOrderRequirement;
-    }
-
-    public void setAddress(final String address) {
-        this.address = address;
-    }
-
-    public void setCellphoneNo(final String cellphoneNo) {
-        this.cellphoneNo = cellphoneNo;
-    }
-
-    public void setCredentialType(final CredentialType credentialType) {
-        this.credentialType = credentialType;
-    }
-
-    public void setDob(final Date dob) {
-        this.dob = dob;
-    }
-
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
-    public void setEmergencyContact(final String emergencyContact) {
-        this.emergencyContact = emergencyContact;
-    }
-
-    public void setEmergencyContactNo(final String emergencyContactNo) {
-        this.emergencyContactNo = emergencyContactNo;
-    }
-
-    public void setFamilyRelationship(final FamilyRelationship familyRelationship) {
-        this.familyRelationship = familyRelationship;
-    }
-
-    public void setFavorites(final List<Favorite> favorites) {
-        this.favorites = favorites;
-    }
-
-    public void setGender(final Gender gender) {
-        this.gender = gender;
-    }
-
-    public void setHealthInformation(final ServiceReceiverClientHealthInformation healthInformation) {
-        this.healthInformation = healthInformation;
-    }
-
-    public void setHomephoneNo(final String homephoneNo) {
-        this.homephoneNo = homephoneNo;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public void setIdentityCard(final String identityCard) {
-        this.identityCard = identityCard;
-    }
-
-    public void setIdentityCardCopy(final String identityCardCopy) {
-        this.identityCardCopy = identityCardCopy;
-    }
-
-    public void setInterest(final ServiceReceiverClientInterest interest) {
-        this.interest = interest;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public void setNickname(final String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setOrders(final List<ServiceOrder> orders) {
-        this.orders = orders;
-    }
-
-    public void setOther(final ServiceReceiverClientOther other) {
-        this.other = other;
-    }
-
-    public void setRegion(final String region) {
-        this.region = region;
-    }
-
-    public void setRegistryDate(final Date registryDate) {
-        this.registryDate = registryDate;
-    }
-
-    public void setServiceOrderRequirements(final List<ServiceOrderRequirement> serviceOrderRequirements) {
-        this.serviceOrderRequirements = serviceOrderRequirements;
-    }
-
-    public void setStatus(final ServiceReceiverClientStatus status) {
-        this.status = status;
-    }
-
-    public void setUser(final User user) {
-        this.user = user;
-    }
-
-    public void setYiquan(final Yiquan yiquan) {
-        this.yiquan = yiquan;
-    }
+	public Favorite removeFavorite(final Favorite favorite) {
+		getFavorites().remove(favorite);
+		favorite.setServiceReceiverClient(null);
+
+		return favorite;
+	}
+
+	public void setAddress(final String address) {
+		this.address = address;
+	}
+
+	public void setCellphoneNo(final String cellphoneNo) {
+		this.cellphoneNo = cellphoneNo;
+	}
+
+	public void setCredentialType(final CredentialType credentialType) {
+		this.credentialType = credentialType;
+	}
+
+	public void setDob(final Date dob) {
+		this.dob = dob;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
+
+	public void setEmergencyContact(final String emergencyContact) {
+		this.emergencyContact = emergencyContact;
+	}
+
+	public void setEmergencyContactNo(final String emergencyContactNo) {
+		this.emergencyContactNo = emergencyContactNo;
+	}
+
+	public void setFamilyRelationship(final FamilyRelationship familyRelationship) {
+		this.familyRelationship = familyRelationship;
+	}
+
+	public void setFavorites(final List<Favorite> favorites) {
+		this.favorites = favorites;
+	}
+
+	public void setGender(final Gender gender) {
+		this.gender = gender;
+	}
+
+	public void setHealthInformation(final ServiceReceiverClientHealthInformation healthInformation) {
+		this.healthInformation = healthInformation;
+	}
+
+	public void setHomephoneNo(final String homephoneNo) {
+		this.homephoneNo = homephoneNo;
+	}
+
+	public void setId(final Long id) {
+		this.id = id;
+	}
+
+	public void setIdentityCard(final String identityCard) {
+		this.identityCard = identityCard;
+	}
+
+	public void setIdentityCardCopy(final String identityCardCopy) {
+		this.identityCardCopy = identityCardCopy;
+	}
+
+	public void setInterest(final ServiceReceiverClientInterest interest) {
+		this.interest = interest;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	public void setNickname(final String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void setOther(final ServiceReceiverClientOther other) {
+		this.other = other;
+	}
+
+	public void setRegion(final String region) {
+		this.region = region;
+	}
+
+	public void setRegistryDate(final Date registryDate) {
+		this.registryDate = registryDate;
+	}
+
+	public void setStatus(final ServiceReceiverClientStatus status) {
+		this.status = status;
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
+	}
+
+	public void setYiquan(final Yiquan yiquan) {
+		this.yiquan = yiquan;
+	}
 }

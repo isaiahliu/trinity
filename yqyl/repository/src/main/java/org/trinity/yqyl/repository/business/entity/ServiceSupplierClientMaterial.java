@@ -22,164 +22,176 @@ import org.trinity.yqyl.common.message.lookup.RecordStatus;
 @Table(name = "service_supplier_client_material")
 @NamedQuery(name = "ServiceSupplierClientMaterial.findAll", query = "SELECT s FROM ServiceSupplierClientMaterial s")
 public class ServiceSupplierClientMaterial extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "service_supplier_client_id")
-    private Long serviceSupplierClientId;
+	@Id
+	@Column(name = "service_supplier_client_id")
+	private Long serviceSupplierClientId;
 
-    @Column(name = "application_copy")
-    private String applicationCopy;
+	@Column(name = "application_copy")
+	private String applicationCopy;
 
-    @Column(name = "application_no")
-    private String applicationNo;
+	@Column(name = "application_no")
+	private String applicationNo;
 
-    @Column(name = "business_license_copy")
-    private String businessLicenseCopy;
+	@Column(name = "business_license_copy")
+	private String businessLicenseCopy;
 
-    @Column(name = "business_license_no")
-    private String businessLicenseNo;
+	@Column(name = "business_license_no")
+	private String businessLicenseNo;
 
-    @Column(name = "contract_copy")
-    private String contractCopy;
+	@Column(name = "contract_copy")
+	private String contractCopy;
 
-    @Column(name = "contract_no")
-    private String contractNo;
+	@Column(name = "contract_no")
+	private String contractNo;
 
-    @Column(name = "corporate_checking_copy")
-    private String corporateCheckingCopy;
+	@Column(name = "corporate_checking_copy")
+	private String corporateCheckingCopy;
 
-    @Column(name = "corporate_checking_no")
-    private String corporateCheckingNo;
+	@Column(name = "corporate_checking_no")
+	private String corporateCheckingNo;
 
-    private String jcv;
+	@Column(name = "business_certificate_no")
+	private String businessCertificateNo;
 
-    @Column(name = "license_copy")
-    private String licenseCopy;
+	@Column(name = "business_certificate_copy")
+	private String businessCertificateCopy;
 
-    @Column(name = "license_no")
-    private String licenseNo;
+	@Column(name = "license_copy")
+	private String licenseCopy;
 
-    private RecordStatus status;
+	@Column(name = "license_no")
+	private String licenseNo;
 
-    // bi-directional one-to-one association to ServiceSupplierClient
-    @OneToOne
-    @JoinColumn(name = "service_supplier_client_id")
-    private ServiceSupplierClient serviceSupplierClient;
+	private RecordStatus status;
 
-    public ServiceSupplierClientMaterial() {
-    }
+	// bi-directional one-to-one association to ServiceSupplierClient
+	@OneToOne
+	@JoinColumn(name = "service_supplier_client_id")
+	private ServiceSupplierClient serviceSupplierClient;
 
-    public String getApplicationCopy() {
-        return this.applicationCopy;
-    }
+	public ServiceSupplierClientMaterial() {
+	}
 
-    public String getApplicationNo() {
-        return this.applicationNo;
-    }
+	public String getApplicationCopy() {
+		return this.applicationCopy;
+	}
 
-    public String getBusinessLicenseCopy() {
-        return this.businessLicenseCopy;
-    }
+	public String getApplicationNo() {
+		return this.applicationNo;
+	}
 
-    public String getBusinessLicenseNo() {
-        return this.businessLicenseNo;
-    }
+	public String getBusinessCertificateCopy() {
+		return businessCertificateCopy;
+	}
 
-    public String getContractCopy() {
-        return this.contractCopy;
-    }
+	public String getBusinessCertificateNo() {
+		return businessCertificateNo;
+	}
 
-    public String getContractNo() {
-        return this.contractNo;
-    }
+	public String getBusinessLicenseCopy() {
+		return this.businessLicenseCopy;
+	}
 
-    public String getCorporateCheckingCopy() {
-        return this.corporateCheckingCopy;
-    }
+	public String getBusinessLicenseNo() {
+		return this.businessLicenseNo;
+	}
 
-    public String getCorporateCheckingNo() {
-        return this.corporateCheckingNo;
-    }
+	public String getContractCopy() {
+		return this.contractCopy;
+	}
 
-    public String getJcv() {
-        return this.jcv;
-    }
+	public String getContractNo() {
+		return this.contractNo;
+	}
 
-    public String getLicenseCopy() {
-        return this.licenseCopy;
-    }
+	public String getCorporateCheckingCopy() {
+		return this.corporateCheckingCopy;
+	}
 
-    public String getLicenseNo() {
-        return this.licenseNo;
-    }
+	public String getCorporateCheckingNo() {
+		return this.corporateCheckingNo;
+	}
 
-    public ServiceSupplierClient getServiceSupplierClient() {
-        return this.serviceSupplierClient;
-    }
+	public String getLicenseCopy() {
+		return this.licenseCopy;
+	}
 
-    public Long getServiceSupplierClientId() {
-        return this.serviceSupplierClientId;
-    }
+	public String getLicenseNo() {
+		return this.licenseNo;
+	}
 
-    public RecordStatus getStatus() {
-        return this.status;
-    }
+	public ServiceSupplierClient getServiceSupplierClient() {
+		return this.serviceSupplierClient;
+	}
 
-    public void setApplicationCopy(final String applicationCopy) {
-        this.applicationCopy = applicationCopy;
-    }
+	public Long getServiceSupplierClientId() {
+		return this.serviceSupplierClientId;
+	}
 
-    public void setApplicationNo(final String applicationNo) {
-        this.applicationNo = applicationNo;
-    }
+	public RecordStatus getStatus() {
+		return this.status;
+	}
 
-    public void setBusinessLicenseCopy(final String businessLicenseCopy) {
-        this.businessLicenseCopy = businessLicenseCopy;
-    }
+	public void setApplicationCopy(final String applicationCopy) {
+		this.applicationCopy = applicationCopy;
+	}
 
-    public void setBusinessLicenseNo(final String businessLicenseNo) {
-        this.businessLicenseNo = businessLicenseNo;
-    }
+	public void setApplicationNo(final String applicationNo) {
+		this.applicationNo = applicationNo;
+	}
 
-    public void setContractCopy(final String contractCopy) {
-        this.contractCopy = contractCopy;
-    }
+	public void setBusinessCertificateCopy(final String businessCertificateCopy) {
+		this.businessCertificateCopy = businessCertificateCopy;
+	}
 
-    public void setContractNo(final String contractNo) {
-        this.contractNo = contractNo;
-    }
+	public void setBusinessCertificateNo(final String businessCertificateNo) {
+		this.businessCertificateNo = businessCertificateNo;
+	}
 
-    public void setCorporateCheckingCopy(final String corporateCheckingCopy) {
-        this.corporateCheckingCopy = corporateCheckingCopy;
-    }
+	public void setBusinessLicenseCopy(final String businessLicenseCopy) {
+		this.businessLicenseCopy = businessLicenseCopy;
+	}
 
-    public void setCorporateCheckingNo(final String corporateCheckingNo) {
-        this.corporateCheckingNo = corporateCheckingNo;
-    }
+	public void setBusinessLicenseNo(final String businessLicenseNo) {
+		this.businessLicenseNo = businessLicenseNo;
+	}
 
-    public void setJcv(final String jcv) {
-        this.jcv = jcv;
-    }
+	public void setContractCopy(final String contractCopy) {
+		this.contractCopy = contractCopy;
+	}
 
-    public void setLicenseCopy(final String licenseCopy) {
-        this.licenseCopy = licenseCopy;
-    }
+	public void setContractNo(final String contractNo) {
+		this.contractNo = contractNo;
+	}
 
-    public void setLicenseNo(final String licenseNo) {
-        this.licenseNo = licenseNo;
-    }
+	public void setCorporateCheckingCopy(final String corporateCheckingCopy) {
+		this.corporateCheckingCopy = corporateCheckingCopy;
+	}
 
-    public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-        this.serviceSupplierClient = serviceSupplierClient;
-    }
+	public void setCorporateCheckingNo(final String corporateCheckingNo) {
+		this.corporateCheckingNo = corporateCheckingNo;
+	}
 
-    public void setServiceSupplierClientId(final Long serviceSupplierClientId) {
-        this.serviceSupplierClientId = serviceSupplierClientId;
-    }
+	public void setLicenseCopy(final String licenseCopy) {
+		this.licenseCopy = licenseCopy;
+	}
 
-    public void setStatus(final RecordStatus status) {
-        this.status = status;
-    }
+	public void setLicenseNo(final String licenseNo) {
+		this.licenseNo = licenseNo;
+	}
+
+	public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+		this.serviceSupplierClient = serviceSupplierClient;
+	}
+
+	public void setServiceSupplierClientId(final Long serviceSupplierClientId) {
+		this.serviceSupplierClientId = serviceSupplierClientId;
+	}
+
+	public void setStatus(final RecordStatus status) {
+		this.status = status;
+	}
 
 }

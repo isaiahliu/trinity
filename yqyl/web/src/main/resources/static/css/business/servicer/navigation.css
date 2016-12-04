@@ -1,5 +1,5 @@
 div.subNavBar {
-	margin-top: 10px;
+	
 }
 
 div.navBar ul.infoPopList {
@@ -15,7 +15,7 @@ div.navBar ul.infoPopList li {
 
 div.navBar ul.infoPopList li div {
 	background-color: white;
-	border: solid 1px;
+	
 }
 
 div.navBar ul.infoPopList li div span {

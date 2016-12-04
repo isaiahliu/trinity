@@ -1,7 +1,18 @@
 div.info {
-	padding: 10px 0px 0px 280px;
+	padding: 1px 0 0 250px;
 }
 
+div.info div.block {
+	border: 1px solid #cccccc;
+}
+
+div.info div.headerBlock a {
+	float: right;
+	margin-right: 10px;
+	line-height: 50px;
+}
+
+}
 div.info div.applicationStep {
 	text-align: center;
 }
@@ -35,9 +46,10 @@ div.info div.details div.left {
 	text-align: center;
 }
 
-div.info div.details div.left input {
+div.info div.details div.tab div.tabContent div.left input {
+	margin-left: 40px;
+	margin-right: 0px;
 	width: 65px;
-	margin: auto;
 }
 
 div.info div.details div.right {
@@ -55,20 +67,19 @@ div.info div.details div.image {
 	padding: 20px;
 }
 
-div.info div.details img {
-	min-width: 200px;
-	min-height: 200px;
-	width: 200px;
-	height: 200px;
-}
-
 div.info div.details div.tab {
-	padding: 20px;
+	padding: 10px 20px 10px 20px;
+	background: white;
+	margin-bottom: 20px;
 }
 
 div.info div.details div.tab div.tabTitle {
-	background-color: rgba(215, 215, 215, 1);
 	padding: 5px 10px;
+}
+
+div.info div.details div.tab div.tabTitle img {
+	width: 14px;
+	height: 14px;
 }
 
 div.info div.details div.tab div.tabContent {
@@ -78,13 +89,17 @@ div.info div.details div.tab div.tabContent {
 
 div.info div.details div.tab div.tabContent span {
 	display: inline-block;
-	width: 120px;
+	width: 80px;
 }
 
 div.info div.details div.tab div.tabContent input, div.info div.details div.tab div.tabContent select
 	{
 	min-width: 200px;
 	margin-right: 50px;
+}
+
+div.info div.details div.tab div.images input {
+	margin-right: 0;
 }
 
 div.info  div.buttonGroup {
@@ -95,6 +110,7 @@ div.info div.details div.tab div.tabContent input.upload {
 	min-width: 68px;
 	width: 68px;
 	display: inline;
+	margin-right: 70px;
 }
 
 div.info div.details div.tab div.tabContent img {

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -28,214 +29,274 @@ import org.trinity.yqyl.common.message.lookup.UserStatus;
 @Entity
 @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "User_PK_IdGenerator")
-    @TableGenerator(name = "User_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "User_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "User_PK_IdGenerator")
+	@TableGenerator(name = "User_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "User_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private String password;
+	// bi-directional many-to-one association to Account
+	@ManyToOne
+	@JoinColumn(name = "account_id")
+	private Account account;
 
-    private UserStatus status;
+	private String password;
 
-    private String username;
+	private UserStatus status;
 
-    private String cellphone;
+	private String username;
 
-    private String email;
+	private String cellphone;
 
-    // bi-directional many-to-one association to AllowanceSupplierClient
-    @OneToMany(mappedBy = "user")
-    private List<AllowanceSupplierClient> allowanceSupplierClients;
+	private String email;
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "user")
+	private List<ServiceOrder> orders;
+	// bi-directional many-to-one association to AllowanceSupplierClient
+	@OneToMany(mappedBy = "user")
+	private List<AllowanceSupplierClient> allowanceSupplierClients;
+	// bi-directional many-to-one association to OperatorClient
+	@OneToOne(mappedBy = "user")
+	private OperatorClient operatorClient;
+	// bi-directional many-to-one association to ServiceReceiverClient
+	@OneToMany(mappedBy = "user")
+	private List<ServiceReceiverClient> serviceReceiverClients;
+	// bi-directional one-to-one association to ServiceSupplierClient
+	@OneToOne(mappedBy = "user")
+	private ServiceSupplierClient serviceSupplierClient;
 
-    // bi-directional many-to-one association to OperatorClient
-    @OneToOne(mappedBy = "user")
-    private OperatorClient operatorClient;
+	// bi-directional many-to-one association to Token
+	@OneToMany(mappedBy = "user")
+	private List<Token> tokens;
 
-    // bi-directional many-to-one association to ServiceReceiverClient
-    @OneToMany(mappedBy = "user")
-    private List<ServiceReceiverClient> serviceReceiverClients;
+	// bi-directional many-to-many association to UserGroup
+	@ElementCollection
+	@CollectionTable(name = "user_accessright", joinColumns = @JoinColumn(name = "user_id"))
+	@Column(name = "accessright")
+	private List<AccessRight> accessrights;
 
-    // bi-directional one-to-one association to ServiceSupplierClient
-    @OneToOne(mappedBy = "user")
-    private ServiceSupplierClient serviceSupplierClient;
+	// bi-directional one-to-one association to UserVerifycode
+	@OneToMany(mappedBy = "user")
+	private List<UserVerifycode> userVerifycodes;
 
-    // bi-directional many-to-one association to Token
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+	// bi-directional many-to-one association to ServiceOrderRequirement
+	@OneToMany(mappedBy = "user")
+	private List<ServiceOrderRequirement> serviceOrderRequirements;
 
-    // bi-directional many-to-many association to UserGroup
-    @ElementCollection
-    @CollectionTable(name = "user_accessright", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "accessright")
-    private List<AccessRight> accessrights;
+	public User() {
+	}
 
-    // bi-directional one-to-one association to UserVerifycode
-    @OneToMany(mappedBy = "user")
-    private List<UserVerifycode> userVerifycodes;
+	public AllowanceSupplierClient addAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
+		getAllowanceSupplierClients().add(allowanceSupplierClient);
+		allowanceSupplierClient.setUser(this);
 
-    public User() {
-    }
+		return allowanceSupplierClient;
+	}
 
-    public AllowanceSupplierClient addAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
-        getAllowanceSupplierClients().add(allowanceSupplierClient);
-        allowanceSupplierClient.setUser(this);
+	public ServiceOrder addOrder(final ServiceOrder order) {
+		getOrders().add(order);
+		order.setUser(this);
 
-        return allowanceSupplierClient;
-    }
+		return order;
+	}
 
-    public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
-        getServiceReceiverClients().add(serviceReceiverClient);
-        serviceReceiverClient.setUser(this);
+	public ServiceOrderRequirement addServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
+		getServiceOrderRequirements().add(serviceOrderRequirement);
+		serviceOrderRequirement.setUser(this);
 
-        return serviceReceiverClient;
-    }
+		return serviceOrderRequirement;
+	}
 
-    public Token addToken(final Token token) {
-        getTokens().add(token);
-        token.setUser(this);
+	public ServiceReceiverClient addServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
+		getServiceReceiverClients().add(serviceReceiverClient);
+		serviceReceiverClient.setUser(this);
 
-        return token;
-    }
+		return serviceReceiverClient;
+	}
 
-    public UserVerifycode addUserVerifycode(final UserVerifycode userVerifycode) {
-        getUserVerifycodes().add(userVerifycode);
-        userVerifycode.setUser(this);
+	public Token addToken(final Token token) {
+		getTokens().add(token);
+		token.setUser(this);
 
-        return userVerifycode;
-    }
+		return token;
+	}
 
-    public List<AccessRight> getAccessrights() {
-        return this.accessrights;
-    }
+	public UserVerifycode addUserVerifycode(final UserVerifycode userVerifycode) {
+		getUserVerifycodes().add(userVerifycode);
+		userVerifycode.setUser(this);
 
-    public List<AllowanceSupplierClient> getAllowanceSupplierClients() {
-        return this.allowanceSupplierClients;
-    }
+		return userVerifycode;
+	}
 
-    public String getCellphone() {
-        return cellphone;
-    }
+	public List<AccessRight> getAccessrights() {
+		return this.accessrights;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Account getAccount() {
+		return account;
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public List<AllowanceSupplierClient> getAllowanceSupplierClients() {
+		return this.allowanceSupplierClients;
+	}
 
-    public OperatorClient getOperatorClient() {
-        return operatorClient;
-    }
+	public String getCellphone() {
+		return cellphone;
+	}
 
-    public String getPassword() {
-        return this.password;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public List<ServiceReceiverClient> getServiceReceiverClients() {
-        return this.serviceReceiverClients;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public ServiceSupplierClient getServiceSupplierClient() {
-        return this.serviceSupplierClient;
-    }
+	public OperatorClient getOperatorClient() {
+		return operatorClient;
+	}
 
-    public UserStatus getStatus() {
-        return this.status;
-    }
+	public List<ServiceOrder> getOrders() {
+		return this.orders;
+	}
 
-    public List<Token> getTokens() {
-        return this.tokens;
-    }
+	public String getPassword() {
+		return this.password;
+	}
 
-    public String getUsername() {
-        return this.username;
-    }
+	public List<ServiceOrderRequirement> getServiceOrderRequirements() {
+		return this.serviceOrderRequirements;
+	}
 
-    public List<UserVerifycode> getUserVerifycodes() {
-        return this.userVerifycodes;
-    }
+	public List<ServiceReceiverClient> getServiceReceiverClients() {
+		return this.serviceReceiverClients;
+	}
 
-    public AllowanceSupplierClient removeAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
-        getAllowanceSupplierClients().remove(allowanceSupplierClient);
-        allowanceSupplierClient.setUser(null);
+	public ServiceSupplierClient getServiceSupplierClient() {
+		return this.serviceSupplierClient;
+	}
 
-        return allowanceSupplierClient;
-    }
+	public UserStatus getStatus() {
+		return this.status;
+	}
 
-    public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
-        getServiceReceiverClients().remove(serviceReceiverClient);
-        serviceReceiverClient.setUser(null);
+	public List<Token> getTokens() {
+		return this.tokens;
+	}
 
-        return serviceReceiverClient;
-    }
+	public String getUsername() {
+		return this.username;
+	}
 
-    public Token removeToken(final Token token) {
-        getTokens().remove(token);
-        token.setUser(null);
+	public List<UserVerifycode> getUserVerifycodes() {
+		return this.userVerifycodes;
+	}
 
-        return token;
-    }
+	public AllowanceSupplierClient removeAllowanceSupplierClient(final AllowanceSupplierClient allowanceSupplierClient) {
+		getAllowanceSupplierClients().remove(allowanceSupplierClient);
+		allowanceSupplierClient.setUser(null);
 
-    public UserVerifycode removeUserVerifycode(final UserVerifycode userVerifycode) {
-        getUserVerifycodes().remove(userVerifycode);
-        userVerifycode.setUser(null);
+		return allowanceSupplierClient;
+	}
 
-        return userVerifycode;
-    }
+	public ServiceOrder removeOrder(final ServiceOrder order) {
+		getOrders().remove(order);
+		order.setUser(null);
 
-    public void setAccessrights(final List<AccessRight> accessrights) {
-        this.accessrights = accessrights;
-    }
+		return order;
+	}
 
-    public void setAllowanceSupplierClients(final List<AllowanceSupplierClient> allowanceSupplierClients) {
-        this.allowanceSupplierClients = allowanceSupplierClients;
-    }
+	public ServiceOrderRequirement removeServiceOrderRequirement(final ServiceOrderRequirement serviceOrderRequirement) {
+		getServiceOrderRequirements().remove(serviceOrderRequirement);
+		serviceOrderRequirement.setUser(null);
 
-    public void setCellphone(final String cellphone) {
-        this.cellphone = cellphone;
-    }
+		return serviceOrderRequirement;
+	}
 
-    public void setEmail(final String email) {
-        this.email = email;
-    }
+	public ServiceReceiverClient removeServiceReceiverClient(final ServiceReceiverClient serviceReceiverClient) {
+		getServiceReceiverClients().remove(serviceReceiverClient);
+		serviceReceiverClient.setUser(null);
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+		return serviceReceiverClient;
+	}
 
-    public void setOperatorClient(final OperatorClient operatorClient) {
-        this.operatorClient = operatorClient;
-    }
+	public Token removeToken(final Token token) {
+		getTokens().remove(token);
+		token.setUser(null);
 
-    public void setPassword(final String password) {
-        this.password = password;
-    }
+		return token;
+	}
 
-    public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {
-        this.serviceReceiverClients = serviceReceiverClients;
-    }
+	public UserVerifycode removeUserVerifycode(final UserVerifycode userVerifycode) {
+		getUserVerifycodes().remove(userVerifycode);
+		userVerifycode.setUser(null);
 
-    public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
-        this.serviceSupplierClient = serviceSupplierClient;
-    }
+		return userVerifycode;
+	}
 
-    public void setStatus(final UserStatus status) {
-        this.status = status;
-    }
+	public void setAccessrights(final List<AccessRight> accessrights) {
+		this.accessrights = accessrights;
+	}
 
-    public void setTokens(final List<Token> tokens) {
-        this.tokens = tokens;
-    }
+	public void setAccount(final Account account) {
+		this.account = account;
+	}
 
-    public void setUsername(final String username) {
-        this.username = username;
-    }
+	public void setAllowanceSupplierClients(final List<AllowanceSupplierClient> allowanceSupplierClients) {
+		this.allowanceSupplierClients = allowanceSupplierClients;
+	}
 
-    public void setUserVerifycodes(final List<UserVerifycode> userVerifycodes) {
-        this.userVerifycodes = userVerifycodes;
-    }
+	public void setCellphone(final String cellphone) {
+		this.cellphone = cellphone;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
+
+	public void setId(final Long id) {
+		this.id = id;
+	}
+
+	public void setOperatorClient(final OperatorClient operatorClient) {
+		this.operatorClient = operatorClient;
+	}
+
+	public void setOrders(final List<ServiceOrder> orders) {
+		this.orders = orders;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	public void setServiceOrderRequirements(final List<ServiceOrderRequirement> serviceOrderRequirements) {
+		this.serviceOrderRequirements = serviceOrderRequirements;
+	}
+
+	public void setServiceReceiverClients(final List<ServiceReceiverClient> serviceReceiverClients) {
+		this.serviceReceiverClients = serviceReceiverClients;
+	}
+
+	public void setServiceSupplierClient(final ServiceSupplierClient serviceSupplierClient) {
+		this.serviceSupplierClient = serviceSupplierClient;
+	}
+
+	public void setStatus(final UserStatus status) {
+		this.status = status;
+	}
+
+	public void setTokens(final List<Token> tokens) {
+		this.tokens = tokens;
+	}
+
+	public void setUsername(final String username) {
+		this.username = username;
+	}
+
+	public void setUserVerifycodes(final List<UserVerifycode> userVerifycodes) {
+		this.userVerifycodes = userVerifycodes;
+	}
 
 }

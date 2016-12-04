@@ -40,7 +40,7 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 			$scope.contractUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.contractCopy;
 			$scope.applicationUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.applicationCopy;
 			$scope.businessLicenseUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.businessLicenseCopy;
-			$scope.jcvUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.jcv;
+			$scope.businessCertificateUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.businessCertificateCopy;
 			$scope.audited = $scope.serviceSupplierClient.status.code == 'A' || $scope.serviceSupplierClient.status.code == 'D';
 			$scope.auditing = serviceSupplierClientId > 0;
 		} else if (serviceSupplierClientId == 0) {
@@ -147,9 +147,10 @@ layoutApp.controller('contentController', function($scope, $http, $window, error
 					+ new Date().getTime();
 		});
 	};
-	$scope.uploadJcv = function(event) {
-		$scope.uploadPhoto(event, "jcv", function() {
-			$scope.jcvUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.jcv + "?ticks=" + new Date().getTime();
+	$scope.uploadBusinessCertificate = function(event) {
+		$scope.uploadPhoto(event, "businessCertificate", function() {
+			$scope.businessCertificateUrl = "/ajax/content/image/" + $scope.serviceSupplierClient.material.businessCertificateCopy + "?ticks="
+					+ new Date().getTime();
 		});
 	};
 	$scope.uploadPhoto = function(event, file, urlHandler) {

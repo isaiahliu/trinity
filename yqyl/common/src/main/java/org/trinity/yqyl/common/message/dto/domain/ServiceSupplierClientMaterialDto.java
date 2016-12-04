@@ -19,7 +19,9 @@ public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
 
     private String corporateCheckingNo;
 
-    private String jcv;
+    private String businessCertificateNo;
+
+    private String businessCertificateCopy;
 
     private String licenseCopy;
 
@@ -31,6 +33,14 @@ public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
 
     public String getApplicationNo() {
         return applicationNo;
+    }
+
+    public String getBusinessCertificateCopy() {
+        return businessCertificateCopy;
+    }
+
+    public String getBusinessCertificateNo() {
+        return businessCertificateNo;
     }
 
     public String getBusinessLicenseCopy() {
@@ -57,10 +67,6 @@ public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
         return corporateCheckingNo;
     }
 
-    public String getJcv() {
-        return jcv;
-    }
-
     public String getLicenseCopy() {
         return licenseCopy;
     }
@@ -75,6 +81,14 @@ public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
 
     public void setApplicationNo(final String applicationNo) {
         this.applicationNo = applicationNo;
+    }
+
+    public void setBusinessCertificateCopy(final String businessCertificateCopy) {
+        this.businessCertificateCopy = businessCertificateCopy;
+    }
+
+    public void setBusinessCertificateNo(final String businessCertificateNo) {
+        this.businessCertificateNo = businessCertificateNo;
     }
 
     public void setBusinessLicenseCopy(final String businessLicenseCopy) {
@@ -99,10 +113,6 @@ public class ServiceSupplierClientMaterialDto extends AbstractBusinessDto {
 
     public void setCorporateCheckingNo(final String corporateCheckingNo) {
         this.corporateCheckingNo = corporateCheckingNo;
-    }
-
-    public void setJcv(final String jcv) {
-        this.jcv = jcv;
     }
 
     public void setLicenseCopy(final String licenseCopy) {

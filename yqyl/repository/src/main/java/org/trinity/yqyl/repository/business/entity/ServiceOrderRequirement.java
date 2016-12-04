@@ -29,133 +29,133 @@ import org.trinity.yqyl.common.message.lookup.ServiceOrderRequirementStatus;
 @Table(name = "service_order_requirement")
 @NamedQuery(name = "ServiceOrderRequirement.findAll", query = "SELECT s FROM ServiceOrderRequirement s")
 public class ServiceOrderRequirement extends AbstractAuditableEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrderRequirement_PK_IdGenerator")
-    @TableGenerator(name = "ServiceOrderRequirement_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrderRequirement_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ServiceOrderRequirement_PK_IdGenerator")
+	@TableGenerator(name = "ServiceOrderRequirement_PK_IdGenerator", table = "id_table", pkColumnName = "type", pkColumnValue = "ServiceOrderRequirement_PK", valueColumnName = "value", initialValue = 1, allocationSize = 1)
+	private Long id;
 
-    private String address;
+	private String address;
 
-    @Column(name = "announce_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date announceTime;
+	@Column(name = "announce_time")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date announceTime;
 
-    private String comment;
+	private String comment;
 
-    private String phone;
+	private String phone;
 
-    private Double price;
+	private Double price;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "service_time")
-    private Date serviceTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "service_time")
+	private Date serviceTime;
 
-    private ServiceOrderRequirementStatus status;
+	private ServiceOrderRequirementStatus status;
 
-    // bi-directional many-to-one association to ServiceOrder
-    @OneToMany(mappedBy = "serviceOrderRequirement")
-    private List<ServiceOrder> serviceOrders;
+	// bi-directional many-to-one association to ServiceOrder
+	@OneToMany(mappedBy = "serviceOrderRequirement")
+	private List<ServiceOrder> serviceOrders;
 
-    // bi-directional many-to-one association to User
-    @ManyToOne
-    private ServiceReceiverClient serviceReceiverClient;
+	// bi-directional many-to-one association to User
+	@ManyToOne
+	private User user;
 
-    public ServiceOrderRequirement() {
-    }
+	public ServiceOrderRequirement() {
+	}
 
-    public ServiceOrder addServiceOrder(final ServiceOrder serviceOrder) {
-        getServiceOrders().add(serviceOrder);
-        serviceOrder.setServiceOrderRequirement(this);
+	public ServiceOrder addServiceOrder(final ServiceOrder serviceOrder) {
+		getServiceOrders().add(serviceOrder);
+		serviceOrder.setServiceOrderRequirement(this);
 
-        return serviceOrder;
-    }
+		return serviceOrder;
+	}
 
-    public String getAddress() {
-        return this.address;
-    }
+	public String getAddress() {
+		return this.address;
+	}
 
-    public Date getAnnounceTime() {
-        return announceTime;
-    }
+	public Date getAnnounceTime() {
+		return announceTime;
+	}
 
-    public String getComment() {
-        return this.comment;
-    }
+	public String getComment() {
+		return this.comment;
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public String getPhone() {
-        return this.phone;
-    }
+	public String getPhone() {
+		return this.phone;
+	}
 
-    public Double getPrice() {
-        return this.price;
-    }
+	public Double getPrice() {
+		return this.price;
+	}
 
-    public List<ServiceOrder> getServiceOrders() {
-        return this.serviceOrders;
-    }
+	public List<ServiceOrder> getServiceOrders() {
+		return this.serviceOrders;
+	}
 
-    public Date getServiceTime() {
-        return this.serviceTime;
-    }
+	public Date getServiceTime() {
+		return this.serviceTime;
+	}
 
-    public ServiceOrderRequirementStatus getStatus() {
-        return this.status;
-    }
+	public ServiceOrderRequirementStatus getStatus() {
+		return this.status;
+	}
 
-    public ServiceOrder removeServiceOrder(final ServiceOrder serviceOrder) {
-        getServiceOrders().remove(serviceOrder);
-        serviceOrder.setServiceOrderRequirement(null);
+	public User getUser() {
+		return user;
+	}
 
-        return serviceOrder;
-    }
+	public ServiceOrder removeServiceOrder(final ServiceOrder serviceOrder) {
+		getServiceOrders().remove(serviceOrder);
+		serviceOrder.setServiceOrderRequirement(null);
 
-    public void setAddress(final String address) {
-        this.address = address;
-    }
+		return serviceOrder;
+	}
 
-    public void setAnnounceTime(final Date announceTime) {
-        this.announceTime = announceTime;
-    }
+	public void setAddress(final String address) {
+		this.address = address;
+	}
 
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
+	public void setAnnounceTime(final Date announceTime) {
+		this.announceTime = announceTime;
+	}
 
-    public void setId(final Long id) {
-        this.id = id;
-    }
+	public void setComment(final String comment) {
+		this.comment = comment;
+	}
 
-    public void setPhone(final String phone) {
-        this.phone = phone;
-    }
+	public void setId(final Long id) {
+		this.id = id;
+	}
 
-    public void setPrice(final Double price) {
-        this.price = price;
-    }
+	public void setPhone(final String phone) {
+		this.phone = phone;
+	}
 
-    public void setServiceOrders(final List<ServiceOrder> serviceOrders) {
-        this.serviceOrders = serviceOrders;
-    }
+	public void setPrice(final Double price) {
+		this.price = price;
+	}
 
-    public void setServiceTime(final Date serviceTime) {
-        this.serviceTime = serviceTime;
-    }
+	public void setServiceOrders(final List<ServiceOrder> serviceOrders) {
+		this.serviceOrders = serviceOrders;
+	}
 
-    public void setStatus(final ServiceOrderRequirementStatus status) {
-        this.status = status;
-    }
+	public void setServiceTime(final Date serviceTime) {
+		this.serviceTime = serviceTime;
+	}
 
-    public ServiceReceiverClient getServiceReceiverClient() {
-        return serviceReceiverClient;
-    }
+	public void setStatus(final ServiceOrderRequirementStatus status) {
+		this.status = status;
+	}
 
-    public void setServiceReceiverClient(ServiceReceiverClient serviceReceiverClient) {
-        this.serviceReceiverClient = serviceReceiverClient;
-    }
+	public void setUser(final User user) {
+		this.user = user;
+	}
 }
