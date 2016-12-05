@@ -1,5 +1,0 @@
-<div
-	style=""
-	class="errorBar ng-hide" ng-show="errorMessage">
-	<span>{{errorMessage}}</span>
-</div>
