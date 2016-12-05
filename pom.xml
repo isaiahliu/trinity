@@ -210,7 +210,7 @@
 		<module>cloud</module>
 		<module>framework</module>
 
-		<module>yqyl</module>
+		
 	</modules>
 	<profiles>
 		<profile>
