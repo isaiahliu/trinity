@@ -4,8 +4,7 @@
 	<parent>
 		<groupId>org.trinity.framework</groupId>
 		<artifactId>framework</artifactId>
-		<version>${version}</version>
-		<relativePath>../pom.xml</relativePath>
+		<version>1.0-RELEASE</version>
 	</parent>
 	<artifactId>core</artifactId>
 	<name>trinity-framework-core</name>

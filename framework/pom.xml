@@ -6,7 +6,6 @@
 		<artifactId>parent</artifactId>
 		<version>1.0-RELEASE</version>
 	</parent>
-	<version>${version}</version>
 	<groupId>org.trinity.framework</groupId>
 	<artifactId>framework</artifactId>
 	<name>trinity-framework</name>
@@ -14,11 +13,6 @@
 	<modules>
 		<module>core</module>
 		<module>springboot</module>
-
 		<module>contact</module>
 	</modules>
-
-	<properties>
-		<version>1.0-DEV</version>
-	</properties>
 </project>

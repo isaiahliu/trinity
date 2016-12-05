@@ -4,8 +4,7 @@
 	<parent>
 		<groupId>org.trinity.cloud</groupId>
 		<artifactId>cloud</artifactId>
-		<version>${version}</version>
-		<relativePath>../pom.xml</relativePath>
+		<version>1.0-RELEASE</version>
 	</parent>
 	<artifactId>configserver</artifactId>
 	<name>trinity-cloud-configserver</name>

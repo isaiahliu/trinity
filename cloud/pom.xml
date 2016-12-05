@@ -8,7 +8,6 @@
 	</parent>
 	<groupId>org.trinity.cloud</groupId>
 	<artifactId>cloud</artifactId>
-	<version>${version}</version>
 	<name>trinity-cloud</name>
 	<packaging>pom</packaging>
 	<modules>
@@ -36,8 +35,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-		<version>1.0-DEV</version>
-		<trinity-framework>1.0-DEV</trinity-framework>
+		<trinity-framework>1.0-RELEASE</trinity-framework>
 	</properties>
 
 	<build>
