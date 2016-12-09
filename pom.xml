@@ -173,9 +173,7 @@
 		<commons-fileupload>1.3.2</commons-fileupload>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<!--<repositories> <repository> <id>oschinaRepository</id> <name>local private nexus</name> 
-		<url>http://maven.oschina.net/content/groups/public/</url> <releases> <enabled>true</enabled> 
-		</releases> <snapshots> <enabled>true</enabled> </snapshots> </repository> </repositories> -->
+	
 	<build>
 		<plugins>
 			<plugin>
