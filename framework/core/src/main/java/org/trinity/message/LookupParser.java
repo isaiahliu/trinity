@@ -8,89 +8,96 @@ import java.util.Set;
  * @author Isaiah Liu
  */
 public final class LookupParser {
-	private final static Map<Class<? extends ILookupMessage<?>>, Map<String, ILookupMessage<?>>> messageMap;
-	private final static Map<ILookupType, Class<? extends ILookupMessage<?>>> lookupBindingMap;
-	static {
-		messageMap = new HashMap<>();
-		lookupBindingMap = new HashMap<>();
-	}
+    private final static Map<Class<? extends ILookupMessage<?>>, Map<String, ILookupMessage<?>>> messageMap;
+    private final static Map<ILookupType, Class<? extends ILookupMessage<?>>> lookupBindingMap;
+    static {
+        messageMap = new HashMap<>();
+        lookupBindingMap = new HashMap<>();
+    }
 
-	@SafeVarargs
-	public static void addEnumLookups(final Class<? extends ILookupMessage<?>>... types) {
+    public static Set<Class<? extends ILookupMessage<?>>> getRegisteredType() {
+        return messageMap.keySet();
+    }
 
-		for (final Class<? extends ILookupMessage<?>> type : types) {
-			if (!type.isEnum()) {
-				continue;
-			}
+    @SuppressWarnings("unchecked")
+    public static <T extends ILookupMessage<?>> T parse(final Class<T> type, final String name) {
 
-			final ILookupMessage<?>[] values = type.getEnumConstants();
+        return (T) parseObject(type, name);
+    }
 
-			final Map<String, ILookupMessage<?>> valueMap = new HashMap<>();
+    public static Class<? extends ILookupMessage<?>> parseLookupClass(final ILookupType lookupTypeClass) {
+        return lookupBindingMap.getOrDefault(lookupTypeClass, null);
+    }
 
-			for (final ILookupMessage<?> item : values) {
-				valueMap.put(item.getMessageCode(), item);
-				lookupBindingMap.put(item.getMessageType(), type);
-			}
+    @SuppressWarnings("unchecked")
+    public static Object parseObject(final Class<?> type, final String name) {
+        if (!ILookupMessage.class.isAssignableFrom(type)) {
+            return null;
+        }
 
-			if (values.length != valueMap.size()) {
-				throw new IllegalArgumentException("Duplicated Message Code in " + type.getName());
-			}
+        if (type.isEnum()) {
+            return parseEnumObject((Class<? extends ILookupMessage<?>>) type, name);
+        } else {
+            return parseFreeTextObject((Class<? extends ILookupMessage<?>>) type, name);
+        }
+    }
 
-			messageMap.put(type, valueMap);
-		}
-	}
+    private static void addEnumLookups(final Class<? extends ILookupMessage<?>> type) {
+        if (!type.isEnum()) {
+            return;
+        }
 
-	public static Set<Class<? extends ILookupMessage<?>>> getRegisteredType() {
-		return messageMap.keySet();
-	}
+        final ILookupMessage<?>[] values = type.getEnumConstants();
 
-	@SuppressWarnings("unchecked")
-	public static <T extends ILookupMessage<?>> T parse(final Class<T> type, final String name) {
+        final Map<String, ILookupMessage<?>> valueMap = new HashMap<>();
 
-		return (T) parseObject(type, name);
-	}
+        for (final ILookupMessage<?> item : values) {
+            valueMap.put(item.getMessageCode(), item);
+            lookupBindingMap.put(item.getMessageType(), type);
+        }
 
-	public static Class<? extends ILookupMessage<?>> parseLookupClass(final ILookupType lookupTypeClass) {
-		return lookupBindingMap.getOrDefault(lookupTypeClass, null);
-	}
+        if (values.length != valueMap.size()) {
+            throw new IllegalArgumentException("Duplicated Message Code in " + type.getName());
+        }
 
-	public static Object parseObject(final Class<?> type, final String name) {
-		if (!ILookupMessage.class.isAssignableFrom(type)) {
-			return null;
-		}
+        messageMap.put(type, valueMap);
+    }
 
-		if (type.isEnum()) {
-			return parseEnumObject(type, name);
-		} else {
-			return parseFreeTextObject(type, name);
-		}
-	}
+    private static Object parseEnumObject(final Class<? extends ILookupMessage<?>> type, final String name) {
+        Map<String, ILookupMessage<?>> valueMap = messageMap.get(type);
+        if (valueMap == null) {
+            synchronized (type) {
+                if (valueMap == null) {
+                    addEnumLookups(type);
+                }
+            }
 
-	private static Object parseEnumObject(final Class<?> type, final String name) {
-		final Map<String, ILookupMessage<?>> valueMap = messageMap.get(type);
-		if (valueMap == null) {
-			return null;
-		}
+            valueMap = messageMap.get(type);
 
-		Object result = valueMap.getOrDefault(name, null);
+            if (valueMap == null) {
+                return null;
+            }
+        }
 
-		if (result == null) {
-			result = valueMap.getOrDefault("NA", null);
-		}
-		return result;
-	}
+        Object result = valueMap.getOrDefault(name, null);
 
-	private static Object parseFreeTextObject(final Class<?> type, final String name) {
-		ILookupMessage<?> newInstance;
-		try {
-			newInstance = (ILookupMessage<?>) (type.newInstance());
-			newInstance.setMessageCode(name);
-			return newInstance;
-		} catch (InstantiationException | IllegalAccessException e) {
-			return null;
-		}
-	}
+        if (result == null) {
+            result = valueMap.getOrDefault("NA", null);
+        }
+        return result;
+    }
 
-	private LookupParser() {
-	}
+    private static Object parseFreeTextObject(final Class<? extends ILookupMessage<?>> type, final String name) {
+        ILookupMessage<?> newInstance;
+        try {
+            newInstance = (type.newInstance());
+            newInstance.setMessageCode(name);
+            return newInstance;
+        } catch (InstantiationException | IllegalAccessException e) {
+            return null;
+        }
+    }
+
+    private LookupParser() {
+    }
 }
