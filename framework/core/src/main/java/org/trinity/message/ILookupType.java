@@ -5,8 +5,10 @@ package org.trinity.message;
  *
  */
 public interface ILookupType extends IMessageType {
-    @Override
-    default IMessageType getParentType() {
-        return GeneralMessageType.LOOKUP;
-    }
+	@Override
+	default IMessageType getParentType() {
+		return GeneralMessageType.LOOKUP;
+	}
+
+	Class<? extends ILookupMessage<? extends ILookupType>> getTargetType();
 }
