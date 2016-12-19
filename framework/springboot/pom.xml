@@ -22,7 +22,7 @@
 			<dependency>
 				<groupId>org.trinity.framework.springboot</groupId>
 				<artifactId>core</artifactId>
-				<version>${version}</version>
+				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
