@@ -10,7 +10,7 @@ import org.hibernate.usertype.UserType;
 import org.trinity.message.IMessage;
 
 public abstract class AbstractMessageType implements UserType, ParameterizedType {
-    private Properties parameters;
+    private Class<?> targetClass;
 
     @Override
     public Object assemble(final Serializable cached, final Object owner) throws HibernateException {
@@ -67,19 +67,19 @@ public abstract class AbstractMessageType implements UserType, ParameterizedType
 
     @Override
     public void setParameterValues(final Properties parameters) {
-        this.parameters = parameters;
+        try {
+            targetClass = Class.forName(parameters.getProperty("class"));
+        } catch (final ClassNotFoundException e) {
+            targetClass = Object.class;
+        }
     }
 
     @Override
     public int[] sqlTypes() {
-        return new int[] { Types.VARCHAR };
+        return new int[] { Types.CHAR };
     }
 
     protected Class<?> getTargetClass() {
-        try {
-            return Class.forName(parameters.getProperty("class"));
-        } catch (final ClassNotFoundException e) {
-            return Object.class;
-        }
+        return targetClass;
     }
 }
