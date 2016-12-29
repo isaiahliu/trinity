@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractContactMessageHandler<TMessageSession extends IContactMessageSession, TMessageMeta extends IContactMessageMeta, TMessage extends IContactMessage<TMessageMeta>, TProcessor extends IContactProcessor<TMessageSession, TMessageMeta, TMessage>, TResponsor extends IContactResponsor<TMessageSession, TMessageMeta, TMessage>, TSerializer extends IContactMessageSerializer<TMessageMeta, TMessage>, TDeserializer extends IContactMessageDeserializer<TMessageMeta, TMessage>, TMessageQueue extends IContactMessageQueue<TMessageMeta, TMessage, TSerializer, TDeserializer>, TMessagePool extends IContactMessagePool<TMessageMeta, TMessage, TSerializer, TDeserializer, TMessageQueue>>
         implements
