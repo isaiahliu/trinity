@@ -16,6 +16,7 @@ public enum GeneralMessageType implements IMessageType {
     LANGUAGE(LOOKUP),
 
     ERRORMESSAGE(RootMessageType.getInstance()),
+    INFO(RootMessageType.getInstance()),
 
     LOG(RootMessageType.getInstance()),
     LOGLEVEL(LOG);
