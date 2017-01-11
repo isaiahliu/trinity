@@ -490,8 +490,8 @@ public final class CrudGeneratorUtil {
         generators.add(new RequestGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
         generators.add(new SearchRequestGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
         generators.add(new ResponseGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
-        generators.add(new RestControllerGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
         generators.add(new RepositoryGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
+        generators.add(new RestControllerGenerator(projectFolder, entitySchema, new ArrayList<>(entities)));
 
         generators.forEach(item -> item.generate());
     }
