@@ -11,11 +11,15 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public abstract class AbstractLocaleInterceptor extends HandlerInterceptorAdapter {
     private final LocaleResolver localeResolver;
-    private Locale defaultLocale = Locale.SIMPLIFIED_CHINESE;
+    private final Locale defaultLocale;
 
     public AbstractLocaleInterceptor(final LocaleResolver localeResolver) {
-        super();
+        this(localeResolver, Locale.SIMPLIFIED_CHINESE);
+    }
+
+    public AbstractLocaleInterceptor(final LocaleResolver localeResolver, final Locale defaultLocale) {
         this.localeResolver = localeResolver;
+        this.defaultLocale = defaultLocale;
     }
 
     @Override
@@ -30,10 +34,6 @@ public abstract class AbstractLocaleInterceptor extends HandlerInterceptorAdapte
         LocaleContextHolder.setLocale(locale);
 
         return true;
-    }
-
-    public void setDefaultLocale(final Locale defaultLocale) {
-        this.defaultLocale = defaultLocale;
     }
 
     protected abstract boolean supportLocale(Locale locale);
