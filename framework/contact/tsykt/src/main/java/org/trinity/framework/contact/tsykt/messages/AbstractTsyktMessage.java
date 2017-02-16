@@ -6,9 +6,10 @@ import org.trinity.framework.contact.tsykt.ITsyktMessageMeta;
 import org.trinity.framework.contact.tsykt.TsyktMessageMeta;
 
 public abstract class AbstractTsyktMessage extends AbstractContactMessage<ITsyktMessageMeta> implements ITsyktMessage {
-
     @Override
     protected ITsyktMessageMeta createMessageMeta() {
-        return new TsyktMessageMeta(getDefaultMessageId());
+        return new TsyktMessageMeta(getDefaultMessageId(), getMandatoryBitMapFlags());
     }
+
+    protected abstract int[] getMandatoryBitMapFlags();
 }

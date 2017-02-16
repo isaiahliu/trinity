@@ -6,6 +6,4 @@ public interface ITsyktMessageMeta extends IContactMessageMeta {
     byte[] getBitMap();
 
     void markAvailable(int... positions);
-
-    void setBitMap(byte[] bitMap);
 }

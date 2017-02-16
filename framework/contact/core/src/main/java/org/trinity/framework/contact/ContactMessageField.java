@@ -35,6 +35,7 @@ public @interface ContactMessageField {
         DWORD,
         STRING,
         BCD,
+        VAR_BCD,
         ADDITIONALS,
         STRUCT,
         COMPONENT,
@@ -43,6 +44,8 @@ public @interface ContactMessageField {
     }
 
     Class<?> additionalEnumClass() default EmptyKeys.class;
+
+    int bitmapPos() default 0;
 
     boolean depends() default false;
 

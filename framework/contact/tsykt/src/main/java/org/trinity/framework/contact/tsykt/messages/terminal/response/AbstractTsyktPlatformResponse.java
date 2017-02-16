@@ -1,4 +1,4 @@
-package org.trinity.framework.contact.tsykt.messages.platform.response;
+package org.trinity.framework.contact.tsykt.messages.terminal.response;
 
 import org.trinity.framework.contact.tsykt.messages.AbstractTsyktResponse;
 
