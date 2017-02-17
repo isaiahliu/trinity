@@ -256,7 +256,7 @@
 		</resources>
 	</build>
 	<modules>
-		<module>cloud</module>
+		
 		<module>framework</module>
 
 

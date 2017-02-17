@@ -1,6 +1,0 @@
-spring: 
-  application: 
-    name: cloud.configserver
-  cloud: 
-    config: 
-      uri: http://localhost:60823
