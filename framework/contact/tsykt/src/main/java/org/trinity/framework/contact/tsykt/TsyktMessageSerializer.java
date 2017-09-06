@@ -21,22 +21,27 @@ public final class TsyktMessageSerializer extends AbstractContactMessageSerializ
     public byte[] serializeHeader(final ITsyktMessageMeta header) {
         final ByteArrayOutputStream messageCode = new ByteArrayOutputStream();
 
-        ContactMessageUtil.write(messageCode, header.getId(), 2, StoreMethod.BIG_END);
+        ContactMessageUtil.write(messageCode, 0x60, 1, StoreMethod.BIG_END);
+        ContactMessageUtil.writeBcd(messageCode, "61", 1, "0");
+        ContactMessageUtil.writeBcd(messageCode, "22", 1, "0");
+        ContactMessageUtil.writeBcd(messageCode, "00", 1, "0");
+        ContactMessageUtil.writeBcd(messageCode, "00", 1, "0");
+        ContactMessageUtil.writeBcd(messageCode, "00", 1, "0");
+        ContactMessageUtil.writeBcd(messageCode, "00", 1, "0");
 
-        final boolean hasSubPackage = (header.getPackageCount() > 1);
-        int attribute = hasSubPackage ? 1 : 0;
-        attribute <<= 3;
-        attribute |= header.getBodyLength();
-
-        ContactMessageUtil.write(messageCode, attribute, 2, StoreMethod.BIG_END);
-
-        ContactMessageUtil.write(messageCode, header.getSerialNumber(), 2, StoreMethod.BIG_END);
-
-        if (hasSubPackage) {
-            ContactMessageUtil.write(messageCode, header.getPackageCount(), 2, StoreMethod.BIG_END);
-
-            ContactMessageUtil.write(messageCode, header.getPackageIndex(), 2, StoreMethod.BIG_END);
+        int b = 0;
+        int length = 0;
+        for (final byte position : header.getBitMap()) {
+            b <<= 1;
+            b |= position;
+            length++;
+            if (length % 8 == 0) {
+                messageCode.write(b);
+                b = 0;
+            }
         }
+
+        ContactMessageUtil.write(messageCode, header.getId(), 2, StoreMethod.BIG_END);
 
         return messageCode.toByteArray();
     }

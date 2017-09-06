@@ -34,7 +34,8 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
 
         final Field[] fields = Arrays.stream(object.getClass().getDeclaredFields())
                 .filter(item -> item.getAnnotation(ContactMessageField.class) != null).sorted((a, b) -> {
-                    return a.getAnnotation(ContactMessageField.class).order() - b.getAnnotation(ContactMessageField.class).order();
+                    return a.getAnnotation(ContactMessageField.class).order()
+                            - b.getAnnotation(ContactMessageField.class).order();
                 }).toArray(Field[]::new);
 
         for (final Field field : fields) {
@@ -50,7 +51,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                     if (o instanceof Boolean) {
                         required = (boolean) o;
                     } else if (o instanceof Integer) {
-                        required = ((int) o) > 0;
+                        required = (int) o > 0;
                     } else if (o instanceof IContactMessageFieldType) {
                         required = ((IContactMessageFieldType) o).getValue() > 0;
                     }
@@ -80,21 +81,24 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
             final Class<?> fieldClass = field.getType();
 
             if (fieldType == FieldType.COMPONENT_LIST) {
-                final Class<?> type = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+                final Class<?> type = (Class<?>) ((ParameterizedType) field.getGenericType())
+                        .getActualTypeArguments()[0];
 
                 final List<Object> result = new ArrayList<>();
 
                 for (int i = 0; i < length; i++) {
-                    extractField(messageCodes, -1, FieldType.COMPONENT, padLetter, type, additionalEnumClass, storeMethod, item -> {
-                        result.add(item);
-                    });
+                    extractField(messageCodes, -1, FieldType.COMPONENT, padLetter, type, additionalEnumClass,
+                            storeMethod, item -> {
+                                result.add(item);
+                            });
                 }
                 ContactMessageUtil.setFieldValue(object, field, result);
 
             } else {
-                extractField(messageCodes, length, fieldType, padLetter, fieldClass, additionalEnumClass, storeMethod, item -> {
-                    ContactMessageUtil.setFieldValue(object, field, item);
-                }, item -> cache.put(field.getName(), item));
+                extractField(messageCodes, length, fieldType, padLetter, fieldClass, additionalEnumClass, storeMethod,
+                        item -> {
+                            ContactMessageUtil.setFieldValue(object, field, item);
+                        }, item -> cache.put(field.getName(), item));
             }
         }
     }
@@ -109,7 +113,8 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                 }).toArray(Field[]::new);
 
         for (final Field structField : structFields) {
-            final ContactMessageStructField structAnnotation = structField.getAnnotation(ContactMessageStructField.class);
+            final ContactMessageStructField structAnnotation = structField
+                    .getAnnotation(ContactMessageStructField.class);
 
             boolean structRequired = structAnnotation.required();
             final String structRequiredFrom = structAnnotation.getRequiredFrom();
@@ -121,7 +126,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                     if (o instanceof Boolean) {
                         structRequired = (boolean) o;
                     } else if (o instanceof Integer) {
-                        structRequired = ((int) o) > 0;
+                        structRequired = (int) o > 0;
                     } else if (o instanceof IContactMessageFieldType) {
                         structRequired = ((IContactMessageFieldType) o).getValue() > 0;
                     }
@@ -149,7 +154,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                 final int flag = result & 0x1;
                 result >>= 1;
                 structCache.put(structField.getName(), flag > 0);
-                ContactMessageUtil.setFieldValue(structObject, structField, (flag > 0));
+                ContactMessageUtil.setFieldValue(structObject, structField, flag > 0);
 
             }
                 break;
@@ -175,16 +180,18 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
         }
     }
 
-    protected void extractField(final ByteArrayInputStream messageCodes, final int length, final FieldType fieldType, final char padLetter,
-            final Class<?> fieldClass, final Class<?> additionalEnumClass, final StoreMethod storeMethod, final Consumer<Object> setter)
-            throws Exception {
-        extractField(messageCodes, length, fieldType, padLetter, fieldClass, additionalEnumClass, storeMethod, setter, item -> {
-        });
+    protected void extractField(final ByteArrayInputStream messageCodes, final int length, final FieldType fieldType,
+            final char padLetter, final Class<?> fieldClass, final Class<?> additionalEnumClass,
+            final StoreMethod storeMethod, final Consumer<Object> setter) throws Exception {
+        extractField(messageCodes, length, fieldType, padLetter, fieldClass, additionalEnumClass, storeMethod, setter,
+                item -> {
+                });
     }
 
-    protected void extractField(final ByteArrayInputStream messageCodes, final int length, final FieldType fieldType, final char padLetter,
-            final Class<?> fieldClass, final Class<?> additionalEnumClass, final StoreMethod storeMethod, final Consumer<Object> setter,
-            final Consumer<Object> cacheDelegate) throws Exception {
+    protected void extractField(final ByteArrayInputStream messageCodes, final int length, final FieldType fieldType,
+            final char padLetter, final Class<?> fieldClass, final Class<?> additionalEnumClass,
+            final StoreMethod storeMethod, final Consumer<Object> setter, final Consumer<Object> cacheDelegate)
+            throws Exception {
         switch (fieldType) {
         case BYTE: {
             final int result = ContactMessageUtil.read(messageCodes, 1, storeMethod);
@@ -259,7 +266,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
             int result = 0;
             for (int i = 0; i < length; i++) {
                 result <<= 8;
-                result |= (ContactMessageUtil.read(messageCodes, 1, storeMethod) & 0xff);
+                result |= ContactMessageUtil.read(messageCodes, 1, storeMethod) & 0xff;
             }
             final Object structObject = fieldClass.newInstance();
             setter.accept(structObject);
@@ -310,16 +317,14 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                     final int result = ContactMessageUtil.read(messageCodes, additionalMessageLength, storeMethod);
                     deserializeStructObject(additionalMessageObject, result);
 
-                    additionals.add(new Tuple3<IAdditionalMessageKey, Integer, Object>(messageKey, additionalMessageLength,
-                            additionalMessageObject));
+                    additionals.add(new Tuple3<>(messageKey, additionalMessageLength, additionalMessageObject));
                 }
                     break;
                 case COMPONENT: {
                     final Object additionalMessageObject = messageType.newInstance();
                     deserializeObject(additionalMessageObject, messageCodes);
 
-                    additionals.add(new Tuple3<IAdditionalMessageKey, Integer, Object>(messageKey, additionalMessageLength,
-                            additionalMessageObject));
+                    additionals.add(new Tuple3<>(messageKey, additionalMessageLength, additionalMessageObject));
                 }
                     break;
                 case BCD:
@@ -328,10 +333,11 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                 case NBYTE:
                 case STRING:
                 case WORD: {
-                    extractField(messageCodes, additionalMessageLength, additionalMessageFieldType, '0', Object.class, Object.class,
-                            storeMethod, item -> {
+                    extractField(messageCodes, additionalMessageLength, additionalMessageFieldType, '0', Object.class,
+                            Object.class, storeMethod, item -> {
                                 Object v = item;
-                                if (messageType != Object.class && (IContactMessageFieldType.class.isAssignableFrom(messageType))) {
+                                if (messageType != Object.class
+                                        && IContactMessageFieldType.class.isAssignableFrom(messageType)) {
                                     for (final Object o : messageType.getEnumConstants()) {
                                         final IContactMessageFieldType f = (IContactMessageFieldType) o;
                                         if (v.equals(f.getValue())) {
@@ -340,7 +346,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                                         }
                                     }
                                 }
-                                additionals.add(new Tuple3<IAdditionalMessageKey, Integer, Object>(messageKey, additionalMessageLength, v));
+                                additionals.add(new Tuple3<>(messageKey, additionalMessageLength, v));
                             });
                 }
                     break;

@@ -19,8 +19,8 @@ public abstract class AbstractContactMessageQueue<TMessageMeta extends IContactM
         private int resendTimes;
 
         public MessageStatus() {
-            this.lastSendTime = new Date().getTime();
-            this.resendTimes = 0;
+            lastSendTime = new Date().getTime();
+            resendTimes = 0;
         }
 
         public long getLastSendTime() {
@@ -114,8 +114,8 @@ public abstract class AbstractContactMessageQueue<TMessageMeta extends IContactM
 
     private boolean active;
 
-    public AbstractContactMessageQueue(final TSerializer serializer, final TDeserializer deserializer, final int maxSerialNumber,
-            final int maxBodyLength, final int timeOutSenconds, final int maxRetryTimes) {
+    public AbstractContactMessageQueue(final TSerializer serializer, final TDeserializer deserializer,
+            final int maxSerialNumber, final int maxBodyLength, final int timeOutSenconds, final int maxRetryTimes) {
         this.serializer = serializer;
         this.deserializer = deserializer;
         this.maxSerialNumber = maxSerialNumber;
@@ -338,7 +338,7 @@ public abstract class AbstractContactMessageQueue<TMessageMeta extends IContactM
 
     @Override
     public TMessage getRequestMessage(final int serialNumber) {
-        final Tuple3<TMessage, byte[], MessageStatus> tuple = getSentMessages().get(serializer);
+        final Tuple3<TMessage, byte[], MessageStatus> tuple = getSentMessages().get(serialNumber);
 
         if (tuple != null) {
             return tuple.getItem1();

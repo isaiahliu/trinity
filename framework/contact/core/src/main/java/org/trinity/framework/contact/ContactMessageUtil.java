@@ -143,4 +143,25 @@ public final class ContactMessageUtil {
         } catch (final IOException e) {
         }
     }
+
+    public static void writeBcd(final ByteArrayOutputStream output, final String value, final int length,
+            final String padLetter) {
+        final int bcdLength = length * 2;
+
+        final StringBuilder str = new StringBuilder();
+
+        if (value.toString().length() > bcdLength) {
+            str.append(value.toString().substring(0, bcdLength));
+        } else {
+            for (int i = 0; i < bcdLength - value.toString().length(); i++) {
+                str.append(padLetter);
+            }
+            str.append(value.toString());
+        }
+
+        for (int i = 0; i < bcdLength; i = i + 2) {
+            final String bcd = str.substring(i, i + 2);
+            output.write(Integer.valueOf(bcd, 16));
+        }
+    }
 }
