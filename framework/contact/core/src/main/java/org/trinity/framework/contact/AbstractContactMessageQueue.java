@@ -252,7 +252,6 @@ public abstract class AbstractContactMessageQueue<TMessageMeta extends IContactM
 
     @Override
     public List<TMessage> getMessagesFromCodes(final byte[] messageCodes) {
-
         final List<byte[]> messageCodesList = unescape(messageCodes);
 
         final List<TMessage> result = new ArrayList<>();

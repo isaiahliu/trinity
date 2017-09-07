@@ -7,8 +7,8 @@ import org.trinity.framework.contact.ContactMessage.StoreMethod;
 import org.trinity.framework.contact.ContactMessageUtil;
 import org.trinity.framework.contact.jtt808.messages.terminal.request.Jtt808TerminalUnIdentifiedRequest;
 
-public final class Jtt808MessageDeserializer extends AbstractContactMessageDeserializer<IJtt808MessageMeta, IJtt808Message>
-        implements IJtt808MessageDeserializer {
+public final class Jtt808MessageDeserializer extends
+        AbstractContactMessageDeserializer<IJtt808MessageMeta, IJtt808Message> implements IJtt808MessageDeserializer {
     private IJtt808MessageInstantiator messageInstantiator;
 
     @Override
@@ -21,7 +21,7 @@ public final class Jtt808MessageDeserializer extends AbstractContactMessageDeser
                 return message;
             }
 
-            deserializeObject(message, messageCodes);
+            deserializeObject(header, message, messageCodes);
         } catch (final Exception e) {
 
         } finally {

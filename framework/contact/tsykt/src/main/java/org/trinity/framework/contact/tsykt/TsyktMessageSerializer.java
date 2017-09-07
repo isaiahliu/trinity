@@ -22,26 +22,27 @@ public final class TsyktMessageSerializer extends AbstractContactMessageSerializ
         final ByteArrayOutputStream messageCode = new ByteArrayOutputStream();
 
         ContactMessageUtil.write(messageCode, 0x60, 1, StoreMethod.BIG_END);
+        ContactMessageUtil.writeBcd(messageCode, "00", 2, "0");
+        ContactMessageUtil.writeBcd(messageCode, "00", 2, "0");
+
         ContactMessageUtil.writeBcd(messageCode, "61", 1, "0");
         ContactMessageUtil.writeBcd(messageCode, "22", 1, "0");
         ContactMessageUtil.writeBcd(messageCode, "00", 1, "0");
-        ContactMessageUtil.writeBcd(messageCode, "00", 1, "0");
-        ContactMessageUtil.writeBcd(messageCode, "00", 1, "0");
-        ContactMessageUtil.writeBcd(messageCode, "00", 1, "0");
+        ContactMessageUtil.writeBcd(messageCode, "00", 3, "0");
+        ContactMessageUtil.write(messageCode, header.getId(), 2, StoreMethod.BIG_END);
 
         int b = 0;
         int length = 0;
-        for (final byte position : header.getBitMap()) {
-            b <<= 1;
-            b |= position;
+        for (final boolean bit : header.getBitMap()) {
+            b |= bit ? 1 : 0;
             length++;
             if (length % 8 == 0) {
                 messageCode.write(b);
                 b = 0;
+            } else {
+                b <<= 1;
             }
         }
-
-        ContactMessageUtil.write(messageCode, header.getId(), 2, StoreMethod.BIG_END);
 
         return messageCode.toByteArray();
     }

@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.trinity.common.util.Tuple3;
 import org.trinity.framework.contact.AbstractContactMessageQueue;
+import org.trinity.framework.contact.ContactMessage.StoreMethod;
+import org.trinity.framework.contact.ContactMessageUtil;
 
 public class TsyktMessageQueue extends
         AbstractContactMessageQueue<ITsyktMessageMeta, ITsyktMessage, ITsyktMessageSerializer, ITsyktMessageDeserializer>
@@ -65,7 +67,15 @@ public class TsyktMessageQueue extends
 
     @Override
     protected byte[] escape(final byte[] messageCode) {
-        return messageCode;
+        try (final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            ContactMessageUtil.write(out, messageCode.length + 2, 2, StoreMethod.BIG_END);
+
+            out.write(messageCode);
+
+            return out.toByteArray();
+        } catch (final Exception e) {
+            return new byte[0];
+        }
     }
 
     @Override
@@ -81,7 +91,7 @@ public class TsyktMessageQueue extends
 
     @Override
     protected boolean hasVerifyCode() {
-        return true;
+        return false;
     }
 
     @Override

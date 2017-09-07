@@ -21,8 +21,9 @@ import org.trinity.framework.contact.IAdditionalMessageKey.DefaultAdditionalMess
 
 public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IContactMessageMeta, TMessage extends IContactMessage<TMessageMeta>>
         implements IContactMessageDeserializer<TMessageMeta, TMessage> {
-    protected void deserializeObject(final Object object, final ByteArrayInputStream messageCodes)
-            throws Exception, IllegalAccessException {
+
+    protected void deserializeObject(final TMessageMeta header, final Object object,
+            final ByteArrayInputStream messageCodes) throws Exception, IllegalAccessException {
         final Map<String, Object> cache = new HashMap<>();
 
         StoreMethod storeMethod = StoreMethod.BIG_END;
@@ -32,11 +33,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
             storeMethod = contactMessageAnnotation.storeMethod();
         }
 
-        final Field[] fields = Arrays.stream(object.getClass().getDeclaredFields())
-                .filter(item -> item.getAnnotation(ContactMessageField.class) != null).sorted((a, b) -> {
-                    return a.getAnnotation(ContactMessageField.class).order()
-                            - b.getAnnotation(ContactMessageField.class).order();
-                }).toArray(Field[]::new);
+        final Field[] fields = getFields(header, object);
 
         for (final Field field : fields) {
             final ContactMessageField annotation = field.getAnnotation(ContactMessageField.class);
@@ -322,7 +319,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                     break;
                 case COMPONENT: {
                     final Object additionalMessageObject = messageType.newInstance();
-                    deserializeObject(additionalMessageObject, messageCodes);
+                    deserializeObject(null, additionalMessageObject, messageCodes);
 
                     additionals.add(new Tuple3<>(messageKey, additionalMessageLength, additionalMessageObject));
                 }
@@ -367,15 +364,42 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
 
                 messageCodes.read(componentBytes);
 
-                deserializeObject(compObject, new ByteArrayInputStream(componentBytes));
+                deserializeObject(null, compObject, new ByteArrayInputStream(componentBytes));
             } else {
-                deserializeObject(compObject, messageCodes);
+                deserializeObject(null, compObject, messageCodes);
             }
             break;
         }
 
+        case LLVAR_BCD:
+            final int varLength = Integer
+                    .parseInt(Integer.toHexString(ContactMessageUtil.read(messageCodes, 1, storeMethod)));
+
+            final StringBuilder str = new StringBuilder();
+            for (int i = 0; i < varLength; i += 2) {
+                String temp = Integer.toHexString(ContactMessageUtil.read(messageCodes, 1, storeMethod));
+                if (temp.length() == 1) {
+                    temp = "0" + temp;
+                }
+
+                str.append(temp.charAt(0));
+                if (i < varLength - 1) {
+                    str.append(temp.charAt(1));
+                }
+            }
+
+            setter.accept(str.toString());
+            break;
         default:
             break;
         }
+    }
+
+    protected Field[] getFields(final TMessageMeta header, final Object object) {
+        return Arrays.stream(object.getClass().getDeclaredFields())
+                .filter(item -> item.getAnnotation(ContactMessageField.class) != null).sorted((a, b) -> {
+                    return a.getAnnotation(ContactMessageField.class).order()
+                            - b.getAnnotation(ContactMessageField.class).order();
+                }).toArray(Field[]::new);
     }
 }

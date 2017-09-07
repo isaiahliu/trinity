@@ -40,7 +40,8 @@ public @interface ContactMessageField {
         STRUCT,
         COMPONENT,
         COMPONENT_LIST,
-        BYTEARRAY
+        BYTEARRAY,
+        LLVAR_BCD
     }
 
     Class<?> additionalEnumClass() default EmptyKeys.class;

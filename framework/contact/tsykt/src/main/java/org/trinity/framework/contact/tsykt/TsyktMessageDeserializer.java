@@ -1,9 +1,12 @@
 package org.trinity.framework.contact.tsykt;
 
 import java.io.ByteArrayInputStream;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 
 import org.trinity.framework.contact.AbstractContactMessageDeserializer;
 import org.trinity.framework.contact.ContactMessage.StoreMethod;
+import org.trinity.framework.contact.ContactMessageField;
 import org.trinity.framework.contact.ContactMessageUtil;
 
 public final class TsyktMessageDeserializer extends AbstractContactMessageDeserializer<ITsyktMessageMeta, ITsyktMessage>
@@ -16,7 +19,7 @@ public final class TsyktMessageDeserializer extends AbstractContactMessageDeseri
         try {
             message = getMessageInstantiator().createMessage(header.getId());
 
-            deserializeObject(message, messageCodes);
+            deserializeObject(header, message, messageCodes);
         } catch (final Exception e) {
 
         } finally {
@@ -29,56 +32,23 @@ public final class TsyktMessageDeserializer extends AbstractContactMessageDeseri
 
     @Override
     public ITsyktMessageMeta deserializeHeader(final ByteArrayInputStream messageCodes) {
+        messageCodes.skip(13);
+
         final int id = ContactMessageUtil.read(messageCodes, 2, StoreMethod.BIG_END);
         final ITsyktMessageMeta header = new TsyktMessageMeta(id);
 
-        int attribute = ContactMessageUtil.read(messageCodes, 2, StoreMethod.BIG_END);
+        for (int byteIndex = 0; byteIndex < 8; byteIndex++) {
+            int bitmap = ContactMessageUtil.read(messageCodes, 1, StoreMethod.BIG_END);
+            for (int pos = 0; pos < 8; pos++) {
+                if (bitmap % 2 == 1) {
+                    final int pp = byteIndex * 8 + 8 - pos;
+                    header.markAvailable(pp);
+                }
 
-        final int bodyLength = attribute & 0x3ff;
-
-        header.setBodyLength(bodyLength);
-
-        attribute >>= 10;
-
-        attribute >>= 3;
-
-        final boolean hasSubPackages = (attribute & 0x1) == 1;
-
-        final StringBuilder phoneNo = new StringBuilder();
-
-        boolean ignoreZero = true;
-        for (int index = 4; index < 10; index++) {
-            final int temp = ContactMessageUtil.read(messageCodes, 1, StoreMethod.BIG_END);
-
-            if (ignoreZero && temp == 0) {
-                continue;
+                bitmap >>= 1;
             }
-
-            String tempStr = "";
-
-            tempStr = Integer.toHexString(temp);
-            if (ignoreZero) {
-                ignoreZero = false;
-            } else if (tempStr.length() == 1) {
-                phoneNo.append("0");
-            }
-
-            phoneNo.append(tempStr);
         }
 
-        final int serialNumber = ContactMessageUtil.read(messageCodes, 2, StoreMethod.BIG_END);
-        header.setSerialNumber(serialNumber);
-
-        if (hasSubPackages) {
-            final int totalPackageCount = ContactMessageUtil.read(messageCodes, 2, StoreMethod.BIG_END);
-            final int packageIndex = ContactMessageUtil.read(messageCodes, 2, StoreMethod.BIG_END);
-
-            header.setPackageCount(totalPackageCount);
-            header.setPackageIndex(packageIndex);
-        } else {
-            header.setPackageCount(1);
-            header.setPackageIndex(1);
-        }
         return header;
     }
 
@@ -87,5 +57,22 @@ public final class TsyktMessageDeserializer extends AbstractContactMessageDeseri
             messageInstantiator = new TsyktMessageInstantiator();
         }
         return messageInstantiator;
+    }
+
+    @Override
+    protected Field[] getFields(final ITsyktMessageMeta header, final Object object) {
+        final boolean[] bitmap = header.getBitMap();
+
+        return Arrays.stream(object.getClass().getDeclaredFields()).filter(item -> {
+            final ContactMessageField annotation = item.getAnnotation(ContactMessageField.class);
+            if (annotation == null) {
+                return false;
+            }
+
+            return bitmap[annotation.bitmapPos() - 1];
+        }).sorted((a, b) -> {
+            return a.getAnnotation(ContactMessageField.class).order()
+                    - b.getAnnotation(ContactMessageField.class).order();
+        }).toArray(Field[]::new);
     }
 }
