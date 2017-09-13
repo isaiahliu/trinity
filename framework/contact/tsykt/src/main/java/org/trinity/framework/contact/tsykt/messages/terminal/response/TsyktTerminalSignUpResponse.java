@@ -43,19 +43,31 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 12, padLetter = '0')
     private String manageNo;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 24, bitmapPos = 62, order = 13)
-    private String terminalSecretKey;
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 62, order = 14, padLetter = '0')
+    private int field62 = 48;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 14, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 62, order = 15)
+    private String pik;
+
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 62, order = 16)
+    private String pikCheckValue;
+
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 62, order = 17)
+    private String mak;
+
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 62, order = 18)
+    private String makCheckValue;
+
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 19, padLetter = '0')
     private int field63 = 33;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 15)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 20)
     private String operatorCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 1, bitmapPos = 63, order = 16)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 1, bitmapPos = 63, order = 21)
     private String passwordVerifyCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 17)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 22)
     private String password;
 
     public String getBatchNo() {
@@ -70,8 +82,20 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
         return field60;
     }
 
+    public int getField62() {
+        return field62;
+    }
+
     public int getField63() {
         return field63;
+    }
+
+    public String getMak() {
+        return mak;
+    }
+
+    public String getMakCheckValue() {
+        return makCheckValue;
     }
 
     public String getManageNo() {
@@ -88,6 +112,14 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
 
     public String getPasswordVerifyCode() {
         return passwordVerifyCode;
+    }
+
+    public String getPik() {
+        return pik;
+    }
+
+    public String getPikCheckValue() {
+        return pikCheckValue;
     }
 
     public String getPlatformCode() {
@@ -114,10 +146,6 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
         return terminalCode;
     }
 
-    public String getTerminalSecretKey() {
-        return terminalSecretKey;
-    }
-
     public String getTime() {
         return time;
     }
@@ -138,8 +166,20 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
         this.field60 = field60;
     }
 
+    public void setField62(final int field62) {
+        this.field62 = field62;
+    }
+
     public void setField63(final int field63) {
         this.field63 = field63;
+    }
+
+    public void setMak(final String mak) {
+        this.mak = mak;
+    }
+
+    public void setMakCheckValue(final String makCheckValue) {
+        this.makCheckValue = makCheckValue;
     }
 
     public void setManageNo(final String manageNo) {
@@ -156,6 +196,14 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
 
     public void setPasswordVerifyCode(final String passwordVerifyCode) {
         this.passwordVerifyCode = passwordVerifyCode;
+    }
+
+    public void setPik(final String pik) {
+        this.pik = pik;
+    }
+
+    public void setPikCheckValue(final String pikCheckValue) {
+        this.pikCheckValue = pikCheckValue;
     }
 
     public void setPlatformCode(final String platformCode) {
@@ -180,10 +228,6 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
 
     public void setTerminalCode(final String terminalCode) {
         this.terminalCode = terminalCode;
-    }
-
-    public void setTerminalSecretKey(final String terminalSecretKey) {
-        this.terminalSecretKey = terminalSecretKey;
     }
 
     public void setTime(final String time) {
