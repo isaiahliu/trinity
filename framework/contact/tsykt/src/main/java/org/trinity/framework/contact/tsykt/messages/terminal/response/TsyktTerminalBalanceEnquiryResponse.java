@@ -34,7 +34,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
     @ContactMessageField(fieldType = FieldType.VAR_BCD, length = 11, bitmapPos = 32, order = 9, padLetter = '0')
     private String queryCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 32, order = 10, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 37, order = 10, padLetter = '0')
     private String queryRefCode;
 
     @ContactMessageField(fieldType = FieldType.NBYTE, length = 2, bitmapPos = 39, order = 11, padLetter = '0')
