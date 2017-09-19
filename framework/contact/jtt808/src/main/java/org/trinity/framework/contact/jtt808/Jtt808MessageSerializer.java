@@ -13,7 +13,7 @@ public final class Jtt808MessageSerializer extends AbstractContactMessageSeriali
     public byte[] serializeBody(final IJtt808Message message) {
         final ByteArrayOutputStream body = new ByteArrayOutputStream();
 
-        serializeObject(message, body);
+        serializeObject(message.getMeta(), message, body);
         return body.toByteArray();
     }
 
@@ -23,7 +23,7 @@ public final class Jtt808MessageSerializer extends AbstractContactMessageSeriali
 
         ContactMessageUtil.write(messageCode, header.getId(), 2, StoreMethod.BIG_END);
 
-        final boolean hasSubPackage = (header.getPackageCount() > 1);
+        final boolean hasSubPackage = header.getPackageCount() > 1;
         int attribute = hasSubPackage ? 1 : 0;
         attribute <<= 3;
         attribute |= header.getEncryptionMode();

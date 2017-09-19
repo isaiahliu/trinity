@@ -16,7 +16,7 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 13, order = 3, padLetter = '0')
     private String date;
 
-    @ContactMessageField(fieldType = FieldType.LLVAR_BCD, bitmapPos = 32, order = 4, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.VAR_BCD, bitmapPos = 32, order = 4, padLetter = '0')
     private String platformCode;
 
     @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 37, order = 5)
@@ -61,13 +61,13 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 19, padLetter = '0')
     private int field63 = 33;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 20)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 22)
     private String operatorCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 1, bitmapPos = 63, order = 21)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 1, bitmapPos = 63, order = 23)
     private String passwordVerifyCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 22)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 24)
     private String password;
 
     public String getBatchNo() {

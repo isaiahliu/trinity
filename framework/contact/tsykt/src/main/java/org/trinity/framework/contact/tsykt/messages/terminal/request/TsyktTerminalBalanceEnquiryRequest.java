@@ -10,10 +10,10 @@ public class TsyktTerminalBalanceEnquiryRequest extends AbstractTsyktTerminalReq
     @ContactMessageField(fieldType = FieldType.VAR_BCD, length = 19, bitmapPos = 2, order = 1, padLetter = '0')
     private String account;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 3, order = 2)
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 3, order = 2, padLetter = '0')
     private String transactionCode;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 11, order = 3)
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 11, order = 3, padLetter = '0')
     private String serialNo;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 22, order = 4, padLetter = '0')
@@ -43,7 +43,7 @@ public class TsyktTerminalBalanceEnquiryRequest extends AbstractTsyktTerminalReq
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 12, padLetter = '0')
     private int manageNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 13, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 13, padLetter = '0')
     private int field63 = 63;
 
     @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 14)
@@ -52,7 +52,7 @@ public class TsyktTerminalBalanceEnquiryRequest extends AbstractTsyktTerminalReq
     @ContactMessageField(fieldType = FieldType.NBYTE, length = 20, bitmapPos = 63, order = 15)
     private String accountCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 64, order = 16)
+    @ContactMessageField(fieldType = FieldType.MAC, bitmapPos = 64, order = 16)
     private String mac;
 
     public String getAccount() {
@@ -68,11 +68,11 @@ public class TsyktTerminalBalanceEnquiryRequest extends AbstractTsyktTerminalReq
     }
 
     public int getField60() {
-        return field60;
+        return field60 = 11;
     }
 
     public int getField63() {
-        return field63;
+        return field63 = 63;
     }
 
     public String getInputMethod() {

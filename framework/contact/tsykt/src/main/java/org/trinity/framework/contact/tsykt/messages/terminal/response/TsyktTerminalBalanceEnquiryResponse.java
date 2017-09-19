@@ -56,15 +56,15 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
     private int field60 = 11;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 1, bitmapPos = 60, order = 17, padLetter = '0')
-    private int transactionTypeCode;
+    private String transactionTypeCode;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 60, order = 18, padLetter = '0')
-    private int batchNo;
+    private String batchNo;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 19, padLetter = '0')
-    private int manageNo;
+    private String manageNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 20, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 20, padLetter = '0')
     private int field63 = 63;
 
     @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 21)
@@ -88,7 +88,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         return amount;
     }
 
-    public int getBatchNo() {
+    public String getBatchNo() {
         return batchNo;
     }
 
@@ -108,7 +108,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         return mac;
     }
 
-    public int getManageNo() {
+    public String getManageNo() {
         return manageNo;
     }
 
@@ -164,7 +164,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         return transactionCode;
     }
 
-    public int getTransactionTypeCode() {
+    public String getTransactionTypeCode() {
         return transactionTypeCode;
     }
 
@@ -180,7 +180,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         this.amount = amount;
     }
 
-    public void setBatchNo(final int batchNo) {
+    public void setBatchNo(final String batchNo) {
         this.batchNo = batchNo;
     }
 
@@ -200,7 +200,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         this.mac = mac;
     }
 
-    public void setManageNo(final int manageNo) {
+    public void setManageNo(final String manageNo) {
         this.manageNo = manageNo;
     }
 
@@ -256,7 +256,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         this.transactionCode = transactionCode;
     }
 
-    public void setTransactionTypeCode(final int transactionTypeCode) {
+    public void setTransactionTypeCode(final String transactionTypeCode) {
         this.transactionTypeCode = transactionTypeCode;
     }
 

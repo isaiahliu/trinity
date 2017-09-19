@@ -6,10 +6,7 @@ import org.trinity.framework.contact.ContactMessageField;
 import org.trinity.framework.contact.ContactMessageField.FieldType;
 
 @ContactMessage(storeMethod = StoreMethod.BIG_END)
-public class TsyktTerminalSignUpRequest extends AbstractTsyktTerminalRequest {
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 11, order = 1, padLetter = '0')
-    private int serialNo;
-
+public class TsyktTerminalKekDownloadRequest extends AbstractTsyktTerminalRequest {
     @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 41, order = 2)
     private String terminalCode;
 
@@ -28,18 +25,6 @@ public class TsyktTerminalSignUpRequest extends AbstractTsyktTerminalRequest {
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 7, padLetter = '0')
     private int manageNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 8, padLetter = '0')
-    private int field63 = 33;
-
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 9)
-    private String operatorCode;
-
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 1, bitmapPos = 63, order = 10)
-    private String passwordVerifyCode;
-
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 11)
-    private String password;
-
     public int getBatchNo() {
         return batchNo;
     }
@@ -48,28 +33,8 @@ public class TsyktTerminalSignUpRequest extends AbstractTsyktTerminalRequest {
         return field60;
     }
 
-    public int getField63() {
-        return field63;
-    }
-
     public int getManageNo() {
         return manageNo;
-    }
-
-    public String getOperatorCode() {
-        return operatorCode;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getPasswordVerifyCode() {
-        return passwordVerifyCode;
-    }
-
-    public int getSerialNo() {
-        return serialNo;
     }
 
     public String getShopCode() {
@@ -92,28 +57,8 @@ public class TsyktTerminalSignUpRequest extends AbstractTsyktTerminalRequest {
         this.field60 = field60;
     }
 
-    public void setField63(final int field63) {
-        this.field63 = field63;
-    }
-
     public void setManageNo(final int manageNo) {
         this.manageNo = manageNo;
-    }
-
-    public void setOperatorCode(final String operatorCode) {
-        this.operatorCode = operatorCode;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
-    public void setPasswordVerifyCode(final String passwordVerifyCode) {
-        this.passwordVerifyCode = passwordVerifyCode;
-    }
-
-    public void setSerialNo(final int serialNo) {
-        this.serialNo = serialNo;
     }
 
     public void setShopCode(final String shopCode) {
@@ -135,6 +80,6 @@ public class TsyktTerminalSignUpRequest extends AbstractTsyktTerminalRequest {
 
     @Override
     protected int[] getMandatoryBitMapFlags() {
-        return new int[] { 11, 41, 42, 60, 63 };
+        return new int[] { 41, 42, 60 };
     }
 }

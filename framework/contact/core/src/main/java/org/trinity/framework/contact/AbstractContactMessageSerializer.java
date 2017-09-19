@@ -19,14 +19,16 @@ import org.trinity.framework.contact.ContactMessageStructField.StructFieldType;
 
 public abstract class AbstractContactMessageSerializer<TMessageMeta extends IContactMessageMeta, TMessage extends IContactMessage<TMessageMeta>>
         implements IContactMessageSerializer<TMessageMeta, TMessage> {
-    protected void extractField(final ByteArrayOutputStream output, final FieldType fieldType, final Object value, final int length,
-            final char padLetter, final StoreMethod storeMethod) {
-        extractField(output, fieldType, value, length, padLetter, storeMethod, item -> {
+
+    protected void extractField(final ByteArrayOutputStream output, final FieldType fieldType, final Object value,
+            final int length, final char padLetter, final StoreMethod storeMethod, final TMessageMeta meta) {
+        extractField(output, fieldType, value, length, padLetter, storeMethod, meta, item -> {
         });
     }
 
-    protected void extractField(final ByteArrayOutputStream output, final FieldType fieldType, Object value, final int length,
-            final char padLetter, final StoreMethod storeMethod, final Consumer<Object> cacheDelegate) {
+    protected void extractField(final ByteArrayOutputStream output, final FieldType fieldType, Object value,
+            final int length, final char padLetter, final StoreMethod storeMethod, final TMessageMeta meta,
+            final Consumer<Object> cacheDelegate) {
         switch (fieldType) {
         case BYTE: {
             if (value == null) {
@@ -158,6 +160,50 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             }
             break;
         }
+        case VAR_BCD: {
+            if (value == null) {
+                value = "";
+            }
+
+            if (value != null) {
+                String bcdValue = value.toString();
+                final int bcdLength = bcdValue.length();
+                if (bcdLength % 2 == 1) {
+                    bcdValue += padLetter;
+                }
+
+                bcdValue = String.format("%02d", bcdLength) + bcdValue;
+
+                for (int i = 0; i < bcdValue.length(); i = i + 2) {
+                    final String bcd = bcdValue.substring(i, i + 2);
+                    output.write(Integer.valueOf(bcd, 16));
+                }
+            }
+        }
+            break;
+        case LLVAR_BCD: {
+            if (value == null) {
+                value = "";
+            }
+
+            if (value != null) {
+                String bcdValue = value.toString();
+                final int bcdLength = bcdValue.length();
+                if (bcdLength % 2 == 1) {
+                    bcdValue += padLetter;
+                }
+
+                final StringBuilder str = new StringBuilder();
+
+                bcdValue = String.format("%04d", bcdLength) + bcdValue;
+
+                for (int i = 0; i < bcdLength; i = i + 2) {
+                    final String bcd = str.substring(i, i + 2);
+                    output.write(Integer.valueOf(bcd, 16));
+                }
+            }
+        }
+            break;
         case STRUCT: {
             if (value == null) {
                 for (int i = 0; i < length; i++) {
@@ -177,7 +223,8 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             final Map<String, Object> structCache = new HashMap<>();
 
             for (final Field structField : structFields) {
-                final ContactMessageStructField structAnnotation = structField.getAnnotation(ContactMessageStructField.class);
+                final ContactMessageStructField structAnnotation = structField
+                        .getAnnotation(ContactMessageStructField.class);
 
                 Object structFieldValue = ContactMessageUtil.getFieldValue(value, structField);
 
@@ -189,7 +236,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                         if (o instanceof Boolean) {
                             structRequired = (boolean) o;
                         } else if (o instanceof Integer) {
-                            structRequired = ((int) o) > 0;
+                            structRequired = (int) o > 0;
                         } else if (o instanceof IContactMessageFieldType) {
                             structRequired = ((IContactMessageFieldType) o).getValue() > 0;
                         }
@@ -222,7 +269,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                     }
 
                     result <<= 1;
-                    result |= ((boolean) structFieldValue) ? 1 : 0;
+                    result |= (boolean) structFieldValue ? 1 : 0;
 
                     structCache.put(structField.getName(), structFieldValue);
                 }
@@ -239,7 +286,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                     }
 
                     result <<= structLength;
-                    result |= ((int) structFieldValue) & temp;
+                    result |= (int) structFieldValue & temp;
 
                     structCache.put(structField.getName(), structFieldValue);
                 }
@@ -267,7 +314,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             if (value == null) {
                 break;
             }
-            serializeObject(value, output);
+            serializeObject(null, value, output);
         }
             break;
         case ADDITIONALS:
@@ -290,11 +337,11 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                 case NBYTE:
                 case STRING:
                 case STRUCT:
-                    extractField(temp, item.getItem1().getFieldType(), item.getItem3(), item.getItem1().getDefaultLength(), '0',
-                            storeMethod);
+                    extractField(temp, item.getItem1().getFieldType(), item.getItem3(),
+                            item.getItem1().getDefaultLength(), '0', storeMethod, meta);
                     break;
                 case COMPONENT:
-                    serializeObject(item.getItem3(), temp);
+                    serializeObject(null, item.getItem3(), temp);
                     break;
                 default:
                 case ADDITIONALS:
@@ -309,12 +356,33 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             });
 
             break;
+        case MAC:
+            final byte[] mac = getMac(meta, output);
+            if (mac.length != 0) {
+                output.write(mac, 0, mac.length);
+            }
+
+            System.out.println(new String(mac));
+            break;
         default:
             break;
         }
     }
 
-    protected void serializeObject(final Object message, final ByteArrayOutputStream output) {
+    protected Field[] getFields(final TMessageMeta header, final Object object) {
+        return Arrays.stream(object.getClass().getDeclaredFields())
+                .filter(item -> item.getAnnotation(ContactMessageField.class) != null).sorted((a, b) -> {
+                    return a.getAnnotation(ContactMessageField.class).order()
+                            - b.getAnnotation(ContactMessageField.class).order();
+                }).toArray(Field[]::new);
+    }
+
+    protected byte[] getMac(final TMessageMeta meta, final ByteArrayOutputStream output) {
+        return new byte[0];
+    }
+
+    protected void serializeObject(final TMessageMeta header, final Object message,
+            final ByteArrayOutputStream output) {
         final Map<String, Object> cache = new HashMap<>();
         StoreMethod storeMethod = StoreMethod.BIG_END;
 
@@ -323,17 +391,11 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             storeMethod = contactMessageAnnotation.storeMethod();
         }
 
-        final Field[] fields = Arrays.stream(message.getClass().getDeclaredFields())
-                .filter(item -> item.getAnnotation(ContactMessageField.class) != null).sorted((a, b) -> {
-                    return a.getAnnotation(ContactMessageField.class).order() - b.getAnnotation(ContactMessageField.class).order();
-                }).toArray(Field[]::new);
-
         final Stack<Tuple3<Field, FieldType, ByteArrayOutputStream>> outputStack = new Stack<>();
 
-        Tuple3<Field, FieldType, ByteArrayOutputStream> using = new Tuple3<>(
-                null, null, output);
+        Tuple3<Field, FieldType, ByteArrayOutputStream> using = new Tuple3<>(null, null, output);
 
-        for (final Field field : fields) {
+        for (final Field field : getFields(header, message)) {
             final ContactMessageField annotation = field.getAnnotation(ContactMessageField.class);
 
             final Object value = ContactMessageUtil.getFieldValue(message, field);
@@ -347,7 +409,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                     if (o instanceof Boolean) {
                         required = (boolean) o;
                     } else if (o instanceof Integer) {
-                        required = ((int) o) > 0;
+                        required = (int) o > 0;
                     } else if (o instanceof IContactMessageFieldType) {
                         required = ((IContactMessageFieldType) o).getValue() > 0;
                     }
@@ -377,8 +439,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             if (annotation.depends()) {
                 outputStack.push(using);
 
-                using = new Tuple3<>(field, fieldType,
-                        new ByteArrayOutputStream());
+                using = new Tuple3<>(field, fieldType, new ByteArrayOutputStream());
 
                 continue;
             }
@@ -387,18 +448,19 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                 if (annotation.getLengthFrom().equals(using.getItem1().getName())) {
                     outputStack.push(using);
 
-                    using = new Tuple3<>(field, fieldType,
-                            new ByteArrayOutputStream());
+                    using = new Tuple3<>(field, fieldType, new ByteArrayOutputStream());
                 }
             }
 
             if (fieldType == FieldType.COMPONENT_LIST) {
-                final List<?> valueList = ((List<?>) value);
+                final List<?> valueList = (List<?>) value;
                 for (int i = 0; i < length; i++) {
-                    extractField(using.getItem3(), FieldType.COMPONENT, valueList.get(i), 0, padLetter, storeMethod);
+                    extractField(using.getItem3(), FieldType.COMPONENT, valueList.get(i), 0, padLetter, storeMethod,
+                            header);
                 }
             } else {
-                extractField(using.getItem3(), fieldType, value, length, padLetter, storeMethod, item -> cache.put(field.getName(), item));
+                extractField(using.getItem3(), fieldType, value, length, padLetter, storeMethod, header,
+                        item -> cache.put(field.getName(), item));
             }
 
             if (using.getItem1() != null) {
@@ -426,9 +488,10 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
 
                     using = outputStack.pop();
 
-                    extractField(using.getItem3(), middle.getItem2(), dependsValue, 0, ' ', storeMethod, item -> {
-                        cache.put(name, item);
-                    });
+                    extractField(using.getItem3(), middle.getItem2(), dependsValue, 0, ' ', storeMethod, header,
+                            item -> {
+                                cache.put(name, item);
+                            });
 
                     try {
                         using.getItem3().write(middle.getItem3().toByteArray());

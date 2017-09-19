@@ -371,7 +371,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
             break;
         }
 
-        case LLVAR_BCD:
+        case VAR_BCD: {
             final int varLength = Integer
                     .parseInt(Integer.toHexString(ContactMessageUtil.read(messageCodes, 1, storeMethod)));
 
@@ -389,6 +389,27 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
             }
 
             setter.accept(str.toString());
+        }
+            break;
+        case LLVAR_BCD: {
+            final int varLength = Integer
+                    .parseInt(Integer.toHexString(ContactMessageUtil.read(messageCodes, 2, storeMethod)));
+
+            final StringBuilder str = new StringBuilder();
+            for (int i = 0; i < varLength; i += 2) {
+                String temp = Integer.toHexString(ContactMessageUtil.read(messageCodes, 1, storeMethod));
+                if (temp.length() == 1) {
+                    temp = "0" + temp;
+                }
+
+                str.append(temp.charAt(0));
+                if (i < varLength - 1) {
+                    str.append(temp.charAt(1));
+                }
+            }
+
+            setter.accept(str.toString());
+        }
             break;
         default:
             break;
