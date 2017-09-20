@@ -10,10 +10,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
     @ContactMessageField(fieldType = FieldType.VAR_BCD, length = 19, bitmapPos = 2, order = 1, padLetter = '0')
     private String account;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 3, order = 2)
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 3, order = 2, padLetter = '0')
     private String transactionCode;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 11, order = 3)
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 11, order = 3, padLetter = '0')
     private String serialNo;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 12, order = 4, padLetter = '0')
@@ -49,31 +49,34 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
     @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 52, order = 14)
     private String password;
 
-    @ContactMessageField(fieldType = FieldType.LLVAR_BCD, length = 256, bitmapPos = 54, order = 15)
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 54, order = 15, padLetter = '0')
+    private String amountLength;
+
+    @ContactMessageField(fieldType = FieldType.NBYTE, getLengthFrom = "amountLength", bitmapPos = 54, order = 16)
     private String amount;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 16, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 17, padLetter = '0')
     private int field60 = 11;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 1, bitmapPos = 60, order = 17, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 1, bitmapPos = 60, order = 18, padLetter = '0')
     private String transactionTypeCode;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 60, order = 18, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 60, order = 19, padLetter = '0')
     private String batchNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 19, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 20, padLetter = '0')
     private String manageNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 20, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 21, padLetter = '0')
     private int field63 = 63;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 21)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 22)
     private String operatorCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 20, bitmapPos = 63, order = 22)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 20, bitmapPos = 63, order = 23)
     private String accountCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 64, order = 23)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 64, order = 24)
     private String mac;
 
     public String getAccount() {
@@ -86,6 +89,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
 
     public String getAmount() {
         return amount;
+    }
+
+    public String getAmountLength() {
+        return amountLength;
     }
 
     public String getBatchNo() {
@@ -178,6 +185,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
 
     public void setAmount(final String amount) {
         this.amount = amount;
+    }
+
+    public void setAmountLength(final String amountLength) {
+        this.amountLength = amountLength;
     }
 
     public void setBatchNo(final String batchNo) {

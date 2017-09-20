@@ -68,6 +68,8 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                 if (o != null) {
                     if (o instanceof Integer) {
                         length = (int) o;
+                    } else {
+                        length = Integer.parseInt(o.toString());
                     }
                 }
             }
@@ -257,6 +259,7 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
             }
 
             setter.accept(str.toString());
+            cacheDelegate.accept(str.toString());
             break;
         }
         case STRUCT: {

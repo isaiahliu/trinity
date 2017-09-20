@@ -57,7 +57,7 @@ public final class TsyktMessageSerializer extends AbstractContactMessageSerializ
         }
     }
 
-    public static String mak;
+    public static byte[] mak;
 
     @Override
     public byte[] serializeBody(final ITsyktMessage message) {
@@ -115,7 +115,7 @@ public final class TsyktMessageSerializer extends AbstractContactMessageSerializ
 
     private byte[] encrypt(final byte[] bytes) {
         try {
-            final DESKeySpec dks = new DESKeySpec(mak.getBytes());
+            final DESKeySpec dks = new DESKeySpec(mak);
             final SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             final SecretKey securekey = keyFactory.generateSecret(dks);
             final Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding");
