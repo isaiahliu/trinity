@@ -21,7 +21,7 @@ public final class TsyktMessageDeserializer extends AbstractContactMessageDeseri
 
             deserializeObject(header, message, messageCodes);
         } catch (final Exception e) {
-
+            e.printStackTrace();
         } finally {
             if (message != null) {
                 message.setMeta(header);
@@ -61,18 +61,25 @@ public final class TsyktMessageDeserializer extends AbstractContactMessageDeseri
 
     @Override
     protected Field[] getFields(final ITsyktMessageMeta header, final Object object) {
-        final boolean[] bitmap = header.getBitMap();
+        if (header == null) {
+            return Arrays.stream(object.getClass().getDeclaredFields()).sorted((a, b) -> {
+                return a.getAnnotation(ContactMessageField.class).order()
+                        - b.getAnnotation(ContactMessageField.class).order();
+            }).toArray(Field[]::new);
+        } else {
+            final boolean[] bitmap = header.getBitMap();
 
-        return Arrays.stream(object.getClass().getDeclaredFields()).filter(item -> {
-            final ContactMessageField annotation = item.getAnnotation(ContactMessageField.class);
-            if (annotation == null) {
-                return false;
-            }
+            return Arrays.stream(object.getClass().getDeclaredFields()).filter(item -> {
+                final ContactMessageField annotation = item.getAnnotation(ContactMessageField.class);
+                if (annotation == null) {
+                    return false;
+                }
 
-            return bitmap[annotation.bitmapPos() - 1];
-        }).sorted((a, b) -> {
-            return a.getAnnotation(ContactMessageField.class).order()
-                    - b.getAnnotation(ContactMessageField.class).order();
-        }).toArray(Field[]::new);
+                return bitmap[annotation.bitmapPos() - 1];
+            }).sorted((a, b) -> {
+                return a.getAnnotation(ContactMessageField.class).order()
+                        - b.getAnnotation(ContactMessageField.class).order();
+            }).toArray(Field[]::new);
+        }
     }
 }

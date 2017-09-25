@@ -47,7 +47,8 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             }
             break;
         }
-        case NBYTE: {
+        case NBYTE:
+        case UTF8: {
             if (value == null) {
                 value = "";
             }
@@ -60,12 +61,12 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                     str = str.substring(0, str.length() + emptyCount);
                 }
 
-                for (final char c : str.toCharArray()) {
-                    output.write((byte) c);
-                }
-
                 for (int i = 0; i < emptyCount; i++) {
                     output.write((byte) padLetter);
+                }
+
+                for (final char c : str.toCharArray()) {
+                    output.write((byte) c);
                 }
             }
             break;

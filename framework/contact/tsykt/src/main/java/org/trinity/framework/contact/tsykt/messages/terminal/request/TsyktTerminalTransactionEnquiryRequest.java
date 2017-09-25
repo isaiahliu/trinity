@@ -31,14 +31,14 @@ public class TsyktTerminalTransactionEnquiryRequest extends AbstractTsyktTermina
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 8, padLetter = '0')
     private int field63 = 24;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 4, bitmapPos = 63, order = 9, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 63, order = 9, padLetter = '0')
     private String startDate;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 4, bitmapPos = 63, order = 10, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 63, order = 10, padLetter = '0')
     private String endDate;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 4, bitmapPos = 63, order = 11, padLetter = '0')
-    private int startIndex;
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 63, order = 11, padLetter = '0')
+    private String startIndex;
 
     @ContactMessageField(fieldType = FieldType.MAC, bitmapPos = 64, order = 12)
     private String mac;
@@ -79,7 +79,7 @@ public class TsyktTerminalTransactionEnquiryRequest extends AbstractTsyktTermina
         return startDate;
     }
 
-    public int getStartIndex() {
+    public String getStartIndex() {
         return startIndex;
     }
 
@@ -127,7 +127,7 @@ public class TsyktTerminalTransactionEnquiryRequest extends AbstractTsyktTermina
         this.startDate = startDate;
     }
 
-    public void setStartIndex(final int startIndex) {
+    public void setStartIndex(final String startIndex) {
         this.startIndex = startIndex;
     }
 

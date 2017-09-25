@@ -199,13 +199,25 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
             cacheDelegate.accept(result);
             break;
         }
-        case NBYTE: {
+        case NBYTE:
+        case MAC: {
             final char[] chars = new char[length];
             for (int i = 0; i < length; i++) {
                 chars[i] = (char) (byte) messageCodes.read();
             }
 
             setter.accept(new String(chars).trim());
+            cacheDelegate.accept(new String(chars).trim());
+            break;
+        }
+        case UTF8: {
+            final byte[] chars = new byte[length];
+            for (int i = 0; i < length; i++) {
+                chars[i] = (byte) messageCodes.read();
+            }
+            final String s = new String(chars, Charset.forName("GBK")).trim();
+            setter.accept(s);
+            cacheDelegate.accept(s);
             break;
         }
         case WORD: {
