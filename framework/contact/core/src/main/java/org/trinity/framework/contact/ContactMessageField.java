@@ -43,7 +43,8 @@ public @interface ContactMessageField {
         BYTEARRAY,
         LLVAR_BCD,
         MAC,
-        UTF8
+        UTF8,
+        PASSWORD
     }
 
     Class<?> additionalEnumClass() default EmptyKeys.class;

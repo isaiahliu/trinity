@@ -6,7 +6,7 @@ import org.trinity.framework.contact.ContactMessageField;
 import org.trinity.framework.contact.ContactMessageField.FieldType;
 
 @ContactMessage(storeMethod = StoreMethod.BIG_END)
-public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
+public class TsyktTerminalSignUpResponse extends AbstractTsyktTerminalResponse {
     @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 11, order = 1, padLetter = '0')
     private String serialNo;
 
@@ -130,6 +130,7 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
         return referenceCode;
     }
 
+    @Override
     public String getResponseCode() {
         return responseCode;
     }
@@ -214,6 +215,7 @@ public class TsyktTerminalSignUpResponse extends AbstractTsyktPlatformResponse {
         this.referenceCode = referenceCode;
     }
 
+    @Override
     public void setResponseCode(final String responseCode) {
         this.responseCode = responseCode;
     }

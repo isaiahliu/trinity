@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.trinity.common.util.Tuple3;
 import org.trinity.framework.contact.ContactMessage.StoreMethod;
@@ -23,12 +24,12 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
     protected void extractField(final ByteArrayOutputStream output, final FieldType fieldType, final Object value,
             final int length, final char padLetter, final StoreMethod storeMethod, final TMessageMeta meta) {
         extractField(output, fieldType, value, length, padLetter, storeMethod, meta, item -> {
-        });
+        }, item -> null);
     }
 
     protected void extractField(final ByteArrayOutputStream output, final FieldType fieldType, Object value,
             final int length, final char padLetter, final StoreMethod storeMethod, final TMessageMeta meta,
-            final Consumer<Object> cacheDelegate) {
+            final Consumer<Object> cacheSetterDelegate, final Function<String, Object> cacheGetterDelegate) {
         switch (fieldType) {
         case BYTE: {
             if (value == null) {
@@ -38,10 +39,10 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             if (value != null) {
                 if (value instanceof IContactMessageFieldType) {
                     final int v = ((IContactMessageFieldType) value).getValue();
-                    cacheDelegate.accept(v);
+                    cacheSetterDelegate.accept(v);
                     ContactMessageUtil.write(output, v, 1, storeMethod);
                 } else {
-                    cacheDelegate.accept((int) value);
+                    cacheSetterDelegate.accept((int) value);
                     ContactMessageUtil.write(output, (int) value, 1, storeMethod);
                 }
             }
@@ -79,10 +80,10 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             if (value != null) {
                 if (value instanceof IContactMessageFieldType) {
                     final int v = ((IContactMessageFieldType) value).getValue();
-                    cacheDelegate.accept(v);
+                    cacheSetterDelegate.accept(v);
                     ContactMessageUtil.write(output, v, 2, storeMethod);
                 } else {
-                    cacheDelegate.accept((int) value);
+                    cacheSetterDelegate.accept((int) value);
                     ContactMessageUtil.write(output, (int) value, 2, storeMethod);
                 }
             }
@@ -96,10 +97,10 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             if (value != null) {
                 if (value instanceof IContactMessageFieldType) {
                     final int v = ((IContactMessageFieldType) value).getValue();
-                    cacheDelegate.accept(v);
+                    cacheSetterDelegate.accept(v);
                     ContactMessageUtil.write(output, v, 4, storeMethod);
                 } else {
-                    cacheDelegate.accept((int) value);
+                    cacheSetterDelegate.accept((int) value);
                     ContactMessageUtil.write(output, (int) value, 4, storeMethod);
                 }
             }
@@ -365,6 +366,55 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
 
             System.out.println(new String(mac));
             break;
+        case PASSWORD:
+            final byte[] pin = new byte[8];
+
+            String password = value.toString();
+
+            if (password.length() > 14) {
+                password = password.substring(0, 14);
+            }
+
+            pin[0] = (byte) password.length();
+
+            for (int i = 0; i < 14; i += 2) {
+                int temp = 0;
+                if (i < password.length()) {
+                    temp |= password.charAt(i) - '0';
+                } else {
+                    temp |= 0x0F;
+                }
+
+                temp <<= 4;
+
+                if (i + 1 < password.length()) {
+                    temp |= password.charAt(i + 1) - '0';
+                } else {
+                    temp |= 0x0F;
+                }
+
+                pin[i / 2 + 1] = (byte) temp;
+            }
+
+            final byte[] pan = new byte[8];
+
+            String account = cacheGetterDelegate.apply("account").toString();
+            account = account.substring(account.length() - 12);
+
+            for (int i = 0; i < 6; i++) {
+                int temp = account.charAt(i * 2) - '0';
+                temp <<= 4;
+                temp |= account.charAt(i * 2 + 1) - '0';
+
+                pan[i + 2] = (byte) temp;
+            }
+
+            for (int i = 0; i < 8; i++) {
+                pin[i] ^= pan[i];
+            }
+
+            output.write(pin, 0, 8);
+            break;
         default:
             break;
         }
@@ -461,7 +511,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                 }
             } else {
                 extractField(using.getItem3(), fieldType, value, length, padLetter, storeMethod, header,
-                        item -> cache.put(field.getName(), item));
+                        item -> cache.put(field.getName(), item), item -> cache.get(item));
             }
 
             if (using.getItem1() != null) {
@@ -492,7 +542,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                     extractField(using.getItem3(), middle.getItem2(), dependsValue, 0, ' ', storeMethod, header,
                             item -> {
                                 cache.put(name, item);
-                            });
+                            }, item -> cache.get(item));
 
                     try {
                         using.getItem3().write(middle.getItem3().toByteArray());

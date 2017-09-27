@@ -8,7 +8,7 @@ import org.trinity.framework.contact.ContactMessageField;
 import org.trinity.framework.contact.ContactMessageField.FieldType;
 
 @ContactMessage(storeMethod = StoreMethod.BIG_END)
-public class TsyktTerminalTransactionEnquiryResponse extends AbstractTsyktPlatformResponse {
+public class TsyktTerminalTransactionEnquiryResponse extends AbstractTsyktTerminalResponse {
     public static class Transaction {
         @ContactMessageField(fieldType = FieldType.NBYTE, length = 14, bitmapPos = 63, order = 1)
         private String datetime;
@@ -150,6 +150,7 @@ public class TsyktTerminalTransactionEnquiryResponse extends AbstractTsyktPlatfo
         return queryRefCode;
     }
 
+    @Override
     public String getResponseCode() {
         return responseCode;
     }
@@ -234,6 +235,7 @@ public class TsyktTerminalTransactionEnquiryResponse extends AbstractTsyktPlatfo
         this.queryRefCode = queryRefCode;
     }
 
+    @Override
     public void setResponseCode(final String responseCode) {
         this.responseCode = responseCode;
     }

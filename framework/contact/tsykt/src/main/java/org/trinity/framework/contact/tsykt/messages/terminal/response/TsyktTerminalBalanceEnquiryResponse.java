@@ -6,77 +6,86 @@ import org.trinity.framework.contact.ContactMessageField;
 import org.trinity.framework.contact.ContactMessageField.FieldType;
 
 @ContactMessage(storeMethod = StoreMethod.BIG_END)
-public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformResponse {
+public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktTerminalResponse {
     @ContactMessageField(fieldType = FieldType.VAR_BCD, length = 19, bitmapPos = 2, order = 1, padLetter = '0')
     private String account;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 3, order = 2, padLetter = '0')
     private String transactionCode;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 11, order = 3, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 6, bitmapPos = 4, order = 3, padLetter = '0')
+    private String paymentAmount;
+
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 11, order = 4, padLetter = '0')
     private String serialNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 12, order = 4, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 12, order = 5, padLetter = '0')
     private String time;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 13, order = 5, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 13, order = 6, padLetter = '0')
     private String date;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 15, order = 6, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 15, order = 7, padLetter = '0')
     private String settlementDate;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 16, order = 7, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 16, order = 8, padLetter = '0')
     private String settlementYear;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 1, bitmapPos = 25, order = 8, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 1, bitmapPos = 25, order = 9, padLetter = '0')
     private String serviceConditionCode = "00";
 
-    @ContactMessageField(fieldType = FieldType.VAR_BCD, length = 11, bitmapPos = 32, order = 9, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 26, order = 10, padLetter = '0')
+    private String accountType;
+
+    @ContactMessageField(fieldType = FieldType.VAR_BCD, length = 11, bitmapPos = 32, order = 11, padLetter = '0')
     private String queryCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 37, order = 10, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.VAR_BCD, length = 11, bitmapPos = 33, order = 12, padLetter = '0')
+    private String settlementCode;
+
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 37, order = 13, padLetter = '0')
     private String queryRefCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 2, bitmapPos = 39, order = 11, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 2, bitmapPos = 39, order = 14, padLetter = '0')
     private String responseCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 41, order = 12, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 41, order = 15, padLetter = '0')
     private String terminalCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 42, order = 13, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 42, order = 16, padLetter = '0')
     private String shopCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 52, order = 14)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 52, order = 17)
     private String password;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 54, order = 15, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 54, order = 18, padLetter = '0')
     private String amountLength;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, getLengthFrom = "amountLength", bitmapPos = 54, order = 16)
+    @ContactMessageField(fieldType = FieldType.NBYTE, getLengthFrom = "amountLength", bitmapPos = 54, order = 19)
     private String amount;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 17, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 20, padLetter = '0')
     private int field60 = 11;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 1, bitmapPos = 60, order = 18, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 1, bitmapPos = 60, order = 21, padLetter = '0')
     private String transactionTypeCode;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 60, order = 19, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 60, order = 22, padLetter = '0')
     private String batchNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 20, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 23, padLetter = '0')
     private String manageNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 21, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 24, padLetter = '0')
     private int field63 = 63;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 22)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 16, bitmapPos = 63, order = 26)
     private String operatorCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 20, bitmapPos = 63, order = 23)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 20, bitmapPos = 63, order = 26)
     private String accountCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 64, order = 24)
+    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 64, order = 27)
     private String mac;
 
     public String getAccount() {
@@ -85,6 +94,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
 
     public String getAccountCode() {
         return accountCode;
+    }
+
+    public String getAccountType() {
+        return accountType;
     }
 
     public String getAmount() {
@@ -127,6 +140,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         return password;
     }
 
+    public String getPaymentAmount() {
+        return paymentAmount;
+    }
+
     public String getQueryCode() {
         return queryCode;
     }
@@ -135,6 +152,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         return queryRefCode;
     }
 
+    @Override
     public String getResponseCode() {
         return responseCode;
     }
@@ -145,6 +163,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
 
     public String getServiceConditionCode() {
         return serviceConditionCode;
+    }
+
+    public String getSettlementCode() {
+        return settlementCode;
     }
 
     public String getSettlementDate() {
@@ -181,6 +203,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
 
     public void setAccountCode(final String accountCode) {
         this.accountCode = accountCode;
+    }
+
+    public void setAccountType(final String accountType) {
+        this.accountType = accountType;
     }
 
     public void setAmount(final String amount) {
@@ -223,6 +249,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         this.password = password;
     }
 
+    public void setPaymentAmount(final String paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
     public void setQueryCode(final String queryCode) {
         this.queryCode = queryCode;
     }
@@ -231,6 +261,7 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
         this.queryRefCode = queryRefCode;
     }
 
+    @Override
     public void setResponseCode(final String responseCode) {
         this.responseCode = responseCode;
     }
@@ -241,6 +272,10 @@ public class TsyktTerminalBalanceEnquiryResponse extends AbstractTsyktPlatformRe
 
     public void setServiceConditionCode(final String serviceConditionCode) {
         this.serviceConditionCode = serviceConditionCode;
+    }
+
+    public void setSettlementCode(final String settlementCode) {
+        this.settlementCode = settlementCode;
     }
 
     public void setSettlementDate(final String settlementDate) {
