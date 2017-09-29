@@ -32,7 +32,7 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
     private String shopCode;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 9, padLetter = '0')
-    private int field60 = 17;
+    private int field60 = 11;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 1, bitmapPos = 60, order = 10, padLetter = '0')
     private int transactionTypeCode;
@@ -43,8 +43,8 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 12, padLetter = '0')
     private int manageNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 60, order = 13, padLetter = '0')
-    private String searchingCode;
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 13, padLetter = '0')
+    private int field63 = 0;
 
     @ContactMessageField(fieldType = FieldType.MAC, bitmapPos = 64, order = 14)
     private String mac;
@@ -65,6 +65,10 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
         return field60;
     }
 
+    public int getField63() {
+        return field63;
+    }
+
     public String getMac() {
         return mac;
     }
@@ -75,10 +79,6 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
 
     public String getReferenceCode() {
         return referenceCode;
-    }
-
-    public String getSearchingCode() {
-        return searchingCode;
     }
 
     public String getSerialNo() {
@@ -121,6 +121,10 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
         this.field60 = field60;
     }
 
+    public void setField63(final int field63) {
+        this.field63 = field63;
+    }
+
     public void setMac(final String mac) {
         this.mac = mac;
     }
@@ -131,10 +135,6 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
 
     public void setReferenceCode(final String referenceCode) {
         this.referenceCode = referenceCode;
-    }
-
-    public void setSearchingCode(final String searchingCode) {
-        this.searchingCode = searchingCode;
     }
 
     public void setSerialNo(final String serialNo) {
@@ -168,6 +168,6 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
 
     @Override
     protected int[] getMandatoryBitMapFlags() {
-        return new int[] { 2, 3, 4, 11, 25, 37, 41, 42, 60, 64 };
+        return new int[] { 2, 3, 4, 11, 25, 37, 41, 42, 60, 63, 64 };
     }
 }

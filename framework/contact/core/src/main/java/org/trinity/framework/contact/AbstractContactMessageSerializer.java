@@ -364,7 +364,6 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                 output.write(mac, 0, mac.length);
             }
 
-            System.out.println(new String(mac));
             break;
         case PASSWORD:
             final byte[] pin = new byte[8];
