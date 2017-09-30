@@ -15,7 +15,7 @@
 		<module>web</module>
 		<module>jpa</module>
 		<module>batch</module>
-		<module>cloud</module>
+		
 	</modules>
 	<dependencyManagement>
 		<dependencies>
