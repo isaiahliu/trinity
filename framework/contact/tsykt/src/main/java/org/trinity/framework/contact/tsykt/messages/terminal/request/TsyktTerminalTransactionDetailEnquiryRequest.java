@@ -43,10 +43,22 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 12, padLetter = '0')
     private int manageNo;
 
-    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 13, padLetter = '0')
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 61, order = 13, padLetter = '0')
+    private int field61 = 16;
+
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 61, order = 14, padLetter = '0')
+    private int originalBatch;
+
+    @ContactMessageField(fieldType = FieldType.BCD, length = 3, bitmapPos = 61, order = 15, padLetter = '0')
+    private int originalSerialNo;
+
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 61, order = 16, padLetter = '0')
+    private String monthAndDay;
+
+    @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 63, order = 17, padLetter = '0')
     private int field63 = 0;
 
-    @ContactMessageField(fieldType = FieldType.MAC, bitmapPos = 64, order = 14)
+    @ContactMessageField(fieldType = FieldType.MAC, bitmapPos = 64, order = 18)
     private String mac;
 
     public String getAccount() {
@@ -65,6 +77,10 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
         return field60;
     }
 
+    public int getField61() {
+        return field61;
+    }
+
     public int getField63() {
         return field63;
     }
@@ -75,6 +91,18 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
 
     public int getManageNo() {
         return manageNo;
+    }
+
+    public String getMonthAndDay() {
+        return monthAndDay;
+    }
+
+    public int getOriginalBatch() {
+        return originalBatch;
+    }
+
+    public int getOriginalSerialNo() {
+        return originalSerialNo;
     }
 
     public String getReferenceCode() {
@@ -121,6 +149,10 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
         this.field60 = field60;
     }
 
+    public void setField61(final int field61) {
+        this.field61 = field61;
+    }
+
     public void setField63(final int field63) {
         this.field63 = field63;
     }
@@ -131,6 +163,18 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
 
     public void setManageNo(final int manageNo) {
         this.manageNo = manageNo;
+    }
+
+    public void setMonthAndDay(final String monthAndDay) {
+        this.monthAndDay = monthAndDay;
+    }
+
+    public void setOriginalBatch(final int originalBatch) {
+        this.originalBatch = originalBatch;
+    }
+
+    public void setOriginalSerialNo(final int originalSerialNo) {
+        this.originalSerialNo = originalSerialNo;
     }
 
     public void setReferenceCode(final String referenceCode) {
@@ -168,6 +212,6 @@ public class TsyktTerminalTransactionDetailEnquiryRequest extends AbstractTsyktT
 
     @Override
     protected int[] getMandatoryBitMapFlags() {
-        return new int[] { 2, 3, 4, 11, 25, 37, 41, 42, 60, 63, 64 };
+        return new int[] { 2, 3, 4, 11, 25, 37, 41, 42, 60, 61, 63, 64 };
     }
 }
