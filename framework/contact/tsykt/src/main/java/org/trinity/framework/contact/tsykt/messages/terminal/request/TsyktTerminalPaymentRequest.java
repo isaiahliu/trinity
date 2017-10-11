@@ -31,7 +31,7 @@ public class TsyktTerminalPaymentRequest extends AbstractTsyktTerminalRequest {
     @ContactMessageField(fieldType = FieldType.NBYTE, length = 12, bitmapPos = 42, order = 7, padLetter = '0')
     private String shopCode;
 
-    @ContactMessageField(fieldType = FieldType.NBYTE, length = 8, bitmapPos = 52, order = 8)
+    @ContactMessageField(fieldType = FieldType.PASSWORD, length = 8, bitmapPos = 52, order = 8)
     private String password;
 
     @ContactMessageField(fieldType = FieldType.BCD, length = 2, bitmapPos = 60, order = 9, padLetter = '0')

@@ -181,6 +181,8 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
                     output.write(Integer.valueOf(bcd, 16));
                 }
             }
+
+            cacheSetterDelegate.accept(value);
         }
             break;
         case LLVAR_BCD: {
