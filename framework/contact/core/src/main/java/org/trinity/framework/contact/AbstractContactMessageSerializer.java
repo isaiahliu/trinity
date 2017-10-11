@@ -400,7 +400,7 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
             final byte[] pan = new byte[8];
 
             String account = cacheGetterDelegate.apply("account").toString();
-            account = account.substring(account.length() - 12);
+            account = account.substring(account.length() - 13, account.length() - 1);
 
             for (int i = 0; i < 6; i++) {
                 int temp = account.charAt(i * 2) - '0';
