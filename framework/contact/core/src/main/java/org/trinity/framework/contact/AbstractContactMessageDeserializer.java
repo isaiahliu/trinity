@@ -69,7 +69,11 @@ public abstract class AbstractContactMessageDeserializer<TMessageMeta extends IC
                     if (o instanceof Integer) {
                         length = (int) o;
                     } else {
-                        length = Integer.parseInt(o.toString());
+                        try {
+                            length = Integer.parseInt(o.toString());
+                        } catch (final NumberFormatException e) {
+                            length = 0;
+                        }
                     }
                 }
             }

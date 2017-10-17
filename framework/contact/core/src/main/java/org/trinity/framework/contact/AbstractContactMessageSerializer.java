@@ -368,53 +368,8 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
 
             break;
         case PASSWORD:
-            final byte[] pin = new byte[8];
-
-            String password = value.toString();
-
-            if (password.length() > 14) {
-                password = password.substring(0, 14);
-            }
-
-            pin[0] = (byte) password.length();
-
-            for (int i = 0; i < 14; i += 2) {
-                int temp = 0;
-                if (i < password.length()) {
-                    temp |= password.charAt(i) - '0';
-                } else {
-                    temp |= 0x0F;
-                }
-
-                temp <<= 4;
-
-                if (i + 1 < password.length()) {
-                    temp |= password.charAt(i + 1) - '0';
-                } else {
-                    temp |= 0x0F;
-                }
-
-                pin[i / 2 + 1] = (byte) temp;
-            }
-
-            final byte[] pan = new byte[8];
-
-            String account = cacheGetterDelegate.apply("account").toString();
-            account = account.substring(account.length() - 13, account.length() - 1);
-
-            for (int i = 0; i < 6; i++) {
-                int temp = account.charAt(i * 2) - '0';
-                temp <<= 4;
-                temp |= account.charAt(i * 2 + 1) - '0';
-
-                pan[i + 2] = (byte) temp;
-            }
-
-            for (int i = 0; i < 8; i++) {
-                pin[i] ^= pan[i];
-            }
-
-            output.write(pin, 0, 8);
+            byte[] encryptedPassword = getPassword(cacheGetterDelegate.apply("account").toString(), value.toString());
+            output.write(encryptedPassword, 0, 8);
             break;
         default:
             break;
@@ -430,6 +385,10 @@ public abstract class AbstractContactMessageSerializer<TMessageMeta extends ICon
     }
 
     protected byte[] getMac(final TMessageMeta meta, final ByteArrayOutputStream output) {
+        return new byte[0];
+    }
+
+    protected byte[] getPassword(final String account, final String password) {
         return new byte[0];
     }
 

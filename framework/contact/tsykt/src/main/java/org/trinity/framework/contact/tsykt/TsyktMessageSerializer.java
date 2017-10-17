@@ -11,6 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.trinity.framework.contact.AbstractContactMessageSerializer;
 import org.trinity.framework.contact.ContactMessage.StoreMethod;
@@ -58,6 +59,7 @@ public final class TsyktMessageSerializer extends AbstractContactMessageSerializ
     }
 
     public static byte[] mak;
+    public static byte[] pik;
 
     @Override
     public byte[] serializeBody(final ITsyktMessage message) {
@@ -100,7 +102,7 @@ public final class TsyktMessageSerializer extends AbstractContactMessageSerializ
     private byte[] calculateMac(final byte[] input) {
         final String step1Hex = toHexString(input);
 
-        final byte[] step2Result = encrypt(step1Hex.substring(0, 8).getBytes());
+        final byte[] step2Result = encrypt(step1Hex.substring(0, 8).getBytes(), mak);
 
         final byte[] last8 = step1Hex.substring(8).getBytes();
 
@@ -108,19 +110,40 @@ public final class TsyktMessageSerializer extends AbstractContactMessageSerializ
             step2Result[i] ^= last8[i];
         }
 
-        final byte[] step3Result = encrypt(step2Result);
+        final byte[] step3Result = encrypt(step2Result, mak);
 
         return toHexString(step3Result).substring(0, 8).getBytes();
     }
 
-    private byte[] encrypt(final byte[] bytes) {
+    private byte[] encrypt(final byte[] bytes, final byte[] key) {
         try {
-            final DESKeySpec dks = new DESKeySpec(mak);
+            final DESKeySpec dks = new DESKeySpec(key);
             final SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             final SecretKey securekey = keyFactory.generateSecret(dks);
             final Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding");
             cipher.init(Cipher.ENCRYPT_MODE, securekey, new SecureRandom());
             final byte[] result = cipher.doFinal(bytes);
+
+            return result;
+        } catch (final Exception ex) {
+            return new byte[0];
+        }
+    }
+
+    private byte[] encrypt3Des(final byte[] bytes, final byte[] key) {
+        try {
+            final byte[] desKey = new byte[24];
+            if (desKey.length > key.length) {
+                System.arraycopy(key, 0, desKey, 0, key.length);
+            } else {
+                System.arraycopy(key, 0, desKey, 0, key.length);
+            }
+
+            final SecretKey secretKey = new SecretKeySpec(desKey, "DESede");
+            final Cipher c1 = Cipher.getInstance("DESede");
+            c1.init(Cipher.ENCRYPT_MODE, secretKey);
+
+            final byte[] result = c1.doFinal(bytes);
 
             return result;
         } catch (final Exception ex) {
@@ -190,5 +213,53 @@ public final class TsyktMessageSerializer extends AbstractContactMessageSerializ
         final byte[] step1Result = matrix.calculate();
 
         return calculateMac(step1Result);
+    }
+
+    @Override
+    protected byte[] getPassword(String account, String password) {
+        final byte[] pin = new byte[8];
+
+        if (password.length() > 14) {
+            password = password.substring(0, 14);
+        }
+
+        pin[0] = (byte) password.length();
+
+        for (int i = 0; i < 14; i += 2) {
+            int temp = 0;
+            if (i < password.length()) {
+                temp |= password.charAt(i) - '0';
+            } else {
+                temp |= 0x0F;
+            }
+
+            temp <<= 4;
+
+            if (i + 1 < password.length()) {
+                temp |= password.charAt(i + 1) - '0';
+            } else {
+                temp |= 0x0F;
+            }
+
+            pin[i / 2 + 1] = (byte) temp;
+        }
+
+        final byte[] pan = new byte[8];
+
+        account = account.substring(account.length() - 13, account.length() - 1);
+
+        for (int i = 0; i < 6; i++) {
+            int temp = account.charAt(i * 2) - '0';
+            temp <<= 4;
+            temp |= account.charAt(i * 2 + 1) - '0';
+
+            pan[i + 2] = (byte) temp;
+        }
+
+        for (int i = 0; i < 8; i++) {
+            pin[i] ^= pan[i];
+        }
+
+        return encrypt3Des(pin, pik);
     }
 }
