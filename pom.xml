@@ -193,6 +193,11 @@
 				<artifactId>mina-core</artifactId>
 				<version>${mina}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-devtools</artifactId>
+				<version>spring.boot</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<properties>
