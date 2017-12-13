@@ -231,6 +231,8 @@
 					<source>${java}</source>
 					<target>${java}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
+					<generatedSourcesDirectory>${basedir}/src/main/metamodel</generatedSourcesDirectory>
+					<generatedTestSourcesDirectory>${basedir}/src/test/metamodel</generatedTestSourcesDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -266,10 +268,7 @@
 		</resources>
 	</build>
 	<modules>
-
 		<module>framework</module>
-
-
 	</modules>
 	<profiles>
 		<profile>
